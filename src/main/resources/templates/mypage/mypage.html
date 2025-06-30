@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<head>
+  <link rel="stylesheet" href="/css/mypage.css" />
+  <meta charset="UTF-8" />
+  <title>온실 플라워 스튜디오 - 마이페이지</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<header class="header">
+  <div id="header">
+    <h1 class="h_logo">
+      <a><img src="/img/capture.png" alt="logo"></a>
+    </h1>
+  </div>
+
+  <div id="menu" style="width: 1920px;
+    height: 120px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    position: absolute;
+    top: 290px;">
+    <nav class="menu">
+      <ul style="display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 1920px;
+  height: 56px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 48px;
+  margin: 0 auto;
+  padding: 0;
+  line-height: 56px;
+  color: #000000;">
+        <li>동물소개</li>
+        <li>장기자랑</li>
+        <li>동물보호</li>
+        <li>커뮤니티</li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<div id="section">
+  <div class="my_top">
+    <!-- 인사말과 회원등급/포인트 등 기본 정보 영역 (필요 시 동적으로 채움) -->
+    <div class="top_left">
+      <p>안녕하세요. <span id="userNameDisplay">아무개</span>님</p>
+    </div>
+  </div>
+
+  <div class="my_list">
+    <h1>마이페이지</h1>
+    <ul class="list1">
+      <li>내 정보 관리</li>
+      <li>내가 쓴 장기자랑 글</li>
+      <li>내가 쓴 자유게시판 글</li>
+      <li>반려동물 등록</li>
+      <li>팔로우한 반려동물</li>
+      <li>1:1 문의내역<span>&gt;</span></li>
+    </ul>
+
+    <div class="content_wrap">
+      <!-- 내 정보 관리 -->
+      <div class="content" id="profile" style="display: block;">
+        <h2>내 정보 수정</h2>
+        <table class="personal_info">
+          <tr><td>이름</td><td><input type="text" id="inputName"></td></tr>
+          <tr><td>닉네임</td><td><input type="text" id="inputNickName"></td></tr>
+          <tr><td>이메일</td><td><input type="email" id="inputEmail"></td></tr>
+          <tr>
+            <td>현재 비밀번호</td>
+            <td><input type="password" data-field="currentPassword"></td>
+          </tr>
+          <tr>
+            <td>새 비밀번호</td>
+            <td><input type="password" data-field="password"></td>
+          </tr>
+          <tr>
+            <td>비밀번호 확인</td>
+            <td><input type="password" data-field="password2"></td>
+          </tr>
+          <tr>
+            <td>배송지</td>
+            <td>
+              <input type="text" class="ad_num" id="zipcode" data-field="zipcode" readonly>
+              <button type="button" class="ad_search" onclick="execDaumPostcode()">주소검색</button><br>
+              <input type="text" class="address" id="address01" data-field="address01" readonly><br>
+              <input type="text" class="address" id="address02" data-field="address02">
+            </td>
+          </tr>
+          <tr>
+            <td>휴대전화</td>
+            <td>
+              <select class="p_num_s" id="tel1" data-field="tel1">
+                <option value="010">010</option>
+                <option value="011">011</option>
+              </select>
+              -
+              <input type="text" maxlength="4" class="p_num" id="tel2" data-field="tel2">
+              -
+              <input type="text" maxlength="4" class="p_num" id="tel3" data-field="tel3">
+            </td>
+          </tr>
+
+          <!-- 주소, 전화번호 등 필요한 항목 추가 가능 -->
+        </table>
+        <button class="cus_edit" id="editBtn">수정하기</button>
+      </div>
+
+      <!-- 장기자랑 글 내역 -->
+      <div class="content">
+        <h2>내가 쓴 장기자랑 글</h2>
+        <ul class="request_detail">
+          <li class="detail_on">장기자랑 글 내역(<span id="number1">1</span>)</li>
+        </ul>
+        <table class="order_table">
+          <thead>
+          <tr>
+            <th>글쓴날짜</th>
+            <th>제목</th>
+            <th>이미지</th>
+            <th>펫이름</th>
+          </tr>
+          </thead>
+          <tbody id="subscribeRap">
+          <!-- 글내역 들어가는 자리 -->
+          </tbody>
+        </table>
+
+        <table class="page_btn">
+          <tbody>
+          <tr id="subscribePagination">
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 내가 작성한 글 내역 -->
+      <div class="content">
+        <h2>내가 쓴 자유게시판 글</h2>
+        <ul class="request_detail">
+          <li class="detail_on">자유게시판 글 내역(<span id="number1">1</span>)</li>
+        </ul>
+        <table class="order_table">
+          <thead>
+          <tr>
+            <th>글쓴날짜</th>
+            <th>제목</th>
+            <th>이미지</th>
+          </tr>
+          </thead>
+          <tbody id="subscribeRap">
+          <!-- 글내역 들어가는 자리 -->
+          </tbody>
+        </table>
+
+        <table class="page_btn">
+          <tbody>
+          <tr id="subscribePagination">
+
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 반려동물 등록 -->
+      <div class="content" id="petreg" style="display:none;">
+        <h2>반려동물 등록</h2>
+        <table class="personal_info">
+          <tr><td>반려동물품종</td><td><input type="text" id="inputName"></td></tr>
+          <tr><td>반려동물이름</td><td><input type="text" id="inputNickName"></td></tr>
+          <tr><td>반려동물사진</td><td><input type="file" id="inputEmail"></td></tr>
+          <tr><td>반려동물영상</td><td><input type="file" id="inputEmail"></td></tr>
+          <tr><td>반려동물생일</td><td><input type="password" id="inputPassword"></td></tr>
+          <tr><td>반려동물성격</td><td><input type="password" id="inputPassword2"></td></tr>
+          <tr><td>반려동물성별</td><td><input type="password" id="inputPassword2"></td></tr>
+
+          <!-- 주소, 전화번호 등 필요한 항목 추가 가능 -->
+        </table>
+        <button class="cus_edit" id="editBtn">수정하기</button>
+      </div>
+
+      <!-- 팔로우한 반려동물 내역 -->
+      <div class="content">
+        <h2>팔로우한 반려동물 내역</h2>
+        <ul id="petFollowList">
+          <li class="pet-card">
+            <a href="/pet/profile/1">
+              <img src="/img/sample_dog.jpg" alt="반려동물사진">
+              <p class="pet-name">멍멍이</p>
+            </a>
+          </li>
+          <li class="pet-card">
+            <a href="/pet/profile/2">
+              <img src="/img/sample_cat.jpg" alt="반려동물사진">
+              <p class="pet-name">야옹이</p>
+            </a>
+          </li>
+          <!-- 더미 데이터 반복 -->
+        </ul>
+      </div>
+      <div class="content">
+        <h2>1:1 문의내역</h2>
+        <div class="c_service">
+          <h2>고객센터 1661-0543</h2>
+          <p>운영시간(주말, 공휴일 휴무) 10:00 ~ 18:00 점심시간 12:30 ~ 13:30</p>
+          <ul class="c_service_txt">
+            <li>- 운영 시간 내에는 2시간 이내에 답변을 드리나, 문의가 많을 때에는 다소 지연될 수 있습니다.</li>
+            <li>- 실시간 채팅상담을 통한 문의 내역은 기록되지 않습니다.</li>
+            <li>- 확인이 필요한 경우 1:1 문의하기 또는 고객센터 전화로 문의 부탁드립니다.</li>
+          </ul>
+          <button type="button" class="c_service_btn">1:1 문의하기</button>
+        </div>
+        <div class="c_service_cont">
+          <p>문의 내역이 존재하지 않습니다.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<footer class="footer">
+  <div id="footer">
+    <h1 class="f_cont">
+      <a><img src="/img/footer.png" alt="logo"></a>
+    </h1>
+  </div>
+</footer>
+<script src="/js/mypage.js"></script>
+<script>
+  // 주소 검색
+  function execDaumPostcode() {
+    new daum.Postcode({
+      oncomplete: function (data) {
+        console.log(data);
+        document.getElementById('zipcode').value = data.zonecode;
+        document.getElementById('address01').value = data.address;
+        document.getElementById('address02').focus();
+      }
+    }).open();
+  }
+
+  const modifyInfoBtn = document.querySelector(".cus_edit"); //회원 정보 수정 버튼
+  const deleteAccountBtn = document.querySelector(".cus_edit2"); //회원 탈퇴 버튼
+  // 회원 정보 조회
+  function lookupMemberInfo() {
+    fetch("/mypage/info", {
+      method: "POST"
+    })
+            .then(response => response.json())
+            .then(json => {
+              const responseData = {
+                userName: json.userName,
+                userID: json.userID,
+                nickName: json.nickName,
+                userEmail: json.userEmail,
+                zipcode: json.zipcode,
+                address01: json.address01,
+                address02: json.address02,
+                tel1: json.tel.substring(0, 3),
+                tel2: json.tel.substring(4, 8),
+                tel3: json.tel.substring(9, 13),
+              };
+              console.log(responseData);
+
+              Object.entries(responseData).forEach(([key, value]) => {
+                const el = document.querySelector(`[data-field="${key}"]`);
+                if (!el) return;
+
+                if (el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA") {
+                  el.value = value;
+                } else {
+                  el.textContent = value;
+                }
+              });
+              deleteAccountBtn.setAttribute("data-id", json.id);
+            })
+  }
+
+  // 페이지 로딩시 회원정보 조회
+  document.addEventListener('DOMContentLoaded', () => {
+    lookupMemberInfo();
+  });
+
+  // 회원 정보 수정
+  modifyInfoBtn.addEventListener("click", (e) => {
+    if (!confirm("수정하시겠습니까?")) return;
+
+    const data = {};
+    const inputFields = document.querySelectorAll('input[data-field], select[data-field]');
+
+    inputFields.forEach(field => {
+      const key = field.dataset.field;
+      data[key] = field.value;
+    });
+    console.log(data)
+
+    if (!/^\d{3,4}$/.test(data.tel2) || !/^\d{4}$/.test(data.tel3)) {
+      alert("전화번호 형식이 올바르지 않습니다.");
+      return;
+    }
+
+    data.tel = data.tel1 + "-" + data.tel2 + "-" + data.tel3;
+    delete data.tel1;
+    delete data.tel2;
+    delete data.tel3;
+
+    console.log(data);
+
+    fetch("/mypage/modify", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    })
+            .then(response => response.json())
+            .then(json => {
+              console.log("modify 부분")
+              console.log(json)
+              if (json.isModify == "true") {
+                alert("수정이 완료되었습니다.");
+                lookupMemberInfo();
+                inputFields.forEach(field => {
+                  field.value = "";
+                });
+              } else {
+                alert(json.error);
+              }
+            })
+  })
+
+  // 회원 탈퇴
+  deleteAccountBtn.addEventListener("click", (e) => {
+    //회원 탈퇴버튼 클릭시 confirm
+    if (confirm("정말로 회원 탈퇴하시겠습니까?")) {
+      fetch("/mypage/delete/" + deleteAccountBtn.dataset.id)
+              .then(response => response.json())
+              .then(json => {
+                if (json.isDelete == "true") {
+                  alert("탈퇴가 완료되었습니다.");
+                  location.href = "/member/logout";
+                }
+              })
+    } else {
+      alert("탈퇴가 취소되었습니다.");
+    }
+  })
+</script>
+</body>
+</html>
