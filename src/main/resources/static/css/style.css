@@ -1,9 +1,9 @@
-.box {
+.footer {
     width: 1982px;
     height: 238px;
 }
 
-.box .group {
+.footer .group {
     position: fixed;
     width: 1984px;
     height: 238px;
@@ -11,14 +11,14 @@
     left: 0;
 }
 
-.box .overlap-group {
+.footer .overlap-group {
     position: relative;
     width: 1982px;
     height: 115px;
     background-color: #f8a92b;
 }
 
-.box .logo {
+.footer .logo {
     position: absolute;
     width: 475px;
     height: 80px;
@@ -27,7 +27,7 @@
     object-fit: contain;
 }
 
-.box .phone {
+.footer .phone {
     position: absolute;
     width: 30px;
     height: 30px;
@@ -35,7 +35,7 @@
     left: 1443px;
 }
 
-.box .instagram {
+.footer .instagram {
     position: absolute;
     width: 40px;
     height: 40px;
@@ -43,7 +43,7 @@
     left: 1671px;
 }
 
-.box .whats-app {
+.footer .whats-app {
     position: absolute;
     width: 37px;
     height: 37px;
@@ -51,7 +51,7 @@
     left: 1791px;
 }
 
-.box .twitter {
+.footer .twitter {
     position: absolute;
     width: 37px;
     height: 33px;
@@ -59,7 +59,7 @@
     left: 1551px;
 }
 
-.box .text-wrapper {
+.footer .text-wrapper {
     position: absolute;
     width: 599px;
     top: 81px;

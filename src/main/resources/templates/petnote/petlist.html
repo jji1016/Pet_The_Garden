@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="utf-8"/>
@@ -10,16 +10,7 @@
 <div class="box">
     <div class="group">
         <div class="overlap">
-            <header class="header">
-                <div class="menu"><p class="menu-items"><span class="text-wrapper">Home&nbsp;&nbsp;&nbsp;&nbsp; Shop&nbsp;&nbsp;&nbsp;&nbsp; </span>
-                    <span class="span">Clinics</span> <span class="text-wrapper">&nbsp;&nbsp;&nbsp;&nbsp; Blog&nbsp;&nbsp;&nbsp;&nbsp; Shelters </span>
-                </p> <img class="selected-feature" src="img/selected-feature.svg"/></div>
-                <div class="login-signup">
-                    <div class="overlap-group">
-                        <div class="div">Alba</div>
-                        <img class="rectangle" src="img/rectangle-20.png"/></div>
-                </div>
-                <img class="logo-top" src="img/logo-top.png"/></header>
+            <header th:replace="~{fragments/header}"></header>
             <img class="hero" src="img/hero.png"/>
             <div class="pass-btn">
                 <div class="div-wrapper">
@@ -79,17 +70,8 @@
                 </div>
             </div>
         </div>
-        <footer class="footer">
-            <div class="overlap-4">
-                <div class="rectangle-2"></div>
-                <img class="links" src="img/links.png"/>
-                <div class="support">Support DevVentures@Gmail.com</div>
-                <img class="logo-btn" src="img/logo-btn.png"/> <img class="line" src="img/line-1.svg"/>
-                <div class="support-about">Support&nbsp;&nbsp; About</div>
-                <div class="text-wrapper-6">2023 Dev Ventures Project</div>
-            </div>
-        </footer>
     </div>
 </div>
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
