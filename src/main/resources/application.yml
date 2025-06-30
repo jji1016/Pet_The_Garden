@@ -15,7 +15,7 @@ spring:
       maximum-pool-size: 5  # 최대 연결 풀 크기 (동시에 열 수 있는 연결의 최대 수)
       minimum-idle: 2   # 최소 유휴 연결 수 (유휴 상태로 남을 수 있는 최소 연결 수)
     driver-class-name: oracle.jdbc.OracleDriver
-    url: jdbc:oracle:thin:@hgx0hi4cecqm3yyb_high?TNS_ADMIN=C:/wallet
+    url: jdbc:oracle:thin:@hgx0hi4cecqm3yyb_high?TNS_ADMIN=D:/eunnkyung/wallet
     username: pet
     password: Garden12345678
   jpa:

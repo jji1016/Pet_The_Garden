@@ -1,0 +1,74 @@
+.box {
+    width: 1982px;
+    height: 238px;
+}
+
+.box .group {
+    position: fixed;
+    width: 1984px;
+    height: 238px;
+    top: 0;
+    left: 0;
+}
+
+.box .overlap-group {
+    position: relative;
+    width: 1982px;
+    height: 115px;
+    background-color: #f8a92b;
+}
+
+.box .logo {
+    position: absolute;
+    width: 475px;
+    height: 80px;
+    top: 16px;
+    left: 0;
+    object-fit: contain;
+}
+
+.box .phone {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    top: 28px;
+    left: 1443px;
+}
+
+.box .instagram {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    top: 21px;
+    left: 1671px;
+}
+
+.box .whats-app {
+    position: absolute;
+    width: 37px;
+    height: 37px;
+    top: 22px;
+    left: 1791px;
+}
+
+.box .twitter {
+    position: absolute;
+    width: 37px;
+    height: 33px;
+    top: 27px;
+    left: 1551px;
+}
+
+.box .text-wrapper {
+    position: absolute;
+    width: 599px;
+    top: 81px;
+    left: 1525px;
+    font-family: "Sansation-Bold", Helvetica;
+    font-weight: 600;
+    color: #785353;
+    font-size: 20px;
+    text-align: center;
+    letter-spacing: -1.60px;
+    line-height: normal;
+}
