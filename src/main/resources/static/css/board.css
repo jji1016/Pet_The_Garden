@@ -1,0 +1,50 @@
+body {
+    font-family: 'Pretendard-Regular';
+    background-color: #F8A92B;
+    color:#191919;
+}
+
+.table-container {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: white;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+}
+
+.board-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.board-table th, .board-table td {
+    padding: 12px 16px;
+    text-align: center;
+    border-bottom: 1px solid #dee2e6;
+    font-size: 15px;
+}
+
+.board-table thead {
+    background-color: #e9ecef;
+}
+
+.board-table th {
+    font-weight: bold;
+    color: #343a40;
+}
+
+.board-table td a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.board-table td a:hover {
+    text-decoration: underline;
+}
+
+.title-cell {
+    text-align: left;
+    padding-left: 20px;
+}

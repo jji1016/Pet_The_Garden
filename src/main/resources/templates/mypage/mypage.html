@@ -19,7 +19,6 @@
     height: 120px;
     background: #FFFFFF;
     border-radius: 20px;
-    position: absolute;
     top: 290px;">
     <nav class="menu">
       <ul style="display: flex;
@@ -201,7 +200,7 @@
           <tr><td>소개</td><td><textarea id="content" name="content"></textarea></td></tr>
           <tr><td>프로필 이미지</td><td><input type="file" id="profileImg" name="profileImg"></td></tr>
         </table>
-        <button class="cus_edit" id="petSubmitBtn">등록하기</button>
+        <button class="cus_edit" id="petSubmitBtn" style="border-radius: 40px;">등록하기</button>
       </div>
 
       <!-- 팔로우한 반려동물 내역 -->
@@ -213,12 +212,14 @@
               <img src="/img/sample_dog.jpg" alt="반려동물사진">
               <p class="pet-name">멍멍이</p>
             </a>
+            <button class="unfollow-btn" data-pet-id="1">팔로우 취소</button>
           </li>
           <li class="pet-card">
             <a href="/pet/profile/2">
               <img src="/img/sample_cat.jpg" alt="반려동물사진">
               <p class="pet-name">야옹이</p>
             </a>
+            <button class="unfollow-btn" data-pet-id="1">팔로우 취소</button>
           </li>
           <!-- 더미 데이터 반복 -->
         </ul>
@@ -412,7 +413,7 @@
         clearPetForm();
 
         // 혹시 등록 후 다른 페이지로 이동 원하면 아래 주석 해제
-        window.location.href = "/mypage";
+        // window.location.href = "/mypage";
 
       } else {
         alert("등록 실패!");
@@ -435,6 +436,25 @@
     document.getElementById('content').value = '';
     document.getElementById('profileImg').value = '';
   }
+</script>
+<script> //팔로우한 반려동물 삭제처리
+  document.addEventListener("DOMContentLoaded", function () {
+    const unfollowButtons = document.querySelectorAll(".unfollow-btn");
+
+    unfollowButtons.forEach(function (button) {
+      button.addEventListener("click", function () {
+        const petCard = this.closest(".pet-card");
+        const petId = this.dataset.petId;
+
+        // 임시로 프론트에서 제거 (추후 서버에 AJAX 요청 가능)
+        if (confirm("이 반려동물의 팔로우를 취소하시겠습니까?")) {
+          petCard.remove();
+          // TODO: 서버에 unfollow 요청 보내기
+          console.log("팔로우 취소: petId = " + petId);
+        }
+      });
+    });
+  });
 </script>
 </body>
 </html>

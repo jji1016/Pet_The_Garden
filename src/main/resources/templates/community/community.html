@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>게시판</title>
+  <link rel="stylesheet" href="/css/board.css" />
+  <style>
+    body {
+      font-family: 'Noto Sans KR', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f8f9fa;
+      width: 1920px;
+    }
+
+    .header {
+      text-align: center;
+      padding: 30px 0 0 0;
+      background-color: #F8A92B;
+      width: 1920px;
+    }
+
+    #header img {
+      height: 100px;
+    }
+
+    #menu {
+      width: 100%;
+      max-width: 1920px;
+      height: 120px;
+      background: #FFFFFF;
+      border-radius: 20px;
+      margin: 20px auto 60px auto;
+    }
+
+    .menu ul {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      height: 100%;
+      font-family: 'Roboto';
+      font-weight: 400;
+      font-size: 48px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #000;
+    }
+
+    .table-container {
+      max-width: 900px;
+      margin: 0 auto 100px auto;
+      background-color: white;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      overflow-x: auto;
+    }
+
+    .board-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .board-table th, .board-table td {
+      padding: 12px 16px;
+      text-align: center;
+      border-bottom: 1px solid #dee2e6;
+    }
+
+    .board-table thead {
+      background-color: #e9ecef;
+    }
+
+    .title-cell {
+      text-align: left;
+      padding-left: 20px;
+    }
+
+    .board-table td a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .board-table td a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<header class="header">
+  <div id="header">
+    <h1 class="h_logo">
+      <a><img src="/img/capture.png" alt="logo"></a>
+    </h1>
+  </div>
+
+  <div id="menu">
+    <nav class="menu">
+      <ul>
+        <li>동물소개</li>
+        <li>장기자랑</li>
+        <li>동물보호</li>
+        <li>커뮤니티</li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<div class="table-container">
+  <table class="board-table">
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>아이디</th>
+      <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <td>1</td>
+      <td class="title-cell"><a href="#">반려동물 산책 추천 코스</a></td>
+      <td>김현준</td>
+      <td>ekkim123</td>
+      <td>2025-07-01</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td class="title-cell"><a href="#">우리집 강아지 자랑해요~</a></td>
+      <td>박민지</td>
+      <td>minji91</td>
+      <td>2025-06-30</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<footer class="footer">
+  <div id="footer">
+    <h1 class="f_cont">
+      <a><img src="/img/footer.png" alt="logo"></a>
+    </h1>
+  </div>
+</footer>
+</body>
+</html>
