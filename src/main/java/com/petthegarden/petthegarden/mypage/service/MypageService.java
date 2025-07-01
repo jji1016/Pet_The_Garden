@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.mypage.service;
 
+import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.mypage.dao.MypageDao;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
@@ -34,6 +35,8 @@ public class MypageService {
         member.updateInfo(
                 memberDto.getUserPW(),
                 memberDto.getUserEmail(),
+                memberDto.getBirthdate(),
+                Gender.valueOf(memberDto.getGender()),
                 memberDto.getTel(),
                 memberDto.getZipcode(),
                 memberDto.getAddress01(),

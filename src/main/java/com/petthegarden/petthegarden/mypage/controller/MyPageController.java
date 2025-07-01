@@ -29,11 +29,12 @@ public class MyPageController {
 
     @GetMapping
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
-        String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
-        Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
-        log.info("loggedMemberDto: {}", loggedMemberDto);
+        //String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
+        //Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
+        //MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
+        //log.info("loggedMemberDto: {}", loggedMemberDto);
 
+        MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
 
@@ -43,9 +44,10 @@ public class MyPageController {
     @PostMapping("/info") //회원 정보 조회
     @ResponseBody
     public MemberDto info(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
-
+        //String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
+        //MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
+        MemberDto loggedMemberDto = mypageService.findByUserID("admin");
+        log.info("MemberDto 반환값: {}", loggedMemberDto);
         return loggedMemberDto;
     }
 
@@ -58,14 +60,15 @@ public class MyPageController {
         String currentPassword = data.get("currentPassword");
         String password = data.get("password"); // 새 비밀번호
         String password2 = data.get("password2"); // 새 비밀번호 확인
-        String newEmail = data.get("userEmail");
-        String newZipcode = data.get("zipcode");
-        String newAddress01 = data.get("address01");
-        String newAddress02 = data.get("address02");
-        String newTel = data.get("tel");
+        //String newEmail = data.get("userEmail");
+        //String newZipcode = data.get("zipcode");
+        //String newAddress01 = data.get("address01");
+        //String newAddress02 = data.get("address02");
+        //String newTel = data.get("tel");
 
-        String userID = customUserDetails.getUsername();
-        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
+        //String userID = customUserDetails.getUsername();
+        //MemberDto loggedMemberDto = mypageService.findByUserID(userID);
+        MemberDto loggedMemberDto = mypageService.findByUserID("admin");
 
         log.info("loggedMemberDto: {}", loggedMemberDto);
         // 비밀번호 검증
@@ -89,12 +92,18 @@ public class MyPageController {
             loggedMemberDto.setUserPW(customUserDetails.getPassword());
         }
 
-        if (newEmail != null) loggedMemberDto.setUserEmail(newEmail);
-        if (newTel != null) loggedMemberDto.setTel(newTel);
-        if (newZipcode != null) loggedMemberDto.setZipcode(newZipcode);
-        if (newAddress01 != null) loggedMemberDto.setAddress01(newAddress01);
-        if (newAddress02 != null) loggedMemberDto.setAddress02(newAddress02);
-        log.info("modify_loggedMemberDto: {}", loggedMemberDto);
+        //if (newEmail != null) loggedMemberDto.setUserEmail(newEmail);
+        //if (newTel != null) loggedMemberDto.setTel(newTel);
+        //if (newZipcode != null) loggedMemberDto.setZipcode(newZipcode);
+        //if (newAddress01 != null) loggedMemberDto.setAddress01(newAddress01);
+        //if (newAddress02 != null) loggedMemberDto.setAddress02(newAddress02);
+        //log.info("modify_loggedMemberDto: {}", loggedMemberDto);
+        if (data.get("userEmail") != null) loggedMemberDto.setUserEmail(data.get("userEmail"));
+        if (data.get("tel") != null) loggedMemberDto.setTel(data.get("tel"));
+        if (data.get("zipcode") != null) loggedMemberDto.setZipcode(data.get("zipcode"));
+        if (data.get("address01") != null) loggedMemberDto.setAddress01(data.get("address01"));
+        if (data.get("address02") != null) loggedMemberDto.setAddress02(data.get("address02"));
+
         mypageService.updateInfo(loggedMemberDto);
         result.put("isModify", "true");
         return result;

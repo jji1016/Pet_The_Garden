@@ -1,14 +1,19 @@
 package com.petthegarden.petthegarden.config;
 
+import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.member.MemberDao;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+
+import static com.petthegarden.petthegarden.constant.Gender.MALE;
+import static com.petthegarden.petthegarden.constant.Gender.FEMALE;
 
 @Component
 @RequiredArgsConstructor
@@ -18,15 +23,18 @@ public class AdminInitializer implements CommandLineRunner {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-        String admidID = "admin";
-        Optional<Member> optionalMember = memberDao.findByUserID(admidID);
+        String adminID = "admin";
+        Optional<Member> optionalMember = memberDao.findByUserID(adminID);
         if(!optionalMember.isPresent()) {
             Member adminMember = Member.builder()
-                    .userID(admidID)
+                    .userID(adminID)
                     .role(Role.ROLE_ADMIN)
                     .userName("관리자")
                     .email("admin@hanmail.net")
+                    .birthDate("95년7월9일")
+                    .gender(Gender.MALE)
                     .tel("01087654321")
                     .address01("adminAddress01")
                     .zipcode(54321)
@@ -42,6 +50,8 @@ public class AdminInitializer implements CommandLineRunner {
                     .userID("user")
                     .userName("userName")
                     .email("user@naver.com")
+                    .birthDate("00년1월1일")
+                    .gender(Gender.FEMALE)
                     .tel("01012345678")
                     .address01("userAddress01")
                     .zipcode(12345)

@@ -4,6 +4,7 @@ import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -100,6 +101,8 @@ public class Member {
                 .userPW(this.getUserPW())
                 .userName(this.getUserName())
                 .userEmail(this.getEmail())
+                .birthdate(this.getBirthDate())
+                .gender(String.valueOf(this.getGender()))
                 .tel(this.getTel())
                 .address01(this.getAddress01())
                 .address02(this.getAddress02())
@@ -109,8 +112,13 @@ public class Member {
                 .build();
     }
 
-    public void updateInfo(String nickName, String userEmail, String zipcode, String address01, String address02) {
+    public void updateInfo(String userPW, String userEmail, String birthDate, Gender gender,
+                           String tel, String zipcode, String address01, String address02) {
+        this.userPW = userPW;
         this.email = userEmail;
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.tel = tel;
         this.zipcode = Integer.parseInt(zipcode);
         this.address01 = address01;
         this.address02 = address02;

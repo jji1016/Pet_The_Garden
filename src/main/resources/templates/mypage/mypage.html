@@ -67,9 +67,18 @@
       <div class="content" id="profile" style="display: block;">
         <h2>내 정보 수정</h2>
         <table class="personal_info">
-          <tr><td>이름</td><td><input type="text" id="inputName"></td></tr>
-          <tr><td>닉네임</td><td><input type="text" id="inputNickName"></td></tr>
-          <tr><td>이메일</td><td><input type="email" id="inputEmail"></td></tr>
+          <tr><td>이름</td><td><input type="text" id="inputName" data-field="userName"></td></tr>
+          <tr><td>이메일</td><td><input type="email" id="inputEmail" data-field="userEmail"></td></tr>
+          <tr><td>생일</td><td><input type="text" id="inputBirthdate" data-field="userBirthdate"></td></tr>
+          <tr>
+            <td>성별</td>
+            <td>
+              <input type="radio" id="genderMale" name="gender" value="MALE" data-field="userGender">
+              <label for="genderMale">남성</label>
+              <input type="radio" id="genderFemale" name="gender" value="FEMALE" data-field="userGender">
+              <label for="genderFemale">여성</label>
+            </td>
+          </tr>
           <tr>
             <td>현재 비밀번호</td>
             <td><input type="password" data-field="currentPassword"></td>
@@ -107,7 +116,10 @@
 
           <!-- 주소, 전화번호 등 필요한 항목 추가 가능 -->
         </table>
+        <span class="cus_edit2">회원탈퇴하기</span>
+        <div class="cus_btn">
         <button class="cus_edit" id="editBtn">수정하기</button>
+          </div>
       </div>
 
       <!-- 장기자랑 글 내역 -->
@@ -171,13 +183,13 @@
       <div class="content" id="petreg" style="display:none;">
         <h2>반려동물 등록</h2>
         <table class="personal_info">
-          <tr><td>반려동물품종</td><td><input type="text" id="inputName"></td></tr>
+          <tr><td>반려동물품종</td><td><input type="text" id="Name"></td></tr>
           <tr><td>반려동물이름</td><td><input type="text" id="inputNickName"></td></tr>
-          <tr><td>반려동물사진</td><td><input type="file" id="inputEmail"></td></tr>
-          <tr><td>반려동물영상</td><td><input type="file" id="inputEmail"></td></tr>
+          <tr><td>반려동물사진</td><td><input type="file" id="Email"></td></tr>
+          <tr><td>반려동물영상</td><td><input type="file" id="Email2"></td></tr>
           <tr><td>반려동물생일</td><td><input type="password" id="inputPassword"></td></tr>
           <tr><td>반려동물성격</td><td><input type="password" id="inputPassword2"></td></tr>
-          <tr><td>반려동물성별</td><td><input type="password" id="inputPassword2"></td></tr>
+          <tr><td>반려동물성별</td><td><input type="password" id="inputPassword3"></td></tr>
 
           <!-- 주소, 전화번호 등 필요한 항목 추가 가능 -->
         </table>
@@ -255,18 +267,26 @@
               const responseData = {
                 userName: json.userName,
                 userID: json.userID,
-                nickName: json.nickName,
                 userEmail: json.userEmail,
+                userBirthdate: json.birthdate,
+                userGender: json.gender,
                 zipcode: json.zipcode,
                 address01: json.address01,
                 address02: json.address02,
                 tel1: json.tel.substring(0, 3),
-                tel2: json.tel.substring(4, 8),
-                tel3: json.tel.substring(9, 13),
+                tel2: json.tel.substring(3, 7),
+                tel3: json.tel.substring(7, 13),
               };
               console.log(responseData);
 
               Object.entries(responseData).forEach(([key, value]) => {
+                if (key === "userGender") {
+                  // 🔽 라디오 버튼 중 value가 일치하는 요소를 체크
+                  const radio = document.querySelector(`input[name="gender"][value="${value}"]`);
+                  if (radio) radio.checked = true;
+                  return;
+                }
+
                 const el = document.querySelector(`[data-field="${key}"]`);
                 if (!el) return;
 
