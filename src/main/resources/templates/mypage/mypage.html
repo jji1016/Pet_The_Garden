@@ -180,20 +180,28 @@
       </div>
 
       <!-- 반려동물 등록 -->
-      <div class="content" id="petreg" style="display:none;">
+      <div class="content" id="petreg">
         <h2>반려동물 등록</h2>
         <table class="personal_info">
-          <tr><td>반려동물품종</td><td><input type="text" id="Name"></td></tr>
-          <tr><td>반려동물이름</td><td><input type="text" id="inputNickName"></td></tr>
-          <tr><td>반려동물사진</td><td><input type="file" id="Email"></td></tr>
-          <tr><td>반려동물영상</td><td><input type="file" id="Email2"></td></tr>
-          <tr><td>반려동물생일</td><td><input type="password" id="inputPassword"></td></tr>
-          <tr><td>반려동물성격</td><td><input type="password" id="inputPassword2"></td></tr>
-          <tr><td>반려동물성별</td><td><input type="password" id="inputPassword3"></td></tr>
-
-          <!-- 주소, 전화번호 등 필요한 항목 추가 가능 -->
+          <tr><td>이름</td><td><input type="text" id="petName" name="petName"></td></tr>
+          <tr><td>종</td><td><input type="text" id="species" name="species"></td></tr>
+          <tr>
+            <td>성별</td>
+            <td>
+              <input type="radio" id="Male" name="petGender" value="MALE">
+              <label for="Male">수컷</label>
+              <input type="radio" id="Female" name="petGender" value="FEMALE">
+              <label for="Female">암컷</label>
+            </td>
+          </tr>
+          <tr><td>생년월일</td><td><input type="text" id="birthDate" name="birthDate"></td></tr>
+          <tr><td>성격</td><td><input type="text" id="character" name="character"></td></tr>
+          <tr><td>좋아하는 것</td><td><input type="text" id="petLike" name="petLike"></td></tr>
+          <tr><td>싫어하는 것</td><td><input type="text" id="petDisLike" name="petDisLike"></td></tr>
+          <tr><td>소개</td><td><textarea id="content" name="content"></textarea></td></tr>
+          <tr><td>프로필 이미지</td><td><input type="file" id="profileImg" name="profileImg"></td></tr>
         </table>
-        <button class="cus_edit" id="editBtn">수정하기</button>
+        <button class="cus_edit" id="petSubmitBtn">등록하기</button>
       </div>
 
       <!-- 팔로우한 반려동물 내역 -->
@@ -367,6 +375,66 @@
       alert("탈퇴가 취소되었습니다.");
     }
   })
+</script>
+<script>
+  //반려동물 등록
+  document.getElementById("petSubmitBtn").addEventListener("click", function () {
+    const formData = new FormData();
+    formData.append("petName", document.getElementById("petName").value);
+    formData.append("species", document.getElementById("species").value);
+    formData.append("birthDate", document.getElementById("birthDate").value);
+    formData.append("character", document.getElementById("character").value);
+    formData.append("petLike", document.getElementById("petLike").value);
+    formData.append("petDisLike", document.getElementById("petDisLike").value);
+    formData.append("content", document.getElementById("content").value);
+
+    // petGender가 선택됐는지 확인
+    const genderChecked = document.querySelector('input[name="petGender"]:checked');
+    if (!genderChecked) {
+      alert("성별을 선택해주세요.");
+      return;
+    }
+    formData.append("petGender", genderChecked.value);
+
+    const profileImgFile = document.getElementById("profileImg").files[0];
+    if (profileImgFile) {
+      formData.append("profileImg", profileImgFile);
+    }
+
+    fetch("/mypage/petreg", {
+      method: "POST",
+      body: formData
+    }).then(res => {
+      if (res.ok) {
+        alert("반려동물 등록 완료!");
+
+        // 입력폼 초기화 함수 호출
+        clearPetForm();
+
+        // 혹시 등록 후 다른 페이지로 이동 원하면 아래 주석 해제
+        window.location.href = "/mypage";
+
+      } else {
+        alert("등록 실패!");
+      }
+    }).catch(err => {
+      alert("에러 발생: " + err);
+    });
+  });
+
+  // 폼 초기화 함수
+  function clearPetForm() {
+    document.getElementById('petName').value = '';
+    document.getElementById('species').value = '';
+    const checkedGender = document.querySelector('input[name="petGender"]:checked');
+    if (checkedGender) checkedGender.checked = false;
+    document.getElementById('birthDate').value = '';
+    document.getElementById('character').value = '';
+    document.getElementById('petLike').value = '';
+    document.getElementById('petDisLike').value = '';
+    document.getElementById('content').value = '';
+    document.getElementById('profileImg').value = '';
+  }
 </script>
 </body>
 </html>

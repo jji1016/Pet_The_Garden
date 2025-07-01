@@ -1,19 +1,25 @@
 package com.petthegarden.petthegarden.mypage.controller;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
+import com.petthegarden.petthegarden.constant.PetGender;
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
+import com.petthegarden.petthegarden.mypage.dto.PetDto;
 import com.petthegarden.petthegarden.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -109,4 +115,44 @@ public class MyPageController {
         return result;
     }
 
+    @PostMapping("/petreg")
+    public ResponseEntity<String> registerPet(
+            @RequestParam("petName") String petName,
+            @RequestParam("species") String species,
+            @RequestParam("birthDate") String birthDate,
+            @RequestParam("character") String character,
+            @RequestParam("petLike") String petLike,
+            @RequestParam("petDisLike") String petDisLike,
+            @RequestParam("content") String content,
+            @RequestParam("petGender") String petGender,
+            @RequestParam("profileImg") MultipartFile file,
+            @AuthenticationPrincipal UserDetails userDetails) {
+
+        // 1. 현재 로그인한 사용자 정보 가져오기
+        Member member;
+
+        if (userDetails == null) {
+            // 임시로 id가 302인 어드민 회원 가져오기 (멤버 아이디가 302인 경우)
+            member = mypageService.findById(302);
+        } else {
+            member = mypageService.findByUserID(userDetails.getUsername()).toMember();
+        }
+
+        // 2. PetDto 객체로 변환
+        PetDto petDto = PetDto.builder()
+                .petName(petName)
+                .species(species)
+                .birthDate(birthDate)
+                .character(character)
+                .petLike(petLike)
+                .petDisLike(petDisLike)
+                .content(content)
+                .petGender(PetGender.valueOf(petGender))
+                .build();
+
+        // 3. 저장
+        mypageService.petreg(petDto, member, file);
+
+        return ResponseEntity.ok("등록 성공");
+    }
 }

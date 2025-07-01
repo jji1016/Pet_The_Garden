@@ -9,19 +9,34 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Value("${file.path}products/")
-    String productsPath;
+    @Value("${file.path}pet/")
+    String petPath;
 
-    @Value("${file.path}reviews/")
-    String reviewsPath;
+    @Value("${file.path}diary/")
+    String diaryPath;
+
+    @Value("${file.path}board/")
+    String boardPath;
+
+    @Value("${file.path}show/")
+    String showPath;
+
+    @Value("${file.path}stray/")
+    String strayPath;
 
     // 기존 파일 업로드 리소스 매핑
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/products/**")
-                .addResourceLocations("file:///" + productsPath);
-        registry.addResourceHandler("/upload/reviews/**")
-                .addResourceLocations("file:///" + reviewsPath);
+        registry.addResourceHandler("/PTGUpload/pet/**")
+                .addResourceLocations("file:///" + petPath);
+        registry.addResourceHandler("/PTGUpload/diary/**")
+                .addResourceLocations("file:///" + diaryPath);
+        registry.addResourceHandler("/PTGUpload/board/**")
+                .addResourceLocations("file:///" + boardPath);
+        registry.addResourceHandler("/PTGUpload/show/**")
+                .addResourceLocations("file:///" + showPath);
+        registry.addResourceHandler("/PTGUpload/stray/**")
+                .addResourceLocations("file:///" + strayPath);
     }
 
     // ★ 장바구니/결제 페이지 연동을 위한 CORS 설정 추가
