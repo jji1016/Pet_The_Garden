@@ -1,12 +1,16 @@
+body {
+    width: 1920px;
+}
+
+
 .box {
     position: relative;
-    width: 1546px;
+    width: 1920px;
     height: 2693px;
 }
 
 .box .group {
-    position: fixed;
-    width: 1546px;
+    width: 1920px;
     height: 2693px;
     top: 0;
     left: 0;
