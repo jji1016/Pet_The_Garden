@@ -25,16 +25,17 @@
                     <p class="text"><span class="text-wrapper-2"><br/></span></p>
                     <p class="text"><span class="text-wrapper-2"><br/></span></p>
                     <p class="text"><span class="text-wrapper-2"></span></p></div>
-                <img class="rectangle" src="img/rectangle-229.svg"/>
-                <div class="div">등록하기</div>
+                <div class="rectangle-register" onclick="location.href='/showoff/register'">
+                    <span class="register-text">등록하기</span>
+                </div>
             </div>
             <div class="overlap-2">
                 <div class="flexcontainer-2"><p class="span-wrapper"><span
                         class="text-wrapper-4">사진 또는 동영상 업로드<br/></span></p>
                     <p class="span-wrapper"><span class="text-wrapper-4">영상 업로드는 유튜브 링크만 가능합니다.</span></p></div>
                 <div class="text-wrapper-5">OR</div>
-                <img class="add-a-photo" src="img/add-a-photo.png"/> <img class="video-camera-back"
-                                                                          src="img/video-camera-back-add.png"/></div>
+                <img class="add-a-photo" th:src="@{/images/사진.png}" alt="사진"/>
+                <img class="video-camera-back" th:src="@{/images/동영상.png}" alt="동영상"/></div>
             <div class="overlap-3">
                 <div class="text-wrapper-6">닉네임 작성</div>
                 <img class="img" th:src="@{/images/pizza.jpg}" alt="피자헛둘셋넷"/></div>
