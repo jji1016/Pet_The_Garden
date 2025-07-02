@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/petnote")
 @RequiredArgsConstructor
-public class PetNote {
-    @GetMapping("/petlist")
-    public String petlist() {
-        return "petnote/petlist";
+public class PetNoteController {
+    @GetMapping("/list")
+    public String list() {
+        return "petnote/list";
     }
 }

@@ -1,38 +1,24 @@
 <!DOCTYPE html>
-<html
-        xmlns:th="http://www.thymeleaf.org"
-        xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
->
-<head>
-    <meta charset="UTF-8"/>
-    <link rel="stylesheet" href="/css/style.css">
-    <title>Pet The Garden Header</title>
-</head>
-<body>
-<div class="header-container">
-    <div class="logo-section">
-        <a class="logo" href="#"><img src="/images/logo.png"/></a>
+<html>
+<header id="header">
+    <h1>
+        <a href="/index/index"><img src="/images/logo.png" alt="" /></a>
+    </h1>
+    <nav id="gnb">
+        <ul>
+            <li><a href="">HOME</a></li>
+            <li><a href="">SHOP</a></li>
+            <li><a href="">CLINICS</a></li>
+            <li><a href="">BLOG</a></li>
+            <li><a href="">SHELTERS</a></li>
+        </ul>
+    </nav>
+    <a href="" id="profile">
+        <span>김은경</span>
+        <span class="img">
+          <img src="/images/profile.jpg" alt="" />
+        </span>
+    </a>
+</header>
 
-        <!--        <th:block sec:authorize="isAnonymous()">-->
-        <!--        <a class="login" href="#"><img src="/images/login.png"/></a>-->
-        <!--        </th:block>-->
-
-        <!--        <th:block sec:authorize="isAuthenticated()">-->
-        <div class="logo-wrapper">
-            <a class="mypage" href="#"><img src="/images/mypage.png"/></a>
-            <a class="logout" href="#"><img src="/images/logout.png"/></a>
-        </div>
-        <!--        </th:block>-->
-
-    </div>
-    <div class="nav-section">
-        <div class="nav-menu">
-            <a href="#" class="nav-item active">동물소개</a>
-            <a href="#" class="nav-item">장기자랑</a>
-            <a href="#" class="nav-item">동물보호</a>
-            <a href="#" class="nav-item">커뮤니티</a>
-        </div>
-    </div>
-</div>
-</body>
 </html>

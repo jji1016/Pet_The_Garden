@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(LOGIN)}"></head>
+
+  <body>
+    <header th:replace="~{fragments/header}"></header>
+    <div
+            class="container d-flex justify-content-center align-items-center min-vh-100"
+    >
+      <div class="row login-wrap">
+        <div class="col-6">
+          <h2 class="mb-5 text-center">
+            <a href="/index/index"></a><img src="/images/logo.png" alt="" class="logo-img"/>
+          </h2>
+          <div class="login-box">
+            <a href="">카카오로그인</a>
+            <p><span>or email login</span></p>
+            <div class="input-group mb-3">
+              <input
+                      type="text"
+                      class="form-control form-control-lg"
+                      placeholder="Username"
+              />
+            </div>
+            <div class="input-group mb-3">
+              <input
+                      type="password"
+                      class="form-control form-control-lg"
+                      placeholder="password"
+              />
+            </div>
+            <div class="input-group mb-3">
+              <button class="btn btn-primary btn-lg w-100">LOGIN</button>
+            </div>
+            <div class="input-group mb-3">
+              <button class="btn btn-primary btn-lg w-100">SIGNUP</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-6 px-5 bg-box">
+          <div class="slogan">
+            <p class="main"><span>pet the</span> <span>garden</span></p>
+            <p class="sub">강아지도 고양이도 행복한 정원</p>
+          </div>
+          <img src="/images/login.png" alt="" />
+        </div>
+      </div>
+    </div>
+    <footer th:replace="~{fragments/footer}"></footer>
+  </body>
+</html>
