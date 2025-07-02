@@ -183,8 +183,8 @@ a {
 
 .box .arrow-drop-down {
     position: absolute;
-    width: 126px;
-    height: 126px;
+    width: 130px;
+    height: 170px;
     top: 0;
     left: 240px;
 }
@@ -199,8 +199,8 @@ a {
 }
 
 .box .text-wrapper-6 {
-    height: 59px;
-    top: 34px;
+    height: 20px;
+    top: 20px;
     left: 95px;
     font-family: "Roboto-Bold", Helvetica;
     font-weight: 700;
