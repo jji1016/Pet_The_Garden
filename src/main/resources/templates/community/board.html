@@ -1,42 +1,32 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-  <meta charset="UTF-8" />
   <title>자유게시판</title>
+  <!-- 공통 head 불러오기 -->
+  <th:block th:replace="fragments/head :: head('자유게시판')"></th:block>
+
+  <!-- 자유게시판 전용 CSS 추가 -->
   <link rel="stylesheet" href="/css/board.css" />
 </head>
+
 <body>
 
-<header class="header">
-  <div id="header">
-    <h1 class="h_logo">
-      <a><img src="/imges/capture.png" alt="logo"></a>
-    </h1>
-  </div>
-
-  <div id="menu">
-    <nav class="menu">
-      <ul>
-        <li>동물소개</li>
-        <li>장기자랑</li>
-        <li>동물보호</li>
-        <li>커뮤니티</li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<!-- Header 영역 -->
+<div th:replace="fragments/header :: headerFragment"></div>
 
 <div class="board-wrapper">
   <div class="board-title">
     자유게시판
-    <button class="btn-register" onclick="location.href='/community/boardreg'">글 등록</button>
   </div>
 
-  <div class="search-box">
-    <form action="/board/search" method="GET">
-      <input type="text" name="keyword" placeholder="검색어를 입력해주세요." />
-      <button type="submit">검색</button>
+
+  <div class="board-controls">
+    <form action="/community/board" method="GET" class="search-form">
+      <input type="text" name="keyword" placeholder="검색어를 입력해주세요." th:value="${keyword}" />
+      <button type="submit" class="btn-search">검색</button>
     </form>
+    <button class="btn-register" onclick="location.href='/community/boardreg'">글 등록</button>
   </div>
 
   <table class="board-table">
@@ -47,25 +37,15 @@
       <th>이름</th>
       <th>아이디</th>
       <th>작성일</th>
-      <th>조회수</th>
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <td>6</td>
-      <td class="title"><a href="#">좋은 글 공유합니다~~~</a></td>
-      <td>hong</td>
-      <td>홍길동</td>
-      <td>2025-07-01</td>
-      <td>40</td>
-    </tr>
-    <tr>
-      <td>5</td>
-      <td class="title"><a href="#">가입인사</a></td>
-      <td>hong</td>
-      <td>홍길동</td>
-      <td>2025-06-30</td>
-      <td>10</td>
+    <tr th:each="board, iterStat : ${boards}">
+      <td th:text="${board.id}">1</td>
+      <td class="title"><a th:href="@{/community/boarddetail/{id}(id=${board.id})}" th:text="${board.subject}">게시글 제목</a></td>
+      <td th:text="${board.member.userName}">작성자 이름</td>
+      <td th:text="${board.member.userID}">작성자 아이디</td>
+      <td th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd')}">2025-07-01</td>
     </tr>
     <!-- 추가 게시글 -->
     </tbody>
@@ -78,13 +58,9 @@
   </div>
 </div>
 
-<footer class="footer">
-  <div id="footer">
-    <h1 class="f_cont">
-      <a><img src="/imges/footer.png" alt="logo"></a>
-    </h1>
-  </div>
-</footer>
+<!-- Footer 영역 -->
+<div th:replace="fragments/footer :: footerFragment"></div>
 
 </body>
+
 </html>

@@ -1,20 +1,9 @@
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    margin: 0;
     padding: 0;
     background-color: #fff;
     width: 1920px;
-}
-
-.header {
-    text-align: center;
-    padding: 30px 0 0 0;
-    background-color: #F8A92B;
-    width: 1920px;
-}
-
-#header img {
-    height: 100px;
+    margin: 0 auto;
 }
 
 #menu {
@@ -40,37 +29,81 @@ body {
 .board-wrapper {
     width: 1920px;
     margin: 0 auto 100px auto;
+    padding-top: 120px;
 }
 
+/* board-header : 제목과 검색+등록 버튼 한 줄 배치 */
+.board-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+/* 자유게시판 제목 */
 .board-title {
     font-size: 36px;
     font-weight: bold;
-    margin-bottom: 30px;
+    text-align: center;
     border-bottom: 3px solid #ddd;
     padding-bottom: 15px;
+    margin: 0;
 }
 
-.search-box {
-    text-align: center;
-    margin-bottom: 30px;
+/* 검색폼과 등록버튼 묶음 */
+.board-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
 }
 
-.search-box input[type="text"] {
-    width: 500px;
-    padding: 10px 15px;
+/* 검색폼 : input과 버튼 한 줄 */
+.search-form {
+    display: flex;
+    align-items: center;
+}
+
+/* 검색 input */
+.search-form input[type="text"] {
+    width: 300px;
+    padding: 8px 15px;
     font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
+    border: 1px solid #F8A92B;
+    border-radius: 20px 0 0 20px;
+    outline: none;
 }
 
-.search-box button {
-    padding: 10px 25px;
-    font-size: 16px;
-    background-color: #555;
-    color: white;
+/* 검색 버튼 (노란색, 둥근 모서리) */
+.btn-search {
+    background-color: #F8A92B;
     border: none;
+    color: white;
+    padding: 8px 20px;
+    font-size: 16px;
     cursor: pointer;
-    margin-left: 5px;
+    border-radius: 0 20px 20px 0;
+    transition: background-color 0.3s ease;
+}
+
+.btn-search:hover {
+    background-color: #d98617;
+}
+
+/* 글 등록 버튼 (노란색, 완전 둥근) */
+.btn-register {
+    background-color: #F8A92B;
+    border: none;
+    padding: 8px 20px;
+    font-size: 16px;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-register:hover {
+    background-color: #d98617;
 }
 
 .board-table {
@@ -116,31 +149,4 @@ body {
     margin: 0 10px;
     text-decoration: none;
     color: #333;
-}
-.board-title {
-    font-size: 36px;
-    font-weight: bold;
-    margin-bottom: 30px;
-    border-bottom: 3px solid #ddd;
-    padding-bottom: 15px;
-    position: relative;  /* 버튼 위치 위해 */
-}
-
-/* 등록 버튼 스타일 */
-.btn-register {
-    position: absolute;
-    right: 0;
-    top: 0;
-    padding: 8px 20px;
-    font-size: 18px;
-    background-color: #F8A92B;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.btn-register:hover {
-    background-color: #d98617;
 }
