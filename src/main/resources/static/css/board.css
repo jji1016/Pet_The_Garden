@@ -1,29 +1,9 @@
 body {
     font-family: 'Noto Sans KR', sans-serif;
-    padding: 0;
+    margin: 0;
     background-color: #fff;
     width: 1920px;
-    margin: 0 auto;
-}
-
-#menu {
-    width: 100%;
-    max-width: 1920px;
-    height: 120px;
-    background: #FFFFFF;
-    border-radius: 20px;
-    margin: 20px auto 60px auto;
-}
-
-.menu ul {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-    font-size: 48px;
-    list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .board-wrapper {
@@ -32,13 +12,6 @@ body {
     padding-top: 120px;
 }
 
-/* board-header : 제목과 검색+등록 버튼 한 줄 배치 */
-.board-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-}
 
 /* 자유게시판 제목 */
 .board-title {
@@ -56,6 +29,7 @@ body {
     align-items: center;
     justify-content: center;
     gap: 15px;
+    margin-left: 30px;
 }
 
 /* 검색폼 : input과 버튼 한 줄 */
@@ -140,7 +114,10 @@ body {
 
 .pagination {
     margin-top: 30px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
     font-size: 16px;
 }
 

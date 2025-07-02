@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>게시글 수정</title>
+    <th:block th:replace="fragments/head :: head('게시글 수정')"></th:block>
+    <link rel="stylesheet" href="/css/boarddetail.css" />
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="fragments/header :: headerFragment"></div>
+
+<div class="board-detail-wrapper">
+    <div class="board-detail-title">게시글 수정</div>
+
+    <!-- form으로 감싸기 -->
+    <form th:action="@{'/community/boardcorrect/' + ${boardId}}" th:object="${boardDto}" method="post" enctype="multipart/form-data">
+        <div class="board-detail-meta">
+            <span class="writer" th:text="${writer}">작성자</span>
+            <span class="date" th:text="${modifyDate != null} ? ${#temporals.format(modifyDate, 'yyyy-MM-dd')} : ${#temporals.format(regDate, 'yyyy-MM-dd')}">작성일</span>
+        </div>
+
+        <div class="board-detail-content">
+            <label>제목</label>
+            <input type="text" th:field="*{subject}" />
+
+            <label>내용</label>
+            <textarea id="editor" th:field="*{content}"></textarea>
+        </div>
+
+        <div class="board-detail-buttons">
+            <a th:href="@{/community}" class="btn-back">취소</a>
+            <button type="submit" class="btn-edit">수정 완료</button>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+<div th:replace="fragments/footer :: footerFragment"></div>
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    class MyUploadAdapter {
+        constructor(loader) {
+            this.loader = loader;
+        }
+
+        upload() {
+            return this.loader.file
+                .then(file => {
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    return fetch('/community/upload-image', {
+                        method: 'POST',
+                        body: data
+                    })
+                        .then(response => response.json())
+                        .then(result => {
+                            return {
+                                default: result.url // 업로드된 이미지의 URL
+                            };
+                        });
+                });
+        }
+
+        abort() {
+            // 업로드 중단 처리 (선택사항)
+        }
+    }
+
+    function MyCustomUploadAdapterPlugin(editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new MyUploadAdapter(loader);
+        };
+    }
+
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            extraPlugins: [MyCustomUploadAdapterPlugin],
+            mediaEmbed: {
+                previewsInData: true
+            }
+        })
+        .then(editor => {
+            window.editorInstance = editor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script>
+</body>
+</html>
