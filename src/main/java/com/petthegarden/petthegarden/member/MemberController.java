@@ -27,10 +27,7 @@ public class MemberController {
         if(bindingResult.hasErrors()) {
             return "member/signup";
         }
-        Member member = memberService.save(memberDto);
-        if(member != null) {
-            return "redirect:/index/index";
-        }
+        memberService.save(memberDto);
         return "member/signup";
     }
 

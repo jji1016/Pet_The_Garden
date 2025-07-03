@@ -14,9 +14,9 @@ public class MemberService {
     private final MemberDao memberDao;
 
 
-    public Member save(MemberDto memberDto) {
+    public void save(MemberDto memberDto) {
         memberDto.setRole(Role.ROLE_USER);
         Member savedMember = memberDto.toMember();
-        return memberDao.save(savedMember);
+        memberDao.save(savedMember);
     }
 }
