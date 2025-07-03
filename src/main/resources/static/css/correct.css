@@ -46,7 +46,6 @@ a {
     height: 587px;
     top: 123px;
     left: 206px;
-    background-image: url(./img/main-pic.png);
     background-size: cover;
     background-position: 50% 50%;
 }
@@ -113,13 +112,7 @@ a {
     font-weight: 600;
 }
 
-.box .rectangle {
-    left: 0;
-    position: absolute;
-    width: 250px;
-    height: 88px;
-    top: 458px;
-}
+
 
 .box .div {
     position: absolute;
@@ -136,12 +129,36 @@ a {
     white-space: nowrap;
 }
 
-.box .img {
-    left: 278px;
-    position: absolute;
+.button-row {
+    display: flex;
+    gap: 20px; /* 버튼 사이 간격 */
+    margin-top: 40px; /* 본문과 버튼 사이 여백 */
+}
+
+.rectangle, .img {
     width: 250px;
     height: 88px;
-    top: 458px;
+    border-radius: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.rectangle { background: #ffb93a; }
+.img { background: #e94e77; }
+
+.btn-text {
+    font-family: "Roboto-Bold", Helvetica;
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 50px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: 50px;
+    white-space: nowrap;
+    pointer-events: none;
 }
 
 .box .text-wrapper-4 {

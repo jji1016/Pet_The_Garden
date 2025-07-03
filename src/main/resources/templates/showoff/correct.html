@@ -9,7 +9,7 @@
 <div class="box">
     <div class="group">
         <div class="overlap-group">
-            <div class="pic"></div>
+            <div class="pic" th:style="'background-image: url(' + @{/images/웰시코기.png} + ')'"></div>
             <div class="overlap"><p class="title"><span class="text-wrapper">동물 이름 : </span> <span class="span">박명수<br/></span>
                 <span class="span"></span></p>
                 <div class="flexcontainer"><p class="text"><span class="text-wrapper-2"><br/></span></p>
@@ -23,13 +23,11 @@
                     </p>
                     <p class="text"><span class="text-wrapper-3">특기</span> <span class="text-wrapper-2"> : 늘 피곤한 표정을 잘 짓습니다.<br/></span>
                     </p>
-                    <p class="text"><span class="text-wrapper-2"><br/></span></p>
-                    <p class="text"><span class="text-wrapper-2"><br/></span></p>
-                    <p class="text"><span class="text-wrapper-2"></span></p></div>
-                <img class="rectangle" src="img/rectangle-229.svg"/>
-                <div class="div">수정완료</div>
-                <img class="img" src="img/rectangle-230.svg"/>
-                <div class="text-wrapper-4">삭제</div>
+                <div class="button-row">
+                    <div class="rectangle"><span class="btn-text">수정완료</span></div>
+                    <div class="img"><span class="btn-text">삭제</span></div>
+                </div>
+                </div>
             </div>
         </div>
     </div>
