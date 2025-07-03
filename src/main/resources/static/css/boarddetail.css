@@ -9,11 +9,11 @@ body {
 .board-detail-wrapper {
     width: 1920px;
     margin: 0 auto 100px auto;
-    padding: 30px;
     border: 1px solid #ddd;
     border-radius: 20px;
     background-color: #FFFFFF;
     padding-top: 120px;
+    box-sizing: border-box;
 }
 
 .board-detail-title {
@@ -99,4 +99,108 @@ body {
 
 .ck-editor__editable {
     min-height: 300px !important;  /* 원하는 높이로 조절 */
+}
+.comments-section {
+    width: 1920px;
+    margin: 50px auto 0 auto;
+    padding: 20px 20px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    box-sizing: border-box;
+}
+
+.comments-section h3 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.comments-list {
+    margin-bottom: 40px;
+}
+
+.comment-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #333;
+}
+
+.comment-date {
+    font-size: 14px;
+    color: #999;
+}
+
+.comment-content {
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+}
+
+.comment-actions {
+    margin-top: 5px;
+}
+
+.comment-actions button {
+    background-color: #F8A92B;
+    border: none;
+    padding: 6px 12px;
+    color: white;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.comment-actions button:hover {
+    background-color: #d98617;
+}
+
+.comment-form {
+    display: flex;
+    gap: 10px;
+    width: 100%; /* 부모 너비 내로 제한 */
+    box-sizing: border-box;
+    justify-content: flex-start; /* 왼쪽 정렬 */
+}
+
+.comment-form textarea {
+    width: 800px;   /* 너비 줄임 */
+    max-width: 70%; /* 필요시 조절 가능 */
+    height: 100px;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 12px;
+    resize: vertical;
+    box-sizing: border-box;
+    flex-shrink: 0; /* 크기 줄어드는거 방지 */
+}
+
+.comment-form .btn-comment-submit {
+    flex-shrink: 0;
+    min-width: 120px;
+    background-color: #F8A92B;
+    border: none;
+    padding: 12px 30px;
+    color: white;
+    font-size: 16px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    white-space: nowrap;
+}
+
+.comment-form .btn-comment-submit:hover {
+    background-color: #d98617;
 }

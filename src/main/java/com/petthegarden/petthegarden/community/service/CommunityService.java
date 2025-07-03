@@ -2,8 +2,10 @@ package com.petthegarden.petthegarden.community.service;
 
 import com.petthegarden.petthegarden.community.dao.CommunityDao;
 import com.petthegarden.petthegarden.community.dto.BoardDto;
+import com.petthegarden.petthegarden.community.repository.CommunityCommentRepository;
 import com.petthegarden.petthegarden.community.repository.CommunityRepository;
 import com.petthegarden.petthegarden.entity.Board;
+import com.petthegarden.petthegarden.entity.BoardComment;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.mypage.repository.MypageMemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +35,7 @@ import java.util.regex.Pattern;
 public class CommunityService {
     private final CommunityRepository communityRepository;
     private final MypageMemberRepository mypageMemberRepository;
+    private final CommunityCommentRepository communityCommentRepository;
     @Value("C:/PTGUpload/board/")
     String boardPath;
 
@@ -53,6 +56,10 @@ public class CommunityService {
 
                 Board board = boardDto.toEntity();
                 board.setRegDate(LocalDateTime.now());
+                String content = boardDto.getContent();
+                String updateContent = moveTmpImagesToPermanent(content);
+                board.setContent(updateContent);
+
         Member admin = mypageMemberRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
         board.setMember(admin);
@@ -130,5 +137,16 @@ public class CommunityService {
         }
 
         return content;
+    }
+    //게시판 댓글 작성
+    public void saveComment(Integer boardId, String content, Member member) {
+        Board board = communityRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다: " + boardId));
+        BoardComment comment = BoardComment.builder()
+                .content(content)
+                .member(member)
+                .board(board)
+                .build();
+        communityCommentRepository.save(comment);
     }
 }

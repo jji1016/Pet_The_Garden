@@ -2,7 +2,6 @@ package com.petthegarden.petthegarden.mypage.controller;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.constant.PetGender;
-import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import com.petthegarden.petthegarden.mypage.dto.PetDto;
@@ -10,18 +9,14 @@ import com.petthegarden.petthegarden.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 

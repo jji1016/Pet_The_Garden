@@ -46,8 +46,6 @@ public class MypageService {
         member.updateInfo(
                 memberDto.getUserPW(),
                 memberDto.getUserEmail(),
-                memberDto.getBirthdate(),
-                Gender.valueOf(memberDto.getGender()),
                 memberDto.getTel(),
                 memberDto.getZipcode(),
                 memberDto.getAddress01(),

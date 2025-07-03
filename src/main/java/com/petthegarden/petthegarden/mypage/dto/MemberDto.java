@@ -40,12 +40,6 @@ public class MemberDto {
     private String userEmail;
 
     @NotBlank
-    private  String birthdate;
-
-    @NotBlank
-    private  String gender;
-
-    @NotBlank
     @Pattern(regexp="^01\\d-\\d{3,4}-\\d{4}$", message="전화번호 형식이 올바르지 않습니다.")
     private String tel;
 
@@ -69,8 +63,6 @@ public class MemberDto {
                 .userPW(this.userPW)
                 .userName(this.userName)
                 .email(this.userEmail)
-                .birthDate(this.birthdate)
-                .gender(Gender.valueOf(this.gender))
                 .tel(this.tel)
                 .address01(this.address01)
                 .address02(this.address02)

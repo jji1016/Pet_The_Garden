@@ -7,6 +7,7 @@ import com.petthegarden.petthegarden.community.repository.CommunityRepository;
 import com.petthegarden.petthegarden.community.service.CommunityService;
 import com.petthegarden.petthegarden.entity.Board;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.mypage.repository.MypageMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,6 +26,7 @@ import java.util.Map;
 public class CommunityController {
     private final CommunityService communityService;
     private final CommunityRepository communityRepository;
+    private final MypageMemberRepository mypageMemberRepository;
 
     @GetMapping("/board")
     public String community(Model model, @RequestParam(required = false) String keyword) {
@@ -77,17 +79,48 @@ public class CommunityController {
     public String showBoardForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
         BoardDto boardDto = new BoardDto();
         model.addAttribute("boardDto", boardDto);
-        model.addAttribute("writer", userDetails.getUserrealname()); // 진짜 member테이블 이름
+        String adminName = "관리자";
+        if (userDetails != null) {
+            model.addAttribute("writer", userDetails.getUserrealname());
+        } else {
+            model.addAttribute("writer", adminName);
+        }
         return "community/boardreg";
     }
     @PostMapping("/boardreg")
     public String registerBoard(@ModelAttribute("boardDto") BoardDto boardDto,
                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
-        Member member = userDetails.getLoggedMember();
-        int memberId = member.getId();
-
+        Member member;
+        if (userDetails != null) {
+            member = userDetails.getLoggedMember();
+        } else {
+            // userDetails가 null인 경우, 임시로 관리자 계정(아이디 1) 사용
+            member = mypageMemberRepository.findById(1)
+                    .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
+        }
         communityService.saveBoard(boardDto,member);
 
         return "redirect:/community/board"; // 목록 페이지로 리다이렉트
+    }
+    //댓글작성
+    @PostMapping("/board/{boardId}/comment")
+    public String addComment(@PathVariable Integer boardId,
+                             @RequestParam("content") String content,
+                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+        //if (userDetails == null) {
+        //throw new IllegalArgumentException("로그인 후 이용해주세요.");
+        //}
+
+        Member member;
+        if (userDetails != null) {
+            member = userDetails.getLoggedMember();
+        } else {
+            // userDetails가 null인 경우, 임시로 관리자 계정(아이디 1) 사용
+            member = mypageMemberRepository.findById(1)
+                    .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
+        }
+        communityService.saveComment(boardId, content, member);
+
+        return "redirect:/community/boarddetail/" + boardId;
     }
 }

@@ -1,20 +1,12 @@
 package com.petthegarden.petthegarden.config;
 
-import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
-import com.petthegarden.petthegarden.constant.Role;
-import com.petthegarden.petthegarden.entity.Member;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import java.time.LocalDateTime;
 
 @Configuration
 @EnableWebSecurity

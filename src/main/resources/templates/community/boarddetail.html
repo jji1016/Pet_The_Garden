@@ -31,6 +31,29 @@
         </th:block>
         <a th:href="@{/community/board}" class="btn-back">목록으로</a>
     </div>
+    <!-- 댓글 영역 시작 -->
+    <div class="comments-section">
+        <h3>댓글</h3>
+
+        <div class="comments-list">
+            <!-- 댓글 반복 예시 -->
+            <div class="comment-item">
+                <div class="comment-item" th:each="comment : ${board.boardCommentList}">
+                    <div class="comment-author" th:text="${comment.member.userName}">작성자</div>
+                    <div class="comment-date" th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm')}">작성일</div>
+                    <div class="comment-content" th:text="${comment.content}">내용</div>
+                </div>
+            </div>
+            <!-- 반복 끝 -->
+        </div>
+        <form th:action="@{'/community/board/' + ${board.id} + '/comment'}" method="post" class="comment-form">
+        <div class="comment-form">
+            <textarea name="content" placeholder="댓글을 입력하세요..." rows="4"></textarea>
+            <button class="btn-comment-submit">댓글 작성</button>
+        </div>
+        </form>
+    </div>
+    <!-- 댓글 영역 끝 -->
 </div>
 
 <!-- Footer -->

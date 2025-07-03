@@ -68,16 +68,6 @@
         <table class="personal_info">
           <tr><td>이름</td><td><input type="text" id="inputName" data-field="userName"></td></tr>
           <tr><td>이메일</td><td><input type="email" id="inputEmail" data-field="userEmail"></td></tr>
-          <tr><td>생일</td><td><input type="text" id="inputBirthdate" data-field="userBirthdate"></td></tr>
-          <tr>
-            <td>성별</td>
-            <td>
-              <input type="radio" id="genderMale" name="gender" value="MALE" data-field="userGender">
-              <label for="genderMale">남성</label>
-              <input type="radio" id="genderFemale" name="gender" value="FEMALE" data-field="userGender">
-              <label for="genderFemale">여성</label>
-            </td>
-          </tr>
           <tr>
             <td>현재 비밀번호</td>
             <td><input type="password" data-field="currentPassword"></td>
@@ -273,6 +263,7 @@
     })
             .then(response => response.json())
             .then(json => {
+              const telNumbers = json.tel.replace(/-/g, '');
               const responseData = {
                 userName: json.userName,
                 userID: json.userID,
@@ -282,9 +273,9 @@
                 zipcode: json.zipcode,
                 address01: json.address01,
                 address02: json.address02,
-                tel1: json.tel.substring(0, 3),
-                tel2: json.tel.substring(3, 7),
-                tel3: json.tel.substring(7, 13),
+                tel1: telNumbers.substring(0, 3),
+                tel2: telNumbers.substring(3, 7),
+                tel3: telNumbers.substring(7, 11),
               };
               console.log(responseData);
 
