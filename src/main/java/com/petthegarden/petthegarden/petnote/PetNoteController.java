@@ -13,4 +13,15 @@ public class PetNoteController {
     public String list() {
         return "petnote/list";
     }
+
+    @GetMapping("/diary")
+    public String diary() {
+        return "petnote/diary";
+    }
+
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "petnote/profile";
+    }
 }
