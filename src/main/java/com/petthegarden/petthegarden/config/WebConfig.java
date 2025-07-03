@@ -24,6 +24,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.path}stray/")
     String strayPath;
 
+    @Value("C:/PTGUpload/tmp/")
+    String tmpPath;
+
     // 기존 파일 업로드 리소스 매핑
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -37,6 +40,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + showPath);
         registry.addResourceHandler("/PTGUpload/stray/**")
                 .addResourceLocations("file:///" + strayPath);
+        registry.addResourceHandler("/PTGUpload/tmp/**")
+                .addResourceLocations("file:///" + tmpPath);
     }
 
     // ★ 장바구니/결제 페이지 연동을 위한 CORS 설정 추가

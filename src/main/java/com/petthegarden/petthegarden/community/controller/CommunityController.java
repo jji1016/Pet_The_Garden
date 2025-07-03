@@ -60,9 +60,8 @@ public class CommunityController {
     }
     //게시글수정과정
     @PostMapping("/boardcorrect/{id}")
-    public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto,
-                              @RequestParam("file") MultipartFile file) {
-        communityService.updateBoard(id, boardDto, file);
+    public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto) {
+        communityService.updateBoard(id, boardDto);
         return "redirect:/community/boarddetail/" + id;
     }
     //ck editor 이미지 업로드

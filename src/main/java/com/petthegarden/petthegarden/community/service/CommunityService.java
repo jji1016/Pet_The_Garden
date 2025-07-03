@@ -13,12 +13,17 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +31,11 @@ import java.util.Map;
 @Transactional
 public class CommunityService {
     private final CommunityRepository communityRepository;
-    @Value("${file.path}board/")
+    @Value("C:/PTGUpload/board/")
     String boardPath;
+
+    @Value("C:/PTGUpload/tmp")
+    String tmpPath;
 
     private final CommunityDao communityDao;
 
@@ -67,33 +75,15 @@ public class CommunityService {
         }
 
     }
-    public void updateBoard(Integer id, BoardDto boardDto, MultipartFile file){
+    public void updateBoard(Integer id, BoardDto boardDto){
         Board board = getBoardById(id);
 
         board.setSubject(boardDto.getSubject());
-        board.setContent(boardDto.getContent());
+        String content = boardDto.getContent();
+        String updateContent = moveTmpImagesToPermanent(content);
+        board.setContent(updateContent);
         board.setModifyDate(LocalDateTime.now());
-        String fileName = null;
 
-        if (file != null && !file.isEmpty()) {
-            try {
-                String originalFilename = file.getOriginalFilename();
-                String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                String baseName = originalFilename.substring(0, originalFilename.lastIndexOf("."));
-                String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-                fileName = baseName + "_" + timestamp + extension;
-
-                File saveDir = new File(boardPath);
-                if (!saveDir.exists()) {
-                    saveDir.mkdirs();
-                }
-
-                file.transferTo(new File(boardPath + fileName));
-            } catch (Exception e) {
-                log.error("반려동물 이미지 업로드 실패", e);
-                throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.");
-            }
-        }
     }
 
     public Map<String, Object> uploadImage(MultipartFile file) {
@@ -101,37 +91,61 @@ public class CommunityService {
 
         if (file == null || file.isEmpty()) {
             response.put("uploaded", 0);
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "파일이 없습니다.");
-            response.put("error", error);
+            response.put("error", Map.of("message", "파일이 없습니다."));
             return response;
         }
 
         try {
-
             String originalFilename = file.getOriginalFilename();
             String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
             String baseName = originalFilename.substring(0, originalFilename.lastIndexOf("."));
             String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             String fileName = baseName + "_" + timestamp + extension;
 
-            File saveDir = new File(boardPath);
+            File saveDir = new File(tmpPath); // 임시 폴더에 저장
             if (!saveDir.exists()) {
                 saveDir.mkdirs();
             }
 
-            file.transferTo(new File(boardPath + fileName));
+            File savedFile = new File(saveDir, fileName);
+            file.transferTo(savedFile);
 
             response.put("uploaded", 1);
-            response.put("fileName", "preview-image.jpg");
-            response.put("url", "\"/PTGUpload/board/\" + fileName"); //
+            response.put("fileName", fileName);
+            response.put("url", "/PTGUpload/tmp/" + fileName); // 임시 경로
 
         } catch (Exception e) {
             response.put("uploaded", 0);
-            Map<String, String> error = new HashMap<>();
-            error.put("message", "업로드 실패: " + e.getMessage());
-            response.put("error", error);
+            response.put("error", Map.of("message", "업로드 실패: " + e.getMessage()));
         }
+
         return response;
+    }
+    private String moveTmpImagesToPermanent(String content) {
+        // <img src="/PTGUpload/tmp/filename.jpg">
+        Pattern pattern = Pattern.compile("/PTGUpload/tmp/(\\S+?\\.(jpg|png|gif|jpeg))");
+        Matcher matcher = pattern.matcher(content);
+
+        while (matcher.find()) {
+            String fileName = matcher.group(1);
+            String fixedTmpPath = tmpPath.endsWith("/") ? tmpPath : tmpPath + "/";
+            String fixedBoardPath = boardPath.endsWith("/") ? boardPath : boardPath + "/";
+            File tmpFile = new File(fixedTmpPath,fileName);
+            File permFile = new File(fixedBoardPath,fileName);
+
+            if (tmpFile.exists()) {
+                try {
+                    Files.move(tmpFile.toPath(), permFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException e) {
+                    log.warn("임시 이미지 파일 이동 실패: " + tmpFile.getAbsolutePath(), e);
+                }
+            } else {
+                log.warn("임시 이미지 파일이 존재하지 않습니다.");
+            }
+
+            content = content.replace("/PTGUpload/tmp/" + fileName, "/PTGUpload/board/" + fileName);
+        }
+
+        return content;
     }
 }
