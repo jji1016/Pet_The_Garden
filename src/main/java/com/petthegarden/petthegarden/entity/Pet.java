@@ -1,6 +1,5 @@
 package com.petthegarden.petthegarden.entity;
 
-import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.PetGender;
 import jakarta.persistence.*;
 import lombok.*;
