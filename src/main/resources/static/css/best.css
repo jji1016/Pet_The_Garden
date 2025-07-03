@@ -42,7 +42,7 @@ a {
 
 .box .text-wrapper {
     width: 501px;
-    top: 39px;
+    top: 20px;
     left: 720px;
     font-family: "Roboto-Bold", Helvetica;
     font-weight: 700;
@@ -78,7 +78,7 @@ a {
     width: 290px;
     top: 0;
     left: 0;
-    -webkit-text-stroke: 2px #ffffff7d;
+    /*-webkit-text-stroke: 2px #ffffff7d;*/
     font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     color: #000000;
@@ -93,7 +93,7 @@ a {
     width: 230px;
     top: 63px;
     left: 29px;
-    -webkit-text-stroke: 2px #ffffff7d;
+    /*-webkit-text-stroke: 2px #ffffff7d;*/
     font-family: "Roboto-ExtraBold", Helvetica;
     font-weight: 800;
     color: #ff0000b0;
@@ -129,7 +129,7 @@ a {
     width: 324px;
     top: 332px;
     left: 109px;
-    -webkit-text-stroke: 2px #ffffff7d;
+    /*-webkit-text-stroke: 2px #ffffff7d;*/
     font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     color: #000000;
@@ -144,7 +144,7 @@ a {
     width: 223px;
     top: 389px;
     left: 160px;
-    -webkit-text-stroke: 2px #ffffff7d;
+    /*-webkit-text-stroke: 2px #ffffff7d;*/
     font-family: "Roboto-ExtraBold", Helvetica;
     font-weight: 800;
     color: #ff0000b0;
@@ -183,10 +183,10 @@ a {
 
 .box .arrow-drop-down {
     position: absolute;
-    width: 130px;
-    height: 170px;
+    width: 100px;
+    height: 130px;
     top: 0;
-    left: 240px;
+    left: 255px;
 }
 
 .box .rectangle-2 {
@@ -229,7 +229,7 @@ a {
     width: 274px;
     top: 332px;
     left: 120px;
-    -webkit-text-stroke: 2px #ffffff7d;
+    /*-webkit-text-stroke: 2px #ffffff7d;*/
     font-family: "Roboto-Regular", Helvetica;
     font-weight: 400;
     color: #000000;
@@ -244,7 +244,7 @@ a {
     width: 178px;
     top: 397px;
     left: 169px;
-    -webkit-text-stroke: 2px #ffffff7d;
+    /*-webkit-text-stroke: 2px #ffffff7d;*/
     font-family: "Roboto-ExtraBold", Helvetica;
     font-weight: 800;
     color: #ff0004b0;
