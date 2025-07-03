@@ -1,6 +1,5 @@
 package com.petthegarden.petthegarden.member;
 
-import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
 import jakarta.validation.constraints.Email;
@@ -24,12 +23,6 @@ public class MemberDto {
 
     @NotBlank(message="유저네임은 필수입력사항입니다.")
     private String userName;
-
-    @NotBlank(message="생년월일은 필수입력사항입니다.")
-    private String birthDate;
-
-    @NotNull(message="성별은 필수입력사항입니다.")
-    private Gender gender;
 
     @Email(message = "이메일형식에 맞게 쓰세요.")
     @NotBlank(message="이메일은 필수입력사항입니다.")
@@ -58,8 +51,6 @@ public class MemberDto {
                 .userID(this.userID)
                 .userPW(this.userPW)
                 .userName(this.userName)
-                .birthDate(this.birthDate)
-                .gender(this.gender)
                 .email(this.email)
                 .tel(this.tel)
                 .zipcode(this.zipcode)
