@@ -1,6 +1,5 @@
 package com.petthegarden.petthegarden.entity;
 
-import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,9 +33,6 @@ public class Member {
 
     private String image;
 
-    @Column(nullable = false)
-    private String birthDate;
-
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -44,7 +40,7 @@ public class Member {
     private String tel;
 
     @Column(nullable = false)
-    private boolean deleteStatus;
+    private boolean deleteStatus = false;
 
     @CreatedDate
     @Column(updatable = false)
@@ -59,10 +55,6 @@ public class Member {
     private String address01;
 
     private String address02;
-
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Gender gender;
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
