@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(SIGNUP)}"></head>
+
+<body>
+<header th:replace="~{fragments/header}"></header>
+<form th:action="@{/member/signup}" th:method="post">
+    <div
+            class="container d-flex justify-content-center align-items-center min-vh-100"
+    >
+        <div class="row signup-wrap">
+            <div class="col-6">
+                <h2 class="mb-5 text-center">
+                    <img src="/images/logo.png" alt="" class="logo-img"/>
+                </h2>
+                <div class="signup-box">
+                    <div class="mb-3">
+                        <label for="userID" class="form-label fw-bold">ID</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="userID"
+                                        name="userID"
+                                        placeholder="ID"
+                                />
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-primary w-100">중복확인</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPW" class="form-label fw-bold">PASSWORD</label>
+                        <div>
+                            <input
+                                    type="password"
+                                    class="form-control ps-4"
+                                    id="userPW"
+                                    name="userPW"
+                                    placeholder="password"
+                                    autocomplete="new-password"
+                            />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password02" class="form-label fw-bold"
+                        >PASSWORD CONFIRM</label
+                        >
+                        <div>
+                            <input
+                                    type="password"
+                                    class="form-control ps-4"
+                                    id="password02"
+                                    placeholder="password confirm"
+                            />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userName" class="form-label fw-bold">User Name</label>
+                        <div>
+                            <input
+                                    type="text"
+                                    class="form-control ps-4"
+                                    id="userName"
+                                    name="userName"
+                                    placeholder="User Name"
+                            />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label fw-bold">생년월일</label>
+                        <input
+                                type="date"
+                                class="form-control"
+                                id="birthDate"
+                                name="BirthDate"
+                        />
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">성별</label>
+                        <div class="form-check form-check-inline">
+                            <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="gender"
+                                    id="male"
+                                    value="male"
+                            />
+                            <label class="form-check-label" for="male">남자</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="gender"
+                                    id="female"
+                                    value="female"
+                            />
+                            <label class="form-check-label" for="female">여자</label>
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">EMAIL</label>
+                        <div>
+                            <input
+                                    type="email"
+                                    class="form-control ps-4"
+                                    id="email"
+                                    name="email"
+                                    placeholder="Email"
+                            />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="tel" class="form-label fw-bold">TEL</label>
+                        <div>
+                            <input
+                                    type="tel"
+                                    class="form-control ps-4"
+                                    id="tel"
+                                    name="tel"
+                                    placeholder="Phone Number"
+                            />
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="zipcode" class="form-label fw-bold">ZIPCODE</label>
+                        <div class="row">
+                            <div class="col-4 mb-2">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="zipcode"
+                                        name="zipcode"
+                                        placeholder="zipcode"
+                                />
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-primary w-100">우편번호 검색</button>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="address01"
+                                        name="address01"
+                                        placeholder="주소"
+                                />
+                            </div>
+                            <div class="col-12">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="address02"
+                                        name="address02"
+                                        placeholder="상세주소를 입력하세요"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <label for="image" class="form-label fw-bold">프로필 이미지</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="image"
+                                        name="image"
+                                        placeholder="Profile Image"
+                                />
+                            </div>
+                            <div class="col-3">
+                                <button class="btn btn-primary w-100">파일업로드</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-5 text-center">
+                        <button class="btn btn-primary w-100">SIGN UP</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 bg-box px-5">
+                <div class="slogan">
+                    <p class="main"><span>pet the</span> <span>garden</span></p>
+                    <p class="sub">강아지도 고양이도 행복한 정원</p>
+                </div>
+                <img src="/images/login.png" alt=""/>
+            </div>
+        </div>
+    </div>
+</form>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
