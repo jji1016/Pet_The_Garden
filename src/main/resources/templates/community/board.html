@@ -45,7 +45,7 @@
       <td class="title"><a th:href="@{/community/boarddetail/{id}(id=${board.id})}" th:text="${board.subject}">게시글 제목</a></td>
       <td th:text="${board.member.userName}">작성자 이름</td>
       <td th:text="${board.member.userID}">작성자 아이디</td>
-      <td th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd')}">2025-07-01</td>
+      <td th:text="${board.modifyDate != null} ? ${#temporals.format(board.modifyDate, 'yyyy-MM-dd')} : ${#temporals.format(board.regDate, 'yyyy-MM-dd')}">2025-07-01</td>
     </tr>
     <!-- 추가 게시글 -->
     </tbody>

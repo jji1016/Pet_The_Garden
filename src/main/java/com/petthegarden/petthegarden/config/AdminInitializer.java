@@ -12,9 +12,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-import static com.petthegarden.petthegarden.constant.Gender.MALE;
-import static com.petthegarden.petthegarden.constant.Gender.FEMALE;
-
 @Component
 @RequiredArgsConstructor
 public class AdminInitializer implements CommandLineRunner {

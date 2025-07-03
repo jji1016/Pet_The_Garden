@@ -8,9 +8,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Setter
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
@@ -25,7 +25,7 @@ public class Board {
     @Column(nullable = false)
     private String subject;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 1000)
     private String content;
 
     @CreatedDate
@@ -33,8 +33,6 @@ public class Board {
     private LocalDateTime regDate;
 
     private LocalDateTime modifyDate;
-
-    private String image;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberID", nullable = false)

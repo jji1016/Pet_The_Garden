@@ -1,10 +1,11 @@
 package com.petthegarden.petthegarden.community.service;
 
 import com.petthegarden.petthegarden.community.dao.CommunityDao;
-import com.petthegarden.petthegarden.community.dao.CommunityDao;
 import com.petthegarden.petthegarden.community.dto.BoardDto;
 import com.petthegarden.petthegarden.community.repository.CommunityRepository;
 import com.petthegarden.petthegarden.entity.Board;
+import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.mypage.repository.MypageMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 @Transactional
 public class CommunityService {
     private final CommunityRepository communityRepository;
+    private final MypageMemberRepository mypageMemberRepository;
     @Value("C:/PTGUpload/board/")
     String boardPath;
 
@@ -47,33 +49,14 @@ public class CommunityService {
         return communityDao.findById(id);
     }
 
-    public void saveBoard(BoardDto boardDto, MultipartFile file) {
-        String fileName = null;
+    public void saveBoard(BoardDto boardDto, Member member) {
 
-        if (file != null && !file.isEmpty()) {
-            try {
-                String originalFilename = file.getOriginalFilename();
-                String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-                String baseName = originalFilename.substring(0, originalFilename.lastIndexOf("."));
-                String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-                fileName = baseName + "_" + timestamp + extension;
-
-                File saveDir = new File(boardPath);
-                if (!saveDir.exists()) {
-                    saveDir.mkdirs();
-                }
-
-                file.transferTo(new File(boardPath + fileName));
-            } catch (Exception e) {
-                log.error("반려동물 이미지 업로드 실패", e);
-                throw new RuntimeException("이미지 업로드 중 오류가 발생했습니다.");
-            }
-            Board board = boardDto.toEntity();
-            board.setImage(fileName);
-            board.setRegDate(LocalDateTime.now());
-            communityRepository.save(board);
-        }
-
+                Board board = boardDto.toEntity();
+                board.setRegDate(LocalDateTime.now());
+        Member admin = mypageMemberRepository.findById(1)
+                .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
+        board.setMember(admin);
+                communityRepository.save(board);
     }
     public void updateBoard(Integer id, BoardDto boardDto){
         Board board = getBoardById(id);

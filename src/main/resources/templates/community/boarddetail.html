@@ -20,7 +20,7 @@
         <span class="date" th:text="${board.modifyDate != null} ? ${#temporals.format(board.modifyDate, 'yyyy-MM-dd')} : ${#temporals.format(board.regDate, 'yyyy-MM-dd')}">작성일</span>
     </div>
 
-    <div class="board-detail-content" th:text="${board.content}">
+    <div class="board-detail-content" th:utext="${board.content}">
         게시글 본문
     </div>
 
@@ -29,7 +29,7 @@
             <button class="btn-edit"
                     th:onclick="|location.href='/community/boardcorrect/${board.id}'|">수정</button>
         </th:block>
-        <a th:href="@{/community}" class="btn-back">목록으로</a>
+        <a th:href="@{/community/board}" class="btn-back">목록으로</a>
     </div>
 </div>
 

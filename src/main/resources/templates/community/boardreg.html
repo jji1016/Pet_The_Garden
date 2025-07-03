@@ -2,8 +2,8 @@
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>게시글 수정</title>
-    <th:block th:replace="fragments/head :: head('게시글 수정')"></th:block>
+    <title>게시글 등록</title>
+    <th:block th:replace="fragments/head :: head('게시글 등록')"></th:block>
     <link rel="stylesheet" href="/css/boarddetail.css" />
 </head>
 
@@ -13,32 +13,33 @@
 <div th:replace="fragments/header :: headerFragment"></div>
 
 <div class="board-detail-wrapper">
-    <div class="board-detail-title">게시글 수정</div>
+    <div class="board-detail-title">게시글 등록</div>
 
     <!-- form으로 감싸기 -->
-    <form th:action="@{'/community/boardcorrect/' + ${boardId}}" th:object="${boardDto}" method="post" enctype="multipart/form-data">
+    <form th:action="@{/community/boardreg}" th:object="${boardDto}" method="post" enctype="multipart/form-data">
         <div class="board-detail-meta">
             <span class="writer" th:text="${writer}">작성자</span>
-            <span class="date" th:text="${modifyDate != null} ? ${#temporals.format(modifyDate, 'yyyy-MM-dd')} : ${#temporals.format(regDate, 'yyyy-MM-dd')}">작성일</span>
+            <span class="date" th:text="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd')}">작성일</span>
         </div>
 
         <div class="board-detail-content">
             <label>제목</label>
-            <input type="text" th:field="*{subject}" />
+            <input type="text" th:field="*{subject}" placeholder="제목을 입력하세요" />
 
             <label>내용</label>
-            <textarea id="editor" th:field="*{content}"></textarea>
+            <textarea id="editor" th:field="*{content}" placeholder="내용을 입력하세요"></textarea>
         </div>
 
         <div class="board-detail-buttons">
-            <a th:href="@{/community/boarddetail/{id}(id=${boardId})}" class="btn-back">취소</a>
-            <button type="submit" class="btn-edit">수정 완료</button>
+            <a th:href="@{/community/board}" class="btn-back">취소</a>
+            <button type="submit" class="btn-edit">등록</button>
         </div>
     </form>
 </div>
 
 <!-- Footer -->
 <div th:replace="fragments/footer :: footerFragment"></div>
+
 <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
     class MyUploadAdapter {
@@ -59,14 +60,14 @@
                         .then(response => response.json())
                         .then(result => {
                             return {
-                                default: result.url // 업로드된 이미지의 URL
+                                default: result.url
                             };
                         });
                 });
         }
 
         abort() {
-            // 업로드 중단 처리 (선택사항)
+            // 업로드 중단 처리 (필요 시 구현)
         }
     }
 

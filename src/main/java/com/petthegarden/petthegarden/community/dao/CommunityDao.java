@@ -1,7 +1,7 @@
 package com.petthegarden.petthegarden.community.dao;
 
-import com.petthegarden.petthegarden.entity.Board;
 import com.petthegarden.petthegarden.community.repository.CommunityRepository;
+import com.petthegarden.petthegarden.entity.Board;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
