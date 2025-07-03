@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" th:href="@{/css/showreg.css}"/>
+</head>
+<body>
+<div class="box">
+    <div class="group">
+        <div class="overlap-group">
+            <div class="overlap"><p class="title"><span class="text-wrapper">동물 이름 : </span> <span
+                    class="span">기재요망<br/></span> <span class="span"></span></p>
+                <div class="flexcontainer"><p class="text"><span class="text-wrapper-2"><br/></span></p>
+                    <p class="text"><span class="text-wrapper-3">품종</span> <span
+                            class="text-wrapper-2"> : 기재요망<br/></span></p>
+                    <p class="text"><span class="text-wrapper-3">출생일</span> <span class="text-wrapper-2">&nbsp;&nbsp;: 기재요망<br/></span>
+                    </p>
+                    <p class="text"><span class="text-wrapper-3">성별</span> <span class="text-wrapper-2">&nbsp;&nbsp;:&nbsp;&nbsp;기재요망<br/></span>
+                    </p>
+                    <p class="text"><span class="text-wrapper-3">간단 소개하기</span> <span
+                            class="text-wrapper-2"> : 기재요망.<br/></span></p>
+                    <p class="text"><span class="text-wrapper-3">특기</span> <span
+                            class="text-wrapper-2"> : 기재요망<br/></span></p>
+                    <p class="text"><span class="text-wrapper-2"><br/></span></p>
+                    <p class="text"><span class="text-wrapper-2"><br/></span></p>
+                    <p class="text"><span class="text-wrapper-2"></span></p></div>
+                <div class="rectangle-register" onclick="location.href='/showoff/register'">
+                    <span class="register-text">등록하기</span>
+                </div>
+            </div>
+            <div class="overlap-2">
+                <div class="flexcontainer-2"><p class="span-wrapper"><span
+                        class="text-wrapper-4">사진 또는 동영상 업로드<br/></span></p>
+                    <p class="span-wrapper"><span class="text-wrapper-4">영상 업로드는 유튜브 링크만 가능합니다.</span></p></div>
+                <div class="text-wrapper-5">OR</div>
+                <img class="add-a-photo" th:src="@{/images/사진.png}" alt="사진"/>
+                <img class="video-camera-back" th:src="@{/images/동영상.png}" alt="동영상"/></div>
+            <div class="overlap-3">
+                <div class="text-wrapper-6">닉네임 작성</div>
+                <img class="img" th:src="@{/images/pizza.jpg}" alt="피자헛둘셋넷"/></div>
+            <p class="p">장기자랑 페이지 제목 : 기재요망</p></div>
+    </div>
+</div>
+</body>
+</html>
