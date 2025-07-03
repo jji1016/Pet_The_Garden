@@ -1,9 +1,15 @@
 package com.petthegarden.petthegarden.member;
 
+import com.petthegarden.petthegarden.entity.Member;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Controller
 @RequestMapping("/member")
@@ -15,20 +21,18 @@ public class MemberController {
     public String signup() {
         return "member/signup";
     }
+
+    @PostMapping("/signup")
+    public String signup(@Valid @ModelAttribute MemberDto memberDto, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "member/signup";
+        }
+        memberService.save(memberDto);
+        return "redirect:/member/login";
+    }
+
     @GetMapping("/login")
     public String login() {
         return "member/login";
     }
-
-//    @PostMapping("/signup")
-//    public String signup(@ModelAttribute MemberDto memberDto, BindingResult bindingResult) {
-//        if(bindingResult.hasErrors()) {
-//            return "member/signup";
-//        }
-//        Member member = memberService.save(memberDto);
-//        if(member != null) {
-//            return "redirect:/index/index";
-//        }
-//        return "member/signup";
-//    }
 }
