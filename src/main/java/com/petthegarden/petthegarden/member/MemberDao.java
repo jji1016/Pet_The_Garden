@@ -15,8 +15,7 @@ public class MemberDao {
         return memberRepository.findByUserID(userID);
     }
 
-    public Member save(Member adminMember) {
-        return memberRepository.save(adminMember);
+    public void save(Member member) {
+        memberRepository.save(member);
     }
-
 }

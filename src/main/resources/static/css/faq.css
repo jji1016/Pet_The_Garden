@@ -1,0 +1,153 @@
+@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
+
+* {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0px;
+    height: 100%;
+    background: #f7f9fb;
+}
+
+.faq-header {
+    width: 100%;
+    text-align: center;
+    font-family: "Inter-Bold", Helvetica, Arial, sans-serif;
+    font-size: 64px;
+    font-weight: 700;
+    color: #2d2d2d;
+    margin: 60px 0 200px 0;
+    letter-spacing: 2px;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    max-width: 1858px;
+    margin: 0 auto;
+    align-items: flex-start;
+    position: relative;
+}
+
+.table .div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid #b9b9b9;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.05);
+}
+
+.table .row {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+    background-color: #e4030300;
+}
+
+.table .cell,
+.table .content-wrapper,
+.table .div-wrapper,
+.table .cell-2,
+.table .cell-3 {
+    background-color: #f8a92bb2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    align-self: stretch;
+    border-top: 1px solid #b9b9b9;
+    border-left: 1px solid #b9b9b9;
+}
+
+.table .cell {
+    flex: 1;
+    flex-grow: 1;
+}
+.table .content-wrapper { width: 239px; }
+.table .div-wrapper { width: 252px; }
+.table .cell-2 { width: 127px; }
+.table .cell-3 { width: 214px; }
+
+.table .content {
+    display: flex;
+    align-items: flex-start;
+    padding: 10px 12px;
+    position: relative;
+    align-self: stretch;
+    width: 100%;
+    flex: 0 0 auto;
+}
+
+.table .text {
+    position: relative;
+    flex: 1;
+    font-family: "Inter-SemiBold", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    color: #000000;
+    font-size: 32px;
+    text-align: center;
+    letter-spacing: 0;
+    line-height: 44px;
+}
+
+.table .cell-4,
+.table .cell-5,
+.table .cell-6,
+.table .cell-7,
+.table .cell-8 {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    position: relative;
+    align-self: stretch;
+    border-top: 1px solid #b9b9b9;
+    border-left: 1px solid #b9b9b9;
+}
+.table .cell-4 { flex: 1; background: #fff; }
+.table .cell-5 { width: 239px; background: #fff; }
+.table .cell-6 { width: 252px; background: #fff; }
+.table .cell-7 { width: 127px; background: #fff; }
+.table .cell-8 { width: 214px; background: #fff; }
+
+.table .text-wrapper,
+.table .text-2 {
+    position: relative;
+    flex: 1;
+    font-family: "Inter-Regular", Helvetica, Arial, sans-serif;
+    font-weight: 400;
+    color: #222;
+    font-size: 28px;
+    letter-spacing: 0;
+    line-height: 38px;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+@media (max-width: 1200px) {
+    .faq-header {
+        width: 100%;
+        text-align: center;
+        font-family: "Inter-Bold", Helvetica, Arial, sans-serif;
+        font-size: 64px;
+        font-weight: 700;
+        color: #2d2d2d;
+        margin: 60px 0 60px 0; /* 여기서 0 40px 0을 0 60px 0 등으로 변경 */
+        letter-spacing: 2px;
+    }
+    .table { width: 98vw; }
+    .table .text, .table .text-wrapper, .table .text-2 { font-size: 20px; line-height: 28px; }
+}
