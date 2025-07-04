@@ -1,12 +1,20 @@
 package com.petthegarden.petthegarden.member;
 
+import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.member.dto.LoginDto;
+import com.petthegarden.petthegarden.member.dto.MemberDto;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 
 @Controller
@@ -14,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
+    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/signup")
     public String signup(Model model) {
@@ -27,7 +36,7 @@ public class MemberController {
     public String signup(@Valid @ModelAttribute("memberDto") MemberDto memberDto, BindingResult bindingResult) {
         System.out.println("📨 받은 값: " + memberDto);
         System.out.println("❗ 유효성 에러 있음? " + bindingResult.hasErrors());
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "member/signup";
         }
         memberService.save(memberDto);
@@ -46,9 +55,15 @@ public class MemberController {
         return memberService.existsByUserName(userName);
     }
 
-
     @GetMapping("/login")
     public String login() {
         return "member/login";
+    }
+
+    @GetMapping("/member/info")
+    public String memberInfo(Model model, @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        Member member = customUserDetails.getLoggedMember();
+        model.addAttribute("member", member);
+        return "member/info";
     }
 }

@@ -1,4 +1,4 @@
-package com.petthegarden.petthegarden.member;
+package com.petthegarden.petthegarden.member.dto;
 
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;

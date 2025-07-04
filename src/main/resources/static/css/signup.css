@@ -5,6 +5,10 @@
   width: 150px;
   height: 100px;
 }
+.signup-wrap .orange-button {
+  background-color: #f8a92b;
+  border: none;
+}
 .signup-wrap .signup-box input,
 .signup-wrap .signup-box button,
 .signup-wrap .signup-box button {

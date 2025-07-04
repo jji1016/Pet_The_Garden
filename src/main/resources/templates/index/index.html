@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>index</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(LOGIN)}"></head>
 <body>
+<header th:replace="~{fragments/header}"></header>
 <h1>임시 index 페이지</h1>
 </body>
 </html>

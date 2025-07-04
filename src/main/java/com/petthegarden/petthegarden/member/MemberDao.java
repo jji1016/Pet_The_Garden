@@ -1,6 +1,8 @@
 package com.petthegarden.petthegarden.member;
 
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.member.dto.LoginDto;
+import com.petthegarden.petthegarden.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +28,5 @@ public class MemberDao {
     public boolean existsByUserName(String userName) {
         return memberRepository.existsByUserName(userName);
     }
+
 }

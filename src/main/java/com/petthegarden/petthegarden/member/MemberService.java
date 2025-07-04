@@ -2,6 +2,11 @@ package com.petthegarden.petthegarden.member;
 
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.member.dto.LoginDto;
+import com.petthegarden.petthegarden.member.dto.MemberDto;
+import com.petthegarden.petthegarden.member.util.DateTimeFileRenameStrategy;
+import com.petthegarden.petthegarden.member.util.FileRenameStrategy;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 
 @Service
@@ -77,5 +83,13 @@ public class MemberService {
 
     public boolean existsByUserName(String userName) {
         return memberDao.existsByUserName(userName);
+    }
+
+    public Optional<Member> findByUserID(String userID) {
+        return memberDao.findByUserID(userID);
+    }
+
+    public boolean checkPassword(Member member, String rawPassword) {
+        return bCryptPasswordEncoder.matches(rawPassword, member.getUserPW());
     }
 }

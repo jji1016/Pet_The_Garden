@@ -5,6 +5,19 @@
   width: 150px;
   height: 100px;
 }
+
+.login-wrap .btn-kakao-login {
+  background-color: #FEE500 !important;
+  color: #000;
+  font-weight: bold;
+  border: none !important;
+}
+
+.login-wrap .btn-primary {
+  background-color: #f8a92b;
+  border: none;
+}
+
 .login-wrap .login-box input,
 .login-wrap .login-box button,
 .login-wrap .login-box button,
