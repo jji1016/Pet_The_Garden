@@ -18,4 +18,12 @@ public class MemberDao {
     public void save(Member member) {
         memberRepository.save(member);
     }
+
+    public boolean existsByUserID(String userID) {
+        return memberRepository.existsByUserID(userID);
+    }
+
+    public boolean existsByUserName(String userName) {
+        return memberRepository.existsByUserName(userName);
+    }
 }

@@ -1,6 +1,10 @@
 .login-wrap {
   padding-top: 200px;
 }
+.login-wrap .logo-img{
+  width: 150px;
+  height: 100px;
+}
 .login-wrap .login-box input,
 .login-wrap .login-box button,
 .login-wrap .login-box button,

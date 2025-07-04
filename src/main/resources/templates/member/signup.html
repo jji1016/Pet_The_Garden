@@ -4,7 +4,7 @@
 
 <body>
 <header th:replace="~{fragments/header}"></header>
-<form th:action="@{/member/signup}" th:method="post">
+<form th:action="@{/member/signup}" th:method="post" th:object="${memberDto}" enctype="multipart/form-data">
     <div
             class="container d-flex justify-content-center align-items-center min-vh-100"
     >
@@ -21,14 +21,16 @@
                                 <input
                                         type="text"
                                         class="form-control ps-4"
+                                        th:field="*{userID}"
                                         id="userID"
-                                        name="userID"
                                         placeholder="ID"
                                 />
+                                <div class="mt-2 small text-danger" th:errors="*{userID}"></div>
                             </div>
                             <div class="col-3">
-                                <button class="btn btn-primary w-100">중복확인</button>
+                                <button type="button" class="btn btn-primary w-100" onclick="checkIdDuplicate()">중복확인</button>
                             </div>
+                            <div id="idCheckResult" class="mt-2 small text-danger"></div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -38,10 +40,11 @@
                                     type="password"
                                     class="form-control ps-4"
                                     id="userPW"
-                                    name="userPW"
+                                    th:field="*{userPW}"
                                     placeholder="password"
                                     autocomplete="new-password"
                             />
+                            <div class="mt-2 small text-danger" th:errors="*{userPW}"></div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -57,6 +60,8 @@
                             />
                         </div>
                     </div>
+
+
                     <div class="mb-3">
                         <label for="userName" class="form-label fw-bold">User Name</label>
                         <div>
@@ -64,47 +69,33 @@
                                     type="text"
                                     class="form-control ps-4"
                                     id="userName"
-                                    name="userName"
+                                    th:field="*{userName}"
                                     placeholder="User Name"
                             />
+                            <div class="mt-2 small text-danger" th:errors="*{userName}"></div>
                         </div>
+                        <div class="col-3">
+                            <button type="button" class="btn btn-primary w-100" onclick="checkNameDuplicate()">중복확인</button>
+                        </div>
+                        <div id="nameCheckResult" class="mt-2 small text-danger"></div>
                     </div>
                     <div class="mb-3">
-                        <label for="birthDate" class="form-label fw-bold">생년월일</label>
-                        <input
-                                type="date"
-                                class="form-control"
-                                id="birthDate"
-                                name="BirthDate"
-                        />
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">성별</label>
-                        <div class="form-check form-check-inline">
-                            <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="gender"
-                                    id="male"
-                                    value="male"
-                            />
-                            <label class="form-check-label" for="male">남자</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input
-                                    class="form-check-input"
-                                    type="radio"
-                                    name="gender"
-                                    id="female"
-                                    value="female"
-                            />
-                            <label class="form-check-label" for="female">여자</label>
+                        <label for="fullTel" class="form-label fw-bold">TEL</label>
+                        <div>
+                            <input type="hidden" th:field="*{tel}" id="fullTel">
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="tel1" maxlength="3" oninput="moveFocus(this, 'tel2')"
+                                       style="width: 60px;">
+                                -
+                                <input type="text" id="tel2" maxlength="4" oninput="moveFocus(this, 'tel3')"
+                                       style="width: 70px;">
+                                -
+                                <input type="text" id="tel3" maxlength="4" oninput="updateFullTel()"
+                                       style="width: 70px;">
+                            </div>
+                            <div class="mt-2 small text-danger" th:errors="*{tel}"></div>
                         </div>
                     </div>
-
-
                     <div class="mb-3">
                         <label for="email" class="form-label fw-bold">EMAIL</label>
                         <div>
@@ -112,23 +103,13 @@
                                     type="email"
                                     class="form-control ps-4"
                                     id="email"
-                                    name="email"
+                                    th:field="*{email}"
                                     placeholder="Email"
                             />
+                            <div class="mt-2 small text-danger" th:errors="*{email}"></div>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="tel" class="form-label fw-bold">TEL</label>
-                        <div>
-                            <input
-                                    type="tel"
-                                    class="form-control ps-4"
-                                    id="tel"
-                                    name="tel"
-                                    placeholder="Phone Number"
-                            />
-                        </div>
-                    </div>
+
                     <div class="mb-3">
                         <label for="zipcode" class="form-label fw-bold">ZIPCODE</label>
                         <div class="row">
@@ -137,9 +118,10 @@
                                         type="text"
                                         class="form-control ps-4"
                                         id="zipcode"
-                                        name="zipcode"
+                                        th:field="*{zipcode}"
                                         placeholder="zipcode"
                                 />
+                                <div class="mt-2 small text-danger" th:errors="*{zipcode}"></div>
                             </div>
                             <div class="col-3">
                                 <button class="btn btn-primary w-100">우편번호 검색</button>
@@ -149,31 +131,33 @@
                                         type="text"
                                         class="form-control ps-4"
                                         id="address01"
-                                        name="address01"
+                                        th:field="*{address01}"
                                         placeholder="주소"
                                 />
+                                <div class="mt-2 small text-danger" th:errors="*{address01}"></div>
                             </div>
                             <div class="col-12">
                                 <input
                                         type="text"
                                         class="form-control ps-4"
                                         id="address02"
-                                        name="address02"
+                                        th:field="*{address02}"
                                         placeholder="상세주소를 입력하세요"
                                 />
                             </div>
                         </div>
                     </div>
                     <div class="mb-5">
-                        <label for="image" class="form-label fw-bold">프로필 이미지</label>
+                        <label for="imageProfile" class="form-label fw-bold">프로필 이미지</label>
                         <div class="row">
                             <div class="col-9">
                                 <input
-                                        type="text"
+                                        type="file"
                                         class="form-control ps-4"
-                                        id="image"
-                                        name="image"
-                                        placeholder="Profile Image"
+                                        id="imageProfile"
+                                        th:field="*{imageProfile}"
+                                        placeholder="profile"
+                                        accept="image/*"
                                 />
                             </div>
                             <div class="col-3">
@@ -197,5 +181,71 @@
     </div>
 </form>
 <footer th:replace="~{fragments/footer}"></footer>
+<script>
+
+    function checkIdDuplicate() {
+        const userID = document.getElementById("userID").value;
+
+        if (!userID.trim()) {
+            document.getElementById("idCheckResult").textContent = "아이디를 먼저 입력하세요.";
+            return;
+        }
+
+        fetch(`/member/check-id?userID=${encodeURIComponent(userID)}`)
+            .then(res => res.json())
+            .then(isDuplicate => {
+                const resultDiv = document.getElementById("idCheckResult");
+                if (isDuplicate) {
+                    resultDiv.textContent = "이미 사용 중인 아이디입니다.";
+                    resultDiv.classList.remove("text-success");
+                    resultDiv.classList.add("text-danger");
+                } else {
+                    resultDiv.textContent = "사용 가능한 아이디입니다.";
+                    resultDiv.classList.remove("text-danger");
+                    resultDiv.classList.add("text-success");
+                }
+            });
+    }
+
+    function checkNameDuplicate() {
+        const userName = document.getElementById("userName").value;
+
+        if (!userName.trim()) {
+            document.getElementById("nameCheckResult").textContent = "유저네임을 먼저 입력하세요.";
+            return;
+        }
+
+        fetch(`/member/check-name?userName=${encodeURIComponent(userName)}`)
+            .then(res => res.json())
+            .then(isDuplicate => {
+                const resultDiv = document.getElementById("nameCheckResult");
+                if (isDuplicate) {
+                    resultDiv.textContent = "이미 사용 중인 유저네임입니다.";
+                    resultDiv.classList.remove("text-success");
+                    resultDiv.classList.add("text-danger");
+                } else {
+                    resultDiv.textContent = "사용 가능한 유저네임입니다.";
+                    resultDiv.classList.remove("text-danger");
+                    resultDiv.classList.add("text-success");
+                }
+            });
+    }
+
+    function moveFocus(current, nextId) {
+        if (current.value.length === current.maxLength) {
+            document.getElementById(nextId).focus();
+        }
+        updateFullTel();
+    }
+
+    function updateFullTel() {
+        const t1 = document.getElementById('tel1').value;
+        const t2 = document.getElementById('tel2').value;
+        const t3 = document.getElementById('tel3').value;
+        document.getElementById('fullTel').value = `${t1}-${t2}-${t3}`;
+    }
+
+
+</script>
 </body>
 </html>

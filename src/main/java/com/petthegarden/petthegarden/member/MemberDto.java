@@ -1,12 +1,14 @@
 package com.petthegarden.petthegarden.member;
 
-import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import jakarta.validation.constraints.NotBlank;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -25,12 +27,6 @@ public class MemberDto {
     @NotBlank(message="유저네임은 필수입력사항입니다.")
     private String userName;
 
-    @NotBlank(message="생년월일은 필수입력사항입니다.")
-    private String birthDate;
-
-    @NotNull(message="성별은 필수입력사항입니다.")
-    private Gender gender;
-
     @Email(message = "이메일형식에 맞게 쓰세요.")
     @NotBlank(message="이메일은 필수입력사항입니다.")
     private String email;
@@ -38,7 +34,7 @@ public class MemberDto {
     @NotBlank(message="전화번호는 필수입력사항입니다.")
     private String tel;
 
-    @NotBlank(message="우편번호는 필수입력사항입니다.")
+    @NotNull(message="우편번호는 필수입력사항입니다.")
     private int zipcode;
 
     @NotBlank(message="주소는 필수입력사항입니다.")
@@ -46,11 +42,16 @@ public class MemberDto {
 
     private String address02;
 
-    private String image;
-
     private boolean deleteStatus = false;
 
     private Role role;
+    private LocalDateTime regDate;
+    private LocalDateTime modifyDate;
+
+    private MultipartFile imageProfile; //image file
+
+    private String originalImage; //original name
+    private String image; // renamed name
 
 
     public Member toMember() {
@@ -58,8 +59,6 @@ public class MemberDto {
                 .userID(this.userID)
                 .userPW(this.userPW)
                 .userName(this.userName)
-                .birthDate(this.birthDate)
-                .gender(this.gender)
                 .email(this.email)
                 .tel(this.tel)
                 .zipcode(this.zipcode)
