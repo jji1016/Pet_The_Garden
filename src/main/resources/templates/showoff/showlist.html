@@ -7,184 +7,70 @@
 <main class="main-content">
     <div class="container">
 
-        <!-- 이 달의 인기 게시글 영역 (가운데 정렬, 아이콘 제거) -->
+        <!-- 이 달의 인기 게시글 -->
         <section class="popular-section">
             <div class="section-header center-align">
-                <h2 class="section-title center-align">
-                    이 달의 인기 게시글
-                </h2>
+                <h2 class="section-title center-align">이 달의 인기 게시글</h2>
             </div>
             <div class="popular-grid">
-                <div class="popular-card">
+                <div class="popular-card" th:each="pet : ${popularPets}">
                     <div class="popular-card-image">
-                        <img src="/images/pets/sample1.jpg" alt="피치" class="card-img">
-                        <div class="card-overlay">
-                            <div class="card-stats">
-                                <span class="stat-item">
-                                    <span>100</span>
-                                </span>
-                                <span class="stat-item">
-                                    <span>30</span>
-                                </span>
-                            </div>
+                        <img th:src="@{'/images/' + ${pet.profileImg}}" th:alt="${pet.petName}" class="card-img">
+                        <div class="card-overlay"></div>
+                        <div class="card-stats">
+                            <span class="view-stat">
+                                <span class="material-symbols-outlined">visibility</span>
+                                <span th:text="${pet.showOffList.size()}">0</span>
+                            </span>
+                            <span class="like-stat">
+                                <span class="material-symbols-outlined">favorite</span>
+                                <span th:text="${pet.followList.size()}">0</span>
+                            </span>
                         </div>
                     </div>
                     <div class="popular-card-content">
-                        <h3 class="card-title">피치</h3>
-                        <p class="card-species">포메라니안 개</p>
-                        <p class="card-owner">by 피치집사냥냥</p>
-                    </div>
-                </div>
-                <div class="popular-card">
-                    <div class="popular-card-image">
-                        <img src="/images/pets/sample2.jpg" alt="누운 고양이" class="card-img">
-                        <div class="card-overlay">
-                            <div class="card-stats">
-                                <span class="stat-item">
-                                    <span>90</span>
-                                </span>
-                                <span class="stat-item">
-                                    <span>25</span>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="popular-card-content">
-                        <h3 class="card-title">누운 고양이</h3>
-                        <p class="card-species">카드캣처리</p>
-                        <p class="card-owner">by 준민처름</p>
-                    </div>
-                </div>
-                <div class="popular-card">
-                    <div class="popular-card-image">
-                        <img src="/images/pets/sample3.jpg" alt="솜털 앵무새" class="card-img">
-                        <div class="card-overlay">
-                            <div class="card-stats">
-                                <span class="stat-item">
-                                    <span>80</span>
-                                </span>
-                                <span class="stat-item">
-                                    <!-- 좋아요 수 없음 -->
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="popular-card-content">
-                        <h3 class="card-title">솜털 앵무새</h3>
-                        <p class="card-species">니이모름 찾아서</p>
-                        <p class="card-owner">by 생각치호의 해방분명</p>
+                        <h3 class="card-title" th:text="${pet.petName}">펫 이름</h3>
+                        <p class="card-species" th:text="${pet.species}">종류</p>
+                        <p class="card-owner" th:text="'by ' + ${pet.member.nickname}">by 닉네임</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 전체 게시글 영역은 기존 코드 그대로 유지 -->
+        <!-- 전체 게시글 -->
         <section class="list-section">
             <div class="section-header">
-                <h2 class="section-title">
-                    전체 게시글
-                </h2>
+                <h2 class="section-title">전체 게시글</h2>
             </div>
             <div class="table-responsive">
                 <table class="table table-hover pet-table">
                     <thead class="table-light">
                     <tr>
                         <th width="40%" class="text-center">게시글 제목</th>
-                        <th width="15%" class="text-center">닉네임</th>
-                        <th width="15%" class="text-center">작성일</th>
+                        <th width="20%" class="text-center">닉네임</th>
+                        <th width="15%" class="text-center">등록일</th>
                         <th width="15%" class="text-center">조회수</th>
-                        <th width="15%" class="text-center">추천수</th>
+                        <th width="10%" class="text-center">추천수</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="pet-row" onclick="showPetDetail(1)">
-                        <td class="pet-title-cell">
-                            <h5 class="pet-name">백덤블링 하는 원숭이</h5>
-                            <span class="pet-species">고리조팡나무</span>
+                    <tr class="pet-row" th:each="pet : ${petList}"
+                        th:onclick="|location.href='@{/showoff/detail/{id}(id=${pet.id})}'|">
+                        <td class="pet-title-cell text-center">
+                            <h5 class="pet-name" th:text="${pet.petName}">펫 이름</h5>
+                            <span class="pet-species" th:text="${pet.species}">종류</span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="member-nickname">고리조팡나무</span>
+                            <span class="member-nickname" th:text="${pet.member.nickname}">닉네임</span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="reg-date">2025.06.25</span>
+                            <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}">2025.06.25</span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="view-count">100</span>
+                            <span class="view-count" th:text="${pet.showOffList.size()}">0</span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="like-count">30</span>
-                        </td>
-                    </tr>
-                    <tr class="pet-row" onclick="showPetDetail(2)">
-                        <td class="pet-title-cell">
-                            <h5 class="pet-name">목 돌리는 아기 기린</h5>
-                            <span class="pet-species">준민처름</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="member-nickname">준민처름</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="reg-date">2025.06.26</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="view-count">90</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="like-count">25</span>
-                        </td>
-                    </tr>
-                    <tr class="pet-row" onclick="showPetDetail(3)">
-                        <td class="pet-title-cell">
-                            <h5 class="pet-name">배다리 물어다 주는 호랑이</h5>
-                            <span class="pet-species">생각치호의 해방분명</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="member-nickname">생각치호의 해방분명</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="reg-date">2025.06.27</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="view-count">80</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="like-count">20</span>
-                        </td>
-                    </tr>
-                    <tr class="pet-row" onclick="showPetDetail(4)">
-                        <td class="pet-title-cell">
-                            <h5 class="pet-name">주인 가족 안부 물어주는 앵무새</h5>
-                            <span class="pet-species">이옷집 또텔러</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="member-nickname">이옷집 또텔러</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="reg-date">2025.06.28</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="view-count">70</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="like-count">15</span>
-                        </td>
-                    </tr>
-                    <tr class="pet-row" onclick="showPetDetail(5)">
-                        <td class="pet-title-cell">
-                            <h5 class="pet-name">다트 하는 다람쥐</h5>
-                            <span class="pet-species">중고린 알라서점</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="member-nickname">중고린 알라서점</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="reg-date">2025.06.29</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="view-count">60</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="like-count">10</span>
+                            <span class="like-count" th:text="${pet.followList.size()}">0</span>
                         </td>
                     </tr>
                     </tbody>
@@ -195,43 +81,6 @@
 </main>
 
 <div th:replace="~{fragments/footer}"></div>
-
-<div class="modal fade" id="petDetailModal" tabindex="-1">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">펫 상세 정보</h5>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <img id="modalPetImage" src="" alt="" class="img-fluid rounded">
-                    </div>
-                    <div class="col-md-8">
-                        <h3 id="modalPetName" class="mb-3"></h3>
-                        <div class="pet-detail-info">
-                            <div class="info-row">
-                                <strong>종류:</strong> <span id="modalPetSpecies"></span>
-                            </div>
-                            <div class="info-row">
-                                <strong>소유자:</strong> <span id="modalMemberNickname"></span>
-                            </div>
-                            <div class="info-row">
-                                <strong>등록일:</strong> <span id="modalRegDate"></span>
-                            </div>
-                            <div class="info-row">
-                                <strong>설명:</strong>
-                                <p id="modalPetContent" class="mt-2"></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <link rel="stylesheet" th:href="@{/css/showlist.css}">
 <script th:src="@{/js/showlist.js}"></script>
 </body>
