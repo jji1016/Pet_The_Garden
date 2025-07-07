@@ -1,12 +1,10 @@
-package com.petthegarden.petthegarden.showoff.controller;
-
+package com.petthegarden.petthegarden.showoff.controller;// ShowListController.java
 import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.showoff.service.ShowListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -20,17 +18,9 @@ public class ShowListController {
         List<Pet> petList = showListService.getAllPets();
         model.addAttribute("petList", petList);
 
-        // 인기 게시글(예시: 최근 등록된 3개)
-        List<Pet> popularPets = petList.stream().limit(3).toList();
+        List<Pet> popularPets = showListService.getTop3PopularPets();
         model.addAttribute("popularPets", popularPets);
 
         return "showoff/showlist";
-    }
-
-    @GetMapping("/detail/{id}")
-    public String petDetail(@PathVariable Integer id, Model model) {
-        Pet pet = showListService.getPetById(id);
-        model.addAttribute("pet", pet);
-        return "showoff/detail";
     }
 }

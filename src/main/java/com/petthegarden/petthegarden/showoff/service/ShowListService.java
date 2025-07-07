@@ -1,10 +1,8 @@
-package com.petthegarden.petthegarden.showoff.service;
-
+package com.petthegarden.petthegarden.showoff.service;// ShowListService.java
 import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.showoff.repository.ShowListRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -14,6 +12,10 @@ public class ShowListService {
 
     public List<Pet> getAllPets() {
         return showListRepository.findAll();
+    }
+
+    public List<Pet> getTop3PopularPets() {
+        return showListRepository.findTop3ByOrderByPetLikeDesc();
     }
 
     public Pet getPetById(Integer id) {
