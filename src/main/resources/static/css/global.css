@@ -21,6 +21,10 @@ a {
   box-sizing: border-box;
 }
 
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
 #header {
   display: flex;
   position: fixed;
@@ -28,36 +32,20 @@ a {
   z-index: 2;
   border-color: rgba(255, 255, 255, 0.1);
   -webkit-backdrop-filter: blur(10px);
-          backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
 }
 #header h1 {
   position: absolute;
-  left: 54px;
+  left: 100px;
   height: 100%;
   display: flex;
   align-items: center;
-}
-#header h1 img {
-  width: 153px;
-  height: 77px;
 }
 
-#header #profile {
-  position: absolute;
-  right: 100px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column-reverse;
-}
-#header #profile .img img {
-  width: 50px;
-  aspect-ratio: 1/1;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 100px;
+#header .logo-img {
+  width: 180px;
+  height: 90px;
 }
 #header #gnb {
   width: 100%;
@@ -75,10 +63,32 @@ a {
   font-weight: 700;
 }
 
+#profile {
+  position: absolute;
+  right: 100px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column-reverse;
+}
+#profile .img img {
+  width: 50px;
+  aspect-ratio: 1/1;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 100px;
+}
+
 footer {
   background-color: #f8a92b;
   color: #fff;
   font-size: 14px;
+}
+footer .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .bg-box {
@@ -117,4 +127,152 @@ footer {
 .bg-box .slogan .sub {
   font-size: 20px;
   font-weight: 400;
+}
+h2.section-title {
+  text-align: center;
+}
+.main-content {
+  padding-top: 180px;
+}
+.main-visual {
+  height: 800px;
+  background: url("../images/hero-pic.png") no-repeat right 200px bottom 0;
+}
+.main-visual .slogan {
+  font-weight: 100;
+  position: absolute;
+  left: 300px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.main-visual .slogan .main {
+  font-size: 5vw;
+}
+.main-visual .slogan .main span:nth-child(3) {
+  font-weight: 500;
+}
+.main-visual .slogan .sub {
+  font-size: 2vw;
+}
+
+.search-box {
+  margin: 50px 0;
+  position: relative;
+}
+.search-box input {
+  height: 80px;
+  border-radius: 100px;
+  border-top-right-radius: 100px;
+  padding: 0 50px;
+  font-size: 20px;
+  font-weight: 500;
+}
+.search-box button {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  height: calc(100% - 10px);
+  background-color: #048daf;
+  color: #fff;
+  border-radius: 100px;
+  font-size: 20px;
+  font-weight: 500;
+  padding: 0 50px;
+  text-transform: uppercase;
+}
+
+.search-wrap {
+  display: flex;
+  align-items: center;
+}
+.search-wrap .tag ul {
+  display: flex;
+  font-size: 24px;
+  gap: 15px;
+  font-weight: 500;
+}
+.search-wrap .tag ul li.on {
+  font-weight: 700;
+  color: #f8a92b;
+}
+.search-wrap .search-box {
+  margin-top: 0;
+  width: 50%;
+  margin-left: auto;
+}
+
+#profile-header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background-color: #f8a92b;
+}
+#profile-header #profile {
+  position: fixed;
+  top: 30px;
+  height: auto;
+}
+
+.tab .nav {
+  display: flex;
+  gap: 15px;
+  font-size: 18px;
+  font-weight: 500;
+}
+.tab .nav li.on {
+  color: #f8a92b;
+}
+.tab .nav li a {
+  display: block;
+  padding: 15px;
+}
+.tab .content {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid #666;
+}
+
+#admin-header {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  border-radius: 20px;
+  width: 300px;
+  height: calc(100vh - 40px);
+  background-color: #f8a92b;
+}
+#admin-header h1 {
+  padding: 50px 0;
+  display: flex;
+  justify-content: center;
+}
+#admin-header h1 img{
+  width: 255px;
+}
+#admin-header #gnb {
+  color: #fff;
+}
+#admin-header #gnb ul {
+  padding: 0 20px;
+  font-weight: 700;
+  text-transform: capitalize;
+}
+#admin-header #gnb ul li {
+  text-align: left;
+}
+#admin-header #gnb ul li.on {
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  color: #f8a92b;
+}
+#admin-header #gnb ul li a {
+  display: flex;
+  align-items: center;
+  padding: 20px;
+}
+#admin-header #gnb ul li a .material-symbols-outlined {
+  position: relative;
+  margin-right: 10px;
 }
