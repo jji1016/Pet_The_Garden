@@ -9,41 +9,32 @@
     <div class="container-fluid">
         <div class="protection-wrap">
             <div class="search-wrap">
-                <form action="">
+                <form action="/stray/protect">
                     <div class="row mb-2 w-50">
-                        <label for="" class="col-3 col-form-label label-100"
-                        >날짜</label
-                        >
+                        <label for="startDate" class="col-3 col-form-label label-100">날짜</label>
                         <div class="col-4">
-                            <input type="date" class="form-control" id=""/>
+                            <input type="date" class="form-control" name="startDate" id="startDate" th:value="${startDate}"/>
                         </div>
-                        <div
-                                class="col-1 d-flex align-items-center justify-content-center"
-                        >
-                            ~
-                        </div>
+                        <div class="col-1 d-flex align-items-center justify-content-center">~</div>
                         <div class="col-4">
-                            <input type="date" class="form-control w-100" id=""/>
+                            <input type="date" class="form-control w-100" name="endDate" th:value="${endDate}"/>
                         </div>
                     </div>
                     <div class="row mb-2 w-50">
-                        <label for="" class="col-3 col-form-label label-100"
-                        >발견장소</label
-                        >
+                        <label for="discvryPlc" class="col-3 col-form-label label-100">발견장소</label>
                         <div class="col-9">
-                            <input type="text" class="form-control w-100" id=""/>
+                            <input type="text" class="form-control w-100" name="discvryPlc" id="discvryPlc" th:value="${discvryPlc}"/>
                         </div>
                     </div>
                     <div class="row mb-2 w-50">
-                        <label for="" class="col-3 col-form-label label-100"
-                        >품종</label
-                        >
+                        <label for="species" class="col-3 col-form-label label-100">품종</label>
                         <div class="col-9">
-                            <input type="text" class="form-control w-100" id=""/>
+                            <input type="text" class="form-control w-100" name="species" id="species" th:value="${species}"/>
                         </div>
                     </div>
                     <div class="btn-wrap">
                         <button class="btn btn-primary btn-lg w-20">조회</button>
+                        <a href="/stray/protect" class="btn btn-secondary btn-lg w-20">초기화</a>
                     </div>
                 </form>
             </div>
