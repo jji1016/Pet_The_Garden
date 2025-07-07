@@ -15,17 +15,17 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.path}reviews/")
     String reviewsPath;
 
-    @Value("${file.path}")
+    @Value("${file.path}upload/")
     private String uploadPath;
 
     // 기존 파일 업로드 리소스 매핑
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/upload/products/**")
+        registry.addResourceHandler("/PTGupload/products/**")
                 .addResourceLocations("file:///" + productsPath);
-        registry.addResourceHandler("/upload/reviews/**")
+        registry.addResourceHandler("/PTGupload/reviews/**")
                 .addResourceLocations("file:///" + reviewsPath);
-        registry.addResourceHandler("/upload/**")
+        registry.addResourceHandler("/PTGupload/upload/**")
                 .addResourceLocations("file:///" + uploadPath);
     }
 

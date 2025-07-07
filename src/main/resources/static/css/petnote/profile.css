@@ -1,3 +1,42 @@
+
+.profile-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 200px;
+  background-color: #f89c1c;
+  padding: 2rem 1rem;
+  color: white;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  margin: 1rem 0;
+  cursor: pointer;
+}
+
+.sidebar li.active,
+.sidebar li:hover {
+  color: black;
+  background-color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+}
+
+.profile-wrap {
+  flex: 1;
+  padding: 3rem;
+  margin-left: 100px;
+}
+
 #profile-header h1 {
   padding: 50px 0;
   display: flex;
@@ -21,7 +60,6 @@
 }
 
 .profile-wrap {
-  margin-left: 300px;
   padding: 130px 0 50px 50px;
 }
 .profile-wrap .container {
@@ -78,3 +116,4 @@
 .detail-box .tab .content {
   margin-top: 10px;
 }
+

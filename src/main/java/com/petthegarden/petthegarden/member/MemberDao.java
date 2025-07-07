@@ -29,4 +29,7 @@ public class MemberDao {
         return memberRepository.existsByUserName(userName);
     }
 
+    public Optional<Member> findById(Integer memberId) {
+        return memberRepository.findById(memberId);
+    }
 }

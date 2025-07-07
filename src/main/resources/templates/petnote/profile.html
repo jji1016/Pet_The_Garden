@@ -1,69 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(PROFILE)}"></head>
+<style>
+    body {
+        display: flex;
+    }
+</style>
 <body>
 <!--<header th:replace="~{fragments/header}"></header>-->
+
+<nav class="sidebar">
+    <ul>
+        <li class="active">프로필</li>
+        <li><a href="/petnote/diaryreg">성장일기</a></li>
+    </ul>
+</nav>
 <div class="profile-wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-4">
-                <div class="owner">
-                    <div class="img-box">
-                        <img src="../images/profile.jpg" alt=""/>
+    <form th:action="@{/petnote/profile/{userID}(userID=${#authentication.principal.loggedMember.userID})}" method="post" >
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="owner">
+                        <div class="img-box">
+                            <img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                                 alt="프로필"/>
+                        </div>
+                        <div class="info">
+                            <h5 th:text="${#authentication.principal.loggedMember.userName}">김은경</h5>
+                            <p class="desc">알리 강아지 주인</p>
+                        </div>
+                        <div class="pet-info"></div>
                     </div>
-                    <div class="info">
-                        <h5 class="name">김은경</h5>
-                        <p class="desc">알리 강아지 주인</p>
+                    <div class="info-box">
+                        <p><i class="bi bi-emoji-smile"></i> 알리 / M</p>
+                        <p><i class="bi bi-calendar2-date"></i> 20.06.27</p>
+                        <p><i class="bi bi-box2-heart"></i> 117 followers</p>
+                        <button class="btn btn-follow w-100 btn-lg">Follow</button>
                     </div>
-                    <div class="pet-info"></div>
                 </div>
-                <div class="info-box">
-                    <p><i class="bi bi-emoji-smile"></i> 알리 / M</p>
-                    <p><i class="bi bi-calendar2-date"></i> 20.06.27</p>
-                    <p><i class="bi bi-box2-heart"></i> 117 followers</p>
-                    <button class="btn btn-follow w-100 btn-lg">Follow</button>
-                </div>
-            </div>
-            <div class="col-8">
-                <div class="detail-box">
-                    <div class="img-box">
-                        <img src="../images/dummy.jpg" alt=""/>
-                    </div>
-                    <div class="tab">
-                        <ul class="nav">
-                            <li class="on">
-                                <a class="" href="#">소개</a>
-                            </li>
-                            <li>
-                                <a href="#">특징</a>
-                            </li>
-                        </ul>
-                        <ul class="content">
-                            <li>
-                                <div>
-                                    소개글이 나옵니다. <br/>
-                                    소개글이 나옵니다. <br/>
-                                    소개글이 나옵니다. <br/>
-                                    소개글이 나옵니다. <br/>
-                                    소개글이 나옵니다. <br/>
-                                </div>
-                            </li>
-                            <li>
-                                <div>
-                                    특징이 나옵니다. <br/>
-                                    특징이 나옵니다. <br/>
-                                    특징이 나옵니다. <br/>
-                                    특징이 나옵니다. <br/>
-                                    특징이 나옵니다. <br/>
-                                    특징이 나옵니다. <br/>
-                                </div>
-                            </li>
-                        </ul>
+                <div class="col-8">
+                    <div class="detail-box">
+                        <div class="img-box">
+                            <img src="/images/dummy.jpg" alt=""/>
+                        </div>
+                        <div class="tab">
+                            <ul class="nav">
+                                <li class="on">
+                                    <a class="" href="#">소개</a>
+                                </li>
+                                <li>
+                                    <a href="#">특징</a>
+                                </li>
+                            </ul>
+                            <ul class="content">
+                                <li>
+                                    <div>
+                                        소개글이 나옵니다. <br/>
+                                        소개글이 나옵니다. <br/>
+                                        소개글이 나옵니다. <br/>
+                                        소개글이 나옵니다. <br/>
+                                        소개글이 나옵니다. <br/>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>
+                                        특징이 나옵니다. <br/>
+                                        특징이 나옵니다. <br/>
+                                        특징이 나옵니다. <br/>
+                                        특징이 나옵니다. <br/>
+                                        특징이 나옵니다. <br/>
+                                        특징이 나옵니다. <br/>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+    </form>
 </div>
 
 </body>

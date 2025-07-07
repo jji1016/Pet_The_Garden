@@ -25,7 +25,7 @@ import java.time.format.DateTimeFormatter;
 @RequiredArgsConstructor
 public class MemberService {
 
-    @Value("${file.path}")
+    @Value("${file.path}upload/")
     private String upload;
     private final MemberDao memberDao;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;

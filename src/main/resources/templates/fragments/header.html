@@ -17,9 +17,9 @@
 
     <th:block sec:authorize="isAuthenticated()">
 <!--        <a th:href="@{/member/info}">내 정보 보기</a>-->
-        <a th:href="@{/member/info/{userID}(userID=${#authentication.principal.loggedMember.userID})}" id="profile"
+        <a th:href="@{/petnote/profile/{userID}(userID=${#authentication.principal.loggedMember.userID})}" id="profile"
            class="profile">
-            <span class="img"><img th:src="@{'/upload/' + ${#authentication.principal.loggedMember.image}}" alt="프로필"></span>
+            <span class="img"><img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}" alt="프로필" /></span>
             <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
         </a>
         <form th:action="@{/member/logout}" method="post">

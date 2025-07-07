@@ -33,6 +33,17 @@ public class DiaryDto {
     private Integer petId;
 
 
+//    public Diary toDiary(Member member, Pet pet) {
+//        return Diary.builder()
+//                .subject(this.subject)
+//                .content(this.content)
+//                .regDate(LocalDateTime.now())
+//                .member(member)
+//                .pet(pet)
+//                .build();
+//
+//    }
+
     public Diary toDiary(Member member, Pet pet) {
         return Diary.builder()
                 .subject(this.subject)
@@ -41,7 +52,7 @@ public class DiaryDto {
                 .member(member)
                 .pet(pet)
                 .build();
-
     }
+
 }
 
