@@ -1,20 +1,22 @@
 package com.petthegarden.petthegarden.stray;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class StrayApiService {
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public List<StrayDto> fetchStrayData() {
         String apiKey = "54725d057bbf493eb1aec4920f4b08c6";
@@ -30,13 +32,23 @@ public class StrayApiService {
         RestTemplate restTemplate = new RestTemplate();
 
         try {
-            // ResponseEntity로 변경하여 상태 코드도 확인
-            ResponseEntity<StrayApiResponseWrapper> responseEntity = restTemplate.exchange(url, HttpMethod.GET, null, StrayApiResponseWrapper.class);
-            StrayApiResponseWrapper response = responseEntity.getBody();
-            log.info("Response: {}", response);
+            String rawJson = restTemplate.getForObject(url, String.class);
+            // JSON을 Map 형태로 파싱
+            Map<String, Object> root = objectMapper.readValue(rawJson, Map.class);
 
-            if (response != null && response.getAbdmAnimalProtect() != null && !response.getAbdmAnimalProtect().isEmpty()) {
-                return response.getAbdmAnimalProtect().get(0).getRow();  // 첫 번째 Body의 row 데이터
+            List<Map<String, Object>> abdmAnimalProtect = (List<Map<String, Object>>) root.get("AbdmAnimalProtect");
+            if (abdmAnimalProtect != null) {
+                for (Map<String, Object> section : abdmAnimalProtect) {
+                    if (section.containsKey("row")) {
+                        List<Map<String, Object>> rows = (List<Map<String, Object>>) section.get("row");
+                        log.info("Rows size: {}", rows.size());
+
+                        List<StrayDto> strayList = rows.stream()
+                                .map(item -> objectMapper.convertValue(item, StrayDto.class))
+                                .collect(Collectors.toList());
+                        return strayList;
+                    }
+                }
             }
 
         } catch (Exception e) {

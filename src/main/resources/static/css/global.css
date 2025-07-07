@@ -103,6 +103,11 @@ footer {
   color: #fff;
   font-size: 14px;
 }
+footer .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
 
 .bg-box {
   position: relative;
@@ -141,7 +146,12 @@ footer {
   font-size: 20px;
   font-weight: 400;
 }
-
+h2.section-title {
+  text-align: center;
+}
+.main-content {
+  padding-top: 180px;
+}
 .main-visual {
   height: 800px;
   background: url("../images/hero-pic.png") no-repeat right 200px bottom 0;
