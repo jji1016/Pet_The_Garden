@@ -33,20 +33,23 @@ public class MyPageController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CommunityService communityService;
 
-    @GetMapping
+    @GetMapping("/mypage")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
         //String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
         //Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
         //MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
         //log.info("loggedMemberDto: {}", loggedMemberDto);
         // List<Board> myBoards = communityService.getBoardById(loggedMemberID); //로그인한 유저의 게시판정보
+        // List<PetDto> pets = mypageService.findPetsByMemberId(loggedMemberDto.getId()); //로그인한 유저의 펫정보
 
 
         MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
         List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
+        List<PetDto> pets = mypageService.findPetsByMemberId(1);
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
         model.addAttribute("myBoards", myBoards);
+        model.addAttribute("pets", pets);
 
         return "mypage/mypage";
     }
@@ -118,9 +121,13 @@ public class MyPageController {
         result.put("isModify", "true");
         return result;
     }
+    @GetMapping("/petreg") //pet등록페이지
+    public String showPetReg() {
+        return "mypage/petreg";
+    }
 
-    @PostMapping("/petreg")
-    public ResponseEntity<String> registerPet(
+    @PostMapping("/petreg") //pet등록
+    public String registerPet(
             @RequestParam("petName") String petName,
             @RequestParam("species") String species,
             @RequestParam("birthDate") String birthDate,
@@ -136,8 +143,8 @@ public class MyPageController {
         Member member;
 
         if (userDetails == null) {
-            // 임시로 id가 302인 어드민 회원 가져오기 (멤버 아이디가 302인 경우)
-            member = mypageService.findById(302);
+            // 임시로 id가 302인 어드민 회원 가져오기 (멤버 아이디가 1인 경우)
+            member = mypageService.findById(1);
         } else {
             member = mypageService.findByUserID(userDetails.getUsername()).toMember();
         }
@@ -157,8 +164,28 @@ public class MyPageController {
         // 3. 저장
         mypageService.petreg(petDto, member, file);
 
-        return ResponseEntity.ok("등록 성공");
+        return "redirect:/mypage/mypage";
     }
 
+    @PostMapping("/upload-image") //ck 업로드
+    @ResponseBody
+    public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile upload) {
+        return mypageService.uploadImage(upload);
+    }
 
+    @PostMapping("/petdelete/{id}") //pet등록 삭제처리
+    public String deletePet(@PathVariable("id") Integer petId,
+                            @AuthenticationPrincipal UserDetails userDetails) {
+
+        //if (userDetails == null) {
+         //   return "redirect:/login";  // 로그인 필요시 로그인 페이지로
+        //}
+        //Member member = mypageService.findByUserID(userDetails.getUsername()).toMember();
+        Member member = mypageService.findByUserID("admin").toMember();
+
+        boolean deleted = mypageService.deletePet(petId, member);
+
+        // 삭제 성공하면 마이페이지로 리다이렉트
+        return "redirect:/mypage/mypage";
+    }
 }

@@ -7,6 +7,7 @@ import com.petthegarden.petthegarden.member.MemberRepository;
 import com.petthegarden.petthegarden.mypage.dao.MypageDao;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import com.petthegarden.petthegarden.mypage.dto.PetDto;
+import com.petthegarden.petthegarden.mypage.repository.MypagePetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,8 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +29,7 @@ public class MypageService {
     String petPath;
     private final MypageDao mypageDao;
     private final MemberRepository memberRepository;
+    private final MypagePetRepository mypagePetRepository;
 
     public MemberDto findByUserID(String userID) {
         Optional<Member> optionalMember = mypageDao.findByUserID(userID);
@@ -37,6 +39,23 @@ public class MypageService {
         } else {
             return null;
         }
+    }
+
+    public boolean deletePet(Integer petId, Member member) {
+        Optional<Pet> petOpt = mypagePetRepository.findById(petId);
+
+        if (petOpt.isEmpty()) {
+            return false;
+        }
+
+        Pet pet = petOpt.get();
+
+        // 요청한 회원의 펫인지 체크
+        if (!pet.getMember().getId().equals(member.getId())) {
+            return false; // 소유자가 아니므로 삭제 불가
+        }
+        mypagePetRepository.delete(pet);
+        return true;
     }
 
     public void updateInfo(MemberDto memberDto) {
@@ -83,5 +102,52 @@ public class MypageService {
 
     public Member findById(int id) {
         return memberRepository.findById(id).orElse(null);
+    }
+
+    public Map<String, Object> uploadImage(MultipartFile file) {
+        Map<String, Object> response = new HashMap<>();
+
+        if (file == null || file.isEmpty()) {
+            response.put("uploaded", 0);
+            response.put("error", Map.of("message", "파일이 없습니다."));
+            return response;
+        }
+
+        try {
+            String originalFilename = file.getOriginalFilename();
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String baseName = originalFilename.substring(0, originalFilename.lastIndexOf("."));
+            String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+            String fileName = baseName + "_" + timestamp + extension;
+
+            File saveDir = new File(petPath); // 폴더에 저장
+            if (!saveDir.exists()) {
+                saveDir.mkdirs();
+            }
+
+            File savedFile = new File(saveDir, fileName);
+            file.transferTo(savedFile);
+
+            response.put("uploaded", 1);
+            response.put("fileName", fileName);
+            response.put("url", "/PTGUpload/pet/" + fileName); // 임시 경로
+
+        } catch (Exception e) {
+            response.put("uploaded", 0);
+            response.put("error", Map.of("message", "업로드 실패: " + e.getMessage()));
+        }
+
+        return response;
+    }
+
+    public List<PetDto> findPetsByMemberId(Integer memberId) {
+        List<Pet> petList = mypageDao.findByMemberId(memberId); // 엔티티 그대로
+        List<PetDto> petDtoList = new ArrayList<>();
+
+        for (Pet pet : petList) {
+            petDtoList.add(PetDto.fromEntity(pet)); // 엔티티 -> DTO로 변환
+        }
+
+        return petDtoList;
     }
 }

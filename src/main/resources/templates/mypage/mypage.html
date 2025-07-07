@@ -17,7 +17,7 @@
 <div id="section">
   <div class="my_top">
     <div class="top_left">
-      <p>안녕하세요. <span id="userNameDisplay">아무개</span>님</p>
+      <p>안녕하세요. <span id="userNameDisplay" th:text="${loggedMemberDto.userName}">아무개</span>님</p>
     </div>
   </div>
 
@@ -138,7 +138,7 @@
         <table class="page_btn">
           <tbody>
           <tr id="subscribePagination">
-
+            <td><a href="#">1</a></td>
           </tr>
           </tbody>
         </table>
@@ -147,7 +147,57 @@
       <!-- 반려동물 등록 -->
       <div class="content" id="petreg">
         <h2>반려동물 등록</h2>
-        <table class="personal_info">
+        <ul class="request_detail">
+          <li class="detail_on">반려동물 등록내역(<span id="number1">1</span>)</li>
+        </ul>
+        <table class="order_table">
+          <thead>
+          <tr>
+            <th>반려동물 등록일</th>
+            <th>반려동물 이름</th>
+            <th>프로필 이미지</th>
+            <th>반려동물 종</th>
+          </tr>
+          </thead>
+          <tbody id="subscribeRap">
+          <tr th:each="pet : ${pets}">
+            <td th:text="${#temporals.format(pet.modifyDate != null ? pet.modifyDate : pet.regDate, 'yyyy-MM-dd HH:mm')}">2025-07-07</td>
+            <td><a th:href="@{/mypage/petdetail/{id}(id=${pet.id})}" th:text="${pet.petName}">반려동물 이름</a></td>
+            <td>
+              <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" alt="프로필 이미지" style="width: 50px; height: 50px; object-fit: cover;" />
+            </td>
+            <td th:text="${pet.species}">반려동물 종</td>
+            <td>
+            <td><form th:action="@{/mypage/petdelete/{id}(id=${pet.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <button type="submit" class="cancel_btn">등록취소</button>
+          </form></td>
+            <td>
+              <button type="button" class="review-btn">
+                <a href="/mypage/petreg" class="review-btn">등록하기 </a>
+              </button>
+            </td>
+          </tr>
+
+          <!-- pets 리스트가 비었을 때 표시 -->
+          <tr th:if="${pets == null or #lists.isEmpty(pets)}">
+            <td colspan="4">
+              <div class="no-pet content-inner">
+                <p>등록된 반려동물이 없습니다.</p>
+                <a href="/mypage/petreg" class="review-btn">등록하기</a>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+
+        <table class="page_btn">
+          <tbody>
+          <tr id="subscribePagination">
+            <td><a href="#">1</a></td>
+          </tr>
+          </tbody>
+        </table>
+        <!--<table class="personal_info">
           <tr><td>이름</td><td><input type="text" id="petName" name="petName"></td></tr>
           <tr><td>종</td><td><input type="text" id="species" name="species"></td></tr>
           <tr>
@@ -166,7 +216,7 @@
           <tr><td>소개</td><td><textarea id="content" name="content"></textarea></td></tr>
           <tr><td>프로필 이미지</td><td><input type="file" id="profileImg" name="profileImg"></td></tr>
         </table>
-        <button class="cus_edit" id="petSubmitBtn" style="border-radius: 40px;">등록하기</button>
+        <button class="cus_edit" id="petSubmitBtn" style="border-radius: 40px;">등록하기</button>-->
       </div>
 
       <!-- 팔로우한 반려동물 내역 -->

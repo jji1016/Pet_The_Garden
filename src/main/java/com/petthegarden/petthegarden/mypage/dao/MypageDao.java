@@ -2,11 +2,13 @@ package com.petthegarden.petthegarden.mypage.dao;
 
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.mypage.dto.PetDto;
 import com.petthegarden.petthegarden.mypage.repository.MypageMemberRepository;
 import com.petthegarden.petthegarden.mypage.repository.MypagePetRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,4 +34,7 @@ public class MypageDao {
     public void savePet(Pet pet) {
         mypagePetRepository.save(pet);
     }
+
+    public List<Pet> findByMemberId(Integer memberId){return mypagePetRepository.findByMemberId(memberId);};
+
 }

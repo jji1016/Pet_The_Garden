@@ -5,6 +5,8 @@ import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @ToString
@@ -24,6 +26,8 @@ public class PetDto {
     private String petDisLike;
     private PetGender petGender;
     private Integer memberId;
+    private LocalDateTime regDate;
+    private LocalDateTime modifyDate;
 
     public Pet toEntity(Member member) {
         return Pet.builder()
@@ -38,6 +42,27 @@ public class PetDto {
                 .petDisLike(petDisLike)
                 .petGender(petGender)
                 .member(member)
+                .regDate(regDate)
+                .modifyDate(modifyDate)
+                .build();
+    }
+
+    public static PetDto fromEntity(Pet pet) {
+        return PetDto.builder()
+                .id(pet.getId())
+                .species(pet.getSpecies())
+                .petName(pet.getPetName())
+                .birthDate(pet.getBirthDate())
+                .profileImg(pet.getProfileImg())
+                .content(pet.getContent())
+                .follow(pet.getFollow())
+                .character(pet.getCharacter())
+                .petLike(pet.getPetLike())
+                .petDisLike(pet.getPetDisLike())
+                .petGender(pet.getPetGender())
+                .memberId(pet.getMember() != null ? pet.getMember().getId() : null)
+                .regDate(pet.getRegDate())
+                .modifyDate(pet.getModifyDate())
                 .build();
     }
 }
