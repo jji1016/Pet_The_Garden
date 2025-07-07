@@ -17,13 +17,10 @@ public class StrayScheduler {
     @Scheduled(cron = "0 0 4 ? * MON")
     public void updateStrayData() {
         log.info("주간 유기동물 데이터 업데이트 시작");
+        strayService.deleteAllInBatch(); // 기존 데이터 전부 삭제
         strayService.refreshData();
         log.info("업데이트 완료");
     }
 
-//    @PostConstruct
-//    public void init() {
-//        log.info("앱 시작 시 데이터 초기화");
-//        strayService.refreshData();
-//    }
+
 }

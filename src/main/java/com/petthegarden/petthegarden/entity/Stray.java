@@ -16,6 +16,8 @@ public class Stray {
     @Column(name = "staryID")
     private Integer id;
 
+    private String abdmIdNtfyNo; // 유기 고유 번호
+
     private String IMAGE_COURS; //이미지 경로
 
     private String DISCVRY_PLC_INFO; //발견장소
