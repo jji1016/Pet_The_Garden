@@ -2,9 +2,7 @@ package com.petthegarden.petthegarden.member;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Member;
-import com.petthegarden.petthegarden.member.dto.LoginDto;
 import com.petthegarden.petthegarden.member.dto.MemberDto;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -14,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
 
 
 @Controller
@@ -34,8 +31,8 @@ public class MemberController {
 
     @PostMapping("/signup")
     public String signup(@Valid @ModelAttribute("memberDto") MemberDto memberDto, BindingResult bindingResult) {
-        System.out.println("📨 받은 값: " + memberDto);
-        System.out.println("❗ 유효성 에러 있음? " + bindingResult.hasErrors());
+        System.out.println("받은 값: " + memberDto);
+        System.out.println("유효성 에러 있음? " + bindingResult.hasErrors());
         if (bindingResult.hasErrors()) {
             return "member/signup";
         }
