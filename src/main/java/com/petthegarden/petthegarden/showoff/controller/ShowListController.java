@@ -1,28 +1,36 @@
 package com.petthegarden.petthegarden.showoff.controller;
 
+import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.showoff.service.ShowListService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/showoff")
 @RequiredArgsConstructor
-@Slf4j
 public class ShowListController {
+    private final ShowListService showListService;
 
     @GetMapping("/showlist")
     public String showList(Model model) {
-        log.info("ShowOff 목록 페이지 요청");
+        List<Pet> petList = showListService.getAllPets();
+        model.addAttribute("petList", petList);
 
-        try {
-            return "showoff/showlist"; // templates/showoff/showlist.html
-        } catch (Exception e) {
-            log.error("ShowOff 목록 조회 중 오류 발생", e);
-            model.addAttribute("errorMessage", "페이지를 불러오는 중 오류가 발생했습니다.");
-            return "error/error";
-        }
+        // 인기 게시글(예시: 최근 등록된 3개)
+        List<Pet> popularPets = petList.stream().limit(3).toList();
+        model.addAttribute("popularPets", popularPets);
+
+        return "showoff/showlist";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String petDetail(@PathVariable Integer id, Model model) {
+        Pet pet = showListService.getPetById(id);
+        model.addAttribute("pet", pet);
+        return "showoff/detail";
     }
 }
