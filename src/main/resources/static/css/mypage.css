@@ -17,7 +17,9 @@ body {
   color:#191919;
 }
 
-
+main {
+  flex: 1;
+}
 
 #section{
   width:100%;
@@ -28,7 +30,6 @@ body {
   width:1920px;
   margin:0 auto;
   display: flex;
-  margin-top:80px;
   justify-content: space-between;
 }
 #section .my_top .top_left{
@@ -99,9 +100,9 @@ body {
 #section .my_list{
   width:1920px;
   background-color: white;
-  height: 800px;
+  /*height: 800px;*/
   margin-top:80px;
-  padding-bottom:250px;
+  padding-bottom:300px;
   position: relative;
 }
 #section .my_list>h1{
@@ -358,6 +359,23 @@ body {
 /* #section .my_list .content_wrap .content .order_table>tbody>tr .cancel_btn:hover{
   background-color: #616756;
 } */
+/* 날짜 칸을 좁게 */
+#section .my_list .content_wrap .content .order_table>thead>tr>th:first-child,
+#section .my_list .content_wrap .content .order_table>tbody>tr>td:first-child {
+  width: 150px;
+  white-space: nowrap;
+}
+
+/* 제목 칸을 넓게 (나머지 공간 차지) */
+#section .my_list .content_wrap .content .order_table>thead>tr>th:nth-child(2),
+#section .my_list .content_wrap .content .order_table>tbody>tr>td:nth-child(2) {
+  width: calc(100% - 150px);
+  text-align: left;
+  padding-left: 20px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
 #section .my_list .content_wrap .content .personal_info{
   width:70%;

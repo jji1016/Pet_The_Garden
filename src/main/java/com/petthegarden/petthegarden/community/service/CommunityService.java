@@ -48,6 +48,8 @@ public class CommunityService {
         return communityDao.findAllBoards();
     }
 
+    public List<Board> getBoardList2(Integer memberId){return communityDao.findByMemberId(memberId); }
+
     public Board getBoardById(Integer id) {
         return communityDao.findById(id);
     }

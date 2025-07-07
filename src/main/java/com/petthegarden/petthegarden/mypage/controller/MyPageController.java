@@ -1,7 +1,10 @@
 package com.petthegarden.petthegarden.mypage.controller;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
+import com.petthegarden.petthegarden.community.dto.BoardDto;
+import com.petthegarden.petthegarden.community.service.CommunityService;
 import com.petthegarden.petthegarden.constant.PetGender;
+import com.petthegarden.petthegarden.entity.Board;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import com.petthegarden.petthegarden.mypage.dto.PetDto;
@@ -18,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,6 +31,7 @@ import java.util.Map;
 public class MyPageController {
     private final MypageService mypageService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final CommunityService communityService;
 
     @GetMapping
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
@@ -34,10 +39,14 @@ public class MyPageController {
         //Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
         //MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
         //log.info("loggedMemberDto: {}", loggedMemberDto);
+        // List<Board> myBoards = communityService.getBoardById(loggedMemberID); //로그인한 유저의 게시판정보
+
 
         MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
+        List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
+        model.addAttribute("myBoards", myBoards);
 
         return "mypage/mypage";
     }
@@ -150,4 +159,6 @@ public class MyPageController {
 
         return ResponseEntity.ok("등록 성공");
     }
+
+
 }

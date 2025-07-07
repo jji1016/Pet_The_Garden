@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.community.dao;
 
+import com.petthegarden.petthegarden.community.dto.BoardDto;
 import com.petthegarden.petthegarden.community.repository.CommunityRepository;
 import com.petthegarden.petthegarden.entity.Board;
 import lombok.RequiredArgsConstructor;
@@ -21,5 +22,6 @@ public class CommunityDao {
         return communityRepository.findById(id).orElse(null);
     }
 
+    public List<Board> findByMemberId(Integer memberId){return communityRepository.findByMemberId(memberId);}
 
 }

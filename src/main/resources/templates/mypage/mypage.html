@@ -1,50 +1,21 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" >
-<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
 <head>
+  <title>마이페이지</title>
+  <th:block th:replace="fragments/head :: head('마이페이지')"></th:block>
   <link rel="stylesheet" href="/css/mypage.css" />
   <meta charset="UTF-8" />
-  <title>온실 플라워 스튜디오 - 마이페이지</title>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
-<body>
-<header class="header">
-  <div id="header">
-    <h1 class="h_logo">
-      <a><img src="/images/capture.png" alt="logo"></a>
-    </h1>
-  </div>
 
-  <div id="menu" style="width: 1920px;
-    height: 120px;
-    background: #FFFFFF;
-    border-radius: 20px;
-    top: 290px;">
-    <nav class="menu">
-      <ul style="display: flex;
-  justify-content: space-around;
-  align-items: center;
-  width: 1920px;
-  height: 56px;
-  font-family: 'Roboto';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 48px;
-  margin: 0 auto;
-  padding: 0;
-  line-height: 56px;
-  color: #000000;">
-        <li>동물소개</li>
-        <li>장기자랑</li>
-        <li>동물보호</li>
-        <li>커뮤니티</li>
-      </ul>
-    </nav>
-  </div>
-</header>
+<body>
+<header th:replace="fragments/header :: headerFragment"></header>
+
+<!-- ↓↓↓ 이하 기존 마이페이지 콘텐츠 유지 ↓↓↓ -->
 <div id="section">
   <div class="my_top">
-    <!-- 인사말과 회원등급/포인트 등 기본 정보 영역 (필요 시 동적으로 채움) -->
     <div class="top_left">
       <p>안녕하세요. <span id="userNameDisplay">아무개</span>님</p>
     </div>
@@ -126,14 +97,14 @@
             <th>펫이름</th>
           </tr>
           </thead>
-          <tbody id="subscribeRap">
+          <tbody id="subscribeRap2">
           <!-- 글내역 들어가는 자리 -->
           </tbody>
         </table>
 
         <table class="page_btn">
           <tbody>
-          <tr id="subscribePagination">
+          <tr id="subscribePagination2">
 
           </tr>
           </tbody>
@@ -151,11 +122,16 @@
           <tr>
             <th>글쓴날짜</th>
             <th>제목</th>
-            <th>이미지</th>
           </tr>
           </thead>
           <tbody id="subscribeRap">
-          <!-- 글내역 들어가는 자리 -->
+          <tr th:each="board : ${myBoards}">
+            <td th:text="${#temporals.format(board.modifyDate != null ? board.modifyDate : board.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+            <td><a th:href="@{/community/boarddetail/{id}(id=${board.id})}" th:text="${board.subject}">게시글 제목</a></td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(myBoards)}">
+            <td colspan="3">작성한 글이 없습니다.</td>
+          </tr>
           </tbody>
         </table>
 
@@ -233,13 +209,9 @@
     </div>
   </div>
 </div>
-<footer class="footer">
-  <div id="footer">
-    <h1 class="f_cont">
-      <a><img src="/images/footer.png" alt="logo"></a>
-    </h1>
-  </div>
-</footer>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+
 <script src="/js/mypage.js"></script>
 <script>
   // 주소 검색
