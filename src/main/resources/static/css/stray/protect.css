@@ -17,48 +17,6 @@
     padding-left: 0;
     padding-right: 0;
 }
-.protect-wrap .info-wrap .item-box .item {
-    background-color: #fff;
-    height: 150px;
-    padding: 20px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
-}
-.protect-wrap .info-wrap .item-box .item .icon {
-    width: 80px;
-    aspect-ratio: 1/1;
-    border-radius: 100px;
-    background-color: #f8a92b;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    margin-right: 20px;
-}
-.protect-wrap .info-wrap .item-box .item .icon span {
-    font-size: 32px;
-}
-.protect-wrap .info-wrap .item-box .item dl dt {
-    position: relative;
-    top: 10px;
-    font-weight: 300;
-}
-.protect-wrap .info-wrap .item-box .item dl dd {
-    font-size: 48px;
-}
-.protect-wrap .info-wrap .item {
-    background-color: #fff;
-    border-radius: 20px;
-    padding: 30px;
-}
-.protect-wrap .info-wrap .chart-wrap {
-    border-radius: 20px;
-    min-height: 300px;
-    background-color: #fff;
-    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
-}
 
 .label-100 {
     width: 100px;
@@ -97,6 +55,7 @@
     aspect-ratio: 1/1;
     -o-object-fit: cover;
     object-fit: cover;
+    border-bottom: 1px solid #cdcdcd;
 }
 .result-list .card .info {
     padding: 20px;
@@ -106,9 +65,18 @@
 }
 .result-list .card .info dl {
     display: flex;
+    margin: 0;
 }
 .result-list .card .info dl dt {
     width: 80px;
+    flex-shrink: 0;
+}
+.result-list .card .info dl dd {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 1줄까지만 표시 */
+    -webkit-box-orient: vertical;
 }
 .result-list .card .sticker {
     position: absolute;

@@ -9,4 +9,8 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class StrayDao {
     private final StrayRepository strayRepository;
+
+    public void deleteAllInBatch() {
+        strayRepository.deleteAllInBatch();
+    }
 }
