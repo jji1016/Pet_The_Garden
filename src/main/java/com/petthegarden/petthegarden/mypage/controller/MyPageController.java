@@ -35,17 +35,17 @@ public class MyPageController {
 
     @GetMapping("/mypage")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
-        //String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
-        //Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
-        //MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
-        //log.info("loggedMemberDto: {}", loggedMemberDto);
-        // List<Board> myBoards = communityService.getBoardById(loggedMemberID); //로그인한 유저의 게시판정보
-        // List<PetDto> pets = mypageService.findPetsByMemberId(loggedMemberDto.getId()); //로그인한 유저의 펫정보
+        String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
+        Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
+        MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
+        log.info("loggedMemberDto: {}", loggedMemberDto);
+        List<Board> myBoards = communityService.getBoardList2(loggedMemberID); //로그인한 유저의 게시판정보
+        List<PetDto> pets = mypageService.findPetsByMemberId(loggedMemberDto.getId()); //로그인한 유저의 펫정보
 
 
-        MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
-        List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
-        List<PetDto> pets = mypageService.findPetsByMemberId(1);
+        //MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
+        //List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
+        //List<PetDto> pets = mypageService.findPetsByMemberId(1);
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
         model.addAttribute("myBoards", myBoards);
@@ -57,9 +57,9 @@ public class MyPageController {
     @PostMapping("/info") //회원 정보 조회
     @ResponseBody
     public MemberDto info(@AuthenticationPrincipal CustomUserDetails customUserDetails) {
-        //String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
-        //MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
-        MemberDto loggedMemberDto = mypageService.findByUserID("admin");
+        String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
+        MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
+        //MemberDto loggedMemberDto = mypageService.findByUserID("admin");
         log.info("MemberDto 반환값: {}", loggedMemberDto);
         return loggedMemberDto;
     }
@@ -79,9 +79,9 @@ public class MyPageController {
         //String newAddress02 = data.get("address02");
         //String newTel = data.get("tel");
 
-        //String userID = customUserDetails.getUsername();
-        //MemberDto loggedMemberDto = mypageService.findByUserID(userID);
-        MemberDto loggedMemberDto = mypageService.findByUserID("admin");
+        String userID = customUserDetails.getUsername();
+        MemberDto loggedMemberDto = mypageService.findByUserID(userID);
+        //MemberDto loggedMemberDto = mypageService.findByUserID("admin");
 
         log.info("loggedMemberDto: {}", loggedMemberDto);
         // 비밀번호 검증
@@ -146,7 +146,7 @@ public class MyPageController {
             // 임시로 id가 302인 어드민 회원 가져오기 (멤버 아이디가 1인 경우)
             member = mypageService.findById(1);
         } else {
-            member = mypageService.findByUserID(userDetails.getUsername()).toMember();
+            member = mypageService.findMemberByUserID(userDetails.getUsername());
         }
 
         // 2. PetDto 객체로 변환
@@ -177,11 +177,11 @@ public class MyPageController {
     public String deletePet(@PathVariable("id") Integer petId,
                             @AuthenticationPrincipal UserDetails userDetails) {
 
-        //if (userDetails == null) {
-         //   return "redirect:/login";  // 로그인 필요시 로그인 페이지로
-        //}
-        //Member member = mypageService.findByUserID(userDetails.getUsername()).toMember();
-        Member member = mypageService.findByUserID("admin").toMember();
+        if (userDetails == null) {
+            return "redirect:/login";  // 로그인 필요시 로그인 페이지로
+        }
+        Member member = mypageService.findMemberByUserID(userDetails.getUsername());
+        //Member member = mypageService.findByUserID("admin").toMember();
 
         boolean deleted = mypageService.deletePet(petId, member);
 

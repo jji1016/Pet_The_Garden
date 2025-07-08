@@ -41,6 +41,11 @@ public class MypageService {
         }
     }
 
+    public Member findMemberByUserID(String userID) {
+        return mypageDao.findByUserID(userID)
+                .orElseThrow(() -> new RuntimeException("회원이 존재하지 않습니다."));
+    }
+
     public boolean deletePet(Integer petId, Member member) {
         Optional<Pet> petOpt = mypagePetRepository.findById(petId);
 

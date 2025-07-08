@@ -64,7 +64,7 @@ public class CommunityService {
 
         Member admin = mypageMemberRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
-        board.setMember(admin);
+        board.setMember(member);
                 communityRepository.save(board);
     }
     public void updateBoard(Integer id, BoardDto boardDto){

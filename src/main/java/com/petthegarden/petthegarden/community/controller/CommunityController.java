@@ -37,10 +37,11 @@ public class CommunityController {
     }
 
     @GetMapping("/boarddetail/{id}")
-    public String boardDetail(@PathVariable Integer id, Model model) {
+    public String boardDetail(@PathVariable Integer id, Model model,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
         Board board = communityService.getBoardById(id);
         model.addAttribute("board", board);
-        String loginUsername = "admin";
+        String loginUsername = userDetails.getUsername();
         model.addAttribute("loginUsername", loginUsername);
         return "/community/boarddetail";
     }
