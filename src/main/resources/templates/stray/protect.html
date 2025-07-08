@@ -8,10 +8,11 @@
     <h1><span>Protection</span></h1>
     <div class="container-fluid">
         <div class="protection-wrap">
+
             <div class="search-wrap">
                 <form action="/stray/protect">
                     <div class="row mb-2 w-50">
-                        <label for="startDate" class="col-3 col-form-label label-100">날짜</label>
+                        <label for="startDate" class="col-3 col-form-label label-100">발견날짜</label>
                         <div class="col-4">
                             <input type="date" class="form-control" name="startDate" id="startDate" th:value="${startDate}"/>
                         </div>
@@ -40,7 +41,6 @@
             </div>
 
             <div class="row mt-5 result-list">
-
                 <th:block th:each="strayList : ${strayList}">
                     <div class="col-3">
                         <a th:href="@{'/stray/detail/' + ${strayList.abdmIdNtfyNo}}" class="card">
@@ -51,7 +51,7 @@
                                 <h4 th:text="${strayList.speciesNm}"></h4>
                                 <dl>
                                     <dt>성별</dt>
-                                    <dd th:text="${strayList.sexNm}"></dd>
+                                    <dd th:text="${strayList.sexNmKor}"></dd>
                                 </dl>
                                 <dl>
                                     <dt>발견장소</dt>
@@ -71,19 +71,29 @@
                 </th:block>
 
             </div>
+
+            <div class="pagingBtnRap">
+                <!-- 이전 페이지 버튼 -->
+                <a class="arrow"
+                   th:if="${currentPage > 1}"
+                   th:href="@{|/stray/protect?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&discvryPlc=${discvryPlc}&species=${species}|}">◀</a>
+
+                <!-- 페이지 번호 버튼 -->
+                <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                    <a th:href="@{|/stray/protect?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&discvryPlc=${discvryPlc}&species=${species}|}"
+                       th:text="${i}"
+                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                </th:block>
+
+                <!-- 다음 페이지 버튼 -->
+                <a class="arrow"
+                   th:if="${currentPage < totalPage}"
+                   th:href="@{|/stray/protect?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&discvryPlc=${discvryPlc}&species=${species}|}">▶</a>
+            </div>
+
         </div>
     </div>
 </div>
 <footer th:replace="~{fragments/footer}"></footer>
 </body>
-<script>
-    const rangeInput = document.querySelector("#range-input");
-    const rangeOutput = document.querySelector("#range-value");
-
-    rangeOutput.textContent = rangeInput.value;
-
-    rangeInput.addEventListener("input", function () {
-        rangeOutput.textContent = this.value;
-    });
-</script>
 </html>
