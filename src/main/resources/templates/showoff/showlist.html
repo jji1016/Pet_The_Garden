@@ -7,37 +7,29 @@
 <main class="main-content">
     <div class="container">
 
-        <!-- 이 달의 인기 게시글 -->
+        <!-- 인기 게시글 섹션 -->
         <section class="popular-section">
             <div class="section-header center-align">
                 <h2 class="section-title center-align">이 달의 인기 게시글</h2>
             </div>
             <div class="popular-grid">
                 <div class="popular-card" th:each="pet : ${popularPets}">
-                    <div class="popular-card-image">
-                        <img th:src="@{'/images/' + ${pet.profileImg}}" th:alt="${pet.petName}" class="card-img">
-                        <div class="card-overlay"></div>
-                        <div class="card-stats">
-                            <span class="view-stat">
-                                <span class="material-symbols-outlined">visibility</span>
-                                <span th:text="${pet.showOffList.size()}">0</span>
-                            </span>
-                            <span class="like-stat">
-                                <span class="material-symbols-outlined">favorite</span>
-                                <span th:text="${pet.followList.size()}">0</span>
-                            </span>
+                    <img th:src="@{'/images/' + ${pet.profileImg}}"
+                         th:alt="${pet.petName}"
+                         class="popular-card-img">
+                    <div class="popular-card-desc">
+                        <div class="popular-card-title" th:text="${pet.petName}"></div>
+                        <div class="popular-card-nickname" th:text="${pet.member.userName}"></div>
+                        <div class="popular-card-like">
+                            <span class="material-symbols-outlined">favorite</span>
+                            <span th:text="${pet.petLike}"></span>
                         </div>
-                    </div>
-                    <div class="popular-card-content">
-                        <h3 class="card-title" th:text="${pet.petName}">펫 이름</h3>
-                        <p class="card-species" th:text="${pet.species}">종류</p>
-                        <p class="card-owner" th:text="'by ' + ${pet.member.nickname}">by 닉네임</p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 전체 게시글 -->
+        <!-- 전체 게시글 섹션 -->
         <section class="list-section">
             <div class="section-header">
                 <h2 class="section-title">전체 게시글</h2>
@@ -46,35 +38,47 @@
                 <table class="table table-hover pet-table">
                     <thead class="table-light">
                     <tr>
-                        <th width="40%" class="text-center">게시글 제목</th>
-                        <th width="20%" class="text-center">닉네임</th>
+                        <th width="50%" class="text-center">게시글 제목</th>
+                        <th width="25%" class="text-center">이름</th>
                         <th width="15%" class="text-center">등록일</th>
-                        <th width="15%" class="text-center">조회수</th>
-                        <th width="10%" class="text-center">추천수</th>
+                        <th width="10%" class="text-center">좋아요</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr class="pet-row" th:each="pet : ${petList}"
-                        th:onclick="|location.href='@{/showoff/detail/{id}(id=${pet.id})}'|">
+                        th:onclick="|location.href='@{/showoff/showdetail/{petId}(petId=${pet.id})}'|">
                         <td class="pet-title-cell text-center">
-                            <h5 class="pet-name" th:text="${pet.petName}">펫 이름</h5>
-                            <span class="pet-species" th:text="${pet.species}">종류</span>
+                            <h5 class="pet-name" th:text="${pet.petName}"></h5>
+                            <span class="pet-species" th:text="${pet.species}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="member-nickname" th:text="${pet.member.nickname}">닉네임</span>
+                            <span class="member-nickname" th:text="${pet.member.userName}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}">2025.06.25</span>
+                            <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="view-count" th:text="${pet.showOffList.size()}">0</span>
-                        </td>
-                        <td class="text-center align-middle">
-                            <span class="like-count" th:text="${pet.followList.size()}">0</span>
+                            <span class="like-count" th:text="${pet.petLike}"></span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+
+                <!-- 페이지네이션은 반드시 테이블 아래에 위치 -->
+                <div class="pagination">
+                    <ul>
+                        <li th:if="${petPage.hasPrevious()}">
+                            <a th:href="@{/showoff/showlist(page=${petPage.number > 0 ? petPage.number - 1 : 0})}">&laquo; 이전</a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(0, petPage.totalPages - 1)}"
+                            th:classappend="${petPage.number == i} ? 'active'">
+                            <a th:href="@{/showoff/showlist(page=${i})}" th:text="${i + 1}"></a>
+                        </li>
+                        <li th:if="${petPage.hasNext()}">
+                            <a th:href="@{/showoff/showlist(page=${petPage.number + 1})}">다음 &raquo;</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
     </div>

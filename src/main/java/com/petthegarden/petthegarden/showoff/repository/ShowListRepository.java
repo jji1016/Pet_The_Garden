@@ -1,10 +1,15 @@
 package com.petthegarden.petthegarden.showoff.repository;
 
 import com.petthegarden.petthegarden.entity.Pet;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+import java.util.List;
 
-@Repository
 public interface ShowListRepository extends JpaRepository<Pet, Integer> {
-    // Pet 엔티티에 대한 기본 CRUD 제공
+    List<Pet> findTop3ByOrderByPetLikeDesc();
+    Page<Pet> findByIdNotIn(List<Integer> ids, Pageable pageable);
 }
+
+
+
