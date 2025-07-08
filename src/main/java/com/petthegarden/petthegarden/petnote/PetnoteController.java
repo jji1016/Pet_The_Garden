@@ -45,11 +45,11 @@ public class PetnoteController {
     }
 
 
-    @GetMapping("/diaryreg/{petName}")
-    public String diaryreg(@PathVariable String petName, Model model) {
-        String petName = firstPetDto.getPetName();
-        return "petnote/diaryreg";
-    }
+//    @GetMapping("/diaryreg/{petName}")
+//    public String diaryreg(@PathVariable String petName, Model model) {
+//        String petName = firstPetDto.getPetName();
+//        return "petnote/diaryreg";
+//    }
 
     @PostMapping("/diaryreg")
     public String diaryreg(@Valid @ModelAttribute("diaryDto") DiaryDto diaryDto, BindingResult bindingResult,
