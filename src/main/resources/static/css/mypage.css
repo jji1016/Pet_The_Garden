@@ -348,6 +348,7 @@ main {
 #section .my_list .content_wrap .content .order_table>tbody>tr .review-btn,
 #section .my_list .content_wrap .content .order_table>tbody>tr .cancel_btn{
   width:70px; height: 35px;
+  line-height: 35px;
   border:1px solid #8b9773;
   border-radius: 50px;
   background-color: #8b9773;

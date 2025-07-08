@@ -168,7 +168,7 @@
             </td>
             <td th:text="${pet.species}">반려동물 종</td>
             <td>
-            <td><form th:action="@{/mypage/petdelete/{id}(id=${pet.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
+            <form th:action="@{/mypage/petdelete/{id}(id=${pet.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
             <button type="submit" class="cancel_btn">등록취소</button>
           </form></td>
             <td>
