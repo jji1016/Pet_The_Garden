@@ -62,21 +62,40 @@ a {
   font-weight: 700;
 }
 
-#profile {
+.profile {
   position: absolute;
   right: 100px;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column-reverse;
+  flex-direction: column;
 }
-#profile .img img {
+.profile .img img {
   width: 50px;
   aspect-ratio: 1/1;
   -o-object-fit: cover;
   object-fit: cover;
   border-radius: 100px;
+}
+
+.profile .userName {
+  margin-top: 10px;
+}
+
+.profile i {
+  font-size: 50px;
+  color: #333;
+}
+
+.btn-primary {
+  background-color: #f8a92b; /* 기본 색상 */
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #cfa688; /* 호버 시 색상 */
+  border: none;
 }
 
 footer {

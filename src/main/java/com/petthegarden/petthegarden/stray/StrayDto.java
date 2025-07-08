@@ -1,5 +1,7 @@
 package com.petthegarden.petthegarden.stray;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -8,34 +10,53 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class StrayDto {
-    private String IMAGE_COURS; //이미지 경로
+    @JsonProperty("ABDM_IDNTFY_NO")
+    private String abdmIdNtfyNo; // 유기 고유 번호
 
-    private String DISCVRY_PLC_INFO; //발견장소
+    @JsonProperty("IMAGE_COURS")
+    private String imageCours; // 이미지 경로
 
-    private String SPECIES_NM; //품종
+    @JsonProperty("DISCVRY_PLC_INFO")
+    private String discvryPlcInfo; // 발견장소
 
-    private String PBLANC_BEGIN_DE; //공고 시작 날짜
+    @JsonProperty("SPECIES_NM")
+    private String speciesNm; // 품종
 
-    private String PBLANC_END_DE; //공고 종료 날짜
+    @JsonProperty("PBLANC_BEGIN_DE")
+    private String pblancBeginDe; // 공고 시작 날짜
 
-    private String COLOR_NM; //색상
+    @JsonProperty("PBLANC_END_DE")
+    private String pblancEndDe; // 공고 종료 날짜
 
-    private String STATE_NM; //상태
+    @JsonProperty("COLOR_NM")
+    private String colorNm; // 색상
 
-    private String AGE_INFO; //나이
+    @JsonProperty("STATE_NM")
+    private String stateNm; // 상태
 
-    private String BDWGH_INFO; //몸무게
+    @JsonProperty("AGE_INFO")
+    private String ageInfo; // 나이
 
-    private String SEX_NM; //성별
+    @JsonProperty("BDWGH_INFO")
+    private String bdwghInfo; // 몸무게
 
-    private String NEUT_YN; //중성화 여부
+    @JsonProperty("SEX_NM")
+    private String sexNm; // 성별
 
-    private String SFETR_INFO; //특징
+    @JsonProperty("NEUT_YN")
+    private String neutYn; // 중성화 여부
 
-    private String SHTER_NM; //보호소명
+    @JsonProperty("SFETR_INFO")
+    private String sfetrInfo; // 특징
 
-    private String SHTER_TELNO; //보호소 번호
+    @JsonProperty("SHTER_NM")
+    private String shterNm; // 보호소명
 
-    private String PROTECT_PLC; //보호 장소
+    @JsonProperty("SHTER_TELNO")
+    private String shterTelno; // 보호소 번호
+
+    @JsonProperty("PROTECT_PLC")
+    private String protectPlc; // 보호 장소
 }

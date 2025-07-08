@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(protect)}"></head>
 <!--</head>-->
 <body>
@@ -9,175 +9,67 @@
     <div class="container-fluid">
         <div class="protection-wrap">
             <div class="search-wrap">
-                <form action="">
+                <form action="/stray/protect">
                     <div class="row mb-2 w-50">
-                        <label for="" class="col-3 col-form-label label-100"
-                        >날짜</label
-                        >
+                        <label for="startDate" class="col-3 col-form-label label-100">날짜</label>
                         <div class="col-4">
-                            <input type="date" class="form-control" id="" />
+                            <input type="date" class="form-control" name="startDate" id="startDate" th:value="${startDate}"/>
                         </div>
-                        <div
-                                class="col-1 d-flex align-items-center justify-content-center"
-                        >
-                            ~
-                        </div>
+                        <div class="col-1 d-flex align-items-center justify-content-center">~</div>
                         <div class="col-4">
-                            <input type="date" class="form-control w-100" id="" />
+                            <input type="date" class="form-control w-100" name="endDate" th:value="${endDate}"/>
                         </div>
                     </div>
                     <div class="row mb-2 w-50">
-                        <label for="" class="col-3 col-form-label label-100"
-                        >발견장소</label
-                        >
+                        <label for="discvryPlc" class="col-3 col-form-label label-100">발견장소</label>
                         <div class="col-9">
-                            <input type="text" class="form-control w-100" id="" />
+                            <input type="text" class="form-control w-100" name="discvryPlc" id="discvryPlc" th:value="${discvryPlc}"/>
                         </div>
                     </div>
                     <div class="row mb-2 w-50">
-                        <label for="" class="col-3 col-form-label label-100"
-                        >품종</label
-                        >
+                        <label for="species" class="col-3 col-form-label label-100">품종</label>
                         <div class="col-9">
-                            <input type="text" class="form-control w-100" id="" />
+                            <input type="text" class="form-control w-100" name="species" id="species" th:value="${species}"/>
                         </div>
                     </div>
                     <div class="btn-wrap">
                         <button class="btn btn-primary btn-lg w-20">조회</button>
+                        <a href="/stray/protect" class="btn btn-secondary btn-lg w-20">초기화</a>
                     </div>
                 </form>
             </div>
+
             <div class="row mt-5 result-list">
-                <div class="col-3">
-                    <div class="card">
-                        <div class="img-box">
-                            <img src="../images/dog.png" alt="" />
-                        </div>
-                        <div class="info">
-                            <h4>말티즈</h4>
-                            <dl>
-                                <dt>성별</dt>
-                                <dd>미상</dd>
-                            </dl>
-                            <dl>
-                                <dt>발견장소</dt>
-                                <dd>경기도 고양시 일산동구</dd>
-                            </dl>
-                            <dl>
-                                <dt>특징</dt>
-                                <dd>흰색에 까만 털이 있음</dd>
-                            </dl>
-                        </div>
-                        <div class="sticker">
-                            <strong>04</strong>
-                            <span>2025-08</span>
-                        </div>
+
+                <th:block th:each="strayList : ${strayList}">
+                    <div class="col-3">
+                        <a th:href="@{'/stray/detail/' + ${strayList.abdmIdNtfyNo}}" class="card">
+                            <div class="img-box">
+                                <img th:src="${strayList.imageCours}" onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                            </div>
+                            <div class="info">
+                                <h4 th:text="${strayList.speciesNm}"></h4>
+                                <dl>
+                                    <dt>성별</dt>
+                                    <dd th:text="${strayList.sexNm}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt>발견장소</dt>
+                                    <dd th:text="${strayList.discvryPlcInfo}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt>상태</dt>
+                                    <dd th:text="${strayList.stateNm}"></dd>
+                                </dl>
+                            </div>
+                            <div class="sticker">
+                                <strong th:text="${strayList.pblancBeginDe.substring(6,8)}"></strong>
+                                <span th:text="${strayList.pblancBeginDe.substring(0,4)+'-'+strayList.pblancBeginDe.substring(4,6)}"></span>
+                            </div>
+                        </a>
                     </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <div class="img-box">
-                            <img src="../images/dog.png" alt="" />
-                        </div>
-                        <div class="info">
-                            <h4>말티즈</h4>
-                            <dl>
-                                <dt>성별</dt>
-                                <dd>미상</dd>
-                            </dl>
-                            <dl>
-                                <dt>발견장소</dt>
-                                <dd>경기도 고양시 일산동구</dd>
-                            </dl>
-                            <dl>
-                                <dt>특징</dt>
-                                <dd>흰색에 까만 털이 있음</dd>
-                            </dl>
-                        </div>
-                        <div class="sticker">
-                            <strong>04</strong>
-                            <span>2025-08</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <div class="img-box">
-                            <img src="../images/dog.png" alt="" />
-                        </div>
-                        <div class="info">
-                            <h4>말티즈</h4>
-                            <dl>
-                                <dt>성별</dt>
-                                <dd>미상</dd>
-                            </dl>
-                            <dl>
-                                <dt>발견장소</dt>
-                                <dd>경기도 고양시 일산동구</dd>
-                            </dl>
-                            <dl>
-                                <dt>특징</dt>
-                                <dd>흰색에 까만 털이 있음</dd>
-                            </dl>
-                        </div>
-                        <div class="sticker">
-                            <strong>04</strong>
-                            <span>2025-08</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <div class="img-box">
-                            <img src="../images/dog.png" alt="" />
-                        </div>
-                        <div class="info">
-                            <h4>말티즈</h4>
-                            <dl>
-                                <dt>성별</dt>
-                                <dd>미상</dd>
-                            </dl>
-                            <dl>
-                                <dt>발견장소</dt>
-                                <dd>경기도 고양시 일산동구</dd>
-                            </dl>
-                            <dl>
-                                <dt>특징</dt>
-                                <dd>흰색에 까만 털이 있음</dd>
-                            </dl>
-                        </div>
-                        <div class="sticker">
-                            <strong>04</strong>
-                            <span>2025-08</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-3">
-                    <div class="card">
-                        <div class="img-box">
-                            <img src="../images/dog.png" alt="" />
-                        </div>
-                        <div class="info">
-                            <h4>말티즈</h4>
-                            <dl>
-                                <dt>성별</dt>
-                                <dd>미상</dd>
-                            </dl>
-                            <dl>
-                                <dt>발견장소</dt>
-                                <dd>경기도 고양시 일산동구</dd>
-                            </dl>
-                            <dl>
-                                <dt>특징</dt>
-                                <dd>흰색에 까만 털이 있음</dd>
-                            </dl>
-                        </div>
-                        <div class="sticker">
-                            <strong>04</strong>
-                            <span>2025-08</span>
-                        </div>
-                    </div>
-                </div>
+                </th:block>
+
             </div>
         </div>
     </div>
