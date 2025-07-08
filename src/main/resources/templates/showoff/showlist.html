@@ -39,7 +39,7 @@
                     <thead class="table-light">
                     <tr>
                         <th width="50%" class="text-center">게시글 제목</th>
-                        <th width="25%" class="text-center">닉네임</th>
+                        <th width="25%" class="text-center">이름</th>
                         <th width="15%" class="text-center">등록일</th>
                         <th width="10%" class="text-center">좋아요</th>
                     </tr>
@@ -52,7 +52,7 @@
                             <span class="pet-species" th:text="${pet.species}">종</span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="member-nickname" th:text="${pet.member.userName}">닉네임</span>
+                            <span class="member-nickname" th:text="${pet.member.userName}">이름</span>
                         </td>
                         <td class="text-center align-middle">
                             <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}">2025.07.07</span>
