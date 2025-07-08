@@ -7,29 +7,29 @@
 <main class="main-content">
     <div class="container">
 
+        <!-- 인기 게시글 섹션 -->
         <section class="popular-section">
             <div class="section-header center-align">
                 <h2 class="section-title center-align">이 달의 인기 게시글</h2>
             </div>
             <div class="popular-grid">
                 <div class="popular-card" th:each="pet : ${popularPets}">
-                    <img src="/images/웰시코기.png"
-                         th:src="@{'/images/' + ${pet.profileImg}}"
-                         alt="피치"
+                    <img th:src="@{'/images/' + ${pet.profileImg}}"
                          th:alt="${pet.petName}"
                          class="popular-card-img">
                     <div class="popular-card-desc">
-                        <div class="popular-card-title" th:text="${pet.petName}">월요일이라 피곤한 개</div>
-                        <div class="popular-card-nickname" th:text="${pet.member.userName}">피자헛톨셋넷</div>
+                        <div class="popular-card-title" th:text="${pet.petName}"></div>
+                        <div class="popular-card-nickname" th:text="${pet.member.userName}"></div>
                         <div class="popular-card-like">
                             <span class="material-symbols-outlined">favorite</span>
-                            <span th:text="${pet.petLike}">30</span>
+                            <span th:text="${pet.petLike}"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- 전체 게시글 섹션 -->
         <section class="list-section">
             <div class="section-header">
                 <h2 class="section-title">전체 게시글</h2>
@@ -39,7 +39,7 @@
                     <thead class="table-light">
                     <tr>
                         <th width="50%" class="text-center">게시글 제목</th>
-                        <th width="25%" class="text-center">닉네임</th>
+                        <th width="25%" class="text-center">이름</th>
                         <th width="15%" class="text-center">등록일</th>
                         <th width="10%" class="text-center">좋아요</th>
                     </tr>
@@ -48,21 +48,37 @@
                     <tr class="pet-row" th:each="pet : ${petList}"
                         th:onclick="|location.href='@{/showoff/showdetail/{petId}(petId=${pet.id})}'|">
                         <td class="pet-title-cell text-center">
-                            <h5 class="pet-name" th:text="${pet.petName}">펫 이름</h5>
-                            <span class="pet-species" th:text="${pet.species}">종</span>
+                            <h5 class="pet-name" th:text="${pet.petName}"></h5>
+                            <span class="pet-species" th:text="${pet.species}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="member-nickname" th:text="${pet.member.userName}">닉네임</span>
+                            <span class="member-nickname" th:text="${pet.member.userName}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}">2025.07.07</span>
+                            <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="like-count" th:text="${pet.petLike}">0</span>
+                            <span class="like-count" th:text="${pet.petLike}"></span>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+
+                <!-- 페이지네이션은 반드시 테이블 아래에 위치 -->
+                <div class="pagination">
+                    <ul>
+                        <li th:if="${petPage.hasPrevious()}">
+                            <a th:href="@{/showoff/showlist(page=${petPage.number > 0 ? petPage.number - 1 : 0})}">&laquo; 이전</a>
+                        </li>
+                        <li th:each="i : ${#numbers.sequence(0, petPage.totalPages - 1)}"
+                            th:classappend="${petPage.number == i} ? 'active'">
+                            <a th:href="@{/showoff/showlist(page=${i})}" th:text="${i + 1}"></a>
+                        </li>
+                        <li th:if="${petPage.hasNext()}">
+                            <a th:href="@{/showoff/showlist(page=${petPage.number + 1})}">다음 &raquo;</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </section>
     </div>
