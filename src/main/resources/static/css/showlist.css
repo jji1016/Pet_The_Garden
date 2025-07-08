@@ -1,0 +1,101 @@
+.popular-grid {
+    display: flex;
+    justify-content: center;
+    gap: 2.5rem;
+    margin: 2rem 0 3rem 0;
+    flex-wrap: wrap;
+}
+.popular-card {
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 220px;
+    padding: 1.5rem 1rem 1.3rem 1rem;
+    text-align: center;
+}
+.popular-card-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 1.1rem;
+    background: #f7f7f7;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+.popular-card-title {
+    font-size: 1.08rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.popular-card-nickname {
+    font-size: 0.97rem;
+    color: #f8a92b;
+    font-weight: 500;
+}
+.popular-card-like {
+    margin-top: 0.5rem;
+    color: #f8a92b;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    font-size: 1.03rem;
+}
+.popular-card-like .material-symbols-outlined {
+    font-size: 1.15rem;
+}
+@media (max-width: 800px) {
+    .popular-grid {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    .popular-card {
+        width: 90vw;
+        max-width: 320px;
+    }
+}
+
+.pet-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 1rem;
+}
+.pet-table th, .pet-table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 0.9rem 0.5rem;
+    white-space: nowrap;
+}
+.pet-title-cell {
+    text-align: center;
+}
+.pet-title-cell .pet-name,
+.pet-title-cell .pet-species {
+    display: block;
+    text-align: center;
+}
+.member-nickname {
+    font-size: 0.92rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 120px;
+    display: inline-block;
+}
+.pet-table tbody tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+.pet-table tbody tr:hover {
+    background-color: #f8f9fa;
+}

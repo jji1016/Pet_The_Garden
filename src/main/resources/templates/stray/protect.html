@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(protect)}"></head>
+<!--</head>-->
+<body>
+<header th:replace="~{fragments/header}"></header>
+<div class="protect-wrap">
+    <h1><span>Protection</span></h1>
+    <div class="container-fluid">
+        <div class="protection-wrap">
+            <div class="search-wrap">
+                <form action="/stray/protect">
+                    <div class="row mb-2 w-50">
+                        <label for="startDate" class="col-3 col-form-label label-100">날짜</label>
+                        <div class="col-4">
+                            <input type="date" class="form-control" name="startDate" id="startDate" th:value="${startDate}"/>
+                        </div>
+                        <div class="col-1 d-flex align-items-center justify-content-center">~</div>
+                        <div class="col-4">
+                            <input type="date" class="form-control w-100" name="endDate" th:value="${endDate}"/>
+                        </div>
+                    </div>
+                    <div class="row mb-2 w-50">
+                        <label for="discvryPlc" class="col-3 col-form-label label-100">발견장소</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control w-100" name="discvryPlc" id="discvryPlc" th:value="${discvryPlc}"/>
+                        </div>
+                    </div>
+                    <div class="row mb-2 w-50">
+                        <label for="species" class="col-3 col-form-label label-100">품종</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control w-100" name="species" id="species" th:value="${species}"/>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn btn-primary btn-lg w-20">조회</button>
+                        <a href="/stray/protect" class="btn btn-secondary btn-lg w-20">초기화</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row mt-5 result-list">
+
+                <th:block th:each="strayList : ${strayList}">
+                    <div class="col-3">
+                        <a th:href="@{'/stray/detail/' + ${strayList.abdmIdNtfyNo}}" class="card">
+                            <div class="img-box">
+                                <img th:src="${strayList.imageCours}" onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                            </div>
+                            <div class="info">
+                                <h4 th:text="${strayList.speciesNm}"></h4>
+                                <dl>
+                                    <dt>성별</dt>
+                                    <dd th:text="${strayList.sexNm}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt>발견장소</dt>
+                                    <dd th:text="${strayList.discvryPlcInfo}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt>상태</dt>
+                                    <dd th:text="${strayList.stateNm}"></dd>
+                                </dl>
+                            </div>
+                            <div class="sticker">
+                                <strong th:text="${strayList.pblancBeginDe.substring(6,8)}"></strong>
+                                <span th:text="${strayList.pblancBeginDe.substring(0,4)+'-'+strayList.pblancBeginDe.substring(4,6)}"></span>
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
+
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+<script>
+    const rangeInput = document.querySelector("#range-input");
+    const rangeOutput = document.querySelector("#range-value");
+
+    rangeOutput.textContent = rangeInput.value;
+
+    rangeInput.addEventListener("input", function () {
+        rangeOutput.textContent = this.value;
+    });
+</script>
+</html>

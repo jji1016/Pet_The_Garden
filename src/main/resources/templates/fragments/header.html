@@ -1,28 +1,23 @@
-<!-- fragments/header.html -->
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<body>
-<div th:fragment="headerFragment">
-  <header id="header">
+<html>
+<header id="header">
     <h1>
-      <a href="/index/index"><img src="/images/logo.png" alt="로고" /></a>
+        <a href="/index/index"><img src="/images/logo.png" alt="" class = "logo-img"/></a>
     </h1>
     <nav id="gnb">
-      <ul>
-        <li><a href="/">HOME</a></li>
-        <li><a href="/shop">SHOP</a></li>
-        <li><a href="/clinics">CLINICS</a></li>
-        <li><a href="/blog">BLOG</a></li>
-        <li><a href="/shelters">SHELTERS</a></li>
-      </ul>
+        <ul>
+            <li><a href="">HOME</a></li>
+            <li><a href="">SHOP</a></li>
+            <li><a href="">CLINICS</a></li>
+            <li><a href="">BLOG</a></li>
+            <li><a href="">SHELTERS</a></li>
+        </ul>
     </nav>
-    <a href="/mypage" id="profile">
-      <span>김은경</span>
-      <span class="img">
-          <img src="/images/profile.jpg" alt="프로필 이미지" />
+    <a href="" id="profile">
+        <span>김은경</span>
+        <span class="img">
+          <img src="/images/profile.jpg" alt="" />
         </span>
     </a>
-  </header>
-</div>
-</body>
+</header>
 </html>
