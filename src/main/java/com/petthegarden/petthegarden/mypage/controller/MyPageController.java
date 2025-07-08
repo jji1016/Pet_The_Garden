@@ -11,6 +11,8 @@ import com.petthegarden.petthegarden.mypage.dto.PetDto;
 import com.petthegarden.petthegarden.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -34,14 +36,20 @@ public class MyPageController {
     private final CommunityService communityService;
 
     @GetMapping("/mypage")
-    public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model){
+    public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model,
+                         Pageable pageable){
+        if (customUserDetails == null) {
+            // 비로그인 시 로그인 페이지로 리다이렉트
+            return "redirect:/member/login";
+        }
+
         String userID = customUserDetails.getUsername(); //로그인한 유저의 아이디
         Integer loggedMemberID = customUserDetails.getLoggedMember().getId(); //member테이블 PK(memberID)
         MemberDto loggedMemberDto = mypageService.findByUserID(userID); //로그인한 유저의 정보들
         log.info("loggedMemberDto: {}", loggedMemberDto);
         List<Board> myBoards = communityService.getBoardList2(loggedMemberID); //로그인한 유저의 게시판정보
         List<PetDto> pets = mypageService.findPetsByMemberId(loggedMemberDto.getId()); //로그인한 유저의 펫정보
-
+        Page<Board> myBoardsPage = communityService.getBoardsByMember(loggedMemberID, pageable);
 
         //MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
         //List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
@@ -50,6 +58,8 @@ public class MyPageController {
         model.addAttribute("loggedMemberDto", loggedMemberDto);
         model.addAttribute("myBoards", myBoards);
         model.addAttribute("pets", pets);
+        model.addAttribute("myBoards", myBoardsPage.getContent()); // 7개씩 나오는 게시글 리스트
+        model.addAttribute("myBoardsPage", myBoardsPage); // 페이지 정보
 
         return "mypage/mypage";
     }

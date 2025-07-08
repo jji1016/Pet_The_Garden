@@ -10,6 +10,10 @@ import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.mypage.repository.MypageMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,9 +33,20 @@ public class CommunityController {
     private final MypageMemberRepository mypageMemberRepository;
 
     @GetMapping("/board")
-    public String community(Model model, @RequestParam(required = false) String keyword) {
+    public String community(Model model, @RequestParam(required = false) String keyword,
+                            @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Board> boardPage;
+
+        if (keyword != null && !keyword.isBlank()) {
+            boardPage = communityService.searchBoards(keyword, pageable);
+        } else {
+            boardPage = communityService.getAllBoards(pageable);
+        }
+
         List<Board> boards = communityService.getBoardList();
-        model.addAttribute("boards", boards);
+        model.addAttribute("boards", boardPage.getContent());
+        model.addAttribute("boardPage", boardPage);
         model.addAttribute("keyword", keyword);
         return "/community/board";
     }
@@ -63,11 +78,31 @@ public class CommunityController {
 
         return "/community/boardcorrect";
     }
-    //게시글수정과정
+    //게시글수정
     @PostMapping("/boardcorrect/{id}")
     public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto) {
         communityService.updateBoard(id, boardDto);
         return "redirect:/community/boarddetail/" + id;
+    }
+    //게시글삭제
+    @PostMapping("/board/{boardId}/delete")
+    public String deleteBoard(@PathVariable Integer boardId,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인 후 이용해주세요.");
+        }
+
+        Member member = userDetails.getLoggedMember();
+
+        boolean deleted = communityService.deleteBoard(boardId, member);
+
+        if (!deleted) {
+            // 삭제 실패 시(작성자가 아니거나 게시글 없음) 상세 페이지로 이동
+            return "redirect:/community/boarddetail/" + boardId + "?error=삭제권한이없습니다";
+        }
+
+        // 삭제 성공 시 게시글 목록 페이지로 이동
+        return "redirect:/community/board";
     }
     //ck editor 이미지 업로드
     @PostMapping("/upload-image")
@@ -88,6 +123,7 @@ public class CommunityController {
         }
         return "community/boardreg";
     }
+    //게시글등록
     @PostMapping("/boardreg")
     public String registerBoard(@ModelAttribute("boardDto") BoardDto boardDto,
                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
@@ -122,6 +158,40 @@ public class CommunityController {
         }
         communityService.saveComment(boardId, content, member);
 
+        return "redirect:/community/boarddetail/" + boardId;
+    }
+    //댓글삭제
+    @PostMapping("/comment/{commentId}/delete")
+    public String deleteComment(@PathVariable Integer commentId,
+                                @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인 후 이용해주세요.");
+        }
+
+        Member member = userDetails.getLoggedMember();
+
+        // 삭제 전에 댓글로 게시글 ID 미리 조회
+        Integer boardId = communityService.getBoardIdByCommentId(commentId);
+
+        communityService.deleteComment(commentId, member);
+
+        return "redirect:/community/boarddetail/" + boardId;
+    }
+    //댓글수정
+    @PostMapping("/comment/{commentId}/edit")
+    public String editComment(@PathVariable Integer commentId,
+                              @RequestParam String content,
+                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+        if (userDetails == null) {
+            throw new IllegalArgumentException("로그인 후 이용해주세요.");
+        }
+
+        Member member = userDetails.getLoggedMember();
+
+        communityService.updateComment(commentId, content, member);
+
+        // 수정 후 해당 게시글 상세로 리다이렉트
+        Integer boardId = communityService.getBoardIdByCommentId(commentId);
         return "redirect:/community/boarddetail/" + boardId;
     }
 }

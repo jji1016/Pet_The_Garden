@@ -1,6 +1,8 @@
 package com.petthegarden.petthegarden.mypage.service;
 
+import com.petthegarden.petthegarden.community.repository.CommunityRepository;
 import com.petthegarden.petthegarden.constant.Gender;
+import com.petthegarden.petthegarden.entity.Board;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.member.MemberRepository;
@@ -11,6 +13,8 @@ import com.petthegarden.petthegarden.mypage.repository.MypagePetRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,6 +31,7 @@ import java.util.stream.Collectors;
 public class MypageService {
     @Value("${file.path}pet/")
     String petPath;
+    private final CommunityRepository communityRepository;
     private final MypageDao mypageDao;
     private final MemberRepository memberRepository;
     private final MypagePetRepository mypagePetRepository;
@@ -155,4 +160,5 @@ public class MypageService {
 
         return petDtoList;
     }
+
 }

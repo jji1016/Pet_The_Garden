@@ -52,9 +52,15 @@
   </table>
 
   <div class="pagination">
-    <span>이전</span>
-    <span>1 page / 1 pages</span>
-    <span>다음</span>
+    <span th:if="${boardPage.hasPrevious()}">
+        <a th:href="@{/community/board(page=${boardPage.number - 1}, keyword=${keyword})}">이전</a>
+    </span>
+
+    <span th:text="${boardPage.number + 1} + ' page / ' + ${boardPage.totalPages} + ' pages'"></span>
+
+    <span th:if="${boardPage.hasNext()}">
+        <a th:href="@{/community/board(page=${boardPage.number + 1}, keyword=${keyword})}">다음</a>
+    </span>
   </div>
 </div>
 

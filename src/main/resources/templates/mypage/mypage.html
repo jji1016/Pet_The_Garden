@@ -137,8 +137,19 @@
 
         <table class="page_btn">
           <tbody>
-          <tr id="subscribePagination">
-            <td><a href="#">1</a></td>
+          <tr>
+            <td th:if="${myBoardsPage.hasPrevious()}">
+              <a th:href="@{/mypage(page=${myBoardsPage.number - 1})}">이전</a>
+            </td>
+
+            <td th:each="pageNum : ${#numbers.sequence(0, myBoardsPage.totalPages - 1)}"
+                th:classappend="${pageNum == myBoardsPage.number} ? 'current'">
+              <a th:href="@{/mypage(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+            </td>
+
+            <td th:if="${myBoardsPage.hasNext()}">
+              <a th:href="@{/mypage(page=${myBoardsPage.number + 1})}">다음</a>
+            </td>
           </tr>
           </tbody>
         </table>

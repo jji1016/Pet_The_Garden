@@ -13,51 +13,234 @@
 <div th:replace="fragments/header :: headerFragment"></div>
 
 <div class="board-detail-wrapper">
+    <!-- 게시글 제목 -->
     <div class="board-detail-title" th:text="${board.subject}">제목</div>
 
+    <!-- 작성자, 작성일 -->
     <div class="board-detail-meta">
         <span class="writer" th:text="${board.member.userName}">작성자</span>
-        <span class="date" th:text="${board.modifyDate != null} ? ${#temporals.format(board.modifyDate, 'yyyy-MM-dd')} : ${#temporals.format(board.regDate, 'yyyy-MM-dd')}">작성일</span>
+        <span class="date"
+              th:text="${board.modifyDate != null} ? ${#temporals.format(board.modifyDate, 'yyyy-MM-dd')} : ${#temporals.format(board.regDate, 'yyyy-MM-dd')}">
+            작성일
+        </span>
     </div>
 
+    <!-- 게시글 본문 -->
     <div class="board-detail-content" th:utext="${board.content}">
         게시글 본문
     </div>
 
+    <!-- 게시글 신고 버튼 -->
+    <div class="board-detail-buttons-wrapper" style="display: flex; justify-content: space-between; align-items: center;">
+            <div class="report-post-wrapper">
+                <th:block th:if="${board.member.userID != loginUsername}">
+                <button type="button" class="btn-report-post" th:onclick="|reportBoard(${board.id})|">
+                    <img src="/images/신고.png" alt="신고 아이콘" class="report-icon" style="width: 20px; height: 20px;" />
+                    게시글 신고
+                </button>
+                </th:block>
+            </div>
+
+    <!-- 수정, 삭제, 목록 버튼 -->
     <div class="board-detail-buttons">
         <th:block th:if="${board.member.userID == loginUsername}">
             <button class="btn-edit"
                     th:onclick="|location.href='/community/boardcorrect/${board.id}'|">수정</button>
+            <form th:action="@{'/community/board/' + ${board.id} + '/delete'}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');" style="display:inline;">
+                <button type="submit" class="btn-delete">삭제</button>
+            </form>
         </th:block>
         <a th:href="@{/community/board}" class="btn-back">목록으로</a>
+    </div>
     </div>
     <!-- 댓글 영역 시작 -->
     <div class="comments-section">
         <h3>댓글</h3>
 
         <div class="comments-list">
-            <!-- 댓글 반복 예시 -->
-            <div class="comment-item">
-                <div class="comment-item" th:each="comment : ${board.boardCommentList}">
+            <div class="comment-item" th:each="comment : ${board.boardCommentList}"  th:attr="data-comment-id=${comment.id}">
+                <div class="comment-header">
                     <div class="comment-author" th:text="${comment.member.userName}">작성자</div>
                     <div class="comment-date" th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm')}">작성일</div>
-                    <div class="comment-content" th:text="${comment.content}">내용</div>
+                </div>
+
+                <div class="comment-body">
+                    <div class="comment-content" th:text="${comment.content}">댓글 내용</div>
+                    <div class="comment-actions" style="display: flex; gap: 8px; align-items: center;">
+                        <!-- 본인 댓글이면 수정/삭제 버튼 보여주기 -->
+                        <th:block th:if="${comment.member.userID == loginUsername}">
+                            <button type="button" class="btn-comment-edit" onclick="startEdit(this)">수정</button>
+                            <button type="button" class="btn-comment-delete"
+                                    th:onclick="|deleteComment(${comment.id}, ${board.id})|">삭제</button>
+                        </th:block>
+
+                        <!-- 본인이 아닐 경우 신고 버튼 보여주기 -->
+                        <th:block th:if="${comment.member.userID != loginUsername}">
+                        <button type="button" class="btn-report-post" th:onclick="|reportComment(${comment.id})|">
+                            <img src="/images/신고.png" class="report-icon" style="width: 20px; height: 20px;"/>
+                            신고
+                        </button>
+                        </th:block>
+                    </div>
                 </div>
             </div>
-            <!-- 반복 끝 -->
         </div>
+
+        <!-- 댓글 작성 폼 -->
         <form th:action="@{'/community/board/' + ${board.id} + '/comment'}" method="post" class="comment-form">
-        <div class="comment-form">
             <textarea name="content" placeholder="댓글을 입력하세요..." rows="4"></textarea>
             <button class="btn-comment-submit">댓글 작성</button>
-        </div>
         </form>
     </div>
     <!-- 댓글 영역 끝 -->
+
 </div>
 
 <!-- Footer -->
 <div th:replace="fragments/footer :: footerFragment"></div>
 
 </body>
+
+<script> //댓글신고기능
+    function reportComment(commentId) {
+        const reason = prompt("댓글 신고 사유를 입력해주세요:");
+        if (!reason || reason.trim() === "") {
+            alert("신고 사유를 입력해야 합니다.");
+            return;
+        }
+
+        fetch(`/community/comment/${commentId}/report`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                reason: reason
+            })
+        }).then(response => {
+            response.text().then(message => {
+                if (response.ok) {
+                    alert(message);
+                    location.reload(); // 또는 UI 갱신
+                } else {
+                    alert(message);
+                }
+            })
+        })}
+</script>
+<script> //게시글신고기능
+    function reportBoard(boardId) {
+        const reason = prompt("게시글 신고 사유를 입력해주세요:");
+        if (!reason || reason.trim() === "") {
+            alert("신고 사유를 입력해야 합니다.");
+            return;
+        }
+
+        fetch(`/community/board/${boardId}/report`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ reason: reason })
+        }).then(response => {
+            response.text().then(message => {
+                if (response.ok) {
+                    alert(message);
+                    location.reload(); // 또는 UI 갱신
+                } else {
+                    alert(message);
+                }
+            })
+        });
+    }
+</script>
+<script> //댓글삭제기능
+    function deleteComment(commentId, boardId) {
+        if (confirm("댓글을 삭제하시겠습니까?")) {
+            fetch(`/community/comment/${commentId}/delete`, {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                if (response.redirected) {
+                    window.location.href = response.url;
+                } else {
+                    alert("댓글 삭제에 실패했습니다.");
+                }
+            });
+        }
+    }
+</script>
+<script> //댓글수정기능
+    function startEdit(button) {
+        const commentItem = button.closest('.comment-item');
+        const contentDiv = commentItem.querySelector('.comment-content');
+        const originalText = contentDiv.textContent;
+
+        // textarea 생성
+        const textarea = document.createElement('textarea');
+        textarea.value = originalText;
+        textarea.style.width = '100%';
+        textarea.style.height = '80px';
+
+        // 저장 버튼 생성
+        const saveBtn = document.createElement('button');
+        saveBtn.textContent = '저장';
+        saveBtn.style.marginRight = '8px';
+        saveBtn.classList.add('btn-comment-save');
+        saveBtn.onclick = () => saveEdit(commentItem, textarea.value);
+
+        // 취소 버튼 생성
+        const cancelBtn = document.createElement('button');
+        cancelBtn.textContent = '취소';
+        cancelBtn.classList.add('btn-comment-cancel');
+        cancelBtn.onclick = () => cancelEdit(commentItem, originalText);
+
+        // 기존 내용 숨기기
+        contentDiv.style.display = 'none';
+        button.style.display = 'none';
+
+        // 수정용 요소 추가
+        commentItem.appendChild(textarea);
+        commentItem.appendChild(saveBtn);
+        commentItem.appendChild(cancelBtn);
+    }
+
+    function cancelEdit(commentItem, originalText) {
+        const textarea = commentItem.querySelector('textarea');
+        const saveBtn = Array.from(commentItem.querySelectorAll('button')).find(b => b.textContent === '저장');
+        const cancelBtn = Array.from(commentItem.querySelectorAll('button')).find(b => b.textContent === '취소');
+
+        if(textarea) textarea.remove();
+        if(saveBtn) saveBtn.remove();
+        if(cancelBtn) cancelBtn.remove();
+
+        commentItem.querySelector('.comment-content').textContent = originalText;
+        commentItem.querySelector('.comment-content').style.display = 'block';
+        commentItem.querySelector('.btn-comment-edit').style.display = 'inline-block';
+    }
+
+    function saveEdit(commentItem, newContent) {
+        const commentId = commentItem.getAttribute('data-comment-id');
+        if(!newContent.trim()) {
+            alert('댓글 내용을 입력하세요.');
+            return;
+        }
+
+        fetch(`/community/comment/${commentId}/edit`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: new URLSearchParams({ content: newContent })
+        })
+            .then(res => {
+                if(res.ok) {
+                    location.reload();
+                } else {
+                    res.text().then(text => alert('수정 실패: ' + text));
+                }
+            })
+            .catch(() => alert('수정 중 오류가 발생했습니다.'));
+    }
+</script>
 </html>

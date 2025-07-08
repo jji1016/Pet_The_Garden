@@ -60,7 +60,7 @@ body {
 .btn-back:hover {
     background-color: #d98617;
 }
-.btn-edit {
+.btn-edit, .btn-delete {
     background-color: #F8A92B;
     border: none;
     padding: 10px 20px;
@@ -71,6 +71,9 @@ body {
     transition: background-color 0.3s ease;
 }
 .btn-edit:hover {
+    background-color: #d98617;
+}
+.btn-delete:hover {
     background-color: #d98617;
 }
 
@@ -102,7 +105,7 @@ body {
 }
 .comments-section {
     width: 1920px;
-    margin: 50px auto 0 auto;
+    margin: 0 auto 0 auto;
     padding: 20px 20px;
     border: 1px solid #ddd;
     border-radius: 20px;
@@ -202,5 +205,113 @@ body {
 }
 
 .comment-form .btn-comment-submit:hover {
+    background-color: #d98617;
+}
+
+.comment-item {
+    border-bottom: 1px solid #eee;
+    padding: 15px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    position: relative;
+}
+
+.comment-body {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.comment-content {
+    font-size: 16px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    max-width: 90%;
+}
+
+/* 게시글 신고 버튼 */
+.report-post-wrapper {
+    margin: 20px 0 40px 0;
+    text-align: center;
+}
+
+.btn-report-post {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #F8A92B;
+    border: none;
+    border-radius: 12px;
+    padding: 6px 14px;
+    font-size: 16px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    user-select: none;
+}
+
+.btn-report-post img.report-icon {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+}
+
+.btn-report-post:hover {
+    background-color: #d98617;
+}
+
+.btn-report-post:hover img.report-icon {
+    opacity: 1;
+}
+
+
+.comment-body > .btn-report-post {
+    margin-left: 10px;
+    flex-shrink: 0;
+}
+
+.comment-actions button {
+    background-color: #F8A92B;
+    border: none;
+    padding: 6px 12px;
+    color: white;
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.btn-comment-save, .btn-comment-cancel {
+    background-color: #F8A92B;
+    border: none;
+    color: white;
+    border-radius: 12px;
+    padding: 6px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+    min-width: 0;
+    width: auto;
+    display: inline-block;
+    flex-grow: 0;
+    flex-shrink: 0;
+    /* 필요하면 display:inline-block 추가 가능 */
+}
+
+.comment-actions button:hover {
+    background-color: #d98617;
+}
+
+
+
+.btn-comment-save:hover {
+    background-color: #d98617;
+}
+
+.btn-comment-cancel:hover {
     background-color: #d98617;
 }

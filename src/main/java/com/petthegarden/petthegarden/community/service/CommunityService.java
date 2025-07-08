@@ -11,6 +11,8 @@ import com.petthegarden.petthegarden.mypage.repository.MypageMemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,10 +23,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -53,7 +52,7 @@ public class CommunityService {
     public Board getBoardById(Integer id) {
         return communityDao.findById(id);
     }
-
+    //게시판 글 등록
     public void saveBoard(BoardDto boardDto, Member member) {
 
                 Board board = boardDto.toEntity();
@@ -67,6 +66,7 @@ public class CommunityService {
         board.setMember(member);
                 communityRepository.save(board);
     }
+    //게시판 글 수정
     public void updateBoard(Integer id, BoardDto boardDto){
         Board board = getBoardById(id);
 
@@ -77,7 +77,7 @@ public class CommunityService {
         board.setModifyDate(LocalDateTime.now());
 
     }
-
+    //이미지 업로드
     public Map<String, Object> uploadImage(MultipartFile file) {
         Map<String, Object> response = new HashMap<>();
 
@@ -113,6 +113,7 @@ public class CommunityService {
 
         return response;
     }
+    //이미지 저장파일 이동
     private String moveTmpImagesToPermanent(String content) {
         // <img src="/PTGUpload/tmp/filename.jpg">
         Pattern pattern = Pattern.compile("/PTGUpload/tmp/(\\S+?\\.(jpg|png|gif|jpeg))");
@@ -150,5 +151,68 @@ public class CommunityService {
                 .board(board)
                 .build();
         communityCommentRepository.save(comment);
+    }
+
+    //게시판 댓글 삭제
+    public void deleteComment(Integer commentId, Member member) {
+        BoardComment comment = communityCommentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
+
+        // 작성자 확인 (본인 댓글만 삭제 가능)
+        if (!comment.getMember().getId().equals(member.getId())) {
+            throw new IllegalStateException("본인 댓글만 삭제할 수 있습니다.");
+        }
+
+        communityCommentRepository.delete(comment);
+    }
+
+    public Integer getBoardIdByCommentId(Integer commentId) {
+        return communityCommentRepository.findById(commentId)
+                .map(comment -> comment.getBoard().getId())
+                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
+    }
+
+    //게시판 댓글 수정
+    @Transactional
+    public void updateComment(Integer commentId, String content, Member member) {
+        BoardComment comment = communityCommentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException("댓글을 찾을 수 없습니다: " + commentId));
+
+        if (!comment.getMember().getId().equals(member.getId())) {
+            throw new IllegalStateException("본인 댓글만 수정할 수 있습니다.");
+        }
+
+        comment.setContent(content);
+        comment.setModifyDate(LocalDateTime.now());
+    }
+
+    //게시판 글 삭제
+    public boolean deleteBoard(Integer boardId, Member member) {
+        Optional<Board> boardOpt = communityRepository.findById(boardId);
+        if (boardOpt.isEmpty()) {
+            return false;
+        }
+
+        Board board = boardOpt.get();
+
+        // 게시글 작성자와 현재 사용자가 같은지 체크
+        if (!board.getMember().getId().equals(member.getId())) {
+            return false;
+        }
+
+        communityRepository.delete(board);
+        return true;
+    }
+    //게시판 글 페이징처리관련
+    public Page<Board> getAllBoards(Pageable pageable) {
+        return communityRepository.findAll(pageable);
+    }
+    //게시판 글 페이징처리관련
+    public Page<Board> searchBoards(String keyword, Pageable pageable) {
+        return communityRepository.findBySubjectContainingIgnoreCase(keyword, pageable);
+    }
+    //마이페이지 글 페이징처리관련
+    public Page<Board> getBoardsByMember(Integer memberId, Pageable pageable) {
+        return communityRepository.findByMemberId(memberId, pageable);
     }
 }
