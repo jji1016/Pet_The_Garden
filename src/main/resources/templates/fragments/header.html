@@ -16,14 +16,12 @@
     </nav>
 
     <th:block sec:authorize="isAuthenticated()">
-<!--        <a th:href="@{/member/info}">내 정보 보기</a>-->
-        <a th:href="@{/petnote/profile/{userID}(userID=${#authentication.principal.loggedMember.userID})}" id="profile"
-           class="profile">
-            <span class="img"><img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}" alt="프로필" /></span>
+        <a th:href="@{/petnote/profile}" id="profile" class="profile">
+            <span class="img"><img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                                   alt="프로필"/></span>
             <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
         </a>
         <form th:action="@{/member/logout}" method="post">
-            <!--                <button type="submit" class="btn btn-primary">logout</button>-->
             <button type="submit" class="btn btn-logout">
                 <i class="bi bi-box-arrow-right"></i> 로그아웃
             </button>

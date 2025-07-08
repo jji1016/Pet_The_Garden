@@ -1,18 +1,18 @@
 package com.petthegarden.petthegarden.petnote.dao;
 
 import com.petthegarden.petthegarden.entity.Diary;
-import com.petthegarden.petthegarden.petnote.repository.PetnoteRepository;
+import com.petthegarden.petthegarden.petnote.repository.DiaryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 
 @Repository
 @RequiredArgsConstructor
-public class PetnoteDao {
-    private final PetnoteRepository petnoteRepository;
+public class DiaryDao {
+    private final DiaryRepository diaryRepository;
 
     public void save(Diary diary) {
-        petnoteRepository.save(diary);
+        diaryRepository.save(diary);
     }
 
 }

@@ -18,13 +18,15 @@ import java.time.LocalDateTime;
 @Builder
 public class MemberDto {
 
+    private Integer memberID;
+
     @NotBlank(message="아이디는 필수입력사항입니다.")
     private String userID;
 
     @NotBlank(message="패스워드는 필수입력사항입니다.")
     private String userPW;
 
-    @NotBlank(message="유저네임은 필수입력사항입니다.")
+    @NotBlank(message="이름은 필수입력사항입니다.")
     private String userName;
 
     @Email(message = "이메일형식에 맞게 쓰세요.")

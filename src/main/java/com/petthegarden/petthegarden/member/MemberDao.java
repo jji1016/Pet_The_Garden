@@ -1,8 +1,6 @@
 package com.petthegarden.petthegarden.member;
 
 import com.petthegarden.petthegarden.entity.Member;
-import com.petthegarden.petthegarden.member.dto.LoginDto;
-import com.petthegarden.petthegarden.member.dto.MemberDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +29,9 @@ public class MemberDao {
 
     public Optional<Member> findById(Integer memberId) {
         return memberRepository.findById(memberId);
+    }
+
+    public Member findMemberByUserID(String userID) {
+        return memberRepository.findMemberByUserID(userID);
     }
 }

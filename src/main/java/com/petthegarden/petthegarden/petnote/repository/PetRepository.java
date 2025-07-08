@@ -7,5 +7,7 @@ import java.util.List;
 
 public interface PetRepository extends JpaRepository<Pet,Integer> {
 
-    List<Pet> findFirstByMemberId(Integer memberId);
+    List<Pet> findAllByMemberId(Integer memberID);
+
+    Pet findFirstByMemberIdOrderByIdAsc(Integer memberID);
 }

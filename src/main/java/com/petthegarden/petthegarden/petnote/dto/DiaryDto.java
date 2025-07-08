@@ -1,4 +1,4 @@
-package com.petthegarden.petthegarden.petnote;
+package com.petthegarden.petthegarden.petnote.dto;
 
 import com.petthegarden.petthegarden.entity.Diary;
 import com.petthegarden.petthegarden.entity.Member;

@@ -115,5 +115,11 @@
 }
 .detail-box .tab .content {
   margin-top: 10px;
+  font-weight: 500;
+  font-size: 18px;
 }
+ul.content li {
+  margin-bottom: 10px;
+}
+
 

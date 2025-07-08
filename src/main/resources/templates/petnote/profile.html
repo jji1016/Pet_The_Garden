@@ -7,16 +7,20 @@
     }
 </style>
 <body>
-<!--<header th:replace="~{fragments/header}"></header>-->
-
 <nav class="sidebar">
     <ul>
         <li class="active">프로필</li>
-        <li><a href="/petnote/diaryreg">성장일기</a></li>
+        <li><a th:href="@{/petnote/diaryreg}">성장일기</a></li>
     </ul>
+    <form th:action="@{/member/logout}" method="post">
+        <button type="submit" class="btn btn-logout">
+            <i class="bi bi-box-arrow-right"></i> 로그아웃
+        </button>
+    </form>
 </nav>
 <div class="profile-wrap">
-    <form th:action="@{/petnote/profile/{userID}(userID=${#authentication.principal.loggedMember.userID})}" method="post" >
+    <form th:action="@{/petnote/profile/{userID}(userID=${#authentication.principal.loggedMember.userID})}"
+          method="post" th:object="${firstPetDto}">
         <div class="container">
             <div class="row">
                 <div class="col-4">
@@ -27,14 +31,27 @@
                         </div>
                         <div class="info">
                             <h5 th:text="${#authentication.principal.loggedMember.userName}">김은경</h5>
-                            <p class="desc">알리 강아지 주인</p>
+                            <p class="desc" th:text="*{petName} + '주인'">알리 강아지 주인</p>
                         </div>
                         <div class="pet-info"></div>
                     </div>
                     <div class="info-box">
-                        <p><i class="bi bi-emoji-smile"></i> 알리 / M</p>
-                        <p><i class="bi bi-calendar2-date"></i> 20.06.27</p>
-                        <p><i class="bi bi-box2-heart"></i> 117 followers</p>
+                        <p>
+                            <i class="bi bi-emoji-smile"></i>
+                            <span th:text="*{petName}">밍키</span>
+                        </p>
+                        <p>
+                            <i class="bi bi-emoji-smile"></i>
+                            <span th:text="*{species} + ' / ' + *{petGender}"> 강아지/M</span>
+                        </p>
+                        <p>
+                            <i class="bi bi-calendar2-date"></i>
+                            <span th:text="*{birthDate}">20.06.27</span>
+                        </p>
+                        <p>
+                            <i class="bi  bi-box2-heart"></i>
+                            <span th:text="*{follow} + ' followers'">117</span>
+                        </p>
                         <button class="btn btn-follow w-100 btn-lg">Follow</button>
                     </div>
                 </div>
@@ -45,34 +62,48 @@
                         </div>
                         <div class="tab">
                             <ul class="nav">
-                                <li class="on">
-                                    <a class="" href="#">소개</a>
+                                <li class="on" onclick="showTab('intro')">
+                                    <a href="javascript:void(0)">소개</a>
                                 </li>
-                                <li>
-                                    <a href="#">특징</a>
-                                </li>
-                            </ul>
-                            <ul class="content">
-                                <li>
-                                    <div>
-                                        소개글이 나옵니다. <br/>
-                                        소개글이 나옵니다. <br/>
-                                        소개글이 나옵니다. <br/>
-                                        소개글이 나옵니다. <br/>
-                                        소개글이 나옵니다. <br/>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div>
-                                        특징이 나옵니다. <br/>
-                                        특징이 나옵니다. <br/>
-                                        특징이 나옵니다. <br/>
-                                        특징이 나옵니다. <br/>
-                                        특징이 나옵니다. <br/>
-                                        특징이 나옵니다. <br/>
-                                    </div>
+                                <li onclick="showTab('activity')">
+                                    <a href="javascript:void(0)">활동</a>
                                 </li>
                             </ul>
+                            <div id="tab-content">
+                                <div id="intro" class="tab-pane">
+                                    <ul class="content">
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-sun"></i>
+                                                <span th:text="*{content}"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-stars"></i>
+                                                <span th:text="*{character}"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-hand-thumbs-up"></i>
+                                                <span th:text="*{petLike}"></span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-hand-thumbs-down"></i>
+                                                <span th:text="*{petDislike}"></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div id="activity" class="tab-pane" style="display:none;">
+                                    <ul class="content">
+                                        화려한 활동 수상경력
+                                    </ul>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,5 +124,22 @@
     rangeInput.addEventListener("input", function () {
         rangeOutput.textContent = this.value;
     });
+
+</script>
+<script>
+    function showTab(tabId) {
+        // 모든 탭 숨기기
+        document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+        // 해당 탭만 보이기
+        document.getElementById(tabId).style.display = 'block';
+
+        // 탭 활성화 표시
+        document.querySelectorAll('.nav li').forEach(el => el.classList.remove('on'));
+        if (tabId === 'intro') {
+            document.querySelectorAll('.nav li')[0].classList.add('on');
+        } else {
+            document.querySelectorAll('.nav li')[1].classList.add('on');
+        }
+    }
 </script>
 </html>

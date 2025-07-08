@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
+//@ToString
 @Builder
 @EntityListeners(AuditingEntityListener.class)
 public class Member {

@@ -2,6 +2,9 @@ package com.petthegarden.petthegarden.petnote;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.member.MemberService;
+import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
+import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -10,29 +13,41 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Controller
 @RequestMapping("/petnote")
 @RequiredArgsConstructor
 public class PetnoteController {
     private final PetnoteService petnoteService;
+    private final MemberService memberService;
 
     @GetMapping("/list")
     public String list() {
         return "petnote/list";
     }
 
-    @GetMapping("/profile/{userID}")
-    public String profile(@PathVariable("userID") String userID, Model model) {
+    @GetMapping("/profile")
+    public String profile(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                          Model model) {
+
+        String userID = customUserDetails.getLoggedMember().getUserID();
+        Integer memberID = customUserDetails.getLoggedMember().getId();
+        List<Pet> petList = petnoteService.getPetList(memberID);
+        PetDto firstPetDto = petnoteService.getPetDto(memberID);
+        System.out.println("PetnoteContoller 펫디티오 " + firstPetDto);
+
         model.addAttribute("userID", userID);
-//        model.addAttribute("memberDto", memberDto);
+        model.addAttribute("petList", petList);
+        model.addAttribute("firstPetDto", firstPetDto);
+
         return "petnote/profile";
     }
 
 
-
-
-    @GetMapping("/diaryreg")
-    public String diaryreg() {
+    @GetMapping("/diaryreg/{petName}")
+    public String diaryreg(@PathVariable String petName, Model model) {
+        String petName = firstPetDto.getPetName();
         return "petnote/diaryreg";
     }
 

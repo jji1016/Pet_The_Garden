@@ -5,6 +5,7 @@ import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.member.dto.MemberDto;
 import com.petthegarden.petthegarden.member.util.DateTimeFileRenameStrategy;
 import com.petthegarden.petthegarden.member.util.FileRenameStrategy;
+
 import lombok.RequiredArgsConstructor;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,6 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+
 
 
 @Service
@@ -82,4 +84,8 @@ public class MemberService {
         return memberDao.existsByUserName(userName);
     }
 
+
+    public Member findMemberByUserID(String userID) {
+        return memberDao.findMemberByUserID(userID);
+    }
 }
