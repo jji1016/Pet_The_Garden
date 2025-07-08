@@ -96,3 +96,36 @@
     font-size: 24px;
     font-weight: 700;
 }
+
+.protection-wrap .pagingBtnRap {
+    display: flex;
+    justify-content: center;
+}
+.protection-wrap .pagingBtnRap a{
+    border: 1px solid #cbcbcb;
+    border-radius: 6px;
+    margin: 0 5px;
+    padding: 2px 17px;
+    font-size: 1.1em;
+    background-color: #fff9f1;
+    color: #2d2d2d;
+    line-height: 29px;
+    box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.05);
+    width: 45.91px;
+    display: flex;
+    justify-content: center;
+}
+.protection-wrap .pagingBtnRap a:hover{
+    background-color: #f7efe4;
+}
+.protection-wrap .pagingBtnRap .active{
+    background-color: #f8a92b;
+    color: #fff;
+}
+.protection-wrap .pagingBtnRap .active:hover{
+    background-color: #e9a83f;
+}
+.protection-wrap .pagingBtnRap .arrow{
+    font-size: 0.8em;
+    color: #373737;
+}
