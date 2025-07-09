@@ -73,7 +73,9 @@
           <div class="photo">
             <label for="profileImg" class="btn-upload">📷<br>사진 올리기</label>
             <input type="file" id="profileImg" name="profileImg" accept="image/*" style="display: none;">
+            <img id="previewImage" src="#" alt="미리보기" style="display: none;" />
           </div>
+
 
           <div class="btn">
             <button type="submit">등록</button>
@@ -136,6 +138,23 @@
           .catch(error => {
             console.error(error);
           });
+</script>
+<script>
+  document.getElementById('profileImg').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('previewImage');
+    const label = document.getElementById('uploadLabel');
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        label.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
 </script>
 </body>
 </html>

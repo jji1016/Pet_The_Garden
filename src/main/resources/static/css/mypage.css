@@ -61,7 +61,7 @@ main {
 #section .my_top .top_left .left_txt>a{
   margin-top:54px;
   margin-left:110px;
-  color:#8b9773;
+  color:#F8A92B;
 }
 
 #section .my_top .top_right{
@@ -99,7 +99,7 @@ main {
 }
 #section .my_top .top_right .grade .value>a{
   font-size: 16px;
-  color:#8b9773;
+  color:#F8A92B;
   margin-left:35px;
 }
 
@@ -146,7 +146,7 @@ main {
 #section .my_list>ul>li>span{
   position: absolute;
   top:-2px; right:10px;
-  color:#8b9773;
+  color:#F8A92B;
   font-weight: 500;
   cursor: pointer;
 }
@@ -170,7 +170,7 @@ main {
 #section .my_list .content_wrap .content>h2>span{
   font-size: 16px;
   font-weight: 400;
-  color:#8b9773;
+  color:#F8A92B;
   margin-left:10px;
 }
 #section .my_list .content_wrap .content .delivery_status{
@@ -189,7 +189,7 @@ main {
   color:#888887;
 }
 #section .my_list .content_wrap .content .delivery_status>li>span{
-  color:#8b9773;
+  color:#F8A92B;
   font-size: 30px;
   font-weight: 600;
 }
@@ -270,8 +270,8 @@ main {
 #section .my_list .content_wrap .content .order .btn_search{
   width:50px; height:35px;
   margin-left:10px;
-  border:1px solid #8b9773;
-  background-color: #8b9773;
+  border:1px solid #F8A92B;
+  background-color: #F8A92B;
   color:white;
   cursor: pointer;
   transition:all 0.3s;
@@ -345,15 +345,34 @@ main {
   background-color: #F8A92B;
   color:white;
 }
+.review-btn {
+  display: inline-block;     /* a 태그에 block 성격 부여 */
+  width: 70px;
+  height: 35px;
+  line-height: 35px;
+  border: 1px solid #F8A92B;
+  border-radius: 50px;
+  background-color: #F8A92B;
+  color: white;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;     /* a 태그 밑줄 제거 */
+  box-sizing: border-box;
+}
+
 #section .my_list .content_wrap .content .order_table>tbody>tr .review-btn,
 #section .my_list .content_wrap .content .order_table>tbody>tr .cancel_btn{
   width:70px; height: 35px;
   line-height: 35px;
-  border:1px solid #8b9773;
+  border:1px solid #F8A92B;
   border-radius: 50px;
-  background-color: #8b9773;
+  background-color: #F8A92B;
   color:white;
   transition: all 0.3s;
+  font-size: 14px;
   cursor: pointer;
   margin-left: 4px;
 }
@@ -563,8 +582,8 @@ main {
 #section .my_list .content_wrap .content .po_coupon .coupon_btn{
   width:70px; height:30px;
   margin-left:20px;
-  border:#8b9773;
-  background-color: #8b9773;
+  border:#F8A92B;
+  background-color: #F8A92B;
   color:white;
   cursor: pointer;
   transition: all 0.3s;
@@ -645,15 +664,15 @@ main {
 #section .my_list .l_btn .l_btnn{
   width:295px; height:45px;
   background-color: white;
-  border:1px solid #8b9773;
+  border:1px solid #F8A92B;
   cursor: pointer;
   transition:all 0.3s;
 }
 #section .my_list .l_btn .l_btnn>a{
-  color:#8b9773;
+  color:#F8A92B;
 }
 #section .my_list .l_btn .l_btnn:hover{
-  background-color: #8b9773;
+  background-color: #F8A92B;
 }
 #section .my_list .l_btn .l_btnn:hover>a{
   color:white;

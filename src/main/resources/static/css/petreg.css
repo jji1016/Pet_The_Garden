@@ -171,13 +171,15 @@ body{
 #section .wrap-review-all .review-write form .btn{
     width: 305px;
     margin: 50px auto 0;
+    display: flex;
+    justify-content: center;
 }
 #section .wrap-review-all .review-write form .btn button{
     width: 150px;
     height: 50px;
     background-color: #fff;
-    border: 1px solid #8B9773;
-    color: #8B9773;
+    border: 1px solid #F8A92B;
+    color: #F8A92B;
     font-size: 18px;
     font-weight: 500;
     cursor: pointer;
@@ -185,20 +187,20 @@ body{
     box-sizing: border-box;
 }
 #section .wrap-review-all .review-write form .btn button:hover{
-    background-color: #8B9773;
+    background-color: #F8A92B;
     color: white;
 }
 #section .wrap-review-all .review-write form .btn button:last-child{
-    border: 1px solid #b8b8b8;
+    border: 1px solid #F8A92B;
     transition: all 0.3s;
 }
 #section .wrap-review-all .review-write form .btn button:last-child a{
-    color: #b8b8b8;
+    color: #F8A92B;
     display: block;
     font-weight: 400;
 }
 #section .wrap-review-all .review-write form .btn button:last-child:hover{
-    background-color: #b8b8b8;
+    background-color: #F8A92B;
 }
 #section .wrap-review-all .review-write form .btn button:last-child:hover a{
     color: white;
@@ -218,6 +220,40 @@ body{
 
 /* 사진 업로드 영역 배경색 변경 */
 #section .wrap-review-all .review-write form .photo {
+    width: 100%;
+    height: 150px;
     background-color: #F8A92B;
+    border-radius: 15px;
+    text-align: center;
     color: white;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.btn-upload {
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.5;
+    cursor: pointer;
+    padding: 45px 0;
+    transition: opacity 0.3s;
+}
+
+/* 미리보기 이미지 */
+#previewImage {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    border-radius: 15px;
 }

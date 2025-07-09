@@ -4,7 +4,7 @@
 <head>
     <title>게시글 상세보기</title>
     <th:block th:replace="fragments/head :: head('게시글 상세보기')"></th:block>
-    <link rel="stylesheet" href="/css/boarddetail.css" />
+    <link rel="stylesheet" href="/css/community/boarddetail.css" />
 </head>
 
 <body>
@@ -61,7 +61,7 @@
             <div class="comment-item" th:each="comment : ${board.boardCommentList}"  th:attr="data-comment-id=${comment.id}">
                 <div class="comment-header">
                     <div class="comment-author" th:text="${comment.member.userName}">작성자</div>
-                    <div class="comment-date" th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm')}">작성일</div>
+                    <div class="comment-date" th:text="${#temporals.format(comment.modifyDate != null ? comment.modifyDate : comment.regDate, 'yyyy-MM-dd HH:mm')}">작성일</div>
                 </div>
 
                 <div class="comment-body">

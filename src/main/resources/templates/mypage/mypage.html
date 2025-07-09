@@ -168,25 +168,25 @@
             <th>반려동물 이름</th>
             <th>프로필 이미지</th>
             <th>반려동물 종</th>
+            <th>
+              <a href="/mypage/petreg" class="review-btn" style="display: inline-block; margin-top: 5px;">등록하기</a>
+            </th>
           </tr>
           </thead>
           <tbody id="subscribeRap">
           <tr th:each="pet : ${pets}">
             <td th:text="${#temporals.format(pet.modifyDate != null ? pet.modifyDate : pet.regDate, 'yyyy-MM-dd HH:mm')}">2025-07-07</td>
-            <td><a th:href="@{/mypage/petdetail/{id}(id=${pet.id})}" th:text="${pet.petName}">반려동물 이름</a></td>
+            <td th:text="${pet.petName}">반려동물 이름</td>
             <td>
-              <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" alt="프로필 이미지" style="width: 50px; height: 50px; object-fit: cover;" />
+              <a th:href="@{/mypage/petdetail/{id}(id=${pet.id})}">
+                <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" alt="프로필 이미지" style="width: 50px; height: 50px; object-fit: cover;" />
+              </a>
             </td>
             <td th:text="${pet.species}">반려동물 종</td>
             <td>
             <form th:action="@{/mypage/petdelete/{id}(id=${pet.id})}" method="post" onsubmit="return confirm('정말 삭제하시겠습니까?');">
             <button type="submit" class="cancel_btn">등록취소</button>
           </form></td>
-            <td>
-              <button type="button" class="review-btn">
-                <a href="/mypage/petreg" class="review-btn">등록하기 </a>
-              </button>
-            </td>
           </tr>
 
           <!-- pets 리스트가 비었을 때 표시 -->
@@ -194,7 +194,6 @@
             <td colspan="4">
               <div class="no-pet content-inner">
                 <p>등록된 반려동물이 없습니다.</p>
-                <a href="/mypage/petreg" class="review-btn">등록하기</a>
               </div>
             </td>
           </tr>
