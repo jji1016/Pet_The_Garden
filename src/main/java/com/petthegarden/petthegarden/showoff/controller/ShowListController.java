@@ -1,6 +1,6 @@
 package com.petthegarden.petthegarden.showoff.controller;
 
-import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.entity.ShowOff;
 import com.petthegarden.petthegarden.showoff.service.ShowListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/showoff")
 @RequiredArgsConstructor
 public class ShowListController {
+
     private final ShowListService showListService;
 
     @GetMapping("/showlist")
@@ -24,13 +25,14 @@ public class ShowListController {
         // 페이지 번호가 0보다 작으면 무조건 0으로 보정
         if (page < 0) page = 0;
 
-        List<Pet> popularPets = showListService.getTop3PopularPets();
-        model.addAttribute("popularPets", popularPets);
+        List<ShowOff> popularShowOffs = showListService.getTop3PopularShowOffs();
+        model.addAttribute("popularShowOffs", popularShowOffs);
 
         PageRequest pageRequest = PageRequest.of(page, 5, Sort.by("regDate").descending());
-        Page<Pet> petPage = showListService.getPetsByPage(pageRequest);
-        model.addAttribute("petList", petPage.getContent());
-        model.addAttribute("petPage", petPage);
+        Page<ShowOff> showOffPage = showListService.getShowOffsByPage(pageRequest);
+
+        model.addAttribute("showOffList", showOffPage.getContent());
+        model.addAttribute("showOffPage", showOffPage);
 
         return "showoff/showlist";
     }

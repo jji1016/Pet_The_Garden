@@ -13,16 +13,16 @@
                 <h2 class="section-title center-align">이 달의 인기 게시글</h2>
             </div>
             <div class="popular-grid">
-                <div class="popular-card" th:each="pet : ${popularPets}">
-                    <img th:src="@{'/images/' + ${pet.profileImg}}"
-                         th:alt="${pet.petName}"
+                <div class="popular-card" th:each="showOff : ${popularShowOffs}">
+                    <img th:src="@{'/images/' + ${showOff.pet.profileImg}}"
+                         th:alt="${showOff.pet.petName}"
                          class="popular-card-img">
                     <div class="popular-card-desc">
-                        <div class="popular-card-title" th:text="${pet.petName}"></div>
-                        <div class="popular-card-nickname" th:text="${pet.member.userName}"></div>
+                        <div class="popular-card-title" th:text="${showOff.subject}"></div>
+                        <div class="popular-card-nickname" th:text="${showOff.member.userName}"></div>
                         <div class="popular-card-like">
                             <span class="material-symbols-outlined">favorite</span>
-                            <span th:text="${pet.petLike}"></span>
+                            <span th:text="${showOff.pet.petLike}"></span>
                         </div>
                     </div>
                 </div>
@@ -35,30 +35,30 @@
                 <h2 class="section-title">전체 게시글</h2>
             </div>
             <div class="table-responsive">
-                <table class="table table-hover pet-table">
+                <table class="table table-hover showoff-table">
                     <thead class="table-light">
                     <tr>
                         <th width="50%" class="text-center">게시글 제목</th>
-                        <th width="25%" class="text-center">이름</th>
+                        <th width="25%" class="text-center">작성자</th>
                         <th width="15%" class="text-center">등록일</th>
                         <th width="10%" class="text-center">좋아요</th>
                     </tr>
                     </thead>
                     <tbody>
-                    <tr class="pet-row" th:each="pet : ${petList}"
-                        th:onclick="|location.href='@{/showoff/showdetail/{petId}(petId=${pet.id})}'|">
-                        <td class="pet-title-cell text-center">
-                            <h5 class="pet-name" th:text="${pet.petName}"></h5>
-                            <span class="pet-species" th:text="${pet.species}"></span>
+                    <tr class="showoff-row" th:each="showOff : ${showOffList}"
+                        th:onclick="|location.href='@{/showoff/showdetail/{showOffId}(showOffId=${showOff.id})}'|">
+                        <td class="showoff-title-cell text-center">
+                            <h5 class="showoff-subject" th:text="${showOff.subject}"></h5>
+                            <span class="pet-name" th:text="${showOff.pet.petName}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="member-nickname" th:text="${pet.member.userName}"></span>
+                            <span class="member-nickname" th:text="${showOff.member.userName}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="reg-date" th:text="${#temporals.format(pet.regDate, 'yyyy.MM.dd')}"></span>
+                            <span class="reg-date" th:text="${#temporals.format(showOff.regDate, 'yyyy.MM.dd')}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="like-count" th:text="${pet.petLike}"></span>
+                            <span class="like-count" th:text="${showOff.pet.petLike}"></span>
                         </td>
                     </tr>
                     </tbody>
@@ -67,15 +67,15 @@
                 <!-- 페이지네이션은 반드시 테이블 아래에 위치 -->
                 <div class="pagination">
                     <ul>
-                        <li th:if="${petPage.hasPrevious()}">
-                            <a th:href="@{/showoff/showlist(page=${petPage.number > 0 ? petPage.number - 1 : 0})}">&laquo; 이전</a>
+                        <li th:if="${showOffPage.hasPrevious()}">
+                            <a th:href="@{/showoff/showlist(page=${showOffPage.number > 0 ? showOffPage.number - 1 : 0})}">&laquo; 이전</a>
                         </li>
-                        <li th:each="i : ${#numbers.sequence(0, petPage.totalPages - 1)}"
-                            th:classappend="${petPage.number == i} ? 'active'">
+                        <li th:each="i : ${#numbers.sequence(0, showOffPage.totalPages - 1)}"
+                            th:classappend="${showOffPage.number == i} ? 'active'">
                             <a th:href="@{/showoff/showlist(page=${i})}" th:text="${i + 1}"></a>
                         </li>
-                        <li th:if="${petPage.hasNext()}">
-                            <a th:href="@{/showoff/showlist(page=${petPage.number + 1})}">다음 &raquo;</a>
+                        <li th:if="${showOffPage.hasNext()}">
+                            <a th:href="@{/showoff/showlist(page=${showOffPage.number + 1})}">다음 &raquo;</a>
                         </li>
                     </ul>
                 </div>

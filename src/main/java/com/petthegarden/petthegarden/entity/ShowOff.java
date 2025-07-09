@@ -43,4 +43,7 @@ public class ShowOff {
 
     @OneToMany(mappedBy = "showOff", cascade = CascadeType.ALL)
     private List<ShowOffComment> showOffCommentList;
+
+    @Column(nullable = false)
+    private int showOffLike;
 }
