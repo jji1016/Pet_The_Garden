@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static java.lang.Math.ceil;
@@ -34,15 +35,26 @@ public class StrayController {
 
         startDate = startDate == null ? "" : startDate;
         endDate = endDate == null ? "" : endDate;
-        discvryPlc = discvryPlc == null ? "" : discvryPlc;
-        species = species == null ? "" : species;
+        discvryPlc = discvryPlc == null ? "" : discvryPlc.replaceAll("\\s+"," ").trim();
+        species = species == null ? "" : species.replaceAll("\\s+", " ").trim();
+
+        //startDate가 endDate보다 클 경우 서로 교체
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            if (start.isAfter(end)) {
+                String temp = startDate;
+                startDate = endDate;
+                endDate = temp;
+            }
+        }
 
         int itemsPerPage = 20; // 한 페이지당 최대 게시물 수
         int totalStray = strayService.totalStray(startDate,endDate,discvryPlc,species); //그냥 혹은 검색시 나오는 게시물 수
         int totalPage = (int) Math.ceil((double) totalStray / itemsPerPage);
+        totalPage = totalPage == 0 ? 1 : totalPage;
         int startItem = (currentPage - 1) * itemsPerPage + 1;
         int endItem = currentPage * itemsPerPage;
-        log.info("aaaaaaaaaaaaaaaaaaaaaaaa=== "+startItem + " " + endItem);
 
         List<StrayDto> strayList = strayService.getStrayList(startDate,endDate,discvryPlc,species,startItem,endItem);
         log.info("strayList ===={}", strayList.toString());
@@ -58,9 +70,9 @@ public class StrayController {
         return "stray/protect";
     }
 
-    @GetMapping("/detail/{abdmIdNtfyNo}")
-    public String detail(@PathVariable String abdmIdNtfyNo, Model model) {
+    @GetMapping("/detail")
+    public String detail(Model model) {
 
-        return "stray/detail/" + abdmIdNtfyNo;
+        return "stray/detail" ;
     }
 }

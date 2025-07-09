@@ -1,5 +1,5 @@
 .protect-wrap {
-    margin: 20px auto;
+    margin: 0 auto;
     min-height: calc(100vh - 40px);
     overflow-y: auto;
     border-radius: 20px;
@@ -43,6 +43,11 @@
     border-color: #f8a92b;
 }
 
+.result-list .emptySearch{
+    text-align: center;
+    font-size: larger;
+    margin-bottom: 30px;
+}
 .result-list .card {
     border-radius: 20px;
     overflow: hidden;
