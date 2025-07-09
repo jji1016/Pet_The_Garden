@@ -5,6 +5,7 @@
     margin: 2rem 0 3rem 0;
     flex-wrap: wrap;
 }
+
 .popular-card {
     background: #fff;
     border-radius: 20px;
@@ -16,6 +17,7 @@
     padding: 1.5rem 1rem 1.3rem 1rem;
     text-align: center;
 }
+
 .popular-card-img {
     width: 120px;
     height: 120px;
@@ -25,6 +27,7 @@
     background: #f7f7f7;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
+
 .popular-card-title {
     font-size: 1.08rem;
     font-weight: 600;
@@ -34,11 +37,13 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
 .popular-card-nickname {
     font-size: 0.97rem;
     color: #f8a92b;
     font-weight: 500;
 }
+
 .popular-card-like {
     margin-top: 0.5rem;
     color: #f8a92b;
@@ -49,25 +54,30 @@
     gap: 0.2rem;
     font-size: 1.03rem;
 }
+
 .popular-card-like .material-symbols-outlined {
     font-size: 1.15rem;
 }
+
 @media (max-width: 800px) {
     .popular-grid {
         flex-direction: column;
         align-items: center;
         gap: 1.5rem;
     }
+
     .popular-card {
         width: 90vw;
         max-width: 320px;
     }
 }
+
 .pagination {
     margin-top: 1.5rem;
     display: flex;
     justify-content: center;
 }
+
 .pagination ul {
     display: flex;
     list-style: none;
@@ -75,13 +85,16 @@
     margin: 2rem 0;
     padding: 0;
 }
+
 .pagination li {
     margin: 0 0.3rem;
 }
+
 .pagination li.active a {
     font-weight: bold;
     color: #f8a92b;
 }
+
 .pagination a {
     text-decoration: none;
     color: #333;
@@ -89,30 +102,46 @@
     border-radius: 5px;
     transition: background 0.2s;
 }
+
 .pagination a:hover {
     background: #f8a92b22;
 }
 
-.pet-table {
+.showoff-table {
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     font-size: 1rem;
 }
-.pet-table th, .pet-table td {
+
+.showoff-table th, .showoff-table td {
     vertical-align: middle;
     text-align: center;
     padding: 0.9rem 0.5rem;
     white-space: nowrap;
 }
-.pet-title-cell {
+
+.showoff-title-cell {
     text-align: center;
 }
-.pet-title-cell .pet-name,
-.pet-title-cell .pet-species {
+
+.showoff-title-cell .showoff-subject,
+.showoff-title-cell .pet-name {
     display: block;
     text-align: center;
 }
+
+.showoff-subject {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.2rem;
+}
+
+.pet-name {
+    font-size: 0.85rem;
+    color: #666;
+}
+
 .member-nickname {
     font-size: 0.92rem;
     white-space: nowrap;
@@ -121,10 +150,12 @@
     max-width: 120px;
     display: inline-block;
 }
-.pet-table tbody tr {
+
+.showoff-table tbody tr {
     cursor: pointer;
     transition: background-color 0.2s;
 }
-.pet-table tbody tr:hover {
+
+.showoff-table tbody tr:hover {
     background-color: #f8f9fa;
 }
