@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -37,7 +39,7 @@ public class MyPageController {
 
     @GetMapping("/mypage")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model,
-                         Pageable pageable){
+                         @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable){
         if (customUserDetails == null) {
             // 비로그인 시 로그인 페이지로 리다이렉트
             return "redirect:/member/login";
@@ -56,7 +58,6 @@ public class MyPageController {
         //List<PetDto> pets = mypageService.findPetsByMemberId(1);
 
         model.addAttribute("loggedMemberDto", loggedMemberDto);
-        model.addAttribute("myBoards", myBoards);
         model.addAttribute("pets", pets);
         model.addAttribute("myBoards", myBoardsPage.getContent()); // 7개씩 나오는 게시글 리스트
         model.addAttribute("myBoardsPage", myBoardsPage); // 페이지 정보
