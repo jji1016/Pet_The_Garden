@@ -24,12 +24,12 @@
   <div class="my_list">
     <h1>마이페이지</h1>
     <ul class="list1">
-      <li>내 정보 관리</li>
-      <li>내가 쓴 장기자랑 글</li>
-      <li>내가 쓴 자유게시판 글</li>
-      <li>반려동물 등록</li>
-      <li>팔로우한 반려동물</li>
-      <li>1:1 문의내역<span>&gt;</span></li>
+      <li data-tab="profile">내 정보 관리</li>
+      <li data-tab="talent">내가 쓰는 장기자랑 글</li>
+      <li data-tab="freeboard">내가 쓰는 자유게시판 글</li>
+      <li data-tab="pet">반려동물 등록</li>
+      <li data-tab="follow">팔로우한 반려동물</li>
+      <li data-tab="qna">1:1 문의내역</li>
     </ul>
 
     <div class="content_wrap">
@@ -112,7 +112,7 @@
       </div>
 
       <!-- 내가 작성한 글 내역 -->
-      <div class="content">
+      <div class="content" id="freeboard-tab" style="display:none;">
         <h2>내가 쓴 자유게시판 글</h2>
         <ul class="request_detail">
           <li class="detail_on">자유게시판 글 내역(<span id="number1">1</span>)</li>
@@ -137,18 +137,18 @@
 
         <table class="page_btn">
           <tbody>
-          <tr>
+          <tr id="freeboard-pagination">
             <td th:if="${myBoardsPage.hasPrevious()}">
-              <a th:href="@{/mypage/mypage(page=${myBoardsPage.number - 1})}">이전</a>
+              <a th:href="@{/mypage/mypage(page=${myBoardsPage.number - 1}, tab='freeboard')}">이전</a>
             </td>
 
             <td th:each="pageNum : ${#numbers.sequence(0, myBoardsPage.totalPages - 1)}"
                 th:classappend="${pageNum == myBoardsPage.number} ? 'current'">
-              <a th:href="@{/mypage/mypage(page=${pageNum})}" th:text="${pageNum + 1}">1</a>
+              <a th:href="@{/mypage/mypage(page=${pageNum}, tab='freeboard')}" th:text="${pageNum + 1}">1</a>
             </td>
 
             <td th:if="${myBoardsPage.hasNext()}">
-              <a th:href="@{/mypage/mypage(page=${myBoardsPage.number + 1})}">다음</a>
+              <a th:href="@{/mypage/mypage(page=${myBoardsPage.number + 1}, tab='freeboard')}">다음</a>
             </td>
           </tr>
           </tbody>
@@ -477,6 +477,34 @@
         }
       });
     });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeTab = urlParams.get('tab');
+
+    document.querySelectorAll('.content').forEach(div => div.style.display = 'none');
+
+    switch (activeTab) {
+      case 'freeboard':
+        document.querySelectorAll('.content')[2].style.display = 'block';
+        break;
+      case 'talent':
+        document.querySelectorAll('.content')[1].style.display = 'block';
+        break;
+      case 'pet':
+        document.querySelectorAll('.content')[3].style.display = 'block';
+        break;
+      case 'follow':
+        document.querySelectorAll('.content')[4].style.display = 'block';
+        break;
+      case 'qna':
+        document.querySelectorAll('.content')[5].style.display = 'block';
+        break;
+      default:
+        document.getElementById('profile').style.display = 'block';
+    }
   });
 </script>
 </body>
