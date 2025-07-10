@@ -22,7 +22,7 @@
                         <div class="popular-card-nickname" th:text="${showOff.member.userName}"></div>
                         <div class="popular-card-like">
                             <span class="material-symbols-outlined">favorite</span>
-                            <span th:text="${showOff.pet.petLike}"></span>
+                            <span th:text="${showOff.showOffLike}"></span>
                         </div>
                     </div>
                 </div>
@@ -58,7 +58,7 @@
                             <span class="reg-date" th:text="${#temporals.format(showOff.regDate, 'yyyy.MM.dd')}"></span>
                         </td>
                         <td class="text-center align-middle">
-                            <span class="like-count" th:text="${showOff.pet.petLike}"></span>
+                            <span class="like-count" th:text="${showOff.showOffLike}"></span>
                         </td>
                     </tr>
                     </tbody>

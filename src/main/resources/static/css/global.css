@@ -294,3 +294,37 @@ h2.section-title {
   position: relative;
   margin-right: 10px;
 }
+.showreg-container {
+  padding-top: 180px;
+}
+.showreg-btn-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+button.btn-action {
+  border: none;
+  border-radius: 16px;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 1rem 2.5rem;
+  transition: all 0.2s;
+  margin-right: 0;
+}
+button.btn-submit {
+  background: #f8a92b;
+  color: white;
+}
+button.btn-submit:hover {
+  background: #ffd591;
+}
+p.ck-placeholder {
+  min-height: 400px;
+}
+.ck-editor__editable_inline,
+.ck-editor__editable_inline:focus {
+  min-height: 400px !important;
+  border-radius: 8px;
+}
