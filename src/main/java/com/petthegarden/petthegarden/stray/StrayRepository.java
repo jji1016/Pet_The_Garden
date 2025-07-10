@@ -37,4 +37,7 @@ public interface StrayRepository extends JpaRepository<Stray, Integer> {
                              @Param("startItem") int startItem,
                              @Param("endItem") int endItem);
 
+    @Query(value = "SELECT * FROM STRAY WHERE ABDM_IDNTFY_NO = :ABDM_IDNTFY_NO",
+            nativeQuery = true)
+    Stray getDetailInfo(@Param("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO);
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static java.lang.Math.ceil;
@@ -70,9 +71,32 @@ public class StrayController {
         return "stray/protect";
     }
 
-    @GetMapping("/detail")
-    public String detail(Model model) {
+    @GetMapping("/detail/{ABDM_IDNTFY_NO}")
+    public String detail(@PathVariable String ABDM_IDNTFY_NO, Model model) {
+        StrayDto detailInfo = strayService.getDetailInfo(ABDM_IDNTFY_NO);
+        log.info("detailInfo ===={}", detailInfo.toString());
 
-        return "stray/detail" ;
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyyMMdd");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+        String formattedBeginDate = "";
+        String formattedEndDate = "";
+
+        try {
+            if (detailInfo.getPblancBeginDe() != null) {
+                formattedBeginDate = LocalDate.parse(detailInfo.getPblancBeginDe(), inputFormat).format(outputFormat);
+            }
+            if (detailInfo.getPblancEndDe() != null) {
+                formattedEndDate = LocalDate.parse(detailInfo.getPblancEndDe(), inputFormat).format(outputFormat);
+            }
+        } catch (Exception e) {
+            log.warn("날짜 파싱 오류", e);
+        }
+
+        model.addAttribute("detailInfo", detailInfo);
+        model.addAttribute("formattedBeginDate", formattedBeginDate);
+        model.addAttribute("formattedEndDate", formattedEndDate);
+
+        return "stray/detail";
     }
 }
