@@ -1,25 +1,30 @@
-package com.petthegarden.petthegarden.showoff.service;// ShowListService.java
-import com.petthegarden.petthegarden.entity.Pet;
+package com.petthegarden.petthegarden.showoff.service;
+
+import com.petthegarden.petthegarden.entity.ShowOff;
 import com.petthegarden.petthegarden.showoff.repository.ShowListRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ShowListService {
+
     private final ShowListRepository showListRepository;
 
-    public List<Pet> getAllPets() {
-        return showListRepository.findAll();
+    public List<ShowOff> getTop3PopularShowOffs() {
+        List<ShowOff> allShowOffs = showListRepository.findTop3ByOrderByPetLikeDesc();
+        return allShowOffs.stream().limit(3).toList();
     }
 
-    public List<Pet> getTop3PopularPets() {
-        return showListRepository.findTop3ByOrderByPetLikeDesc();
+    public Page<ShowOff> getShowOffsByPage(Pageable pageable) {
+        return showListRepository.findAll(pageable);
     }
 
-    public Pet getPetById(Integer id) {
+    public ShowOff getShowOffById(Integer id) {
         return showListRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 펫입니다."));
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
     }
 }

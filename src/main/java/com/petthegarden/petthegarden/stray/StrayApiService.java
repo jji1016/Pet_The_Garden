@@ -24,7 +24,8 @@ public class StrayApiService {
 
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(apiUrl)
                 .queryParam("KEY", apiKey)
-                .queryParam("Type", "json");
+                .queryParam("Type", "json")
+                .queryParam("pSize", 200);
 
         String url = uriBuilder.toUriString();
         log.info("Request URL: {}", url);
