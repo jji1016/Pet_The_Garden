@@ -1,41 +1,45 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head(title='장기자랑 등록 페이지')}">
-    <link rel="stylesheet" th:href="@{/css/showreg.css}" />
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head('반려동물 장기자랑 등록')}">
+    <link rel="stylesheet" href="/css/showreg.css">
 </head>
 <body>
-<div th:replace="~{fragments/header :: header}"></div>
+<header th:replace="~{fragments/header :: header}"></header>
 
-<div class="container">
-    <h2 class>반려동물 장기자랑 등록</h2>
-    <form th:action="@{/showoff/showreg}" th:object="${showRegDto}" method="post" enctype="multipart/form-data">
-        <div>
-            <label for="subject">제목</label>
-            <input type="text" id="subject" th:field="*{subject}" required>
+<div class="showreg-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="showreg-card">
+                    <div class="showreg-header">
+                        <h1 class="showreg-title">반려동물 장기자랑</h1>
+                        <p class="showreg-subtitle">우리 아이의 특별한 모습을 자랑해주세요! 🐾</p>
+                    </div>
+                    <div class="showreg-body">
+                        <form th:action="@{/showoff/showreg}" th:object="${showRegDto}" method="post" enctype="multipart/form-data">
+                            <textarea id="editor" th:field="*{content}" class="form-control" rows="20" placeholder="여기에 내용을 입력하세요!"></textarea>
+                            <div class="showreg-btn-row">
+                                <button type="submit" class="btn-action btn-submit">장기자랑 등록하기</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <div>
-            <label for="content">내용</label>
-            <textarea id="content" name="content" th:field="*{content}" required></textarea>
-        </div>
-
-        <div>
-            <label for="youtubeLink">유튜브 링크</label>
-            <input type="url" id="youtubeLink" th:field="*{youtubeLink}" placeholder="https://youtube.com/...">
-        </div>
-
-        <button type="submit">등록</button>
-    </form>
+    </div>
 </div>
 
 <footer th:replace="~{fragments/footer :: footer}"></footer>
 
-<script src="https://cdn.ckeditor.com/4.20.1/standard/ckeditor.js"></script>
+<!-- CKEditor 스크립트 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
-    CKEDITOR.replace('content', {
-        filebrowserUploadUrl: '/showoff/image-upload',
-        filebrowserUploadMethod: 'form'
-    });
+    ClassicEditor
+        .create(document.querySelector('#editor'))
+        .catch(error => {
+            console.error(error);
+        });
 </script>
+<script src="/js/showreg.js"></script>
 </body>
 </html>

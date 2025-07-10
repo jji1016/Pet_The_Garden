@@ -1,15 +1,56 @@
-.container {
-    max-width: 800px;
-    margin: auto;
-    padding: 20px;
+:root {
+    --primary-color: #F8A92B;
+    --primary-dark: #E89611;
+    --primary-light: #FDB94E;
+    --text-color: #333;
+    --border-color: #ddd;
 }
-form > div {
-    margin-bottom: 15px;
+
+.showreg-container {
+    background: linear-gradient(135deg, #FFF8F0 0%, #FFF4E6 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
 }
-input[type="text"],
-input[type="url"],
-textarea {
-    width: 100%;
-    padding: 8px;
-    box-sizing: border-box;
+.showreg-card {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(248, 169, 43, 0.1);
+    overflow: hidden;
+    border: 2px solid rgba(248, 169, 43, 0.1);
+}
+.showreg-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+    position: relative;
+}
+.showreg-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    position: relative;
+    z-index: 1;
+}
+.showreg-subtitle {
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    opacity: 0.9;
+    position: relative;
+    z-index: 1;
+}
+.showreg-body {
+    padding: 2.5rem;
+}
+.ck-editor__editable_inline,
+.ck-editor__editable_inline:focus {
+    min-height: 400px !important;
+    border-radius: 8px;
+}
+.ck-editor__editable_inline {
+    overflow-y: auto; /* 또는 overflow-y: visible; */
+}
+.ck-editor__editable:focus {
+    border-color: var(--primary-color) !important;
+    box-shadow: 0 0 0 0.2rem rgba(248, 169, 43, 0.25) !important;
 }
