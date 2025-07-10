@@ -24,4 +24,8 @@ public class StrayDao {
     public List<Stray> getStrayList(String startDate, String endDate, String discvryPlc, String species, int startItem, int endItem) {
         return strayRepository.getStrayList(startDate,endDate,discvryPlc,species,startItem,endItem);
     }
+
+    public Stray getDetailInfo(String ABDM_IDNTFY_NO) {
+        return strayRepository.getDetailInfo(ABDM_IDNTFY_NO);
+    }
 }

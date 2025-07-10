@@ -66,4 +66,9 @@ public class StrayService {
                 .toList();
         return strayDtoList;
     }
+
+    public StrayDto getDetailInfo(String ABDM_IDNTFY_NO) {
+        Stray detailEntity = strayDao.getDetailInfo(ABDM_IDNTFY_NO);
+        return detailEntity.toStrayDto();
+    }
 }
