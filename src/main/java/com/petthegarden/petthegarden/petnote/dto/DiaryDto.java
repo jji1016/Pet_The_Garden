@@ -28,31 +28,19 @@ public class DiaryDto {
 
     private LocalDateTime modifyDate;
 
-    private Integer memberId;
+    private Member member;
 
-    private Integer petId;
+    private Pet pet;
 
 
-//    public Diary toDiary(Member member, Pet pet) {
-//        return Diary.builder()
-//                .subject(this.subject)
-//                .content(this.content)
-//                .regDate(LocalDateTime.now())
-//                .member(member)
-//                .pet(pet)
-//                .build();
-//
-//    }
-
-    public Diary toDiary(Member member, Pet pet) {
+    public static Diary toDiary(DiaryDto diaryDto) {
         return Diary.builder()
-                .subject(this.subject)
-                .content(this.content)
-                .regDate(LocalDateTime.now())
-                .member(member)
-                .pet(pet)
+                .Id(diaryDto.getId())
+                .subject(diaryDto.getSubject())
+                .content(diaryDto.getContent())
+                .member(diaryDto.getMember())
+                .pet(diaryDto.getPet())
                 .build();
     }
-
 }
 

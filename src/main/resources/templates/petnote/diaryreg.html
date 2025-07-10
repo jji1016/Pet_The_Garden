@@ -2,44 +2,65 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(일기쓰기)}"></head>
 <body>
-<header th:replace="~{fragments/header}"></header>
 <div class="main-visual" id="diary-visual">
     <div class="slogan">
-        <p class="main"><strong>성장일기</strong></p>
+        <p class="main"><strong>강아지의 일기</strong></p>
         <p class="sub">강아지도 고양이도 행복한 정원</p>
     </div>
 </div>
-<div class="container min-vh-100">
-    <div class="search-wrap">
-        <div class="tag">
-            <ul>
-                <li class="on"><a href="">ALL</a></li>
-                <li><a href="">강아지</a></li>
-                <li><a href="">고양이</a></li>
-                <li><a href="">파충류</a></li>
-                <li><a href="">물고기</a></li>
-                <li><a href="">기타</a></li>
-            </ul>
-        </div>
-        <div class="mb-3 search-box">
-            <input type="text" class="form-control" placeholder="search"/>
-            <button class="btn" type="button">search</button>
+<!--<div class="container min-vh-100">-->
+<!--    <div class="search-wrap">-->
+<!--        <div class="tag">-->
+<!--            <ul>-->
+<!--                <li class="on"><a href="">ALL</a></li>-->
+<!--                <li><a href="">강아지</a></li>-->
+<!--                <li><a href="">고양이</a></li>-->
+<!--                <li><a href="">파충류</a></li>-->
+<!--                <li><a href="">물고기</a></li>-->
+<!--                <li><a href="">기타</a></li>-->
+<!--            </ul>-->
+<!--        </div>-->
+<!--        <div class="mb-3 search-box">-->
+<!--            <input type="text" class="form-control" placeholder="search"/>-->
+<!--            <button class="btn" type="button">search</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<nav class="sidebar">
+    <ul>
+        <li class="active">프로필</li>
+        <!--        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>-->
+        <li>성장일기</li>
+    </ul>
+    <form th:action="@{/member/logout}" method="post">
+        <button type="submit" class="btn btn-logout">
+            <i class="bi bi-box-arrow-right"></i> 로그아웃
+        </button>
+    </form>
+</nav>
+<div class="profile-wrap">
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+                <div class="detail-box">
+                    <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
+                        <div>
+                            <input type="text" name="subject">
+                        </div>
+                        <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
+                        <div>
+                            <textarea type="text" name="content" id="content"></textarea>
+                        </div>
+                        <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
+                        <div>
+                            <button class="btn" type="submit">UPLOAD</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
-
-    <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
-        <div>
-            <input type="text" name="subject">
-        </div>
-        <div>
-            <textarea type="text" name="content" id="content"></textarea>
-        </div>
-        <div>
-            <button class="btn" type="submit">UPLOAD</button>
-        </div>
-    </form>
 </div>
-<footer th:replace="~{fragments/footer}"></footer>
+
 
 <script src="https://cdn.ckeditor.com/ckeditor5/45.1.0/ckeditor5.umd.js" crossorigin></script>
 <script>
@@ -261,43 +282,58 @@
             previewsInData: true
         },
         simpleUpload: {
-            uploadUrl: "/story/ck-upload"
+            uploadUrl: "/petnote/diaryreg/upload-image"
             //여기다가 json을 떨어트려야 한다.
         }
     };
 
+
     ClassicEditor
-        .create(document.querySelector('#content'), editorConfig)
+        .create(document.querySelector('#content'),
+            editorConfig,
+            {
+                mediaEmbed: {
+                    previewsInData: true
+                }
+            })
         .then(editor => {
-            const editable = editor.ui.view.editable;
-
-            editable.element.style.height = '500px';
-
-            editable.element.addEventListener('focus', () => {
-                editable.element.style.height = '500px';
-            });
-
-            editable.element.addEventListener('blur', () => {
-                editable.element.style.height = '500px';
-            });
+            window.editorInstance = editor;
         })
+        // .then(editor => {
+        //     const editable = editor.ui.view.editable;
+        //
+        //     editable.element.style.height = '500px';
+        //
+        //     editable.element.addEventListener('focus', () => {
+        //         editable.element.style.height = '500px';
+        //     });
+        //
+        //     editable.element.addEventListener('blur', () => {
+        //         editable.element.style.height = '500px';
+        //     });
+        // })
         .catch(error => {
             console.error(error);
         });
+
+    // ClassicEditor
+    //     .create(document.querySelector('#content'), editorConfig)
+    //     .then(editor => {
+    //         const editable = editor.ui.view.editable;
+    //
+    //         editable.element.style.height = '500px';
+    //
+    //         editable.element.addEventListener('focus', () => {
+    //             editable.element.style.height = '500px';
+    //         });
+    //
+    //         editable.element.addEventListener('blur', () => {
+    //             editable.element.style.height = '500px';
+    //         });
+    //     })
+    //     .catch(error => {
+    //         console.error(error);
+    //     });
 </script>
-
-<!--<script>-->
-<!--    const file = document.querySelector("#file");-->
-<!--    const preview = document.querySelector("#preview");-->
-<!--    file.addEventListener("change", (e) => {-->
-<!--        const selectedFile = e.target.files[0];-->
-<!--        const fileReader = new FileReader();-->
-<!--        fileReader.onload = (e) => {-->
-<!--            preview.setAttribute("src", e.target.result);-->
-<!--        }-->
-<!--        fileReader.readAsDataURL(selectedFile);-->
-<!--    })-->
-<!--</script>-->
-
 </body>
 </html>

@@ -1,41 +1,36 @@
 package com.petthegarden.petthegarden.petnote;
 
-import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.entity.Diary;
 import com.petthegarden.petthegarden.entity.Pet;
-import com.petthegarden.petthegarden.member.MemberDao;
 import com.petthegarden.petthegarden.petnote.dao.PetDao;
 import com.petthegarden.petthegarden.petnote.dao.DiaryDao;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class PetnoteService {
+    @Value("${file.path}diary/")
+    private String upload;
     private final DiaryDao diaryDao;
-    private final MemberDao memberDao;
     private final PetDao petDao;
 
-    public void saveDiary(DiaryDto diaryDto, Integer memberId) {
-        Member member = memberDao.findById(memberId)
-                .orElseThrow(() -> new RuntimeException("회원 정보가 없습니다."));
 
-//        Pet pet = petDao.findFirstByMemberId(memberId)
-//                .orElseThrow(() -> new RuntimeException("등록된 반려동물이 없습니다."));
-
-        // 2. Diary 엔티티로 변환 후 저장
-//        Diary diary = diaryDto.toDiary(member, pet);
-//        petnoteDao.save(diary);
-    }
-
-
-    public List<Pet> getPetList (Integer memberID) {
-        List<Pet> petList =  petDao.getPetList(memberID);
+    public List<Pet> getPetList(Integer memberID) {
+        List<Pet> petList = petDao.getPetList(memberID);
         System.out.println("petnoteService 펫리스트" + petList.size());
         return petList;
     }
@@ -45,6 +40,29 @@ public class PetnoteService {
         return PetDto.toPetDto(pet);
     }
 
-
-
+    public void diarySave(DiaryDto diaryDto) {
+        Diary diary = DiaryDto.toDiary(diaryDto);
+        diaryDao.save(diary);
     }
+
+    public Pet findFirstPet(Integer memberID) {
+        Pet pet = petDao.findFirstPet(memberID);
+        return pet;
+    }
+
+
+    public String uploadImg(MultipartFile uploadFile)  throws IOException {
+
+        Path uploadPath = Paths.get(upload);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+
+        String originalFilename = uploadFile.getOriginalFilename();
+        String fileName = System.currentTimeMillis() + "_" + originalFilename;
+        Path filePath = uploadPath.resolve(fileName);
+        Files.copy(uploadFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
+
+        return "/PTGupload/diary/" + fileName;
+    }
+}

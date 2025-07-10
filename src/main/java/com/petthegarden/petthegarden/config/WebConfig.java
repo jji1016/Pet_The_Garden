@@ -18,6 +18,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.path}upload/")
     private String uploadPath;
 
+    @Value("${file.path}diary/")
+    private String diaryPath;
+
+
     // 기존 파일 업로드 리소스 매핑
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -27,6 +31,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + reviewsPath);
         registry.addResourceHandler("/PTGupload/upload/**")
                 .addResourceLocations("file:///" + uploadPath);
+        registry.addResourceHandler("/PTGupload/diary/**")
+                .addResourceLocations("file:///" + diaryPath);
     }
 
     // ★ 장바구니/결제 페이지 연동을 위한 CORS 설정 추가

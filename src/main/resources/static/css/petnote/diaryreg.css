@@ -1,0 +1,23 @@
+body {
+    display: flex;
+}
+
+.row {
+    margin-right: -385px !important;
+}
+
+.main-visual .slogan {
+    font-weight: 70 !important;
+    position: absolute;
+    left: 335px !important;
+    top: 15% !important;
+    transform: none !important;
+}
+
+.main-visual .slogan .main {
+    font-size: 4vw !important;
+}
+
+.ck-editor__editable {
+    min-height: 500px;
+}

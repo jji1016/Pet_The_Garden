@@ -71,12 +71,5 @@ public class MemberDto {
                 .role(this.role)
                 .build();
     }
-    public static MemberDto toMemberDto(Member member) {
-        return MemberDto.builder()
-                .userID(member.getUserID())
-                .userName(member.getUserName())
-                .email(member.getEmail())
-                .build();
-    }
 
 }

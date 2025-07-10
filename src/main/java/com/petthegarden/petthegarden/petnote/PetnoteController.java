@@ -1,8 +1,8 @@
 package com.petthegarden.petthegarden.petnote;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
+import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
-import com.petthegarden.petthegarden.member.MemberService;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import jakarta.validation.Valid;
@@ -12,15 +12,19 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/petnote")
 @RequiredArgsConstructor
 public class PetnoteController {
+
     private final PetnoteService petnoteService;
-    private final MemberService memberService;
 
     @GetMapping("/list")
     public String list() {
@@ -45,28 +49,42 @@ public class PetnoteController {
     }
 
 
-//    @GetMapping("/diaryreg/{petName}")
-//    public String diaryreg(@PathVariable String petName, Model model) {
-//        String petName = firstPetDto.getPetName();
-//        return "petnote/diaryreg";
-//    }
+    @GetMapping("/diaryreg/{petID}")
+    public String diaryreg(Model model) {
+        model.addAttribute("diaryDto", new DiaryDto());
+        return "petnote/diaryreg";
+    }
+
 
     @PostMapping("/diaryreg")
-    public String diaryreg(@Valid @ModelAttribute("diaryDto") DiaryDto diaryDto, BindingResult bindingResult,
-                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+    public String diaryWrite(@Valid @ModelAttribute("diaryDto") DiaryDto diaryDto,
+                             BindingResult bindingResult,
+                             @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                             Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("diaryDto", diaryDto);
             return "petnote/diaryreg";
         }
 
-//        Integer memberId = customUserDetails.getMemberId();
-//        Integer petId = petnoteService.getFirstPetIdByMember(memberId);
-//
-//        diaryDto.setMemberId(memberId);
-//        diaryDto.setPetId(petId);
+        Member member = customUserDetails.getLoggedMember();
+        Integer memberID = customUserDetails.getLoggedMember().getId();
+        Pet pet = petnoteService.findFirstPet(memberID);
 
-        Integer memberId = customUserDetails.getMemberId();
-        petnoteService.saveDiary(diaryDto, memberId);
+        diaryDto.setMember(member);
+        diaryDto.setPet(pet);
 
-        return "redirect:/petnote/profile";
+        petnoteService.diarySave(diaryDto);
+        return "redirect:/petnote/diaryreg";
     }
+
+
+    @PostMapping("/diaryreg/upload-image")
+    @ResponseBody
+    public Map<String, String> uploadImage(@RequestParam("upload") MultipartFile uploadFile) throws IOException {
+        String imageUrl = petnoteService.uploadImg(uploadFile);
+        Map<String, String> response = new HashMap<>();
+        response.put("url", imageUrl);
+        return response;
+    }
+
 }

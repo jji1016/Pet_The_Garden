@@ -10,7 +10,7 @@
 <nav class="sidebar">
     <ul>
         <li class="active">프로필</li>
-        <li><a th:href="@{/petnote/diaryreg}">성장일기</a></li>
+        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>
     </ul>
     <form th:action="@{/member/logout}" method="post">
         <button type="submit" class="btn btn-logout">

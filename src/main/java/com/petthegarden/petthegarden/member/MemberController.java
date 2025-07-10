@@ -6,7 +6,6 @@ import com.petthegarden.petthegarden.member.dto.MemberDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,20 +18,19 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
-    private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/signup")
     public String signup(Model model) {
         MemberDto memberDto = new MemberDto();
         model.addAttribute("memberDto", memberDto);
-        System.out.println("✅ memberDto: " + memberDto);
+        System.out.println("memberDto: " + memberDto);
         return "member/signup";
     }
 
     @PostMapping("/signup")
     public String signup(@Valid @ModelAttribute("memberDto") MemberDto memberDto, BindingResult bindingResult) {
-        System.out.println("받은 값: " + memberDto);
-        System.out.println("유효성 에러 있음? " + bindingResult.hasErrors());
+        System.out.println("멤버디티오: " + memberDto);
+        System.out.println("유효성 에러? " + bindingResult.hasErrors());
         if (bindingResult.hasErrors()) {
             return "member/signup";
         }

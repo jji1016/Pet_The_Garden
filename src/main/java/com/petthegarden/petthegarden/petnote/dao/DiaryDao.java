@@ -14,5 +14,4 @@ public class DiaryDao {
     public void save(Diary diary) {
         diaryRepository.save(diary);
     }
-
 }

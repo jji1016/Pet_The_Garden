@@ -23,7 +23,8 @@ public class Diary {
     @Column(nullable = false)
     private String subject;
 
-    @Column(nullable = false)
+    @Lob
+    @Column(name = "content", columnDefinition = "CLOB", nullable = false)
     private String content;
 
     @CreatedDate

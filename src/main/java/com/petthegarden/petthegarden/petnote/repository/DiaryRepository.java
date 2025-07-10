@@ -7,6 +7,6 @@ import java.util.Optional;
 
 public interface DiaryRepository extends JpaRepository<Diary,Integer> {
 
-    Optional<Diary> findFirstByMemberId(Integer memberId);
+
 
 }
