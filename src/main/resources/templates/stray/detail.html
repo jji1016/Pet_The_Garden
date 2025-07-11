@@ -10,7 +10,7 @@
 
         <div class="animals-detail">
             <div class="detailImgRap">
-                <img th:src="${detailInfo.imageCours}" alt="#">
+                <img th:src="${detailInfo.imageCours}" onerror="this.onerror=null; this.src='/images/noImage.png'">
             </div>
 
             <h4 class="my-3">동물의 정보</h4>
