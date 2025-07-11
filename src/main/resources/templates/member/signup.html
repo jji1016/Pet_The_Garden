@@ -4,15 +4,13 @@
 
 <body>
 <header th:replace="~{fragments/header}"></header>
-<form th:action="@{/member/signup}" th:method="post" th:object="${memberDto}" enctype="multipart/form-data">
-    <div
-            class="container d-flex justify-content-center align-items-center min-vh-100"
-    >
-        <div class="row signup-wrap">
-            <div class="col-6">
-                <h2 class="mb-5 text-center">
-                    <img src="/images/logo.png" alt="" class="logo-img"/>
-                </h2>
+<div class="container d-flex justify-content-center align-items-center min-vh-100">
+    <div class="row signup-wrap">
+        <div class="col-6">
+            <h2 class="mb-5 text-center">
+                <img src="/images/logo.png" alt="" class="logo-img"/>
+            </h2>
+            <form th:action="@{/member/signup}" th:method="post" th:object="${memberDto}" enctype="multipart/form-data">
                 <div class="signup-box">
                     <div class="mb-3">
                         <label for="userID" class="form-label fw-bold">ID</label>
@@ -166,20 +164,20 @@
                         </div>
                     </div>
                     <div class="my-5 text-center">
-                        <button class="btn btn-primary w-100">SIGN UP</button>
+                        <button type="submit" class="btn btn-primary w-100">SIGN UP</button>
                     </div>
                 </div>
+            </form>
+        </div>
+        <div class="col-6 bg-box px-5">
+            <div class="slogan">
+                <p class="main"><span>pet the</span> <span>garden</span></p>
+                <p class="sub">강아지도 고양이도 행복한 정원</p>
             </div>
-            <div class="col-6 bg-box px-5">
-                <div class="slogan">
-                    <p class="main"><span>pet the</span> <span>garden</span></p>
-                    <p class="sub">강아지도 고양이도 행복한 정원</p>
-                </div>
-                <img src="/images/login.png" alt=""/>
-            </div>
+            <img src="/images/login.png" alt=""/>
         </div>
     </div>
-</form>
+</div>
 <footer th:replace="~{fragments/footer}"></footer>
 <script>
 
