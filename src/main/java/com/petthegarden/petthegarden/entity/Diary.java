@@ -27,6 +27,8 @@ public class Diary {
     @Column(name = "content", columnDefinition = "CLOB", nullable = false)
     private String content;
 
+    private String image;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime regDate;
