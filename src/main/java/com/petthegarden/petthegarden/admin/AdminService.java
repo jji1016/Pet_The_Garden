@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.admin;
 
+import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,5 +44,9 @@ public class AdminService {
 
     public List<AdminShowOffDto> getShowOffList() {
         return adminDao.getShowOffList();
+    }
+
+    public List<AdminMemberDto> getMemberList() {
+        return adminDao.getMemberList();
     }
 }

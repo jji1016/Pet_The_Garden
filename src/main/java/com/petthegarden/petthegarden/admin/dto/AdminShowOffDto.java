@@ -13,5 +13,6 @@ public class AdminShowOffDto {
     private String subject;
     private String writer;
     private LocalDateTime regDate;
+    private Integer showOffID;
 
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(dashboard)}"></head>
+<link rel="stylesheet" href="/css/admin/dashboard.css" />
 <body>
 <header id="admin-header">
     <h1>
@@ -86,12 +87,12 @@
 
             </div>
 
-            <div class="row mt-5">
+            <div class="row mt-4">
                 <h3>품종별 수</h3>
                 <div class="chart-wrap"></div>
             </div>
 
-            <div class="row mt-5">
+            <div class="row mt-4">
                 <div class="col-6">
                     <h3>추천많이 받은 장기자랑 게시글</h3>
                     <div class="item">
@@ -108,7 +109,11 @@
                             <th:block th:each="showOffList : ${showOffList}">
                                 <tr>
                                     <td th:text="${showOffList.showOffLike}"></td>
-                                    <td th:text="${showOffList.subject}"></td>
+                                    <td>
+                                        <a th:href="@{/showoff/showdetail/{id}(id=${showOffList.showOffID})}"
+                                           th:text="${showOffList.subject}"></a>
+
+                                    </td>
                                     <td th:text="${showOffList.writer}"></td>
                                     <td th:text="${#temporals.format(showOffList.regDate, 'yyyy.MM.dd')}"></td>
                                 </tr>
@@ -153,16 +158,4 @@
     </div>
 </div>
 </body>
-<script>
-    // This is an example script, please modify as needed
-    const rangeInput = document.querySelector("#range-input");
-    const rangeOutput = document.querySelector("#range-value");
-
-    // Set initial value
-    rangeOutput.textContent = rangeInput.value;
-
-    rangeInput.addEventListener("input", function () {
-        rangeOutput.textContent = this.value;
-    });
-</script>
 </html>

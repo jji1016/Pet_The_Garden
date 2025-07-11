@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.admin;
 
+import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,5 +45,21 @@ public class AdminController {
         model.addAttribute("showOffList", showOffList);
 
         return "admin/dashboard";
+    }
+
+    @GetMapping("/memberList")
+    public String memberList(Model model) {
+
+        List<AdminMemberDto> memberList = adminService.getMemberList();
+        log.info("memberList == {}",memberList.toString());
+
+        /* pet 수 board-수 가져와야됨 */ 
+        
+        return "admin/memberList";
+    }
+
+    @GetMapping("/sample")
+    public String sample(Model model) {
+        return "admin/sample";
     }
 }

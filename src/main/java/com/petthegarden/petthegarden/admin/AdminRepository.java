@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.admin;
 
+import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import com.petthegarden.petthegarden.entity.Member;
 import org.springframework.data.domain.Pageable;
@@ -39,11 +40,15 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
     int recentBoard();
 
     @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminShowOffDto(" +
-            "s.showOffLike, s.subject, m.userName, s.regDate) " +
+            "s.showOffLike, s.subject, m.userName, s.regDate, s.Id) " +
             "FROM ShowOff s " +
             "JOIN s.member m " +
             "ORDER BY s.showOffLike DESC")
     List<AdminShowOffDto> getShowOffList(Pageable pageable);
 
-
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminMemberDto(" +
+            "m.id, m.userID, m.userPW, m.userName, m.image, m.email, m.tel, " +
+            "m.regDate, m.zipcode, m.address01, m.address02) " +
+            "FROM Member m")
+    List<AdminMemberDto> getMemberList();
 }
