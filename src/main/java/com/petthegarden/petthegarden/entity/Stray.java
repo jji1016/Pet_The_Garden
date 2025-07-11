@@ -14,7 +14,7 @@ public class Stray {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "staryID")
+    @Column(name = "strayID")
     private Integer id;
 
     private String ABDM_IDNTFY_NO; // 유기 고유 번호

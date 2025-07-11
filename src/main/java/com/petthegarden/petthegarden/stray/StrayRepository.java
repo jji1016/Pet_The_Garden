@@ -22,7 +22,7 @@ public interface StrayRepository extends JpaRepository<Stray, Integer> {
                    @Param("species") String species);
 
     @Query(value = "SELECT * FROM (" +
-            "  SELECT inner_query.*, ROW_NUMBER() OVER (ORDER BY PBLANC_BEGIN_DE DESC) AS rn FROM Stray inner_query " +
+            "  SELECT inner_query.*, ROW_NUMBER() OVER (ORDER BY PBLANC_BEGIN_DE DESC, ABDM_IDNTFY_NO) AS rn FROM Stray inner_query " +
             "  WHERE " +
             "    ((:startDate IS NULL AND :endDate IS NULL) OR " +
             "    (:startDate <= PBLANC_BEGIN_DE AND :endDate >= PBLANC_BEGIN_DE)) " +
@@ -37,21 +37,7 @@ public interface StrayRepository extends JpaRepository<Stray, Integer> {
                              @Param("startItem") int startItem,
                              @Param("endItem") int endItem);
 
-//    @Query(value = "SELECT * FROM Stray " +
-//            "WHERE " +
-//            "  ((:startDate IS NULL AND :endDate IS NULL) OR " +
-//            "   (:startDate <= PBLANC_BEGIN_DE AND :endDate >= PBLANC_BEGIN_DE)) " +
-//            "  AND (:discvryPlc IS NULL OR DISCVRY_PLC_INFO LIKE '%' || :discvryPlc || '%') " +
-//            "  AND (:species IS NULL OR SPECIES_NM LIKE '%' || :species || '%') " +
-//            "ORDER BY PBLANC_BEGIN_DE DESC " +
-//            "OFFSET :offset ROWS FETCH NEXT :limit ROWS ONLY",
-//            nativeQuery = true)
-//    List<Stray> getStrayList(
-//            @Param("startDate") String startDate,
-//            @Param("endDate") String endDate,
-//            @Param("discvryPlc") String discvryPlc,
-//            @Param("species") String species,
-//            @Param("offset") int offset,
-//            @Param("limit") int limit
-//    );
+    @Query(value = "SELECT * FROM STRAY WHERE ABDM_IDNTFY_NO = :ABDM_IDNTFY_NO",
+            nativeQuery = true)
+    Stray getDetailInfo(@Param("ABDM_IDNTFY_NO") String ABDM_IDNTFY_NO);
 }

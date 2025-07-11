@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(protect)}"></head>
+<link rel="stylesheet" href="/css/stray/protect.css" />
 <!--</head>-->
 <body>
 <header th:replace="~{fragments/header}"></header>
 <div class="protect-wrap">
-    <h1><span>Protection</span></h1>
     <div class="container-fluid">
         <div class="protection-wrap">
 
@@ -41,6 +41,8 @@
             </div>
 
             <div class="row mt-5 result-list">
+                <div class="emptySearch" th:if="${#lists.isEmpty(strayList)}">검색 결과 없음</div>
+
                 <th:block th:each="strayList : ${strayList}">
                     <div class="col-3">
                         <a th:href="@{'/stray/detail/' + ${strayList.abdmIdNtfyNo}}" class="card">
@@ -96,4 +98,7 @@
 </div>
 <footer th:replace="~{fragments/footer}"></footer>
 </body>
+<script>
+
+</script>
 </html>

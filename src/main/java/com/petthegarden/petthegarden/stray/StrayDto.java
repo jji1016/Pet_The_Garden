@@ -69,4 +69,14 @@ public class StrayDto {
             default: return sexNm;
         }
     }
+
+    public String getNeutYnKor() {
+        if (neutYn == null) return "미상";
+        switch (neutYn) {
+            case "Y": return "예";
+            case "N": return "아니오";
+            case "U": return "미상";
+            default: return neutYn;
+        }
+    }
 }
