@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(sample)}"></head>
+<link rel="stylesheet" href="/css/admin/memberlist.css" />
+<body>
+<header id="admin-header">
+    <h1>
+        <a href=""><img src="../images/logo.png" alt=""/></a>
+    </h1>
+
+    <nav id="gnb">
+        <ul>
+            <li class="on">
+                <a href="">
+                    <span class="material-symbols-outlined"> home </span>
+                    <span>대쉬보드</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined"> person </span>
+                    <span>회원정보관리</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined"> pets </span>
+                    <span>반려동물관리</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined"> info </span>
+                    <span>신고내역</span></a>
+            </li>
+        </ul>
+    </nav>
+    <a href="" class="logout"> logout </a>
+</header>
+
+<div class="admin-wrap">
+    <div class="container-fluid">
+        <div class="info-wrap container-fluid">
+
+            <!-- 여기 -->
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
