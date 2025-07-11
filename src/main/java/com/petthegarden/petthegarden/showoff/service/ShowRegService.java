@@ -6,7 +6,6 @@ import com.petthegarden.petthegarden.entity.ShowOff;
 import com.petthegarden.petthegarden.showoff.dto.ShowRegDto;
 import com.petthegarden.petthegarden.showoff.repository.ShowRegRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,21 +26,19 @@ public class ShowRegService {
 
     private final ShowRegRepository showRegRepository;
 
-    @Value("${file.path}")
-    private String uploadDir;
+    // yml 사용 안함, 하드코딩 경로
+    private String uploadDir = "C:/PTGUpload/f1";
 
     @Autowired
     public ShowRegService(ShowRegRepository showRegRepository) {
         this.showRegRepository = showRegRepository;
     }
 
-    /**
-     * 장기자랑 등록
-     */
+    // 장기자랑 등록
     public ShowOff registerShowOff(ShowRegDto dto, Member member, Pet pet) {
         ShowOff showOff = ShowOff.builder()
                 .subject(dto.getSubject())
-                .content(dto.getContent())
+                .content(dto.getContent()) // 프론트에서 변환된 content가 들어옴
                 .regDate(LocalDateTime.now())
                 .member(member)
                 .pet(pet)
@@ -50,66 +47,7 @@ public class ShowRegService {
         return showRegRepository.save(showOff);
     }
 
-    /**
-     * 모든 장기자랑 조회 (최신순)
-     */
-    @Transactional(readOnly = true)
-    public List<ShowOff> getAllShowOffs() {
-        return showRegRepository.findAll();
-    }
-
-    /**
-     * 장기자랑 상세 조회
-     */
-    @Transactional(readOnly = true)
-    public Optional<ShowOff> getShowOffById(Integer id) {
-        return showRegRepository.findByIdWithComments(id);
-    }
-
-    /**
-     * 특정 회원의 장기자랑 목록 조회
-     */
-    @Transactional(readOnly = true)
-    public List<ShowOff> getShowOffsByMemberId(Integer memberId) {
-        return showRegRepository.findByMemberIdOrderByRegDateDesc(memberId);
-    }
-
-    /**
-     * 특정 반려동물의 장기자랑 목록 조회
-     */
-    @Transactional(readOnly = true)
-    public List<ShowOff> getShowOffsByPetId(Integer petId) {
-        return showRegRepository.findByPetIdOrderByRegDateDesc(petId);
-    }
-
-    /**
-     * 제목으로 장기자랑 검색
-     */
-    @Transactional(readOnly = true)
-    public List<ShowOff> searchBySubject(String keyword) {
-        return showRegRepository.findBySubjectContainingIgnoreCaseOrderByRegDateDesc(keyword);
-    }
-
-    /**
-     * 인기 장기자랑 조회 (Top 10)
-     */
-    @Transactional(readOnly = true)
-    public List<ShowOff> getPopularShowOffs() {
-        return showRegRepository.findTop10ByOrderByShowOffLikeDescRegDateDesc();
-    }
-
-    /**
-     * 최신 장기자랑 조회 (Top 10)
-     */
-    @Transactional(readOnly = true)
-    public List<ShowOff> getLatestShowOffs() {
-        return showRegRepository.findTop10ByOrderByRegDateDesc();
-    }
-
-    /**
-     * 장기자랑 수정
-     * 엔티티에 setter가 없으므로 새 객체를 생성해서 저장
-     */
+    // 장기자랑 수정
     public ShowOff updateShowOff(Integer id, ShowRegDto dto) {
         Optional<ShowOff> optionalShowOff = showRegRepository.findById(id);
         if (optionalShowOff.isPresent()) {
@@ -130,9 +68,41 @@ public class ShowRegService {
         }
     }
 
-    /**
-     * 장기자랑 삭제
-     */
+    @Transactional(readOnly = true)
+    public List<ShowOff> getAllShowOffs() {
+        return showRegRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<ShowOff> getShowOffById(Integer id) {
+        return showRegRepository.findByIdWithComments(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShowOff> getShowOffsByMemberId(Integer memberId) {
+        return showRegRepository.findByMemberIdOrderByRegDateDesc(memberId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShowOff> getShowOffsByPetId(Integer petId) {
+        return showRegRepository.findByPetIdOrderByRegDateDesc(petId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShowOff> searchBySubject(String keyword) {
+        return showRegRepository.findBySubjectContainingIgnoreCaseOrderByRegDateDesc(keyword);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShowOff> getPopularShowOffs() {
+        return showRegRepository.findTop10ByOrderByShowOffLikeDescRegDateDesc();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ShowOff> getLatestShowOffs() {
+        return showRegRepository.findTop10ByOrderByRegDateDesc();
+    }
+
     public void deleteShowOff(Integer id) {
         if (showRegRepository.existsById(id)) {
             showRegRepository.deleteById(id);
@@ -141,10 +111,6 @@ public class ShowRegService {
         }
     }
 
-    /**
-     * 좋아요 증가
-     * 엔티티에 setter가 없으므로 새 객체를 생성해서 저장
-     */
     public ShowOff increaseLike(Integer id) {
         Optional<ShowOff> optionalShowOff = showRegRepository.findById(id);
         if (optionalShowOff.isPresent()) {
@@ -165,9 +131,7 @@ public class ShowRegService {
         }
     }
 
-    /**
-     * 이미지 파일 업로드
-     */
+    // 이미지 파일 업로드 (CKEditor)
     public String uploadImage(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             throw new IllegalArgumentException("업로드할 파일이 없습니다.");
@@ -184,9 +148,7 @@ public class ShowRegService {
         return "/uploads/images/" + uniqueFilename;
     }
 
-    /**
-     * 업로드된 파일 삭제
-     */
+    // 업로드된 파일 삭제
     public void deleteFile(String filename) {
         try {
             Path filePath = Paths.get(uploadDir, filename);

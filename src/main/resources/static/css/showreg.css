@@ -5,7 +5,6 @@
     --text-color: #333;
     --border-color: #ddd;
 }
-
 .showreg-container {
     background: linear-gradient(135deg, #FFF8F0 0%, #FFF4E6 100%);
     min-height: 100vh;
@@ -46,9 +45,10 @@
 .ck-editor__editable_inline:focus {
     min-height: 400px !important;
     border-radius: 8px;
+    overflow-y: visible;
 }
 .ck-editor__editable_inline {
-    overflow-y: auto; /* 또는 overflow-y: visible; */
+    overflow-y: visible;
 }
 .ck-editor__editable:focus {
     border-color: var(--primary-color) !important;

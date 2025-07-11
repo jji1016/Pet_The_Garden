@@ -1,45 +1,59 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('반려동물 장기자랑 등록')}">
-    <link rel="stylesheet" href="/css/showreg.css">
-</head>
-<body>
-<header th:replace="~{fragments/header :: header}"></header>
-
-<div class="showreg-container">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <div class="showreg-card">
-                    <div class="showreg-header">
-                        <h1 class="showreg-title">반려동물 장기자랑</h1>
-                        <p class="showreg-subtitle">우리 아이의 특별한 모습을 자랑해주세요! 🐾</p>
-                    </div>
-                    <div class="showreg-body">
-                        <form th:action="@{/showoff/showreg}" th:object="${showRegDto}" method="post" enctype="multipart/form-data">
-                            <textarea id="editor" th:field="*{content}" class="form-control" rows="20" placeholder="여기에 내용을 입력하세요!"></textarea>
-                            <div class="showreg-btn-row">
-                                <button type="submit" class="btn-action btn-submit">장기자랑 등록하기</button>
-                            </div>
-                        </form>
+    <!DOCTYPE html>
+    <html lang="ko" xmlns:th="http://www.thymeleaf.org">
+    <head th:replace="~{fragments/head :: head('반려동물 장기자랑 등록')}">
+        <link rel="stylesheet" href="/css/showreg.css">
+    </head>
+    <body>
+    <header th:replace="~{fragments/header :: header}"></header>
+    <div class="showreg-container">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 col-md-10">
+                    <div class="showreg-card">
+                        <div class="showreg-header">
+                            <h1 class="showreg-title">반려동물 장기자랑</h1>
+                            <p class="showreg-subtitle">우리 아이의 특별한 모습을 자랑해주세요! 🐾</p>
+                        </div>
+                        <div class="showreg-body">
+                            <form id="showoffForm"
+                                  th:action="@{/showoff/showreg}"
+                                  th:object="${showRegDto}"
+                                  method="post"
+                                  enctype="multipart/form-data"
+                                  class="registration-form">
+                                <input type="text"
+                                       id="subject"
+                                       name="subject"
+                                       th:field="*{subject}"
+                                       class="form-control"
+                                       maxlength="200"
+                                       placeholder="제목을 입력하세요"
+                                       required>
+                                <textarea id="content"
+                                          class="form-control"
+                                          rows="20"
+                                          placeholder="여기에 내용을 입력하세요!"></textarea>
+                                <input type="hidden"
+                                       name="content"
+                                       id="content-hidden"
+                                       th:field="*{content}">
+                                <div class="showreg-btn-row">
+                                    <button type="submit"
+                                            id="submitBtn"
+                                            class="btn-action btn-submit">
+                                        <span class="btn-text">장기자랑 등록하기</span>
+                                        <span class="btn-spinner" style="display:none;">로딩중...</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-
-<footer th:replace="~{fragments/footer :: footer}"></footer>
-
-<!-- CKEditor 스크립트 -->
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-<script>
-    ClassicEditor
-        .create(document.querySelector('#editor'))
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-<script src="/js/showreg.js"></script>
-</body>
-</html>
+    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+    <script src="/js/showreg.js"></script>
+    </body>
+    </html>
