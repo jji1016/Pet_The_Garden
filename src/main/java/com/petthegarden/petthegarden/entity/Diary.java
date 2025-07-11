@@ -24,7 +24,7 @@ public class Diary {
     private String subject;
 
     @Lob
-    @Column(name = "content", columnDefinition = "CLOB", nullable = false)
+    @Column(columnDefinition = "CLOB", nullable = false)
     private String content;
 
     private String image;

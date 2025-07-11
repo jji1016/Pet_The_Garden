@@ -13,5 +13,4 @@ public interface PetRepository extends JpaRepository<Pet,Integer> {
 
     Pet findFirstByMemberIdOrderByIdAsc(Integer memberID);
 
-
 }

@@ -33,7 +33,14 @@
                             <h5 th:text="${#authentication.principal.loggedMember.userName}">김은경</h5>
                             <p class="desc" th:text="*{petName} + '주인'">알리 강아지 주인</p>
                         </div>
-                        <div class="pet-info"></div>
+                        <div class="pet-info">
+                            <select name="petID" th:field="*{petID}" onchange="this.form.submit()">
+                                <option th:each="pet : ${petList}"
+                                        th:value="${pet.id}"
+                                        th:text="${pet.petName}">
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="info-box">
                         <p>
@@ -59,6 +66,8 @@
                     <div class="detail-box">
                         <div class="img-box">
                             <img src="/images/dummy.jpg" alt=""/>
+                            <img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                                 alt="프로필"/>
                         </div>
                         <div class="tab">
                             <ul class="nav">

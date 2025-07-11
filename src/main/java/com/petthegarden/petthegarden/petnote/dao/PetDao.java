@@ -21,4 +21,7 @@ public class PetDao {
         return petRepository.findFirstByMemberIdOrderByIdAsc(memberID);
     }
 
+    public Optional<Pet> findPetByPetID(Integer petID) {
+        return petRepository.findById(petID);
+    }
 }

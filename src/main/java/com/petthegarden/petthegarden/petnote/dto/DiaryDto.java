@@ -5,6 +5,7 @@ import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -24,6 +25,10 @@ public class DiaryDto {
     @NotBlank(message="내용을 입력하세요.")
     private String content;
 
+    private MultipartFile diaryImg;
+
+    private String image;
+
     private LocalDateTime regDate;
 
     private LocalDateTime modifyDate;
@@ -38,6 +43,7 @@ public class DiaryDto {
                 .Id(diaryDto.getId())
                 .subject(diaryDto.getSubject())
                 .content(diaryDto.getContent())
+                .image(diaryDto.getImage())
                 .member(diaryDto.getMember())
                 .pet(diaryDto.getPet())
                 .build();

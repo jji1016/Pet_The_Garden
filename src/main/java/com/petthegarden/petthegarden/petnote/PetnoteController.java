@@ -49,9 +49,34 @@ public class PetnoteController {
     }
 
 
+    @PostMapping("/profile/{petID}")
+    public String changePetProfile(@PathVariable String petID,
+                                   @RequestParam("petID") Integer ID,
+                                   Model model,
+                                   @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        Integer memberID = customUserDetails.getLoggedMember().getId();
+        List<Pet> petList = petnoteService.getPetList(memberID);
+        PetDto selectedPetDto = petnoteService.getPetDtoByPetID(ID);
+
+        model.addAttribute("petID", petID);
+        model.addAttribute("petList", petList);
+        model.addAttribute("firstPetDto", selectedPetDto);
+        return "petnote/profile";
+    }
+
+
+
     @GetMapping("/diaryreg/{petID}")
-    public String diaryreg(Model model) {
+    public String diaryreg(@PathVariable Integer petID,
+                           @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                           Model model) {
+        Integer memberID = customUserDetails.getLoggedMember().getId();
+        String petName = petnoteService.findFirstPet(memberID).getPetName();
+
         model.addAttribute("diaryDto", new DiaryDto());
+        model.addAttribute("petID", petID);
+        model.addAttribute("petName", petName);
         return "petnote/diaryreg";
     }
 
@@ -60,6 +85,7 @@ public class PetnoteController {
     public String diaryWrite(@Valid @ModelAttribute("diaryDto") DiaryDto diaryDto,
                              BindingResult bindingResult,
                              @AuthenticationPrincipal CustomUserDetails customUserDetails,
+                             @RequestParam("petID") Integer petID,
                              Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("diaryDto", diaryDto);
@@ -67,14 +93,17 @@ public class PetnoteController {
         }
 
         Member member = customUserDetails.getLoggedMember();
-        Integer memberID = customUserDetails.getLoggedMember().getId();
+        Integer memberID = member.getId();
         Pet pet = petnoteService.findFirstPet(memberID);
 
         diaryDto.setMember(member);
         diaryDto.setPet(pet);
 
+        model.addAttribute("petID", petID);
+
         petnoteService.diarySave(diaryDto);
-        return "redirect:/petnote/diaryreg";
+        System.out.println("다이어리컨트롤러 --> 서비스");
+        return "redirect:/petnote/diaryreg/" + petID;
     }
 
 

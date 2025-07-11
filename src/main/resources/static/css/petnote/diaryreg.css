@@ -1,23 +1,41 @@
-/*body {*/
-/*    display: flex;*/
-/*}*/
+.diary-box {
+    display: flex;
+    height: 938px;
+}
 
-/*.row {*/
-/*    margin-right: -385px !important;*/
-/*}*/
+.row.custom-row   {
+    margin-right: -385px;
+}
 
-.main-visual .slogan {
-    font-weight: 70 !important;
+
+.main-visual .slogan.custom-slogan {
+    font-weight: 100;
     position: absolute;
-    left: 335px !important;
-    top: 15% !important;
-    transform: none !important;
+    left: 373px;
+    top: 4%;
+    transform: none
 }
 
 .main-visual .slogan .main {
-    font-size: 4vw !important;
+    font-size: 4vw;
 }
 
-.ck-editor__editable {
-    min-height: 500px;
+.profile-wrap .diary-reg-detail {
+    height: 400px;
+    width: 1320px;
+    margin-top: 20px;
+}
+
+form div {
+    margin-bottom: 16px;
+}
+
+
+.profile-wrap .text-content {
+    height: 300px;
+    width: 940px;
+}
+
+.container .diary-upload {
+    margin-top: 30px;
 }

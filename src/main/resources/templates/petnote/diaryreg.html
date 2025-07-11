@@ -1,63 +1,56 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(일기쓰기)}"></head>
+<link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
 <body>
-<div class="main-visual" id="diary-visual">
-    <div class="slogan">
-        <p class="main"><strong>강아지의 일기</strong></p>
-        <p class="sub">강아지도 고양이도 행복한 정원</p>
+<div class="diary-box">
+    <div class="main-visual" id="diary-visual">
+        <div class="slogan custom-slogan">
+            <p class="main" th:utext="'<strong>' + ${petName} + '의 일기장</strong>'">강아지의 일기장</p>
+            <p class="sub">강아지도 고양이도 행복한 정원</p>
+        </div>
     </div>
-</div>
-<!--<div class="container min-vh-100">-->
-<!--    <div class="search-wrap">-->
-<!--        <div class="tag">-->
-<!--            <ul>-->
-<!--                <li class="on"><a href="">ALL</a></li>-->
-<!--                <li><a href="">강아지</a></li>-->
-<!--                <li><a href="">고양이</a></li>-->
-<!--                <li><a href="">파충류</a></li>-->
-<!--                <li><a href="">물고기</a></li>-->
-<!--                <li><a href="">기타</a></li>-->
-<!--            </ul>-->
-<!--        </div>-->
-<!--        <div class="mb-3 search-box">-->
-<!--            <input type="text" class="form-control" placeholder="search"/>-->
-<!--            <button class="btn" type="button">search</button>-->
-<!--        </div>-->
-<!--    </div>-->
-<nav class="sidebar">
-    <ul>
-        <li class="active">프로필</li>
-        <!--        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>-->
-        <li>성장일기</li>
-    </ul>
-    <form th:action="@{/member/logout}" method="post">
-        <button type="submit" class="btn btn-logout">
-            <i class="bi bi-box-arrow-right"></i> 로그아웃
-        </button>
-    </form>
-</nav>
-<div class="profile-wrap">
-    <div class="container">
-        <div class="row">
-            <div class="col-8">
-                <div class="detail-box">
-                    <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
-                        <div>
-                            <input type="text" name="subject">
+    <nav class="sidebar">
+        <ul>
+            <li class="active">프로필</li>
+            <!--        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>-->
+            <li>성장일기</li>
+        </ul>
+        <form th:action="@{/member/logout}" method="post">
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i> 로그아웃
+            </button>
+        </form>
+    </nav>
+    <div class="profile-wrap">
+        <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="petID" th:value="${petID}">
+            <div>
+                <h6>제목</h6>
+                <input type="text" name="subject">
+            </div>
+            <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
+            <div class="container">
+                <div class="row custom-row">
+                    <div class="col-8">
+                        <div class="diary-reg-detail">
+                            <div>
+                                <h6>오늘의 일기</h6>
+                                <textarea class="text-content" type="text" name="content" id="content"></textarea>
+                            </div>
+                            <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
+                            <div>
+                                <h6>사진</h6>
+                                <input class="img-content" type="file" name="diaryImg" id="diaryImg" placeholder="사진을 올려주세요">
+                            </div>
                         </div>
-                        <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
-                        <div>
-                            <textarea type="text" name="content" id="content"></textarea>
-                        </div>
-                        <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
-                        <div>
+                        <div class="diary-upload">
                             <button class="btn" type="submit">UPLOAD</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 </body>
