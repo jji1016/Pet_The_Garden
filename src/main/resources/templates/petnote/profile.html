@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(PROFILE)}"></head>
+<link rel="stylesheet" href="/css/petnote/profile.css" />
 <style>
     body {
         display: flex;
@@ -66,7 +67,7 @@
                     <div class="detail-box">
                         <div class="img-box">
                             <img src="/images/dummy.jpg" alt=""/>
-                            <img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                            <img th:src="@{'/PTGupload/pet/' + ${}}"
                                  alt="프로필"/>
                         </div>
                         <div class="tab">
