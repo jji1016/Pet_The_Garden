@@ -126,6 +126,7 @@ public class CommunityController {
     //게시글등록
     @PostMapping("/boardreg")
     public String registerBoard(@ModelAttribute("boardDto") BoardDto boardDto,
+                                @RequestParam(value = "extraImage", required = false) MultipartFile extraImage,
                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
         Member member;
         if (userDetails != null) {
@@ -135,7 +136,7 @@ public class CommunityController {
             member = mypageMemberRepository.findById(1)
                     .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
         }
-        communityService.saveBoard(boardDto,member);
+        communityService.saveBoard(boardDto,member,extraImage);
 
         return "redirect:/community/board"; // 목록 페이지로 리다이렉트
     }

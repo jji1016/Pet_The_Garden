@@ -13,6 +13,10 @@ body {
     box-sizing: border-box;
 }
 
+.board-detail-buttons-wrapper {
+    margin-bottom: 10px;
+}
+
 .board-detail-title {
     font-size: 36px;
     font-weight: bold;
@@ -315,4 +319,40 @@ body {
 
 .btn-comment-cancel:hover {
     background-color: #d98617;
+}
+
+.image-upload-container {
+    width: 1200px;
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #ccc; /* 기존 스타일과 동일한 밑줄 */
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    box-sizing: border-box;
+    height: 50px; /* 적당한 높이 */
+    margin-bottom: 30px;
+}
+
+.file-label {
+    background-color: #eee;
+    color: #333;
+    padding: 10px 20px;
+    border-radius: 6px;
+    border: 1px solid #bbb;
+    cursor: pointer;
+    font-weight: 500;
+    flex-shrink: 0;
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 텍스트 수직, 수평 중앙정렬 */
+    user-select: none;
+}
+
+/* 미리보기 영역 완전 제거 */
+.image-preview {
+    display: none;
 }

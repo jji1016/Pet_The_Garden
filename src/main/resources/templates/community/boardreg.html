@@ -30,6 +30,12 @@
             <textarea id="editor" th:field="*{content}" placeholder="내용을 입력하세요"></textarea>
         </div>
 
+        <div class="image-upload-container">
+            <label for="imageUpload" class="file-label">이미지 첨부</label>
+            <input type="file" id="imageUpload" name="extraImage" accept="image/*" onchange="previewImage(this)" />
+            <div class="image-preview" id="imagePreview">이미지 미리보기</div>
+        </div>
+
         <div class="board-detail-buttons">
             <a th:href="@{/community/board}" class="btn-back">취소</a>
             <button type="submit" class="btn-edit">등록</button>
@@ -91,5 +97,23 @@
             console.error(error);
         });
 </script> -->
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.textContent = '이미지 미리보기';
+        }
+    }
+</script>
 </body>
 </html>

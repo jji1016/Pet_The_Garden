@@ -47,7 +47,9 @@ public class CommunityService {
         return communityDao.findAllBoards();
     }
 
-    public List<Board> getBoardList2(Integer memberId){return communityDao.findByMemberId(memberId); }
+    public List<Board> getBoardList2(Integer memberId) {
+        return communityDao.findByMemberId(memberId);
+    }
 
     public Board getBoardById(Integer id) {
         Board board = communityDao.findById(id);
@@ -56,31 +58,44 @@ public class CommunityService {
         }
         return board;
     }
-    //게시판 글 등록
-    public void saveBoard(BoardDto boardDto, Member member) {
 
-                Board board = boardDto.toEntity();
-                board.setRegDate(LocalDateTime.now());
-                String content = boardDto.getContent();
-                String updateContent = moveTmpImagesToPermanent(content);
-                board.setContent(updateContent);
+    //게시판 글 등록
+    public void saveBoard(BoardDto boardDto, Member member, MultipartFile extraImage ) {
+
+        Board board = boardDto.toEntity();
+        board.setRegDate(LocalDateTime.now());
+        board.setMember(member);
+        String content = boardDto.getContent();
+
+        if (extraImage != null && !extraImage.isEmpty()) {
+            Map<String, Object> uploadResult = uploadImage(extraImage);
+
+            if ((int) uploadResult.get("uploaded") == 1) {
+                String imageUrl = (String) uploadResult.get("url");
+                content += "<div><img src='" + imageUrl + "' style='max-width:100%; margin-top:20px;' /></div>";
+            } else {
+                throw new RuntimeException("이미지 업로드 실패: " + ((Map<?, ?>) uploadResult.get("error")).get("message"));
+            }
+        }
+
+        board.setContent(content);
 
         Member admin = mypageMemberRepository.findById(1)
                 .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
-        board.setMember(member);
-                communityRepository.save(board);
+        communityRepository.save(board);
     }
+
     //게시판 글 수정
-    public void updateBoard(Integer id, BoardDto boardDto){
+    public void updateBoard(Integer id, BoardDto boardDto) {
         Board board = getBoardById(id);
 
         board.setSubject(boardDto.getSubject());
         String content = boardDto.getContent();
-        String updateContent = moveTmpImagesToPermanent(content);
-        board.setContent(updateContent);
+        board.setContent(content);
         board.setModifyDate(LocalDateTime.now());
 
     }
+
     //이미지 업로드
     public Map<String, Object> uploadImage(MultipartFile file) {
         Map<String, Object> response = new HashMap<>();
@@ -98,7 +113,7 @@ public class CommunityService {
             String timestamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
             String fileName = baseName + "_" + timestamp + extension;
 
-            File saveDir = new File(tmpPath); // 임시 폴더에 저장
+            File saveDir = new File(boardPath); // 게시판 폴더에 저장
             if (!saveDir.exists()) {
                 saveDir.mkdirs();
             }
@@ -108,7 +123,7 @@ public class CommunityService {
 
             response.put("uploaded", 1);
             response.put("fileName", fileName);
-            response.put("url", "/PTGUpload/tmp/" + fileName); // 임시 경로
+            response.put("url", "/PTGUpload/board/" + fileName);
 
         } catch (Exception e) {
             response.put("uploaded", 0);
@@ -117,34 +132,7 @@ public class CommunityService {
 
         return response;
     }
-    //이미지 저장파일 이동
-    private String moveTmpImagesToPermanent(String content) {
-        // <img src="/PTGUpload/tmp/filename.jpg">
-        Pattern pattern = Pattern.compile("/PTGUpload/tmp/(\\S+?\\.(jpg|png|gif|jpeg))");
-        Matcher matcher = pattern.matcher(content);
 
-        while (matcher.find()) {
-            String fileName = matcher.group(1);
-            String fixedTmpPath = tmpPath.endsWith("/") ? tmpPath : tmpPath + "/";
-            String fixedBoardPath = boardPath.endsWith("/") ? boardPath : boardPath + "/";
-            File tmpFile = new File(fixedTmpPath,fileName);
-            File permFile = new File(fixedBoardPath,fileName);
-
-            if (tmpFile.exists()) {
-                try {
-                    Files.move(tmpFile.toPath(), permFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                } catch (IOException e) {
-                    log.warn("임시 이미지 파일 이동 실패: " + tmpFile.getAbsolutePath(), e);
-                }
-            } else {
-                log.warn("임시 이미지 파일이 존재하지 않습니다.");
-            }
-
-            content = content.replace("/PTGUpload/tmp/" + fileName, "/PTGUpload/board/" + fileName);
-        }
-
-        return content;
-    }
     //게시판 댓글 작성
     public void saveComment(Integer boardId, String content, Member member) {
         Board board = communityRepository.findById(boardId)
