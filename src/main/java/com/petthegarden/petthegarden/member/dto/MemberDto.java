@@ -44,6 +44,7 @@ public class MemberDto {
 
     private String address02;
 
+    @Builder.Default
     private boolean deleteStatus = false;
 
     private Role role;

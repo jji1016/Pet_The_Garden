@@ -1,117 +1,121 @@
 <!DOCTYPE html>
-<html>
-<head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('자주 묻는 질문')}">
     <meta name="viewport" content="width=device-width, initial-scale=1"/>
     <meta charset="utf-8"/>
     <link rel="stylesheet" th:href="@{/css/faq.css}"/>
 </head>
 <body>
-<h1 class="faq-header">자주 묻는 질문</h1>
+<div th:replace="~{fragments/header :: header}"></div>
+<div class="faq-page">
+    <h1 class="faq-header">자주 묻는 질문</h1>
 
-<div class="table">
-    <div class="div">
-        <div class="row accordion-row" data-target="accordion-1">
-            <div class="content-wrapper">
-                <div class="content">
-                    <p class="text">Q1</p>
+    <div class="table">
+        <div class="div">
+            <div class="row accordion-row" data-target="accordion-1">
+                <div class="content-wrapper">
+                    <div class="content">
+                        <p class="text">Q1</p>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="content">
+                        <p class="text">장기자랑 등록 페이지에 동영상은 유튜브 링크로만 되나요?</p>
+                    </div>
                 </div>
             </div>
-            <div class="cell">
-                <div class="content">
-                    <p class="text">장기자랑 등록 페이지에 동영상은 유튜브 링크로만 되나요?</p>
+            <div class="accordion-content" id="accordion-1">
+                <div class="content-detail">
+                    <p><strong>답변:</strong></p>
+                    <p>네. 장기자랑 등록 페이지에 동영상을 넣고 싶으실 때는 유튜브 URL을 입력하시면 됩니다.</p>
+                    <p>예시: https://youtu.be/xxxxxxxxx</p>
+                    <p>링크 입력 후 반드시 정상 작동 여부를 확인해 주세요.</p>
                 </div>
             </div>
         </div>
-        <div class="accordion-content" id="accordion-1">
-            <div class="content-detail">
-                <p><strong>답변:</strong></p>
-                <p>네. 장기자랑 등록 페이지에 동영상을 넣고 싶으실 때는 유튜브 URL을 입력하시면 됩니다.</p>
-                <p>예시: https://youtu.be/xxxxxxxxx</p>
-                <p>링크 입력 후 반드시 정상 작동 여부를 확인해 주세요.</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="div">
-        <div class="row accordion-row" data-target="accordion-2">
-            <div class="content-wrapper">
-                <div class="content">
-                    <p class="text">Q2</p>
+        <div class="div">
+            <div class="row accordion-row" data-target="accordion-2">
+                <div class="content-wrapper">
+                    <div class="content">
+                        <p class="text">Q2</p>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="content">
+                        <p class="text">저희 개가 무지개다리를 건넜는데 게시글 삭제해 주실 수 있나요?</p>
+                    </div>
                 </div>
             </div>
-            <div class="cell">
-                <div class="content">
-                    <p class="text">저희 개가 무지개다리를 건넜는데 게시글 삭제해 주실 수 있나요?</p>
+            <div class="accordion-content" id="accordion-2">
+                <div class="content-detail">
+                    <p><strong>답변:</strong></p>
+                    <p>반려동물의 이별은 정말 슬픈 일입니다. 진심으로 위로의 말씀을 드립니다.</p>
+                    <p>게시글 삭제는 이메일로 연락해주시면 저희 관리 부서에서 도와드릴 수 있습니다.</p>
+                    <p>삭제 요청 시 해당 게시글 URL과 삭제 사유를 함께 보내주시면 빠르게 처리해 드리겠습니다.</p>
                 </div>
             </div>
         </div>
-        <div class="accordion-content" id="accordion-2">
-            <div class="content-detail">
-                <p><strong>답변:</strong></p>
-                <p>반려동물의 이별은 정말 슬픈 일입니다. 진심으로 위로의 말씀을 드립니다.</p>
-                <p>게시글 삭제는 이메일로 연락해주시면 저희 관리 부서에서 도와드릴 수 있습니다.</p>
-                <p>삭제 요청 시 해당 게시글 URL과 삭제 사유를 함께 보내주시면 빠르게 처리해 드리겠습니다.</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="div">
-        <div class="row accordion-row" data-target="accordion-3">
-            <div class="content-wrapper">
-                <div class="content">
-                    <p class="text">Q3</p>
+        <div class="div">
+            <div class="row accordion-row" data-target="accordion-3">
+                <div class="content-wrapper">
+                    <div class="content">
+                        <p class="text">Q3</p>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="content">
+                        <p class="text">차후에 중고 애완용품 판매 장터도 열어주실 수 있나요?</p>
+                    </div>
                 </div>
             </div>
-            <div class="cell">
-                <div class="content">
-                    <p class="text">차후에 중고 애완용품 판매 장터도 열어주실 수 있나요?</p>
+            <div class="accordion-content" id="accordion-3">
+                <div class="content-detail">
+                    <p><strong>답변:</strong></p>
+                    <p>좋은 제안 감사합니다! 중고 애완용품 거래 기능은 현재 개발팀에서 검토 중입니다.</p>
+                    <p>사용자분들의 안전한 거래를 위해 인증 시스템, 사기 방지 시스템 등을 포함하여 신중하게 개발하고 있습니다.</p>
+                    <p>2026년 상반기 중 베타 서비스 출시를 목표로 하고 있으며, 출시 전 사전 신청을 받을 예정입니다.</p>
                 </div>
             </div>
         </div>
-        <div class="accordion-content" id="accordion-3">
-            <div class="content-detail">
-                <p><strong>답변:</strong></p>
-                <p>좋은 제안 감사합니다! 중고 애완용품 거래 기능은 현재 개발팀에서 검토 중입니다.</p>
-                <p>사용자분들의 안전한 거래를 위해 인증 시스템, 사기 방지 시스템 등을 포함하여 신중하게 개발하고 있습니다.</p>
-                <p>2026년 상반기 중 베타 서비스 출시를 목표로 하고 있으며, 출시 전 사전 신청을 받을 예정입니다.</p>
-            </div>
-        </div>
-    </div>
 
-    <div class="div">
-        <div class="row accordion-row" data-target="accordion-4">
-            <div class="content-wrapper">
-                <div class="content">
-                    <p class="text">Q4</p>
+        <div class="div">
+            <div class="row accordion-row" data-target="accordion-4">
+                <div class="content-wrapper">
+                    <div class="content">
+                        <p class="text">Q4</p>
+                    </div>
+                </div>
+                <div class="cell">
+                    <div class="content">
+                        <p class="text">지난번에 문의드린 건에 대해 추가 질문사항 있습니다.</p>
+                    </div>
                 </div>
             </div>
-            <div class="cell">
-                <div class="content">
-                    <p class="text">지난번에 문의드린 건에 대해 추가 질문사항 있습니다.</p>
+            <div class="accordion-content" id="accordion-4">
+                <div class="content-detail">
+                    <p><strong>답변:</strong></p>
+                    <p>추가 문의사항이 있으시면 언제든지 다음 방법으로 연락 주세요:</p>
+                    <p>• 고객센터: 1588-1234 (평일 09:00-18:00)</p>
+                    <p>• 이메일: support@petthegarden.com</p>
+                    <p>• 카카오톡: @펫더가든 (24시간 상담)</p>
                 </div>
-            </div>
-        </div>
-        <div class="accordion-content" id="accordion-4">
-            <div class="content-detail">
-                <p><strong>답변:</strong></p>
-                <p>추가 문의사항이 있으시면 언제든지 다음 방법으로 연락 주세요:</p>
-                <p>• 고객센터: 1588-1234 (평일 09:00-18:00)</p>
-                <p>• 이메일: support@petthegarden.com</p>
-                <p>• 카카오톡: @펫더가든 (24시간 상담)</p>
             </div>
         </div>
     </div>
 </div>
+<div th:replace="~{fragments/footer :: footer}"></div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         const accordionRows = document.querySelectorAll('.accordion-row');
-        accordionRows.forEach(function(row) {
-            row.addEventListener('click', function() {
+        accordionRows.forEach(function (row) {
+            row.addEventListener('click', function () {
                 const targetId = this.getAttribute('data-target');
                 const contentElement = document.getElementById(targetId);
                 const allContents = document.querySelectorAll('.accordion-content');
-                allContents.forEach(function(content) {
+                allContents.forEach(function (content) {
                     if (content.id !== targetId) {
                         content.classList.remove('active');
                     }
