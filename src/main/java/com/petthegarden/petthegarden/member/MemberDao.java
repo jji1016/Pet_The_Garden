@@ -32,4 +32,8 @@ public class MemberDao {
     public Optional<Member> findById(Integer memberId) {
         return memberRepository.findById(memberId);
     }
+
+    public Member findMemberByUserID(String userID) {
+        return memberRepository.findMemberByUserID(userID);
+    }
 }

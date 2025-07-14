@@ -27,6 +27,8 @@ public class ShowOff {
     @Column(nullable = false)
     private String content;
 
+    private String image;
+
     @CreatedDate
     @Column(updatable = false)
     private LocalDateTime regDate;
@@ -43,4 +45,7 @@ public class ShowOff {
 
     @OneToMany(mappedBy = "showOff", cascade = CascadeType.ALL)
     private List<ShowOffComment> showOffCommentList;
+
+    @Column(nullable = false)
+    private int showOffLike;
 }

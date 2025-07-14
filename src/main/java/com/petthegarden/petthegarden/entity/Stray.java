@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.entity;
 
+import com.petthegarden.petthegarden.stray.StrayDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -13,10 +14,10 @@ public class Stray {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "staryID")
+    @Column(name = "strayID")
     private Integer id;
 
-    private String abdmIdNtfyNo; // 유기 고유 번호
+    private String ABDM_IDNTFY_NO; // 유기 고유 번호
 
     private String IMAGE_COURS; //이미지 경로
 
@@ -47,5 +48,26 @@ public class Stray {
     private String SHTER_TELNO; //보호소 번호
 
     private String PROTECT_PLC; //보호 장소
+
+    public StrayDto toStrayDto() {
+        return StrayDto.builder()
+                .abdmIdNtfyNo(this.ABDM_IDNTFY_NO)
+                .imageCours(this.IMAGE_COURS)
+                .discvryPlcInfo(this.DISCVRY_PLC_INFO)
+                .speciesNm(this.SPECIES_NM)
+                .pblancBeginDe(this.PBLANC_BEGIN_DE)
+                .pblancEndDe(this.PBLANC_END_DE)
+                .colorNm(this.COLOR_NM)
+                .stateNm(this.STATE_NM)
+                .ageInfo(this.AGE_INFO)
+                .bdwghInfo(this.BDWGH_INFO)
+                .sexNm(this.SEX_NM)
+                .neutYn(this.NEUT_YN)
+                .sfetrInfo(this.SFETR_INFO)
+                .shterNm(this.SHTER_NM)
+                .shterTelno(this.SHTER_TELNO)
+                .protectPlc(this.PROTECT_PLC)
+                .build();
+    }
 
 }

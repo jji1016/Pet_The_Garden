@@ -1,21 +1,13 @@
 .protect-wrap {
-    margin: 20px auto;
+    margin: 0 auto;
     min-height: calc(100vh - 40px);
     overflow-y: auto;
     border-radius: 20px;
     padding: 30px;
     width: 1400px;
 }
-.protect-wrap h1 {
-    margin: 20px 0 20px 20px;
-    font-weight: 300;
-    font-size: 48px;
-}
-.protect-wrap .container {
-    margin-top: 30px;
-    height: 300px;
-    padding-left: 0;
-    padding-right: 0;
+.container-fluid{
+    margin-top: 120px;
 }
 
 .label-100 {
@@ -43,6 +35,11 @@
     border-color: #f8a92b;
 }
 
+.result-list .emptySearch{
+    text-align: center;
+    font-size: larger;
+    margin-bottom: 30px;
+}
 .result-list .card {
     border-radius: 20px;
     overflow: hidden;
@@ -95,4 +92,37 @@
 .result-list .card .sticker strong {
     font-size: 24px;
     font-weight: 700;
+}
+
+.protection-wrap .pagingBtnRap {
+    display: flex;
+    justify-content: center;
+}
+.protection-wrap .pagingBtnRap a{
+    border: 1px solid #cbcbcb;
+    border-radius: 6px;
+    margin: 0 5px;
+    padding: 2px 17px;
+    font-size: 1.1em;
+    background-color: #fff9f1;
+    color: #2d2d2d;
+    line-height: 29px;
+    box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.05);
+    width: 45.91px;
+    display: flex;
+    justify-content: center;
+}
+.protection-wrap .pagingBtnRap a:hover{
+    background-color: #f7efe4;
+}
+.protection-wrap .pagingBtnRap .active{
+    background-color: #f8a92b;
+    color: #fff;
+}
+.protection-wrap .pagingBtnRap .active:hover{
+    background-color: #e9a83f;
+}
+.protection-wrap .pagingBtnRap .arrow{
+    font-size: 0.8em;
+    color: #373737;
 }

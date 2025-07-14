@@ -1,4 +1,4 @@
-function likePet() {
+function likeShowOff() {
     alert("추천되었습니다!");
     // 실제 추천 기능은 Ajax 등으로 구현
 }

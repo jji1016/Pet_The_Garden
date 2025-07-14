@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,7 +22,7 @@ public class StrayService {
 
         List<Stray> entities = strayList.stream()
                 .map(dto -> Stray.builder()
-                        .abdmIdNtfyNo(dto.getAbdmIdNtfyNo())
+                        .ABDM_IDNTFY_NO(dto.getAbdmIdNtfyNo())
                         .IMAGE_COURS(dto.getImageCours())
                         .DISCVRY_PLC_INFO(dto.getDiscvryPlcInfo())
                         .SPECIES_NM(dto.getSpeciesNm())
@@ -45,5 +46,29 @@ public class StrayService {
 
     public void deleteAllInBatch() {
         strayDao.deleteAllInBatch();
+    }
+
+    public int totalStray(String startDate,String endDate,String discvryPlc,String species) {
+        startDate = (startDate == null || startDate.isBlank()) ? null : startDate.replace("-", "");
+        endDate = (endDate == null || endDate.isBlank()) ? null : endDate.replace("-", "");
+
+        return strayDao.totalStray(startDate,endDate,discvryPlc,species);
+    }
+
+    public List<StrayDto> getStrayList(String startDate, String endDate, String discvryPlc, String species, int startItem, int endItem) {
+        startDate = (startDate == null || startDate.isBlank()) ? null : startDate.replace("-", "");
+        endDate = (endDate == null || endDate.isBlank()) ? null : endDate.replace("-", "");
+
+        System.out.println("startDate: " + startDate + " endDate: " + endDate);
+        List<Stray> strayEntities = strayDao.getStrayList(startDate,endDate,discvryPlc,species,startItem,endItem);
+        List<StrayDto> strayDtoList = strayEntities.stream()
+                .map(Stray::toStrayDto)
+                .toList();
+        return strayDtoList;
+    }
+
+    public StrayDto getDetailInfo(String ABDM_IDNTFY_NO) {
+        Stray detailEntity = strayDao.getDetailInfo(ABDM_IDNTFY_NO);
+        return detailEntity.toStrayDto();
     }
 }

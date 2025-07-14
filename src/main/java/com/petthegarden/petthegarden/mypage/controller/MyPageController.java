@@ -6,9 +6,11 @@ import com.petthegarden.petthegarden.community.service.CommunityService;
 import com.petthegarden.petthegarden.constant.PetGender;
 import com.petthegarden.petthegarden.entity.Board;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.entity.ShowOff;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import com.petthegarden.petthegarden.mypage.dto.PetDto;
 import com.petthegarden.petthegarden.mypage.service.MypageService;
+import com.petthegarden.petthegarden.showoff.service.ShowListService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -37,6 +39,7 @@ public class MyPageController {
     private final MypageService mypageService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CommunityService communityService;
+    private final ShowListService showListService;
 
     @GetMapping("/mypage")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model,
@@ -53,6 +56,7 @@ public class MyPageController {
         List<Board> myBoards = communityService.getBoardList2(loggedMemberID); //로그인한 유저의 게시판정보
         List<PetDto> pets = mypageService.findPetsByMemberId(loggedMemberDto.getId()); //로그인한 유저의 펫정보
         Page<Board> myBoardsPage = communityService.getBoardsByMember(loggedMemberID, pageable);
+        Page<ShowOff> myShowOffPage = showListService.getShowOffsByMember(loggedMemberID, PageRequest.of(0, 5, Sort.by("regDate").descending()));
 
         //MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
         //List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
@@ -62,6 +66,8 @@ public class MyPageController {
         model.addAttribute("pets", pets);
         model.addAttribute("myBoards", myBoardsPage.getContent()); // 7개씩 나오는 게시글 리스트
         model.addAttribute("myBoardsPage", myBoardsPage); // 페이지 정보
+        model.addAttribute("myShowOffList", myShowOffPage.getContent());
+        model.addAttribute("myShowOffPage", myShowOffPage);
 
         return "mypage/mypage";
     }
@@ -200,7 +206,7 @@ public class MyPageController {
         // 삭제 성공하면 마이페이지로 리다이렉트
         return "redirect:/mypage/mypage";
     }
-
+    //자유게시판 탭
     @GetMapping("/myboards")
     public String getMyBoardsAjax(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                                   @RequestParam(defaultValue = "0") int page,
@@ -217,4 +223,23 @@ public class MyPageController {
 
         return "mypage/myboards"; // 전체 HTML (tbody + pagination) 포함 뷰
     }
+    //장기자랑 탭
+    @GetMapping("/myshowoffs")
+    public String getMyShowOffsAjax(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                    @RequestParam(defaultValue = "0") int page,
+                                    Model model) {
+        if (customUserDetails == null) {
+            return "mypage/emptyshowoffs"; // 로그인 안된 경우 처리 뷰
+        }
+
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by("regDate").descending());
+        Page<ShowOff> myShowOffPage = showListService.getShowOffsByMember(memberId, pageRequest);
+
+        model.addAttribute("myShowOffList", myShowOffPage.getContent());
+        model.addAttribute("myShowOffPage", myShowOffPage);
+
+        return "mypage/myshowoffs"; // tbody와 pagination이 포함된 프래그먼트 뷰
+    }
+
 }

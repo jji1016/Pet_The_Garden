@@ -93,19 +93,40 @@
           <tr>
             <th>글쓴날짜</th>
             <th>제목</th>
-            <th>이미지</th>
-            <th>펫이름</th>
+            <th>펫이미지</th>
+            <th>추천수</th>
           </tr>
           </thead>
           <tbody id="subscribeRap2">
-          <!-- 글내역 들어가는 자리 -->
+          <tr th:each="show : ${myShowOffList}">
+            <td th:text="${#temporals.format(show.modifyDate != null ? show.modifyDate : show.regDate, 'yyyy-MM-dd HH:mm')}">날짜</td>
+            <td>
+              <a th:href="@{/showoff/showdetail/{id}(id=${show.id})}" th:text="${show.subject}">제목</a>
+            </td>
+            <td>
+              <img th:if="${show.image}" th:src="@{'/PTGUpload/showoff/' + ${show.image}}" style="width: 60px; height: 60px;" />
+            </td>
+            <td th:text="${show.showOffLike}">추천수</td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(myShowOffList)}">
+            <td colspan="4">작성한 글이 없습니다.</td>
+          </tr>
           </tbody>
         </table>
 
         <table class="page_btn">
           <tbody>
-          <tr id="subscribePagination2">
-
+          <tr id="talent-pagination">
+            <td th:if="${myShowOffPage.hasPrevious()}">
+              <a href="#" class="page-link" th:attr="data-page=${myShowOffPage.number - 1}">이전</a>
+            </td>
+            <td th:each="pageNum : ${#numbers.sequence(0, myShowOffPage.totalPages - 1)}"
+                th:classappend="${pageNum == myShowOffPage.number} ? 'current'">
+              <a href="#" class="page-link" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}">1</a>
+            </td>
+            <td th:if="${myShowOffPage.hasNext()}">
+              <a href="#" class="page-link" th:attr="data-page=${myShowOffPage.number + 1}">다음</a>
+            </td>
           </tr>
           </tbody>
         </table>

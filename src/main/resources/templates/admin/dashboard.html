@@ -1,190 +1,161 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(dashboard)}"></head>
+<link rel="stylesheet" href="/css/admin/dashboard.css" />
 <body>
 <header id="admin-header">
-  <h1>
-    <a href=""><img src="../images/logo.png" alt="" /></a>
-  </h1>
+    <h1>
+        <a href=""><img src="../images/logo.png" alt=""/></a>
+    </h1>
 
-  <nav id="gnb">
-    <ul>
-      <li class="on">
-        <a href=""
-        ><span class="material-symbols-outlined"> home </span
-        ><span>대쉬보드</span></a
-        >
-      </li>
-      <li>
-        <a href=""
-        ><span class="material-symbols-outlined"> person </span
-        ><span>회원정보관리</span></a
-        >
-      </li>
-      <li>
-        <a href=""
-        ><span class="material-symbols-outlined"> pets </span
-        ><span>반려동물관리</span></a
-        >
-      </li>
-      <li>
-        <a href=""
-        ><span class="material-symbols-outlined"> info </span
-        ><span>신고내역</span></a
-        >
-      </li>
-    </ul>
-  </nav>
-  <a href="" class="logout"> logout </a>
+    <nav id="gnb">
+        <ul>
+            <li class="on">
+                <a href="">
+                    <span class="material-symbols-outlined"> home </span>
+                    <span>대쉬보드</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined"> person </span>
+                    <span>회원정보관리</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined"> pets </span>
+                    <span>반려동물관리</span></a>
+            </li>
+            <li>
+                <a href="">
+                    <span class="material-symbols-outlined"> info </span>
+                    <span>신고내역</span></a>
+            </li>
+        </ul>
+    </nav>
+    <a href="" class="logout"> logout </a>
 </header>
 <div class="admin-wrap">
-  <h1><span>Overview</span></h1>
-  <div class="container-fluid">
-    <div class="info-wrap container-fluid">
+    <div class="container-fluid">
+        <div class="info-wrap container-fluid">
 
-      <div class="row">
-        <div class="col-4 item-box">
-          <div class="item">
+            <div class="row">
+                <div class="col-4 item-box">
+                    <div class="item">
                 <span class="icon">
                   <span class="material-symbols-outlined"> person_add </span>
                 </span>
-            <div class="desc">
-              <dl>
-                <dt>신규 가입자 수</dt>
-                <dd>300</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt>신규 가입자 수</dt>
+                                <dd th:text="${newMember}"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="col-4 item-box">
-          <div class="item">
+                <div class="col-4 item-box">
+                    <div class="item">
                 <span class="icon"
                 ><span class="material-symbols-outlined">
                     person_add
                   </span></span
                 >
-            <div class="desc">
-              <dl>
-                <dt>총 가입자 수</dt>
-                <dd>300</dd>
-              </dl>
-            </div>
-          </div>
-        </div>
+                        <div class="desc">
+                            <dl>
+                                <dt>총 가입자 수</dt>
+                                <dd th:text="${totalMember}"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
 
-        <div class="col-4 item-box">
-          <div class="item">
+                <div class="col-4 item-box">
+                    <div class="item">
                 <span class="icon"
                 ><span class="material-symbols-outlined">
                     person_add
                   </span></span
                 >
-            <div class="desc">
-              <dl>
-                <dt>등록된 반려동물 수</dt>
-                <dd>300</dd>
-              </dl>
+                        <div class="desc">
+                            <dl>
+                                <dt>등록된 반려동물 수</dt>
+                                <dd th:text="${totalPet}"></dd>
+                            </dl>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-          </div>
+
+            <div class="row mt-4">
+                <h3>품종별 수</h3>
+                <div class="chart-wrap"></div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-6">
+                    <h3>추천많이 받은 장기자랑 게시글</h3>
+                    <div class="item">
+                        <table class="w-100 table">
+                            <thead class="text-center">
+                            <tr>
+                                <th>좋아요</th>
+                                <th>제목</th>
+                                <th>작성자</th>
+                                <th>날짜</th>
+                            </tr>
+                            </thead>
+                            <tbody class="text-center">
+                            <th:block th:each="showOffList : ${showOffList}">
+                                <tr>
+                                    <td th:text="${showOffList.showOffLike}"></td>
+                                    <td>
+                                        <a th:href="@{/showoff/showdetail/{id}(id=${showOffList.showOffID})}"
+                                           th:text="${showOffList.subject}"></a>
+
+                                    </td>
+                                    <td th:text="${showOffList.writer}"></td>
+                                    <td th:text="${#temporals.format(showOffList.regDate, 'yyyy.MM.dd')}"></td>
+                                </tr>
+                            </th:block>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="col-6">
+                    <h3>최근 한달 등록 현황</h3>
+                    <div class="cont_area">
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>반려동물 프로필</th>
+                                <th>유기동물 등록</th>
+                            </tr>
+                            <tr>
+                                <td><span th:text="${recentPet}"></span></td>
+                                <td><span th:text="${recentStray}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <th>장기자랑 게시판</th>
+                                <th>자유 게시판</th>
+                            </tr>
+                            <tr>
+                                <td><span th:text="${recentShowOff}"></span></td>
+                                <td><span th:text="${recentBoard}"></span></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
-
-      </div>
-
-      <div class="row mt-5">
-        <h3>품종별 수</h3>
-        <div class="chart-wrap"></div>
-      </div>
-
-      <div class="row mt-5">
-        <div class="col-6">
-          <h3>추천많이 받은 장기자랑 게시글</h3>
-          <div class="item">
-            <table class="w-100 table">
-              <thead class="text-center">
-              <tr>
-                <th>NO</th>
-                <th>제목</th>
-                <th>작성자</th>
-                <th>날짜</th>
-              </tr>
-              </thead>
-              <tbody class="text-center">
-              <tr>
-                <td>01</td>
-                <td>제목입니다.</td>
-                <td>장성호</td>
-                <td>2024. 03. 01</td>
-              </tr>
-              <tr>
-                <td>01</td>
-                <td>제목입니다.</td>
-                <td>장성호</td>
-                <td>2024. 03. 01</td>
-              </tr>
-              <tr>
-                <td>01</td>
-                <td>제목입니다.</td>
-                <td>장성호</td>
-                <td>2024. 03. 01</td>
-              </tr>
-              <tr>
-                <td>01</td>
-                <td>제목입니다.</td>
-                <td>장성호</td>
-                <td>2024. 03. 01</td>
-              </tr>
-              <tr>
-                <td>01</td>
-                <td>제목입니다.</td>
-                <td>장성호</td>
-                <td>2024. 03. 01</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="col-6">
-          <h3>최근 한달 등록 현황</h3>
-          <div class="cont_area">
-            <table>
-              <tbody><tr>
-                <th>반려동물 프로필</th>
-                <th>유기동물 등록</th>
-              </tr>
-              <tr>
-                <td><span>24</span></td>
-                <td><span>2,548,800</span></td>
-              </tr>
-              </tbody></table>
-            <table>
-              <tbody><tr>
-                <th>장기자랑 게시판</th>
-                <th>자유 게시판</th>
-              </tr>
-              <tr>
-                <td><span>2</span></td>
-                <td><span>22</span></td>
-              </tr>
-              </tbody></table>
-          </div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
 </body>
-<script>
-  // This is an example script, please modify as needed
-  const rangeInput = document.querySelector("#range-input");
-  const rangeOutput = document.querySelector("#range-value");
-
-  // Set initial value
-  rangeOutput.textContent = rangeInput.value;
-
-  rangeInput.addEventListener("input", function () {
-    rangeOutput.textContent = this.value;
-  });
-</script>
 </html>

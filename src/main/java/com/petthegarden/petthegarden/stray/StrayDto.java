@@ -59,4 +59,24 @@ public class StrayDto {
 
     @JsonProperty("PROTECT_PLC")
     private String protectPlc; // 보호 장소
+
+    public String getSexNmKor() {
+        if (sexNm == null) return "알 수 없음";
+        switch (sexNm) {
+            case "M": return "수컷";
+            case "F": return "암컷";
+            case "Q": return "알 수 없음";
+            default: return sexNm;
+        }
+    }
+
+    public String getNeutYnKor() {
+        if (neutYn == null) return "미상";
+        switch (neutYn) {
+            case "Y": return "예";
+            case "N": return "아니오";
+            case "U": return "미상";
+            default: return neutYn;
+        }
+    }
 }

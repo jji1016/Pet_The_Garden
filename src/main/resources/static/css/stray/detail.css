@@ -1,0 +1,42 @@
+.protect-wrap {
+    margin: 0 auto;
+    min-height: calc(100vh - 40px);
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 30px;
+    width: 1400px;
+}
+
+.container-fluid {
+    margin-top: 120px;
+}
+
+.animals-detail .detailImgRap {
+    text-align: center;
+}
+.animals-detail .detailImgRap img {
+    width: 325px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    border-radius: 18px;
+}
+.animals-detail .detail-table {
+    font-weight: 400;
+    border-top: 1px solid #000;
+}
+.animals-detail .detail-table th,
+.animals-detail .detail-table td {
+    padding: 15px;
+}
+.animals-detail .detail-table th {
+    background-color: #f8a92b;
+    color: #fff;
+    font-weight: 400;
+}
+.animals-detail .border-box {
+    border-radius: 20px;
+    padding: 30px;
+    background-color: #fff;
+    line-height: 1.5;
+    border: 2px solid #f8a92b;
+}
