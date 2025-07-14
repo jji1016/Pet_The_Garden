@@ -11,7 +11,7 @@
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
-<header th:replace="fragments/header :: headerFragment"></header>
+<div th:replace="~{fragments/header}"></div>
 
 <div id="section">
   <div class="top-title">
@@ -96,7 +96,7 @@
   </div>
 </div>
 
-<footer th:replace="fragments/footer :: footerFragment"></footer>
+<div th:replace="~{fragments/footer}"></div>
 <!--<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
   class MyUploadAdapter {

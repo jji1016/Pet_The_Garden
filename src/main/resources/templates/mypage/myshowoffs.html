@@ -11,7 +11,7 @@
 </head>
 
 <body>
-<header th:replace="fragments/header :: headerFragment"></header>
+<div th:replace="~{fragments/header}"></div>
 
 <!-- ↓↓↓ 이하 기존 마이페이지 콘텐츠 유지 ↓↓↓ -->
 <div id="section">
@@ -84,7 +84,7 @@
   </div>
 </div>
 
-<footer th:replace="fragments/footer :: footerFragment"></footer>
+<div th:replace="~{fragments/footer}"></div>
 
 <script src="/js/mypage.js"></script>
 

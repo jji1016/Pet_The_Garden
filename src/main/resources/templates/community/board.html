@@ -13,7 +13,7 @@
 <body>
 
 <!-- Header 영역 -->
-<div th:replace="fragments/header :: headerFragment"></div>
+<div th:replace="~{fragments/header}"></div>
 
 <div class="board-wrapper">
   <div class="board-title">
@@ -65,7 +65,7 @@
 </div>
 
 <!-- Footer 영역 -->
-<div th:replace="fragments/footer :: footerFragment"></div>
+<div th:replace="~{fragments/footer}"></div>
 </body>
 <script>
   function validateSearch() {

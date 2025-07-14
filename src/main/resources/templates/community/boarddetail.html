@@ -10,7 +10,7 @@
 <body id="board" th:attr="data-board-id=${board.id}">
 
 <!-- Header -->
-<div th:replace="fragments/header :: headerFragment"></div>
+<div th:replace="~{fragments/header}"></div>
 
 <div class="board-detail-wrapper">
     <!-- 게시글 제목 -->
@@ -98,7 +98,7 @@
 </div>
 
 <!-- Footer -->
-<div th:replace="fragments/footer :: footerFragment"></div>
+<div th:replace="~{fragments/footer}"></div>
 
 <script>
     // 댓글 신고 기능

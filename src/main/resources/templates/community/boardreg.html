@@ -10,7 +10,7 @@
 <body>
 
 <!-- Header -->
-<div th:replace="fragments/header :: headerFragment"></div>
+<div th:replace="~{fragments/header}"></div>
 
 <div class="board-detail-wrapper">
     <div class="board-detail-title">게시글 등록</div>
@@ -44,7 +44,7 @@
 </div>
 
 <!-- Footer -->
-<div th:replace="fragments/footer :: footerFragment"></div>
+<div th:replace="~{fragments/footer}"></div>
 
 <!--<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
