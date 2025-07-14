@@ -1,59 +1,176 @@
-    <!DOCTYPE html>
-    <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-    <head th:replace="~{fragments/head :: head('반려동물 장기자랑 등록')}">
-        <link rel="stylesheet" href="/css/showreg.css">
-    </head>
-    <body>
-    <header th:replace="~{fragments/header :: header}"></header>
-    <div class="showreg-container">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-8 col-md-10">
-                    <div class="showreg-card">
-                        <div class="showreg-header">
-                            <h1 class="showreg-title">반려동물 장기자랑</h1>
-                            <p class="showreg-subtitle">우리 아이의 특별한 모습을 자랑해주세요! 🐾</p>
-                        </div>
-                        <div class="showreg-body">
-                            <form id="showoffForm"
-                                  th:action="@{/showoff/showreg}"
-                                  th:object="${showRegDto}"
-                                  method="post"
-                                  enctype="multipart/form-data"
-                                  class="registration-form">
-                                <input type="text"
-                                       id="subject"
-                                       name="subject"
-                                       th:field="*{subject}"
-                                       class="form-control"
-                                       maxlength="200"
-                                       placeholder="제목을 입력하세요"
-                                       required>
-                                <textarea id="content"
-                                          class="form-control"
-                                          rows="20"
-                                          placeholder="여기에 내용을 입력하세요!"></textarea>
-                                <input type="hidden"
-                                       name="content"
-                                       id="content-hidden"
-                                       th:field="*{content}">
-                                <div class="showreg-btn-row">
-                                    <button type="submit"
-                                            id="submitBtn"
-                                            class="btn-action btn-submit">
-                                        <span class="btn-text">장기자랑 등록하기</span>
-                                        <span class="btn-spinner" style="display:none;">로딩중...</span>
-                                    </button>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('반려동물 장기자랑 등록')}">
+    <link rel="stylesheet" th:href="@{/css/showoff/showreg.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="showreg-container">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="showreg-card">
+                    <div class="showreg-header">
+                        <h1 class="showreg-title">반려동물 장기자랑</h1>
+                        <p class="showreg-subtitle">우리 아이의 특별한 모습을 자랑해주세요! 🐾</p>
+                    </div>
+
+                    <div class="showreg-body">
+                        <form th:action="@{/showoff/showreg}" method="post" th:object="${showRegDto}" enctype="multipart/form-data">
+                            <div th:if="${error}" class="alert alert-danger" role="alert">
+                                <span th:text="${error}"></span>
+                            </div>
+                            <div th:if="${message}" class="alert alert-success" role="alert">
+                                <span th:text="${message}"></span>
+                            </div>
+
+                            <!-- 제목 입력 -->
+                            <div class="form-group mb-4">
+                                <label for="subject" class="form-label">제목</label>
+                                <input type="text" id="subject" name="subject" th:field="*{subject}" class="form-control" placeholder="장기자랑 제목을 입력해주세요" required>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('subject')}" th:errors="*{subject}"></div>
+                            </div>
+
+                            <!-- 펫 릿스트 선택 -->
+                            <div class="form-group mb-4">
+                                <label for="listOfPet" class="form-label">제목</label>
+                                <select id="listOfPet" name="petId" class="form-control" required>
+                                    <th:block th:each="pet : ${listOfPet}">
+                                        <option th:value="${pet.id}" th:text="${pet.petName}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+
+                            <!-- 내용 입력 -->
+                            <div class="form-group mb-4">
+                                <label for="content" class="form-label">내용</label>
+                                <textarea id="content" name="content" th:field="*{content}" class="form-control" rows="8" placeholder="우리 아이의 특별한 모습을 자세히 설명해주세요" required></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('content')}" th:errors="*{content}"></div>
+                            </div>
+
+                            <!-- 이미지 업로드 및 미리보기 -->
+                            <div class="form-group mb-4">
+                                <label for="imageFile" class="form-label">이미지 첨부</label>
+                                <div class="image-upload-container">
+                                    <input type="file" id="imageFile" name="imageFile" accept="image/*" class="form-control">
+                                    <input type="hidden" id="image" name="image" th:field="*{image}">
+                                    <div class="image-preview" id="imagePreview" style="display: none; margin-top: 10px;">
+                                        <img id="previewImg" src="" alt="미리보기" class="preview-image" style="max-width: 300px; max-height: 300px;">
+                                        <button type="button" class="btn btn-sm btn-danger remove-image" style="margin-top: 10px;">삭제</button>
+                                    </div>
                                 </div>
-                            </form>
-                        </div>
+                            </div>
+
+                            <!-- 유튜브 링크 -->
+                            <div class="form-group mb-4">
+                                <label for="youtubeLink" class="form-label">유튜브 링크</label>
+                                <input type="url" id="youtubeLink" name="youtubeLink" th:field="*{youtubeLink}" class="form-control" placeholder="https://www.youtube.com/watch?v=...">
+                                <small class="form-text text-muted">유튜브 동영상 링크를 입력하면 자동으로 임베드됩니다.</small>
+                                <div class="youtube-preview" id="youtubePreview" style="display: none;">
+                                    <div class="youtube-embed-container">
+                                        <iframe id="youtubeFrame" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-paw"></i> 장기자랑 등록하기
+                                </button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <footer th:replace="~{fragments/footer :: footer}"></footer>
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-    <script src="/js/showreg.js"></script>
-    </body>
-    </html>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 이미지 미리보기
+        const imageFile = document.getElementById('imageFile');
+        const imagePreview = document.getElementById('imagePreview');
+        const previewImg = document.getElementById('previewImg');
+        const removeBtn = document.querySelector('.remove-image');
+        const imageInput = document.getElementById('image');
+
+        if (imageFile) {
+            imageFile.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file && file.type.startsWith('image/')) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        imagePreview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+
+                    // 서버에 업로드
+                    const formData = new FormData();
+                    formData.append('image', file);
+                    const imageContainer = document.querySelector('.image-upload-container');
+                    imageContainer.classList.add('loading');
+                    fetch('/showoff/upload-image', {
+                        method: 'POST',
+                        body: formData
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            imageContainer.classList.remove('loading');
+                            if (data.success) {
+                                imageInput.value = data.url;
+                            } else {
+                                alert('이미지 업로드에 실패했습니다: ' + data.message);
+                                imageFile.value = '';
+                                imagePreview.style.display = 'none';
+                            }
+                        })
+                        .catch(error => {
+                            imageContainer.classList.remove('loading');
+                            alert('이미지 업로드 중 오류가 발생했습니다.');
+                            imageFile.value = '';
+                            imagePreview.style.display = 'none';
+                        });
+                } else {
+                    previewImg.src = '';
+                    imagePreview.style.display = 'none';
+                }
+            });
+        }
+
+        if (removeBtn) {
+            removeBtn.addEventListener('click', function() {
+                imageFile.value = '';
+                imageInput.value = '';
+                previewImg.src = '';
+                imagePreview.style.display = 'none';
+            });
+        }
+
+        // 유튜브 미리보기
+        const youtubeLink = document.getElementById('youtubeLink');
+        const youtubePreview = document.getElementById('youtubePreview');
+        const youtubeFrame = document.getElementById('youtubeFrame');
+
+        if (youtubeLink) {
+            youtubeLink.addEventListener('input', function() {
+                const url = youtubeLink.value.trim();
+                const regExp = /^.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+                const match = url.match(regExp);
+                if (match && match[1].length === 11) {
+                    youtubeFrame.src = 'https://www.youtube.com/embed/' + match[1];
+                    youtubePreview.style.display = 'block';
+                } else {
+                    youtubeFrame.src = '';
+                    youtubePreview.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

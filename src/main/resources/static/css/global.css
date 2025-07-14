@@ -320,11 +320,6 @@ button.btn-submit {
 button.btn-submit:hover {
   background: #ffd591;
 }
-p.ck-placeholder {
-  min-height: 400px;
-}
-.ck-editor__editable_inline,
-.ck-editor__editable_inline:focus {
-  min-height: 400px !important;
-  border-radius: 8px;
+.form-group.text-center {
+  margin-bottom: 30px;
 }
