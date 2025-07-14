@@ -1,0 +1,114 @@
+<div class="comments-list">
+  <div class="comment-item" th:each="comment : ${board.boardCommentList}" th:attr="data-comment-id=${comment.id}">
+    <div class="comment-header">
+      <div class="comment-author" th:text="${comment.member.userName}">작성자</div>
+      <div class="comment-date" th:text="${#temporals.format(comment.modifyDate != null ? comment.modifyDate : comment.regDate, 'yyyy-MM-dd HH:mm')}">작성일</div>
+    </div>
+
+    <div class="comment-body">
+      <div class="comment-content" th:text="${comment.content}">댓글 내용</div>
+      <div class="comment-actions" style="display: flex; gap: 8px; align-items: center;">
+        <!-- 본인 댓글이면 수정/삭제 버튼 보여주기 -->
+        <th:block th:if="${comment.member.userID == loginUsername}">
+          <button type="button" class="btn-comment-edit" onclick="startEdit(this)">수정</button>
+          <button type="button" class="btn-comment-delete" th:onclick="|deleteComment(${comment.id}, ${board.id})|">삭제</button>
+        </th:block>
+
+        <!-- 본인이 아닐 경우 신고 버튼 보여주기 -->
+        <th:block th:if="${comment.member.userID != loginUsername}">
+          <button type="button" class="btn-report-post" th:onclick="|reportComment(${comment.id})|">
+            <img src="/images/신고.png" class="report-icon" style="width: 20px; height: 20px;" />
+            신고
+          </button>
+        </th:block>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function startEdit(button) {
+    const commentItem = button.closest('.comment-item');
+    const contentDiv = commentItem.querySelector('.comment-content');
+    const originalText = contentDiv.textContent.trim();
+
+    // textarea 생성
+    const textarea = document.createElement('textarea');
+    textarea.value = originalText;
+    textarea.style.width = '100%';
+    textarea.style.height = '80px';
+
+    // 저장 버튼 생성
+    const saveBtn = document.createElement('button');
+    saveBtn.textContent = '저장';
+    saveBtn.style.marginRight = '8px';
+    saveBtn.classList.add('btn-comment-save');
+    saveBtn.onclick = () => saveEdit(commentItem, textarea.value);
+
+    // 취소 버튼 생성
+    const cancelBtn = document.createElement('button');
+    cancelBtn.textContent = '취소';
+    cancelBtn.classList.add('btn-comment-cancel');
+    cancelBtn.onclick = () => cancelEdit(commentItem, originalText);
+
+    // 기존 내용 숨기기
+    contentDiv.style.display = 'none';
+    button.style.display = 'none';
+
+    // 수정용 요소 추가
+    commentItem.appendChild(textarea);
+    commentItem.appendChild(saveBtn);
+    commentItem.appendChild(cancelBtn);
+  }
+
+  function cancelEdit(commentItem, originalText) {
+    const textarea = commentItem.querySelector('textarea');
+    const saveBtn = Array.from(commentItem.querySelectorAll('button')).find(b => b.textContent === '저장');
+    const cancelBtn = Array.from(commentItem.querySelectorAll('button')).find(b => b.textContent === '취소');
+
+    if(textarea) textarea.remove();
+    if(saveBtn) saveBtn.remove();
+    if(cancelBtn) cancelBtn.remove();
+
+    const contentDiv = commentItem.querySelector('.comment-content');
+    contentDiv.textContent = originalText;
+    contentDiv.style.display = 'block';
+    commentItem.querySelector('.btn-comment-edit').style.display = 'inline-block';
+  }
+
+  function saveEdit(commentItem, newContent) {
+    const commentId = commentItem.getAttribute('data-comment-id');
+    if(!newContent.trim()) {
+      alert('댓글 내용을 입력하세요.');
+      return;
+    }
+
+    fetch(`/community/comment/${commentId}/edit`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({ content: newContent })
+    })
+            .then(res => {
+              if(res.ok) {
+                // 전체 리로드 대신 댓글만 새로고침 (선택사항)
+                refreshComments();
+              } else {
+                res.text().then(text => alert('수정 실패: ' + text));
+              }
+            })
+            .catch(() => alert('수정 중 오류가 발생했습니다.'));
+  }
+
+  // 선택사항: 댓글 목록 부분만 다시 불러오기
+  function refreshComments() {
+    // 현재 게시글 ID 가져오기 (예: body나 특정 div에 data-attribute로 설정해둔다고 가정)
+    const boardId = document.querySelector('#board').getAttribute('data-board-id');
+
+    fetch(`/community/board/${boardId}/comment-html`)
+            .then(res => res.text())
+            .then(html => {
+              document.querySelector('.comments-list').outerHTML = html;
+            })
+            .catch(() => alert('댓글 목록을 불러오는데 실패했습니다.'));
+  }
+</script>

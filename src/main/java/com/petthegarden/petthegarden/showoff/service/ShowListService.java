@@ -27,4 +27,9 @@ public class ShowListService {
         return showListRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
     }
+
+    public Page<ShowOff> getShowOffsByMember(Integer memberId, Pageable pageable) {
+        return showListRepository.findByMemberId(memberId, pageable);
+    }
+
 }

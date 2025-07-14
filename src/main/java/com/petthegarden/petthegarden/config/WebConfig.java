@@ -9,6 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${file.path}pet/")
+    String petPath;
+
+    @Value("${file.path}board/")
+    String boardPath;
+
     @Value("${file.path}products/")
     String productsPath;
 
@@ -23,8 +29,15 @@ public class WebConfig implements WebMvcConfigurer {
 
 
     // 기존 파일 업로드 리소스 매핑
+    @Value("${file.path}f1/")
+    private String imagesPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/PTGUpload/pet/**")
+                .addResourceLocations("file:///" + petPath);
+        registry.addResourceHandler("/PTGUpload/board/**")
+                .addResourceLocations("file:///" + boardPath);
         registry.addResourceHandler("/PTGUpload/products/**")
                 .addResourceLocations("file:///" + productsPath);
         registry.addResourceHandler("/PTGUpload/reviews/**")
@@ -33,6 +46,8 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + uploadPath);
         registry.addResourceHandler("/PTGUpload/diary/**")
                 .addResourceLocations("file:///" + diaryPath);
+        registry.addResourceHandler("/uploads/images/**")
+                .addResourceLocations("file:///" + imagesPath);
     }
 
     // ★ 장바구니/결제 페이지 연동을 위한 CORS 설정 추가

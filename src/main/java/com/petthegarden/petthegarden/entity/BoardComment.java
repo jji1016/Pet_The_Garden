@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.entity;
 
+import com.fasterxml.jackson.annotation.JsonSetter;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @ToString
 @Builder
+@Setter
 @EntityListeners(AuditingEntityListener.class)
 public class BoardComment {
     @Id
