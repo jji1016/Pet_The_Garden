@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(일기쓰기)}"></head>
-<link rel="stylesheet" href="/css/petnote/diaryreg.css" />
+<link rel="stylesheet" href="/css/petnote/profile.css"/>
+<link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
 <body>
 <div class="diary-box">
     <div class="main-visual" id="diary-visual">
@@ -13,7 +14,7 @@
     <nav class="sidebar">
         <ul>
             <li class="active">프로필</li>
-            <!--        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>-->
+<!--  <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>-->
             <li>성장일기</li>
         </ul>
         <form th:action="@{/member/logout}" method="post">
@@ -41,7 +42,8 @@
                             <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
                             <div>
                                 <h6>사진</h6>
-                                <input class="img-content" type="file" name="diaryImg" id="diaryImg" placeholder="사진을 올려주세요">
+                                <input class="img-content" type="file" name="diaryImg" id="diaryImg"
+                                       placeholder="사진을 올려주세요">
                             </div>
                         </div>
                         <div class="diary-upload">

@@ -31,17 +31,18 @@ public class PetnoteController {
         return "petnote/list";
     }
 
-    @GetMapping("/profile")
-    public String profile(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                          Model model) {
+    @GetMapping("/profile/{petID}")
+    public String profile(@RequestParam int petID,
+                          Model model,
+                          @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        String userID = customUserDetails.getLoggedMember().getUserID();
         Integer memberID = customUserDetails.getLoggedMember().getId();
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto firstPetDto = petnoteService.getPetDto(memberID);
+//        Integer petID = firstPetDto.getPetID();
         System.out.println("PetnoteContoller 펫디티오 " + firstPetDto);
 
-        model.addAttribute("userID", userID);
+        model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
         model.addAttribute("firstPetDto", firstPetDto);
 
@@ -64,7 +65,6 @@ public class PetnoteController {
         model.addAttribute("firstPetDto", selectedPetDto);
         return "petnote/profile";
     }
-
 
 
     @GetMapping("/diaryreg/{petID}")

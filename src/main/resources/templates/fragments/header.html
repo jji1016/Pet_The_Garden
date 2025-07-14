@@ -14,9 +14,8 @@
             <li><a href="/community/board">커뮤니티</a></li>
         </ul>
     </nav>
-
     <th:block sec:authorize="isAuthenticated()">
-        <a th:href="@{/petnote/profile}" id="profile" class="profile">
+        <a th:href="@{/petnote/profile/{petID}(petID=${petID})}" id="profile" class="profile">
             <span class="img"><img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
                                    alt="프로필"/></span>
             <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
@@ -27,12 +26,10 @@
             </button>
         </form>
     </th:block>
-
     <th:block sec:authorize="isAnonymous()">
         <a th:href="@{/member/login}" class="profile">
             <span><i class="bi bi-person-circle"></i></span>
         </a>
     </th:block>
 </header>
-
 </html>

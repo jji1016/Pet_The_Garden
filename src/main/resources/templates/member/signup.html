@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(SIGNUP)}"></head>
-<link rel="stylesheet" href="/css/member/signup.css" />
+<link rel="stylesheet" href="/css/member/signup.css"/>
 <body>
 <header th:replace="~{fragments/header}"></header>
 <div class="container d-flex justify-content-center align-items-center min-vh-100">
@@ -58,8 +58,6 @@
                             />
                         </div>
                     </div>
-
-
                     <div class="mb-3">
                         <label for="userName" class="form-label fw-bold">User Name</label>
                         <div>
@@ -107,7 +105,6 @@
                             <div class="mt-2 small text-danger" th:errors="*{email}"></div>
                         </div>
                     </div>
-
                     <div class="mb-3">
                         <label for="zipcode" class="form-label fw-bold">ZIPCODE</label>
                         <div class="row">
@@ -122,7 +119,7 @@
                                 <div class="mt-2 small text-danger" th:errors="*{zipcode}"></div>
                             </div>
                             <div class="col-3">
-                                <button class="orange-button">우편번호 검색</button>
+                                <button type="button" class="orange-button" onclick="execDaumPostcode()">주소 검색</button>
                             </div>
                             <div class="col-12 mb-2">
                                 <input
@@ -242,8 +239,18 @@
         const t3 = document.getElementById('tel3').value;
         document.getElementById('fullTel').value = `${t1}-${t2}-${t3}`;
     }
-
-
+</script>
+<script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById('address01').value = data.address;
+                document.getElementById('address02').focus();
+            }
+        }).open();
+    }
 </script>
 </body>
 </html>
