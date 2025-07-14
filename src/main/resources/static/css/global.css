@@ -325,11 +325,211 @@ button.btn-submit {
 button.btn-submit:hover {
   background: #ffd591;
 }
-p.ck-placeholder {
-  min-height: 400px;
+.form-group.text-center {
+  margin-bottom: 30px;
 }
-.ck-editor__editable_inline,
-.ck-editor__editable_inline:focus {
-  min-height: 400px !important;
-  border-radius: 8px;
+.showdetail-container {
+  padding-top: 180px;
+  padding-bottom: 50px;
 }
+.company-container {
+  padding-top: 180px;
+  padding-bottom: 50px;
+}
+img.company-img {
+  width: 500px;
+  height: auto;
+}
+
+
+.company-content {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  gap: 48px;
+  max-width: 1920px;
+  margin: 0 auto;
+  padding-left: 450px;
+  padding-right: 60px;
+  box-sizing: border-box;
+}
+
+.ceo-photo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ceo-message {
+  flex: 1;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  color: #333;
+  padding-right: 24px;
+}
+.ceo-sign{
+  font-size: 32px;
+}
+
+/* FAQ 전용 스타일: global.css에 추가해도 다른 페이지에 영향 없음 */
+.faq-page * {
+  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
+}
+
+.faq-page {
+  width: 100%;
+}
+
+.faq-page .faq-header {
+  width: 100%;
+  text-align: center;
+  font-family: "Inter-Bold", "Noto Sans KR", Helvetica, Arial, sans-serif;
+  font-size: 48px;
+  font-weight: 700;
+  color: #2d2d2d;
+  letter-spacing: 2px;
+}
+h1.faq-header {
+  padding-top: 180px;
+  margin-bottom: 50px;
+}
+.faq-page .table {
+  display: flex;
+  flex-direction: column;
+  width: 90vw;
+  max-width: 900px;
+  margin: 0 auto 80px auto;
+  align-items: stretch;
+  position: relative;
+}
+
+.faq-page .div {
+  background-color: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid #e0e0e0;
+  box-shadow: 0 2px 16px 0 rgba(0,0,0,0.04);
+  margin-bottom: 32px;
+  transition: box-shadow 0.2s;
+}
+
+.faq-page .div:hover {
+  box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+}
+
+.faq-page .row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.faq-page .accordion-row:hover {
+  background: #fffbe8 !important;
+}
+
+.faq-page .content-wrapper {
+  width: 80px;
+  background: #f8a92b60;
+  border-right: 1px solid #f8a92b;
+  align-items: center;
+  justify-content: center;
+}
+
+.faq-page .cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+.faq-page .content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 20px 20px;
+  text-align: center;
+}
+.faq-page p.text {
+  font-family: "Inter-SemiBold", "Noto Sans KR", Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: #222;
+  margin: 0;
+  line-height: 1.5;
+}
+.faq-page .text {
+  font-family: "Inter-SemiBold", "Noto Sans KR", Helvetica, Arial, sans-serif;
+  font-weight: 600;
+  color: #554b4b;
+  font-size: 22px;
+  align-items: center;
+  text-align: center;
+  letter-spacing: 0.5px;
+  line-height: 1.2;
+}
+
+.faq-page .cell .text {
+  color: #222;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 500;
+  padding-left: 12px;
+}
+
+.faq-page .accordion-content {
+  width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+  background: #f7f9fb;
+  border-top: 1px solid #f8a92b30;
+}
+
+.faq-page .accordion-content.active {
+  max-height: 800px;
+  transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.faq-page .content-detail {
+  padding: 28px 36px;
+  font-family: "Inter-Regular", "Noto Sans KR", Helvetica, Arial, sans-serif;
+  color: #333;
+  line-height: 1.7;
+  background: #fff;
+}
+
+.faq-page .content-detail p {
+  margin: 0 0 14px 0;
+  font-size: 17px;
+}
+
+.faq-page .content-detail p:last-child {
+  margin-bottom: 0;
+}
+
+.faq-page .content-detail strong {
+  font-weight: 700;
+  color: #f8a92b;
+}
+
+@media (max-width: 900px) {
+  .faq-page .faq-header {
+    font-size: 32px;
+    margin: 40px 0 30px 0;
+  }
+  .faq-page .table {
+    width: 98vw;
+    max-width: 100vw;
+  }
+  .faq-page .content-wrapper { width: 48px; }
+  .faq-page .text { font-size: 16px; }
+  .faq-page .cell .text { font-size: 15px; }
+  .faq-page .content-detail { padding: 18px 10px; font-size: 15px; }
+}
+

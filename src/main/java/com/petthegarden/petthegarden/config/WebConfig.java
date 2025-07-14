@@ -12,39 +12,37 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.path}pet/")
     String petPath;
 
-    @Value("${file.path}diary/")
-    String diaryPath;
-
     @Value("${file.path}board/")
     String boardPath;
 
-    @Value("${file.path}show/")
-    String showPath;
+    @Value("${file.path}products/")
+    String productsPath;
 
-    @Value("${file.path}stray/")
-    String strayPath;
+    @Value("${file.path}reviews/")
+    String reviewsPath;
 
-    @Value("C:/PTGUpload/tmp/")
-    String tmpPath;
+    @Value("${file.path}upload/")
+    private String uploadPath;
 
-    // 기존 파일 업로드 리소스 매핑
+    @Value("${file.path}f1/")
+    private String imagesPath;
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/PTGUpload/pet/**")
                 .addResourceLocations("file:///" + petPath);
-        registry.addResourceHandler("/PTGUpload/diary/**")
-                .addResourceLocations("file:///" + diaryPath);
         registry.addResourceHandler("/PTGUpload/board/**")
                 .addResourceLocations("file:///" + boardPath);
-        registry.addResourceHandler("/PTGUpload/show/**")
-                .addResourceLocations("file:///" + showPath);
-        registry.addResourceHandler("/PTGUpload/stray/**")
-                .addResourceLocations("file:///" + strayPath);
-        registry.addResourceHandler("/PTGUpload/tmp/**")
-                .addResourceLocations("file:///" + tmpPath);
+        registry.addResourceHandler("/PTGupload/products/**")
+                .addResourceLocations("file:///" + productsPath);
+        registry.addResourceHandler("/PTGupload/reviews/**")
+                .addResourceLocations("file:///" + reviewsPath);
+        registry.addResourceHandler("/PTGupload/upload/**")
+                .addResourceLocations("file:///" + uploadPath);
+        registry.addResourceHandler("/uploads/images/**")
+                .addResourceLocations("file:///" + imagesPath);
     }
 
-    // ★ 장바구니/결제 페이지 연동을 위한 CORS 설정 추가
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/cart/**")

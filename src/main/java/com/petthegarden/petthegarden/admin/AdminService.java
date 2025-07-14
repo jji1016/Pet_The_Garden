@@ -2,8 +2,11 @@ package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,7 +49,7 @@ public class AdminService {
         return adminDao.getShowOffList();
     }
 
-    public List<AdminMemberDto> getMemberList() {
-        return adminDao.getMemberList();
+    public Page<AdminMemberDto> getMemberList(String startDate, String endDate, String key, String search, Pageable pageable) {
+        return adminDao.getMemberList(startDate,endDate,key,search,pageable);
     }
 }
