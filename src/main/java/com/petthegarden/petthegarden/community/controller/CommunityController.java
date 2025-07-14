@@ -80,8 +80,9 @@ public class CommunityController {
     }
     //게시글수정
     @PostMapping("/boardcorrect/{id}")
-    public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto) {
-        communityService.updateBoard(id, boardDto);
+    public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto,
+                              @RequestParam(value = "extraImage", required = false) MultipartFile extraImage) {
+        communityService.updateBoard(id, boardDto, extraImage);
         return "redirect:/community/boarddetail/" + id;
     }
     //게시글삭제

@@ -72,7 +72,11 @@ public class CommunityService {
 
             if ((int) uploadResult.get("uploaded") == 1) {
                 String imageUrl = (String) uploadResult.get("url");
+                // content에 이미지 추가
                 content += "<div><img src='" + imageUrl + "' style='max-width:100%; margin-top:20px;' /></div>";
+
+                // DB에도 저장
+                board.setImage(imageUrl);
             } else {
                 throw new RuntimeException("이미지 업로드 실패: " + ((Map<?, ?>) uploadResult.get("error")).get("message"));
             }
@@ -86,11 +90,26 @@ public class CommunityService {
     }
 
     //게시판 글 수정
-    public void updateBoard(Integer id, BoardDto boardDto) {
+    public void updateBoard(Integer id, BoardDto boardDto, MultipartFile extraImage) {
         Board board = getBoardById(id);
 
         board.setSubject(boardDto.getSubject());
         String content = boardDto.getContent();
+        if (extraImage != null && !extraImage.isEmpty()) {
+            Map<String, Object> uploadResult = uploadImage(extraImage);
+
+            if ((int) uploadResult.get("uploaded") == 1) {
+                String imageUrl = (String) uploadResult.get("url");
+
+                // content에 이미지 추가
+                content += "<div><img src='" + imageUrl + "' style='max-width:100%; margin-top:20px;' /></div>";
+
+                // DB에도 저장
+                board.setImage(imageUrl);
+            } else {
+                throw new RuntimeException("이미지 업로드 실패: " + ((Map<?, ?>) uploadResult.get("error")).get("message"));
+            }
+        }
         board.setContent(content);
         board.setModifyDate(LocalDateTime.now());
 
