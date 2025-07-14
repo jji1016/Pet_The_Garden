@@ -17,9 +17,9 @@ public class Follow {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberID", nullable = false)
-    private Member member;
+    private Member member; //사람이
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "petID", nullable = false)
-    private Pet pet;
+    private Pet pet; //펫을 팔로우
 }

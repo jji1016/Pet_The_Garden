@@ -19,11 +19,14 @@ public class IndexController {
     @GetMapping("/index")
     public String index(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                         Model model) {
-        Integer memberID = customUserDetails.getLoggedMember().getId();
-        PetDto firstPetDto = petnoteService.getPetDto(memberID);
-        Integer petID = firstPetDto.getPetID();
-        model.addAttribute("petID", petID);
+        if (customUserDetails != null) {
+            Integer memberID = customUserDetails.getLoggedMember().getId();
+            PetDto firstPetDto = petnoteService.getPetDto(memberID);
+            Integer petID = firstPetDto.getPetID();
+            model.addAttribute("petID", petID);
+        }
         return "index/index";
     }
-
 }
+
+

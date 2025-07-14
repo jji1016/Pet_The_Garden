@@ -1,18 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(PROFILE)}"></head>
-<link rel="stylesheet" href="/css/petnote/profile.css" />
+<link rel="stylesheet" href="/css/petnote/profile.css"/>
 <style>
-    body {
-        display: flex;
-    }
+    body {display: flex;}
 </style>
 <body>
 <nav class="sidebar">
     <ul>
         <li class="active">프로필</li>
-        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>
+        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
     </ul>
+    <div class="pet-info">
+        <select name="petID" onchange="location.href='/petnote/profile/' + this.value">
+            <option th:each="pet : ${petList}"
+                    th:value="${pet.id}"
+                    th:text="${pet.petName}"
+                    th:selected="${pet.id == petID}">
+            </option>
+        </select>
+    </div>
     <form th:action="@{/member/logout}" method="post">
         <button type="submit" class="btn btn-logout">
             <i class="bi bi-box-arrow-right"></i> 로그아웃
@@ -21,7 +28,7 @@
 </nav>
 <div class="profile-wrap">
     <form th:action="@{/petnote/profile/{userID}(userID=${#authentication.principal.loggedMember.userID})}"
-          method="post" th:object="${firstPetDto}">
+          method="post" th:object="${petDto}">
         <div class="container">
             <div class="row">
                 <div class="col-4">
@@ -33,14 +40,6 @@
                         <div class="info">
                             <h5 th:text="${#authentication.principal.loggedMember.userName}">김은경</h5>
                             <p class="desc" th:text="*{petName} + '주인'">알리 강아지 주인</p>
-                        </div>
-                        <div class="pet-info">
-                            <select name="petID" th:field="*{petID}" onchange="this.form.submit()">
-                                <option th:each="pet : ${petList}"
-                                        th:value="${pet.id}"
-                                        th:text="${pet.petName}">
-                                </option>
-                            </select>
                         </div>
                     </div>
                     <div class="info-box">
@@ -60,7 +59,10 @@
                             <i class="bi  bi-box2-heart"></i>
                             <span th:text="*{follow} + ' followers'">117</span>
                         </p>
-                        <button class="btn btn-follow w-100 btn-lg">Follow</button>
+<!--                        <button class="btn btn-follow w-100 btn-lg">Follow</button>-->
+                        <ul>
+                            <li><a href="" id="btn-follow" data-subscribe="yes" class="btn btn-follow w-100 btn-lg">Follow</a></li>
+                        </ul>
                     </div>
                 </div>
                 <div class="col-8">
@@ -150,6 +152,41 @@
         } else {
             document.querySelectorAll('.nav li')[1].classList.add('on');
         }
+    }
+</script>
+<script>
+    const btnFollow = document.querySelector("#btn-follow"); //있을 수도 있고 없을 수도 있고
+    console.log("btnSubscribe===",btnFollow);
+    const followStatus = btnFollow.dataset.follow;
+
+    if (followStatus === "yes") {
+        fetch(`/api/subscribe/${toMemberID}`, {
+            method: "post"
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.isFollow) {
+                    alert("팔로우성공");
+                    btnFollow.dataset.follow = "no";
+                    btnFollow.textContent="Following";
+                } else {
+                    alert("오류");
+                }
+            })
+    } else {
+        fetch(`/api/subscribe/${toMemberID}`, {
+            method: "delete"
+        })
+            .then(response => response.json())
+            .then(json => {
+                if (json.isFollowDelete) {
+                    alert("팔로우취소");
+                    btnFollow.dataset.follow = "yes";
+                    btnFollow.textContent="Follow";
+                } else {
+                    alert("오류02");
+                }
+            })
     }
 </script>
 </html>

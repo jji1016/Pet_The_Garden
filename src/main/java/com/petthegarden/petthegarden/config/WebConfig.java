@@ -25,13 +25,13 @@ public class WebConfig implements WebMvcConfigurer {
     // 기존 파일 업로드 리소스 매핑
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/PTGupload/products/**")
+        registry.addResourceHandler("/PTGUpload/products/**")
                 .addResourceLocations("file:///" + productsPath);
-        registry.addResourceHandler("/PTGupload/reviews/**")
+        registry.addResourceHandler("/PTGUpload/reviews/**")
                 .addResourceLocations("file:///" + reviewsPath);
-        registry.addResourceHandler("/PTGupload/upload/**")
+        registry.addResourceHandler("/PTGUpload/upload/**")
                 .addResourceLocations("file:///" + uploadPath);
-        registry.addResourceHandler("/PTGupload/diary/**")
+        registry.addResourceHandler("/PTGUpload/diary/**")
                 .addResourceLocations("file:///" + diaryPath);
     }
 

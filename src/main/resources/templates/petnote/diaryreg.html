@@ -13,10 +13,19 @@
     </div>
     <nav class="sidebar">
         <ul>
-            <li class="active">프로필</li>
-<!--  <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${firstPetDto.petID})}">성장일기</a></li>-->
-            <li>성장일기</li>
+            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>
+            <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
+            <!--            <li>성장일기</li>-->
         </ul>
+        <div class="pet-info">
+            <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">
+                <option th:each="pet : ${petList}"
+                        th:value="${pet.id}"
+                        th:text="${pet.petName}"
+                        th:selected="${pet.id == petID}">
+                </option>
+            </select>
+        </div>
         <form th:action="@{/member/logout}" method="post">
             <button type="submit" class="btn btn-logout">
                 <i class="bi bi-box-arrow-right"></i> 로그아웃

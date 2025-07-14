@@ -34,4 +34,5 @@ public class MemberDao {
     public Member findMemberByUserID(String userID) {
         return memberRepository.findMemberByUserID(userID);
     }
+
 }

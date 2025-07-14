@@ -1,7 +1,10 @@
 package com.petthegarden.petthegarden.petnote.dto;
 
+import com.petthegarden.petthegarden.constant.PetGender;
 import com.petthegarden.petthegarden.entity.Pet;
 import lombok.*;
+
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -37,6 +40,17 @@ public class PetDto {
                 .petDislike(pet.getPetDisLike())
                 .build();
     }
+
+    public PetDto(Integer petID, String species, String petName, String birthDate,
+                  String profileImg, PetGender petGender) {
+        this.petID = petID;
+        this.species = species;
+        this.petName = petName;
+        this.birthDate = birthDate;
+        this.profileImg = profileImg;
+        this.petGender = petGender.toString();
+    }
+
 }
 
 

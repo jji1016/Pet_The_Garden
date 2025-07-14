@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(PETLIST)}"></head>
-<link rel="stylesheet" href="/css/petnote/list.css" />
+<link rel="stylesheet" href="/css/petnote/list.css"/>
+<link rel="stylesheet" href="/css/stray/protect.css"/>
 <body>
 <header th:replace="~{fragments/header}"></header>
 <div class="main-visual">
@@ -17,239 +18,68 @@
         <input type="text" class="form-control" placeholder="search"/>
         <button class="btn" type="button">search</button>
     </div>
-
-    <div class="list-box">
-        <ul class="list">
-            <li class="d-flex">
-                <div class="col-md-2"> <!-- 이미지 크기 축소 -->
-                    <img src="/images/dummy.jpg" class="img-fluid thumbnail" alt="...">
-                </div>
-                <!-- 텍스트 영역 -->
-                <div class="col-md-8 p-3"> <!-- 텍스트 영역 크기 축소 및 패딩 줄임 -->
-                    <div class="card-body">
-                        <h3 class="card-title mb-3">알리</h3>
-                        <div class="card-text">
+<!--    <div class="list-box">-->
+        <div class="row mt-5 result-list">
+            <div th:each="pet : ${petDtoList}" class="d-flex">
+                <div class="col-3">
+                    <a th:href="@{'/petnote/profile/' + ${pet.petID}}" class="card">
+                        <div class="img-box">
+                            <img th:src="${pet.profileImg}"
+                                 onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                        </div>
+                        <div class="info">
+                            <h4 th:text="${pet.petName}"></h4>
                             <dl>
-                                <dt class="fw-bold">종류</dt>
-                                <dd>강아지</dd>
+                                <dt>성별</dt>
+                                <dd th:text="${pet.species}"></dd>
                             </dl>
                             <dl>
-                                <dt class="fw-bold">분양주</dt>
-                                <dd>김은경</dd>
+                                <dt>발견장소</dt>
+                                <dd th:text="${pet.birthDate}"></dd>
                             </dl>
                             <dl>
-                                <dt class="fw-bold">나이</dt>
-                                <dd>3세 추정</dd>
-                            </dl>
-                            <dl>
-                                <dt class="fw-bold">특이사항</dt>
-                                <dd>밥 투정이 있음</dd>
-                            </dl>
-                            <dl>
-                                <dt class="fw-bold">지역</dt>
-                                <dd>일산</dd>
+                                <dt>상태</dt>
+                                <dd th:text="${pet.petGender}"></dd>
                             </dl>
                         </div>
-                    </div>
+                        <div class="sticker">
+<!--                            <strong th:text="${strayList.pblancBeginDe.substring(6,8)}"></strong>-->
+<!--                            <span th:text="${strayList.pblancBeginDe.substring(0,4)+'-'+strayList.pblancBeginDe.substring(4,6)}"></span>-->
+                            강아지
+                        </div>
+                    </a>
                 </div>
-            </li>
-
-
-
-
-
-
-
-
-
-
-
-            <!--            <li class="d-flex">-->
-<!--                <div class="col-md-3">-->
-<!--                    <img-->
-<!--                            src="/images/dummy.jpg"-->
-<!--                            class="img-fluid thumbnail"-->
-<!--                            alt="..."-->
-<!--                    />-->
-<!--                </div>-->
-<!--                &lt;!&ndash; 텍스트 영역 &ndash;&gt;-->
-<!--                <div class="col-md-9 p-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h3 class="card-title mb-3">알리</h3>-->
-<!--                        <div class="card-text">-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">종류</dt>-->
-<!--                                <dd>강아지</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">분양주</dt>-->
-<!--                                <dd>김은경</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">나이</dt>-->
-<!--                                <dd>3세 추정</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">특이사항</dt>-->
-<!--                                <dd>밥 투정이 있음</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">지역</dt>-->
-<!--                                <dd>일산</dd>-->
-<!--                            </dl>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--            <li class="d-flex">-->
-<!--                <div class="col-md-3">-->
-<!--                    <img-->
-<!--                            src="/images/dummy.jpg"-->
-<!--                            class="img-fluid thumbnail"-->
-<!--                            alt="..."-->
-<!--                    />-->
-<!--                </div>-->
-<!--                &lt;!&ndash; 텍스트 영역 &ndash;&gt;-->
-<!--                <div class="col-md-9 p-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h3 class="card-title mb-3">알리</h3>-->
-<!--                        <div class="card-text">-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">종류</dt>-->
-<!--                                <dd>강아지</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">분양주</dt>-->
-<!--                                <dd>김은경</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">나이</dt>-->
-<!--                                <dd>3세 추정</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">특이사항</dt>-->
-<!--                                <dd>밥 투정이 있음</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">지역</dt>-->
-<!--                                <dd>일산</dd>-->
-<!--                            </dl>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--            <li class="d-flex">-->
-<!--                <div class="col-md-3">-->
-<!--                    <img-->
-<!--                            src="/images/dummy.jpg"-->
-<!--                            class="img-fluid thumbnail"-->
-<!--                            alt="..."-->
-<!--                    />-->
-<!--                </div>-->
-<!--                &lt;!&ndash; 텍스트 영역 &ndash;&gt;-->
-<!--                <div class="col-md-9 p-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h3 class="card-title mb-3">알리</h3>-->
-<!--                        <div class="card-text">-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">종류</dt>-->
-<!--                                <dd>강아지</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">분양주</dt>-->
-<!--                                <dd>김은경</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">나이</dt>-->
-<!--                                <dd>3세 추정</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">특이사항</dt>-->
-<!--                                <dd>밥 투정이 있음</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">지역</dt>-->
-<!--                                <dd>일산</dd>-->
-<!--                            </dl>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--            <li class="d-flex">-->
-<!--                <div class="col-md-3">-->
-<!--                    <img-->
-<!--                            src="/images/dummy.jpg"-->
-<!--                            class="img-fluid thumbnail"-->
-<!--                            alt="..."-->
-<!--                    />-->
-<!--                </div>-->
-<!--                &lt;!&ndash; 텍스트 영역 &ndash;&gt;-->
-<!--                <div class="col-md-9 p-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h3 class="card-title mb-3">알리</h3>-->
-<!--                        <div class="card-text">-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">종류</dt>-->
-<!--                                <dd>강아지</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">분양주</dt>-->
-<!--                                <dd>김은경</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">나이</dt>-->
-<!--                                <dd>3세 추정</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">특이사항</dt>-->
-<!--                                <dd>밥 투정이 있음</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">지역</dt>-->
-<!--                                <dd>일산</dd>-->
-<!--                            </dl>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
-<!--            <li class="d-flex">-->
-<!--                <div class="col-md-3">-->
-<!--                    <img-->
-<!--                            src="/images/dummy.jpg"-->
-<!--                            class="img-fluid thumbnail"-->
-<!--                            alt="..."-->
-<!--                    />-->
-<!--                </div>-->
-<!--                &lt;!&ndash; 텍스트 영역 &ndash;&gt;-->
-<!--                <div class="col-md-9 p-4">-->
-<!--                    <div class="card-body">-->
-<!--                        <h3 class="card-title mb-3">알리</h3>-->
-<!--                        <div class="card-text">-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">종류</dt>-->
-<!--                                <dd>강아지</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">분양주</dt>-->
-<!--                                <dd>김은경</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">나이</dt>-->
-<!--                                <dd>3세 추정</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">특이사항</dt>-->
-<!--                                <dd>밥 투정이 있음</dd>-->
-<!--                            </dl>-->
-<!--                            <dl>-->
-<!--                                <dt class="fw-bold">지역</dt>-->
-<!--                                <dd>일산</dd>-->
-<!--                            </dl>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </li>-->
-        </ul>
+            </div>
+        </div>
+        <!--        <ul class="list">-->
+        <!--            <li th:each="pet : ${petDtoList}" class="d-flex">-->
+        <!--                <div class="col-md-2">-->
+        <!--&lt;!&ndash;                    <img src="/images/dummy.jpg" class="img-fluid thumbnail" alt="...">&ndash;&gt;-->
+        <!--                    <img th:src="@{'/PTGupload/pet/' + ${pet.profileImg}}"-->
+        <!--                         class="img-fluid thumbnail"-->
+        <!--                         alt="프로필"/>-->
+        <!--                </div>-->
+        <!--                <div class="col-md-8 p-3">-->
+        <!--                    <div class="card-body">-->
+        <!--                        <h3 class="card-title mb-3" th:text="${pet.petName}">이름</h3>-->
+        <!--                        <div class="card-text">-->
+        <!--                            <dl>-->
+        <!--                                <dt class="fw-bold">품종</dt>-->
+        <!--                                <dd th:text="${pet.species}">강아지</dd>-->
+        <!--                            </dl>-->
+        <!--                            <dl>-->
+        <!--                                <dt class="fw-bold">성별</dt>-->
+        <!--                                <dd th:text="${pet.petGender}">Male</dd>-->
+        <!--                            </dl>-->
+        <!--                            <dl>-->
+        <!--                                <dt class="fw-bold">생일</dt>-->
+        <!--                                <dd th:text="${pet.birthDate}">2021-07-09</dd>-->
+        <!--                            </dl>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </li>-->
+        <!--        </ul>-->
     </div>
 </div>
 <footer th:replace="~{fragments/footer}"></footer>

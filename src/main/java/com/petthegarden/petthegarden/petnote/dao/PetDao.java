@@ -1,8 +1,11 @@
 package com.petthegarden.petthegarden.petnote.dao;
 
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import com.petthegarden.petthegarden.petnote.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -23,5 +26,14 @@ public class PetDao {
 
     public Optional<Pet> findPetByPetID(Integer petID) {
         return petRepository.findById(petID);
+    }
+
+
+    public String getUserIDByPetID(int petID) {
+        return petRepository.findUserIDByPetID(petID);
+    }
+
+    public List<PetDto> findAllPetDto() {
+        return petRepository.findAllPetDto();
     }
 }

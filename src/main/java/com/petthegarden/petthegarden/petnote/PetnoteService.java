@@ -1,10 +1,13 @@
 package com.petthegarden.petthegarden.petnote;
 
 import com.petthegarden.petthegarden.entity.Diary;
+import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.member.MemberDao;
 import com.petthegarden.petthegarden.petnote.dao.PetDao;
 import com.petthegarden.petthegarden.petnote.dao.DiaryDao;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
+import com.petthegarden.petthegarden.petnote.dto.InfoDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -31,6 +34,7 @@ public class PetnoteService {
     private String upload;
     private final DiaryDao diaryDao;
     private final PetDao petDao;
+    private final MemberDao memberDao;
 
 
     public List<Pet> getPetList(Integer memberID) {
@@ -39,10 +43,17 @@ public class PetnoteService {
         return petList;
     }
 
+
     public PetDto getPetDto(Integer memberID) {
         Pet pet = petDao.findFirstPet(memberID);
         return PetDto.toPetDto(pet);
     }
+
+
+    public Pet findFirstPet(Integer memberID) {
+        return petDao.findFirstPet(memberID);
+    }
+
 
     public void diarySave(DiaryDto diaryDto) {
 
@@ -79,11 +90,6 @@ public class PetnoteService {
     }
 
 
-    public Pet findFirstPet(Integer memberID) {
-        return petDao.findFirstPet(memberID);
-    }
-
-
     public String uploadImg(MultipartFile uploadFile)  throws IOException {
 
         Path uploadPath = Paths.get(upload);
@@ -96,8 +102,9 @@ public class PetnoteService {
         Path filePath = uploadPath.resolve(fileName);
         Files.copy(uploadFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-        return "/PTGupload/diary/" + fileName;
+        return "/PTGUpload/diary/" + fileName;
     }
+
 
     public PetDto getPetDtoByPetID(Integer petID) {
         Optional<Pet> pet = petDao.findPetByPetID(petID);
@@ -109,4 +116,25 @@ public class PetnoteService {
         }
     }
 
+
+    public InfoDto findByUserID(String loggedUserID, String userID) {
+        Optional<Member> optionalMember = memberDao.findByUserID(userID);
+        if(optionalMember.isPresent()){
+            Member member = optionalMember.get();
+            return InfoDto.builder()
+                    .pageOwner(loggedUserID.equals(userID))
+                    .member(member)
+                    .build();
+        }
+        return null;
+    }
+
+
+    public String getUserIDByPetID(int petID) {
+        return petDao.getUserIDByPetID(petID);
+    }
+
+    public List<PetDto> findAllPetDto() {
+        return petDao.findAllPetDto();
+    }
 }

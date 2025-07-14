@@ -4,6 +4,7 @@ import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
+import com.petthegarden.petthegarden.petnote.dto.InfoDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,38 +28,44 @@ public class PetnoteController {
     private final PetnoteService petnoteService;
 
     @GetMapping("/list")
-    public String list() {
+    public String list(Model model) {
+        List<PetDto> petDtoList = petnoteService.findAllPetDto();
+        model.addAttribute("petDtoList", petDtoList);
         return "petnote/list";
     }
 
+
     @GetMapping("/profile/{petID}")
-    public String profile(@RequestParam int petID,
+    public String profile(@PathVariable int petID,
                           Model model,
                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
+        String loggedUserID = customUserDetails.getLoggedMember().getUserID();
         Integer memberID = customUserDetails.getLoggedMember().getId();
+
         List<Pet> petList = petnoteService.getPetList(memberID);
-        PetDto firstPetDto = petnoteService.getPetDto(memberID);
-//        Integer petID = firstPetDto.getPetID();
-        System.out.println("PetnoteContoller 펫디티오 " + firstPetDto);
+        PetDto petDto = petnoteService.getPetDtoByPetID(petID);
+        String userID = petnoteService.getUserIDByPetID(petID);
+        InfoDto infoDto = petnoteService.findByUserID(loggedUserID, userID);
+        System.out.println("PetnoteController 펫디티오 " + petDto);
 
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
-        model.addAttribute("firstPetDto", firstPetDto);
+        model.addAttribute("infoDto", infoDto);
+        model.addAttribute("petDto", petDto);
 
         return "petnote/profile";
     }
 
 
     @PostMapping("/profile/{petID}")
-    public String changePetProfile(@PathVariable String petID,
-                                   @RequestParam("petID") Integer ID,
+    public String changePetProfile(@RequestParam("petID") Integer petID,
                                    Model model,
                                    @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
         Integer memberID = customUserDetails.getLoggedMember().getId();
         List<Pet> petList = petnoteService.getPetList(memberID);
-        PetDto selectedPetDto = petnoteService.getPetDtoByPetID(ID);
+        PetDto selectedPetDto = petnoteService.getPetDtoByPetID(petID);
 
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
@@ -69,12 +76,13 @@ public class PetnoteController {
 
     @GetMapping("/diaryreg/{petID}")
     public String diaryreg(@PathVariable Integer petID,
-                           @AuthenticationPrincipal CustomUserDetails customUserDetails,
-                           Model model) {
-        Integer memberID = customUserDetails.getLoggedMember().getId();
-        String petName = petnoteService.findFirstPet(memberID).getPetName();
+                           Model model,
+                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+        String petName = petnoteService.getPetDtoByPetID(petID).getPetName();
+        List<Pet> petList = petnoteService.getPetList(customUserDetails.getMemberId());
 
         model.addAttribute("diaryDto", new DiaryDto());
+        model.addAttribute("petList", petList);
         model.addAttribute("petID", petID);
         model.addAttribute("petName", petName);
         return "petnote/diaryreg";
@@ -115,5 +123,6 @@ public class PetnoteController {
         response.put("url", imageUrl);
         return response;
     }
+
 
 }
