@@ -17,7 +17,7 @@
 
     <th:block sec:authorize="isAuthenticated()">
         <a th:href="@{/petnote/profile}" id="profile" class="profile">
-            <span class="img"><img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
+            <span class="img"><img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
                                    alt="프로필"/></span>
             <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
         </a>

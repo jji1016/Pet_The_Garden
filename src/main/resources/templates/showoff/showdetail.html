@@ -1,63 +1,59 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: head('반려동물 장기자랑 상세보기')}">
-    <link rel="stylesheet" href="/css/showdetail.css">
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('반려동물 장기자랑 상세')}">
+    <link rel="stylesheet" th:href="@{/css/showoff/showdetail.css}">
 </head>
 <body>
-<header th:replace="~{fragments/header :: header}"></header>
+<!-- 공통 헤더 -->
+<div th:replace="~{fragments/header :: header}"></div>
 
+<!-- 본문 -->
 <div class="showdetail-container">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
-                <div class="showdetail-card">
-                    <!-- 읽기 모드 -->
-                    <div id="view-mode">
-                        <div class="showdetail-header">
-                            <h1 class="showdetail-title" th:text="${showOff.subject}">장기자랑 제목</h1>
-                            <div class="showdetail-meta">
-                                <span class="author" th:text="${showOff.member?.userName ?: '작성자'}">작성자</span>
-                                <span class="date" th:text="${#temporals.format(showOff.regDate, 'yyyy-MM-dd HH:mm')}">2025-07-10 11:25</span>
-                                <span class="likes">❤️ <span th:text="${showOff.showOffLike ?: 0}">0</span></span>
-                            </div>
-                        </div>
-                        <div class="showdetail-content">
-                            <div class="content-body" th:utext="${showOff.content}">
-                                <!-- CKEditor로 작성된 HTML 내용이 여기에 표시 -->
-                            </div>
-                        </div>
-                        <div class="showdetail-actions">
-                            <button type="button" class="btn-action btn-edit" onclick="toggleEditMode()">수정하기</button>
-                            <button type="button" class="btn-action btn-like" th:onclick="'increaseLike(' + ${showOff.id} + ')'">좋아요</button>
-                        </div>
-                    </div>
+    <div class="showdetail-card">
+        <!-- 제목, 작성자, 날짜 -->
+        <header class="showdetail-header">
+            <h1 class="showdetail-title" th:text="${showOff.subject}">장기자랑 제목</h1>
+            <p class="showdetail-meta">
+                <span th:text="${showOff.member.userName}">작성자</span> ·
+                <span th:text="${#temporals.format(showOff.regDate,'yyyy-MM-dd HH:mm')}">작성일</span> ·
+                ❤️ <span th:text="${showOff.showOffLike}">0</span>
+            </p>
+        </header>
 
-                    <!-- 수정 모드 -->
-                    <div id="edit-mode" style="display: none;">
-                        <div class="showdetail-header">
-                            <h2 class="edit-title">장기자랑 수정하기</h2>
-                        </div>
-                        <form th:action="@{'/showoff/detail/' + ${showOff.id} + '/edit'}" method="post" enctype="multipart/form-data">
-                            <input type="hidden" name="id" th:value="${showOff.id}">
-                            <div class="edit-content">
-                                <textarea id="edit-editor" name="content" th:text="${showOff.content}" rows="20"></textarea>
-                            </div>
-                            <div class="edit-actions">
-                                <button type="submit" class="btn-action btn-submit">수정완료</button>
-                                <button type="button" class="btn-action btn-cancel" onclick="cancelEdit()">취소</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+        <!-- 본문 -->
+        <section class="showdetail-content">
+            <div class="content-body" th:utext="${#strings.replace(showOff.content,'[YouTube]','')}"></div>
+
+            <!-- 업로드 이미지 -->
+            <div th:if="${showOff.image != null}">
+                <img th:src="${showOff.image}" alt="업로드 이미지" class="upload-img">
             </div>
+
+            <!-- 유튜브 썸네일 -->
+            <div th:if="${youtubeId != null}" class="youtube-box">
+                <a th:href="${youtubeUrl}" target="_blank" rel="noopener">
+                    <img th:src="'https://img.youtube.com/vi/' + ${youtubeId} + '/0.jpg'"
+                         alt="유튜브 썸네일">
+                </a>
+            </div>
+        </section>
+
+        <!-- 버튼 영역 -->
+        <div class="showdetail-actions">
+            <button class="btn-action btn-like"
+                    th:onclick="'increaseLike(' + ${showOff.Id} + ')'">좋아요</button>
+
+            <button class="btn-action btn-edit"
+                    th:if="${isAuthor}" th:href="@{'/showoff/showreg?edit=' + ${showOff.Id}}">
+                수정하기
+            </button>
         </div>
     </div>
 </div>
 
-<footer th:replace="~{fragments/footer :: footer}"></footer>
+<!-- 공통 푸터 -->
+<div th:replace="~{fragments/footer :: footer}"></div>
 
-<!-- CKEditor 스크립트 -->
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-<script src="/js/showdetail.js"></script>
+<script th:src="@{/js/showoff/showdetail.js}"></script>
 </body>
 </html>

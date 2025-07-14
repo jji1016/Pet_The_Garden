@@ -165,7 +165,7 @@ public class ShowRegService {
         Path filePath = Paths.get(uploadDir, uniqueFilename);
         Files.copy(file.getInputStream(), filePath);
 
-        return "/uploads/images/" + uniqueFilename;
+        return "/PTGUpload/images/" + uniqueFilename;
     }
 
     // 업로드된 파일 삭제
