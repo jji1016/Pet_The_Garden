@@ -52,9 +52,11 @@
     font-size: larger;
     margin-bottom: 30px;
 }
-.admin-wrap .info-wrap .tableRap th, .admin-wrap .info-wrap .tableRap td {
-    padding-top: 15px;
-    padding-bottom: 15px;
+.admin-wrap .info-wrap .tableRap tr {
+    height: 55px;
+}
+.admin-wrap .info-wrap .tableRap th, .admin-wrap .info-wrap .tableRap td{
+    vertical-align: middle;
 }
 .admin-wrap .info-wrap .tableRap .center{
     text-align: center;
@@ -65,6 +67,12 @@
     color: #fff;
     padding: 11px 9px;
 }
+.admin-wrap .info-wrap .tableRap img{
+    width: 57px;
+    height: 57px;
+    object-fit: cover;
+}
+
 .admin-wrap .info-wrap .pagingBtnRap {
     display: flex;
     justify-content: center;

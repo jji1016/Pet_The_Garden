@@ -80,10 +80,12 @@
                         <th>가입일</th>
                     </tr>
                     <tr th:each="pet : ${petList}">
-                        <td th:text="${pet.profileImg}"></td>
+                        <td>
+                            <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}">
+                        </td>
                         <td th:text="${pet.petName}"></td>
                         <td th:text="${pet.species}"></td>
-                        <td th:text="${pet.follow}"></td>
+                        <td th:text="${pet.follow} ?: 0"></td>
                         <td th:text="${pet.petGender.label}"></td>
                         <td th:text="${#temporals.format(pet.regDate,'yyyy-MM-dd')}"></td>
                     </tr>

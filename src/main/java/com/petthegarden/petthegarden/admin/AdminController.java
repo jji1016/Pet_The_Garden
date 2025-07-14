@@ -121,7 +121,7 @@ public class AdminController {
             }
         }
 
-        Pageable pageable = PageRequest.of(currentPage-1, 10, Sort.by("regDate").descending());
+        Pageable pageable = PageRequest.of(currentPage-1, 7, Sort.by("regDate").descending());
 
         Page<AdminPetDto> petList = adminService.getPetList(startDate,endDate,key,search,pageable);
         log.info("petList == {}",petList.getContent());
