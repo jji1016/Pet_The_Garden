@@ -1,6 +1,5 @@
 #admin-header .logout{
-    display: flex
-;
+    display: flex;
     width: auto;
     height: 50px;
     color: #f8a92b;
@@ -46,6 +45,7 @@
     display: flex;
     justify-content: center;
     margin-bottom: 18px;
+    flex-direction: column;
 }
 .admin-wrap .info-wrap .tableRap .emptySearch{
     text-align: center;

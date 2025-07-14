@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(petList)}"></head>
+<link rel="stylesheet" href="/css/admin/memberlist.css" />
+<body>
+<header id="admin-header">
+    <h1>
+        <a href="/index/index"><img src="../images/logo.png" alt=""/></a>
+    </h1>
+
+    <nav id="gnb">
+        <ul>
+            <li>
+                <a href="/admin/dashboard">
+                    <span class="material-symbols-outlined"> home </span>
+                    <span>대쉬보드</span></a>
+            </li>
+            <li>
+                <a href="/admin/memberList">
+                    <span class="material-symbols-outlined"> person </span>
+                    <span>회원정보관리</span></a>
+            </li>
+            <li class="on">
+                <a href="/admin/petList">
+                    <span class="material-symbols-outlined"> pets </span>
+                    <span>반려동물관리</span></a>
+            </li>
+            <li>
+                <a href="/admin/report">
+                    <span class="material-symbols-outlined"> info </span>
+                    <span>신고내역</span></a>
+            </li>
+        </ul>
+    </nav>
+    <a href="/member/logout" class="logout"> logout </a>
+</header>
+
+<div class="admin-wrap">
+    <div class="container-fluid">
+        <div class="info-wrap container-fluid">
+
+            <div class="searchRap">
+                <form action="/admin/petList">
+                    <div class="row mb-2 w-50">
+                        <label for="startDate" class="col-3 col-form-label label-100">가입일</label>
+                        <div class="col-4">
+                            <input type="date" class="form-control" name="startDate" id="startDate" th:value="${startDate}">
+                        </div>
+                        <div class="col-1 d-flex align-items-center justify-content-center">~</div>
+                        <div class="col-4">
+                            <input type="date" class="form-control w-100" name="endDate" th:value="${endDate}">
+                        </div>
+                    </div>
+                    <div class="row mb-2 w-50">
+                        <select class="selectBtn col-3 col-form-label label-100" name="key">
+                            <option value="petName" th:selected="${key == 'petName'}">이름</option>
+                            <option value="species" th:selected="${key == 'species'}">품종</option>
+                        </select>
+                        <div class="col-9">
+                            <input type="text" class="form-control w-100" name="search" th:value="${search}">
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn btn-primary btn-lg w-20">조회</button>
+                        <a href="/admin/petList" class="btn btn-secondary btn-lg w-20">초기화</a>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="tableRap">
+                <div class="emptySearch" th:if="${#lists.isEmpty(petList)}">검색 결과 없음</div>
+                <table class="table">
+                    <tr th:unless="${#lists.isEmpty(petList)}">
+                        <th></th>
+                        <th>이름</th>
+                        <th>품종</th>
+                        <th>추천 수</th>
+                        <th>성별</th>
+                        <th>가입일</th>
+                    </tr>
+                    <tr th:each="pet : ${petList}">
+                        <td th:text="${pet.profileImg}"></td>
+                        <td th:text="${pet.petName}"></td>
+                        <td th:text="${pet.species}"></td>
+                        <td th:text="${pet.follow}"></td>
+                        <td th:text="${pet.petGender.label}"></td>
+                        <td th:text="${#temporals.format(pet.regDate,'yyyy-MM-dd')}"></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="pagingBtnRap">
+                <!-- 이전 페이지 버튼 -->
+                <a class="arrow"
+                   th:if="${currentPage > 1}"
+                   th:href="@{|/admin/petList?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">◀</a>
+
+                <!-- 페이지 번호 버튼 -->
+                <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                    <a th:href="@{|/admin/petList?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}"
+                       th:text="${i}"
+                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                </th:block>
+
+                <!-- 다음 페이지 버튼 -->
+                <a class="arrow"
+                   th:if="${currentPage < totalPage}"
+                   th:href="@{|/admin/petList?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">▶</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
