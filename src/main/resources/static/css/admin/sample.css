@@ -1,0 +1,10 @@
+.admin-wrap {
+    margin: 20px 20px 20px 320px;
+    border-radius: 20px;
+    padding: 0 30px;
+}
+.admin-wrap h1 {
+    margin: 20px 0 20px 20px;
+    font-weight: 300;
+    font-size: 48px;
+}
