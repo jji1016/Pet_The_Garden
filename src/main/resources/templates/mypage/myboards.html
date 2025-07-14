@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>마이페이지</title>
+    <th:block th:replace="fragments/head :: head('마이페이지')"></th:block>
+    <link rel="stylesheet" href="/css/mypage/mypage.css" />
+    <meta charset="UTF-8" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body>
+<header th:replace="fragments/header :: headerFragment"></header>
+
+<!-- ↓↓↓ 이하 기존 마이페이지 콘텐츠 유지 ↓↓↓ -->
+<div id="section">
+            <!-- 내가 작성한 글 내역 -->
+            <div class="content" id="freeboard" style="display:none;">
+                <h2>내가 쓴 자유게시판 글</h2>
+                <ul class="request_detail">
+                    <li class="detail_on">자유게시판 글 내역(<span id="number1">1</span>)</li>
+                </ul>
+                <table class="order_table">
+                    <thead>
+                    <tr>
+                        <th>글쓴날짜</th>
+                        <th>제목</th>
+                    </tr>
+                    </thead>
+                    <tbody id="subscribeRap">
+                    <tr th:each="board : ${myBoards}">
+                        <td th:text="${#temporals.format(board.modifyDate != null ? board.modifyDate : board.regDate, 'yyyy-MM-dd HH:mm')}"></td>
+                        <td><a th:href="@{/community/boarddetail/{id}(id=${board.id})}" th:text="${board.subject}">게시글 제목</a></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(myBoards)}">
+                        <td colspan="3">작성한 글이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <table class="page_btn">
+                    <tbody>
+                    <tr id="freeboard-pagination">
+                        <td th:if="${myBoardsPage.hasPrevious()}">
+                            <a href="#" class="page-link" th:attr="data-page=${myBoardsPage.number - 1}">이전</a>
+                        </td>
+
+                        <td th:each="pageNum : ${#numbers.sequence(0, myBoardsPage.totalPages - 1)}"
+                            th:classappend="${pageNum == myBoardsPage.number} ? 'current'">
+                            <a href="#" class="page-link" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}">1</a>
+                        </td>
+
+                        <td th:if="${myBoardsPage.hasNext()}">
+                            <a href="#" class="page-link" th:attr="data-page=${myBoardsPage.number + 1}">다음</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+                <!--<table class="personal_info">
+                  <tr><td>이름</td><td><input type="text" id="petName" name="petName"></td></tr>
+                  <tr><td>종</td><td><input type="text" id="species" name="species"></td></tr>
+                  <tr>
+                    <td>성별</td>
+                    <td>
+                      <input type="radio" id="Male" name="petGender" value="MALE">
+                      <label for="Male">수컷</label>
+                      <input type="radio" id="Female" name="petGender" value="FEMALE">
+                      <label for="Female">암컷</label>
+                    </td>
+                  </tr>
+                  <tr><td>생년월일</td><td><input type="text" id="birthDate" name="birthDate"></td></tr>
+                  <tr><td>성격</td><td><input type="text" id="character" name="character"></td></tr>
+                  <tr><td>좋아하는 것</td><td><input type="text" id="petLike" name="petLike"></td></tr>
+                  <tr><td>싫어하는 것</td><td><input type="text" id="petDisLike" name="petDisLike"></td></tr>
+                  <tr><td>소개</td><td><textarea id="content" name="content"></textarea></td></tr>
+                  <tr><td>프로필 이미지</td><td><input type="file" id="profileImg" name="profileImg"></td></tr>
+                </table>
+                <button class="cus_edit" id="petSubmitBtn" style="border-radius: 40px;">등록하기</button>-->
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<footer th:replace="fragments/footer :: footerFragment"></footer>
+
+<script src="/js/mypage.js"></script>
+<script>
+    // 주소 검색
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function (data) {
+                console.log(data);
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById('address01').value = data.address;
+                document.getElementById('address02').focus();
+            }
+        }).open();
+    }
+
+    const modifyInfoBtn = document.querySelector(".cus_edit"); //회원 정보 수정 버튼
+    const deleteAccountBtn = document.querySelector(".cus_edit2"); //회원 탈퇴 버튼
+    // 회원 정보 조회
+    function lookupMemberInfo() {
+        fetch("/mypage/info", {
+            method: "POST"
+        })
+            .then(response => response.json())
+            .then(json => {
+                const telNumbers = json.tel.replace(/-/g, '');
+                const responseData = {
+                    userName: json.userName,
+                    userID: json.userID,
+                    userEmail: json.userEmail,
+                    userBirthdate: json.birthdate,
+                    userGender: json.gender,
+                    zipcode: json.zipcode,
+                    address01: json.address01,
+                    address02: json.address02,
+                    tel1: telNumbers.substring(0, 3),
+                    tel2: telNumbers.substring(3, 7),
+                    tel3: telNumbers.substring(7, 11),
+                };
+                console.log(responseData);
+
+                Object.entries(responseData).forEach(([key, value]) => {
+                    if (key === "userGender") {
+                        // 🔽 라디오 버튼 중 value가 일치하는 요소를 체크
+                        const radio = document.querySelector(`input[name="gender"][value="${value}"]`);
+                        if (radio) radio.checked = true;
+                        return;
+                    }
+
+                    const el = document.querySelector(`[data-field="${key}"]`);
+                    if (!el) return;
+
+                    if (el.tagName === "INPUT" || el.tagName === "SELECT" || el.tagName === "TEXTAREA") {
+                        el.value = value;
+                    } else {
+                        el.textContent = value;
+                    }
+                });
+                deleteAccountBtn.setAttribute("data-id", json.id);
+            })
+    }
+
+    // 페이지 로딩시 회원정보 조회
+    document.addEventListener('DOMContentLoaded', () => {
+        lookupMemberInfo();
+    });
+
+    // 회원 정보 수정
+    modifyInfoBtn.addEventListener("click", (e) => {
+        if (!confirm("수정하시겠습니까?")) return;
+
+        const data = {};
+        const inputFields = document.querySelectorAll('input[data-field], select[data-field]');
+
+        inputFields.forEach(field => {
+            const key = field.dataset.field;
+            data[key] = field.value;
+        });
+        console.log(data)
+
+        if (!/^\d{3,4}$/.test(data.tel2) || !/^\d{4}$/.test(data.tel3)) {
+            alert("전화번호 형식이 올바르지 않습니다.");
+            return;
+        }
+
+        data.tel = data.tel1 + "-" + data.tel2 + "-" + data.tel3;
+        delete data.tel1;
+        delete data.tel2;
+        delete data.tel3;
+
+        console.log(data);
+
+        fetch("/mypage/modify", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+            .then(response => response.json())
+            .then(json => {
+                console.log("modify 부분")
+                console.log(json)
+                if (json.isModify == "true") {
+                    alert("수정이 완료되었습니다.");
+                    lookupMemberInfo();
+                    inputFields.forEach(field => {
+                        field.value = "";
+                    });
+                } else {
+                    alert(json.error);
+                }
+            })
+    })
+
+    // 회원 탈퇴
+    deleteAccountBtn.addEventListener("click", (e) => {
+        //회원 탈퇴버튼 클릭시 confirm
+        if (confirm("정말로 회원 탈퇴하시겠습니까?")) {
+            fetch("/mypage/delete/" + deleteAccountBtn.dataset.id)
+                .then(response => response.json())
+                .then(json => {
+                    if (json.isDelete == "true") {
+                        alert("탈퇴가 완료되었습니다.");
+                        location.href = "/member/logout";
+                    }
+                })
+        } else {
+            alert("탈퇴가 취소되었습니다.");
+        }
+    })
+</script>
+<script>
+    //반려동물 등록
+    /*document.getElementById("petSubmitBtn").addEventListener("click", function () {
+      const formData = new FormData();
+      formData.append("petName", document.getElementById("petName").value);
+      formData.append("species", document.getElementById("species").value);
+      formData.append("birthDate", document.getElementById("birthDate").value);
+      formData.append("character", document.getElementById("character").value);
+      formData.append("petLike", document.getElementById("petLike").value);
+      formData.append("petDisLike", document.getElementById("petDisLike").value);
+      formData.append("content", document.getElementById("content").value);
+
+      // petGender가 선택됐는지 확인
+      const genderChecked = document.querySelector('input[name="petGender"]:checked');
+      if (!genderChecked) {
+        alert("성별을 선택해주세요.");
+        return;
+      }
+      formData.append("petGender", genderChecked.value);
+
+      const profileImgFile = document.getElementById("profileImg").files[0];
+      if (profileImgFile) {
+        formData.append("profileImg", profileImgFile);
+      }
+
+      fetch("/mypage/petreg", {
+        method: "POST",
+        body: formData
+      }).then(res => {
+        if (res.ok) {
+          alert("반려동물 등록 완료!");
+
+          // 입력폼 초기화 함수 호출
+          clearPetForm();
+
+          // 혹시 등록 후 다른 페이지로 이동 원하면 아래 주석 해제
+          // window.location.href = "/mypage";
+
+        } else {
+          alert("등록 실패!");
+        }
+      }).catch(err => {
+        alert("에러 발생: " + err);
+      });
+    });
+
+    // 폼 초기화 함수
+    function clearPetForm() {
+      document.getElementById('petName').value = '';
+      document.getElementById('species').value = '';
+      const checkedGender = document.querySelector('input[name="petGender"]:checked');
+      if (checkedGender) checkedGender.checked = false;
+      document.getElementById('birthDate').value = '';
+      document.getElementById('character').value = '';
+      document.getElementById('petLike').value = '';
+      document.getElementById('petDisLike').value = '';
+      document.getElementById('content').value = '';
+      document.getElementById('profileImg').value = '';
+    }*/
+</script>
+<script> //팔로우한 반려동물 삭제처리
+document.addEventListener("DOMContentLoaded", function () {
+    const unfollowButtons = document.querySelectorAll(".unfollow-btn");
+
+    unfollowButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+            const petCard = this.closest(".pet-card");
+            const petId = this.dataset.petId;
+
+            // 임시로 프론트에서 제거 (추후 서버에 AJAX 요청 가능)
+            if (confirm("이 반려동물의 팔로우를 취소하시겠습니까?")) {
+                petCard.remove();
+                // TODO: 서버에 unfollow 요청 보내기
+                console.log("팔로우 취소: petId = " + petId);
+            }
+        });
+    });
+});
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeTab = urlParams.get('tab');
+
+        document.querySelectorAll('.content').forEach(div => div.style.display = 'none');
+
+        switch (activeTab) {
+            case 'freeboard':
+                document.querySelectorAll('.content')[2].style.display = 'block';
+                break;
+            case 'talent':
+                document.querySelectorAll('.content')[1].style.display = 'block';
+                break;
+            case 'pet':
+                document.querySelectorAll('.content')[3].style.display = 'block';
+                break;
+            case 'follow':
+                document.querySelectorAll('.content')[4].style.display = 'block';
+                break;
+            case 'qna':
+                document.querySelectorAll('.content')[5].style.display = 'block';
+                break;
+            default:
+                document.getElementById('profile').style.display = 'block';
+        }
+    });
+</script>
+<script>
+    function loadFreeboardPage(pageNum = 0) {
+        fetch(`/mypage/myboards?page=${pageNum}`)
+            .then(res => res.text())
+            .then(html => {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+
+                const newBody = doc.querySelector('#subscribeRap');
+                const newPagination = doc.querySelector('#freeboard-pagination');
+
+                if (newBody) {
+                    document.getElementById('subscribeRap').innerHTML = newBody.innerHTML;
+                }
+                if (newPagination) {
+                    document.getElementById('freeboard-pagination').innerHTML = newPagination.innerHTML;
+                }
+
+                attachPageEvent(); // 페이지네이션에 다시 이벤트 부착
+            });
+    }
+
+    function attachPageEvent() {
+        document.querySelectorAll('#freeboard-pagination .page-link').forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                const page = this.dataset.page;
+                loadFreeboardPage(page);
+            });
+        });
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const activeTab = urlParams.get('tab');
+
+        if (activeTab === 'freeboard') {
+            loadFreeboardPage(); // 탭 열릴 때 첫 페이지 로딩
+        }
+
+        // 탭 전환 시에도 불러오도록 (옵션)
+        document.querySelector('[data-tab="freeboard"]')?.addEventListener('click', function () {
+            loadFreeboardPage();
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabMenuItems = document.querySelectorAll(".list1 li");
+        const contentDivs = document.querySelectorAll(".content");
+
+        tabMenuItems.forEach(item => {
+            item.addEventListener("click", function () {
+                const tab = this.getAttribute("data-tab");
+
+                // 모든 content 숨기기
+                contentDivs.forEach(div => {
+                    div.style.display = "none";
+                });
+
+                // 해당 탭에 맞는 content 보여주기
+                if (tab === "freeboard") {
+                    document.querySelector("#freeboard").style.display = "block";
+                    loadFreeboardPage(); // 페이지 전환 시 데이터 로딩
+                } else if (tab === "profile") {
+                    document.querySelector("#profile").style.display = "block";
+                } else if (tab === "talent") {
+                    contentDivs[1].style.display = "block";
+                } else if (tab === "pet") {
+                    contentDivs[3].style.display = "block";
+                } else if (tab === "follow") {
+                    contentDivs[4].style.display = "block";
+                } else if (tab === "qna") {
+                    contentDivs[5].style.display = "block";
+                }
+
+                // URL도 업데이트 (선택 사항)
+                const newUrl = `${window.location.pathname}?tab=${tab}`;
+                window.history.pushState({}, '', newUrl);
+            });
+        });
+    });
+</script>
+</body>
+</html>

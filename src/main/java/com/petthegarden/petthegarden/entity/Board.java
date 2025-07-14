@@ -25,9 +25,10 @@ public class Board {
     @Column(nullable = false)
     private String subject;
 
-
-    @Column(nullable = false, length = 1000)
+    @Column(nullable = false)
     private String content;
+
+    private String image;
 
     @CreatedDate
     @Column(updatable = false)

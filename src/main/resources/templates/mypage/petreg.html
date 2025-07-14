@@ -5,7 +5,7 @@
 <head>
   <title>마이페이지</title>
   <th:block th:replace="fragments/head :: head('마이페이지')"></th:block>
-  <link rel="stylesheet" href="/css/petreg.css" />
+  <link rel="stylesheet" href="/css/mypage/petreg.css" />
   <meta charset="UTF-8" />
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -34,11 +34,20 @@
             </li>
 
             <li class="asterion">
-              <h3>종(species)</h3>
-              <input type="text" name="species" class="input-box" placeholder="예: 말티즈, 페르시안 등">
+              <select id="speciesSelect" class="input-box">
+                <option value="">-- 종을 선택하세요 --</option>
+                <option value="개">개</option>
+                <option value="고양이">고양이</option>
+                <option value="거북이">거북이</option>
+                <option value="새">새</option>
+                <option value="토끼">토끼</option>
+                <option value="기타">기타</option>
+              </select>
+              <input type="hidden" id="speciesValue" name="species" />
+              <input type="text" id="speciesEtc" class="input-box" placeholder="종을 직접 입력하세요" style="display: none; margin-top: 10px; margin-left: 65px" />
             </li>
 
-            <li class="asterion">
+             <li class="asterion">
               <h3>성별</h3>
               <label><input type="radio" name="petGender" value="MALE"> 수컷</label>
               <label><input type="radio" name="petGender" value="FEMALE"> 암컷</label>
@@ -88,7 +97,7 @@
 </div>
 
 <footer th:replace="fragments/footer :: footerFragment"></footer>
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<!--<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
 <script>
   class MyUploadAdapter {
     constructor(loader) {
@@ -138,7 +147,7 @@
           .catch(error => {
             console.error(error);
           });
-</script>
+</script> -->
 <script>
   document.getElementById('profileImg').addEventListener('change', function (event) {
     const file = event.target.files[0];
@@ -154,6 +163,26 @@
       };
       reader.readAsDataURL(file);
     }
+  });
+</script>
+<script>
+  document.getElementById('speciesSelect').addEventListener('change', function () {
+    const selected = this.value;
+    const etcInput = document.getElementById('speciesEtc');
+    const speciesValueInput = document.getElementById('speciesValue');
+
+    if (selected === '기타') {
+      etcInput.style.display = 'block';
+      speciesValueInput.value = ""; // 초기화
+    } else {
+      etcInput.style.display = 'none';
+      speciesValueInput.value = selected; // 선택한 값 입력
+    }
+  });
+
+  document.getElementById('speciesEtc').addEventListener('input', function () {
+    const speciesValueInput = document.getElementById('speciesValue');
+    speciesValueInput.value = this.value; // 기타 입력값 반영
   });
 </script>
 </body>

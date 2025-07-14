@@ -112,7 +112,7 @@
       </div>
 
       <!-- 내가 작성한 글 내역 -->
-      <div class="content" id="freeboard-tab" style="display:none;">
+      <div class="content" id="freeboard" style="display:none;">
         <h2>내가 쓴 자유게시판 글</h2>
         <ul class="request_detail">
           <li class="detail_on">자유게시판 글 내역(<span id="number1">1</span>)</li>
@@ -139,16 +139,16 @@
           <tbody>
           <tr id="freeboard-pagination">
             <td th:if="${myBoardsPage.hasPrevious()}">
-              <a th:href="@{/mypage/mypage(page=${myBoardsPage.number - 1}, tab='freeboard')}">이전</a>
+              <a href="#" class="page-link" th:attr="data-page=${myBoardsPage.number - 1}">이전</a>
             </td>
 
             <td th:each="pageNum : ${#numbers.sequence(0, myBoardsPage.totalPages - 1)}"
                 th:classappend="${pageNum == myBoardsPage.number} ? 'current'">
-              <a th:href="@{/mypage/mypage(page=${pageNum}, tab='freeboard')}" th:text="${pageNum + 1}">1</a>
+              <a href="#" class="page-link" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}">1</a>
             </td>
 
             <td th:if="${myBoardsPage.hasNext()}">
-              <a th:href="@{/mypage/mypage(page=${myBoardsPage.number + 1}, tab='freeboard')}">다음</a>
+              <a href="#" class="page-link" th:attr="data-page=${myBoardsPage.number + 1}">다음</a>
             </td>
           </tr>
           </tbody>
@@ -156,7 +156,7 @@
       </div>
 
       <!-- 반려동물 등록 -->
-      <div class="content" id="petreg">
+      <div class="content" id="pet">
         <h2>반려동물 등록</h2>
         <ul class="request_detail">
           <li class="detail_on">반려동물 등록내역(<span id="number1">1</span>)</li>
@@ -173,7 +173,7 @@
             </th>
           </tr>
           </thead>
-          <tbody id="subscribeRap">
+          <tbody id="subscribeRap3">
           <tr th:each="pet : ${pets}">
             <td th:text="${#temporals.format(pet.modifyDate != null ? pet.modifyDate : pet.regDate, 'yyyy-MM-dd HH:mm')}">2025-07-07</td>
             <td th:text="${pet.petName}">반려동물 이름</td>
@@ -505,6 +505,89 @@
       default:
         document.getElementById('profile').style.display = 'block';
     }
+  });
+</script>
+<script>
+  function loadFreeboardPage(pageNum = 0) {
+    fetch(`/mypage/myboards?page=${pageNum}`)
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const doc = parser.parseFromString(html, 'text/html');
+
+              const newBody = doc.querySelector('#subscribeRap');
+              const newPagination = doc.querySelector('#freeboard-pagination');
+
+              if (newBody) {
+                document.getElementById('subscribeRap').innerHTML = newBody.innerHTML;
+              }
+              if (newPagination) {
+                document.getElementById('freeboard-pagination').innerHTML = newPagination.innerHTML;
+              }
+
+              attachPageEvent(); // 페이지네이션에 다시 이벤트 부착
+            });
+  }
+
+  function attachPageEvent() {
+    document.querySelectorAll('#freeboard-pagination .page-link').forEach(link => {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        const page = this.dataset.page;
+        loadFreeboardPage(page);
+      });
+    });
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeTab = urlParams.get('tab');
+
+    if (activeTab === 'freeboard') {
+      loadFreeboardPage(); // 탭 열릴 때 첫 페이지 로딩
+    }
+
+    // 탭 전환 시에도 불러오도록 (옵션)
+    document.querySelector('[data-tab="freeboard"]')?.addEventListener('click', function () {
+      loadFreeboardPage();
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const tabMenuItems = document.querySelectorAll(".list1 li");
+    const contentDivs = document.querySelectorAll(".content");
+
+    tabMenuItems.forEach(item => {
+      item.addEventListener("click", function () {
+        const tab = this.getAttribute("data-tab");
+
+        // 모든 content 숨기기
+        contentDivs.forEach(div => {
+          div.style.display = "none";
+        });
+
+        // 해당 탭에 맞는 content 보여주기
+        if (tab === "freeboard") {
+          document.querySelector("#freeboard").style.display = "block";
+          loadFreeboardPage(); // 페이지 전환 시 데이터 로딩
+        } else if (tab === "profile") {
+          document.querySelector("#profile").style.display = "block";
+        } else if (tab === "talent") {
+          contentDivs[1].style.display = "block";
+        } else if (tab === "pet") {
+          contentDivs[3].style.display = "block";
+        } else if (tab === "follow") {
+          contentDivs[4].style.display = "block";
+        } else if (tab === "qna") {
+          contentDivs[5].style.display = "block";
+        }
+
+        // URL도 업데이트 (선택 사항)
+        const newUrl = `${window.location.pathname}?tab=${tab}`;
+        window.history.pushState({}, '', newUrl);
+      });
+    });
   });
 </script>
 </body>

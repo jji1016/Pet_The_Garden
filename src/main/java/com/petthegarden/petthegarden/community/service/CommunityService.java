@@ -50,7 +50,11 @@ public class CommunityService {
     public List<Board> getBoardList2(Integer memberId){return communityDao.findByMemberId(memberId); }
 
     public Board getBoardById(Integer id) {
-        return communityDao.findById(id);
+        Board board = communityDao.findById(id);
+        if (board != null && board.getBoardCommentList() != null) {
+            board.getBoardCommentList().sort(Comparator.comparing(BoardComment::getRegDate));
+        }
+        return board;
     }
     //게시판 글 등록
     public void saveBoard(BoardDto boardDto, Member member) {

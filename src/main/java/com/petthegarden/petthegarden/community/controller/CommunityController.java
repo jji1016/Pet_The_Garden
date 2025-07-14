@@ -141,57 +141,64 @@ public class CommunityController {
     }
     //댓글작성
     @PostMapping("/board/{boardId}/comment")
+    @ResponseBody
     public String addComment(@PathVariable Integer boardId,
                              @RequestParam("content") String content,
                              @AuthenticationPrincipal CustomUserDetails userDetails) {
-        //if (userDetails == null) {
-        //throw new IllegalArgumentException("로그인 후 이용해주세요.");
-        //}
-
         Member member;
         if (userDetails != null) {
             member = userDetails.getLoggedMember();
         } else {
-            // userDetails가 null인 경우, 임시로 관리자 계정(아이디 1) 사용
             member = mypageMemberRepository.findById(1)
                     .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
         }
+
         communityService.saveComment(boardId, content, member);
 
-        return "redirect:/community/boarddetail/" + boardId;
+        return "";
     }
     //댓글삭제
     @PostMapping("/comment/{commentId}/delete")
+    @ResponseBody
     public String deleteComment(@PathVariable Integer commentId,
                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails == null) {
-            throw new IllegalArgumentException("로그인 후 이용해주세요.");
+            return "로그인 후 이용해주세요.";
         }
 
         Member member = userDetails.getLoggedMember();
 
-        // 삭제 전에 댓글로 게시글 ID 미리 조회
-        Integer boardId = communityService.getBoardIdByCommentId(commentId);
-
         communityService.deleteComment(commentId, member);
 
-        return "redirect:/community/boarddetail/" + boardId;
+        return "댓글이 삭제되었습니다.";
     }
     //댓글수정
     @PostMapping("/comment/{commentId}/edit")
+    @ResponseBody
     public String editComment(@PathVariable Integer commentId,
                               @RequestParam String content,
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         if (userDetails == null) {
-            throw new IllegalArgumentException("로그인 후 이용해주세요.");
+            return "로그인 후 이용해주세요.";
         }
 
         Member member = userDetails.getLoggedMember();
 
-        communityService.updateComment(commentId, content, member);
-
-        // 수정 후 해당 게시글 상세로 리다이렉트
-        Integer boardId = communityService.getBoardIdByCommentId(commentId);
-        return "redirect:/community/boarddetail/" + boardId;
+        try {
+            communityService.updateComment(commentId, content, member);
+            return "댓글이 수정되었습니다.";
+        } catch (Exception e) {
+            return "수정 실패: " + e.getMessage();
+        }
+    }
+    @GetMapping("/board/{boardId}/comment-html")
+    public String getCommentHtml(@PathVariable Integer boardId,
+                                 Model model,
+                                 @AuthenticationPrincipal CustomUserDetails userDetails) {
+        Board board = communityService.getBoardById(boardId);
+        model.addAttribute("board", board);
+        String loginUsername = userDetails != null ? userDetails.getUsername() : null;
+        model.addAttribute("loginUsername", loginUsername);
+        return "community/boardcomment";
     }
 }

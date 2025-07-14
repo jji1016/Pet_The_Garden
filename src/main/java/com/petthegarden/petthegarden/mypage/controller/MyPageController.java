@@ -12,6 +12,7 @@ import com.petthegarden.petthegarden.mypage.service.MypageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
@@ -178,11 +179,11 @@ public class MyPageController {
         return "redirect:/mypage/mypage";
     }
 
-    @PostMapping("/upload-image") //ck 업로드
-    @ResponseBody
-    public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile upload) {
-        return mypageService.uploadImage(upload);
-    }
+    //@PostMapping("/upload-image") //ck 업로드
+    //@ResponseBody
+    //public Map<String, Object> uploadImage(@RequestParam("upload") MultipartFile upload) {
+    //    return mypageService.uploadImage(upload);
+    //}
 
     @PostMapping("/petdelete/{id}") //pet등록 삭제처리
     public String deletePet(@PathVariable("id") Integer petId,
@@ -198,5 +199,22 @@ public class MyPageController {
 
         // 삭제 성공하면 마이페이지로 리다이렉트
         return "redirect:/mypage/mypage";
+    }
+
+    @GetMapping("/myboards")
+    public String getMyBoardsAjax(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  Model model) {
+        if (customUserDetails == null) {
+            return "mypage/emptyboards"; // 로그인 안된 경우 처리 뷰
+        }
+
+        Integer memberId = customUserDetails.getLoggedMember().getId();
+        Page<Board> myBoardsPage = communityService.getBoardsByMember(memberId, PageRequest.of(page, 7, Sort.by("regDate").descending()));
+
+        model.addAttribute("myBoards", myBoardsPage.getContent());
+        model.addAttribute("myBoardsPage", myBoardsPage);
+
+        return "mypage/myboards"; // 전체 HTML (tbody + pagination) 포함 뷰
     }
 }
