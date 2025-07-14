@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>게시글 등록</title>
+    <th:block th:replace="fragments/head :: head('게시글 등록')"></th:block>
+    <link rel="stylesheet" href="/css/community/boarddetail.css" />
+</head>
+
+<body>
+
+<!-- Header -->
+<div th:replace="~{fragments/header}"></div>
+
+<div class="board-detail-wrapper">
+    <div class="board-detail-title">게시글 등록</div>
+
+    <!-- form으로 감싸기 -->
+    <form th:action="@{/community/boardreg}" th:object="${boardDto}" method="post" enctype="multipart/form-data">
+        <div class="board-detail-meta">
+            <span class="writer" th:text="${writer}">작성자</span>
+            <span class="date" th:text="${#temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd')}">작성일</span>
+        </div>
+
+        <div class="board-detail-content">
+            <label>제목</label>
+            <input type="text" th:field="*{subject}" placeholder="제목을 입력하세요" />
+
+            <label>내용</label>
+            <textarea id="editor" th:field="*{content}" placeholder="내용을 입력하세요"></textarea>
+        </div>
+
+        <div class="image-upload-container">
+            <label for="imageUpload" class="file-label">이미지 첨부</label>
+            <input type="file" id="imageUpload" name="extraImage" accept="image/*" onchange="previewImage(this)" />
+            <div class="image-preview" id="imagePreview">이미지 미리보기</div>
+        </div>
+
+        <div class="board-detail-buttons">
+            <a th:href="@{/community/board}" class="btn-back">취소</a>
+            <button type="submit" class="btn-edit">등록</button>
+        </div>
+    </form>
+</div>
+
+<!-- Footer -->
+<div th:replace="~{fragments/footer}"></div>
+
+<!--<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+    class MyUploadAdapter {
+        constructor(loader) {
+            this.loader = loader;
+        }
+
+        upload() {
+            return this.loader.file
+                .then(file => {
+                    const data = new FormData();
+                    data.append('upload', file);
+
+                    return fetch('/community/upload-image', {
+                        method: 'POST',
+                        body: data
+                    })
+                        .then(response => response.json())
+                        .then(result => {
+                            return {
+                                default: result.url
+                            };
+                        });
+                });
+        }
+
+        abort() {
+            // 업로드 중단 처리 (필요 시 구현)
+        }
+    }
+
+    function MyCustomUploadAdapterPlugin(editor) {
+        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+            return new MyUploadAdapter(loader);
+        };
+    }
+
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            extraPlugins: [MyCustomUploadAdapterPlugin],
+            mediaEmbed: {
+                previewsInData: true
+            }
+        })
+        .then(editor => {
+            window.editorInstance = editor;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+</script> -->
+<script>
+    function previewImage(input) {
+        const preview = document.getElementById('imagePreview');
+        preview.innerHTML = '';
+
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                preview.appendChild(img);
+            };
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.textContent = '이미지 미리보기';
+        }
+    }
+</script>
+</body>
+</html>

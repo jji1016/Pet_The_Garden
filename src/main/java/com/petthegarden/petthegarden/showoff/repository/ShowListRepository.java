@@ -15,4 +15,7 @@ public interface ShowListRepository extends JpaRepository<ShowOff, Integer> {
 
     // 전체 게시글 페이징
     Page<ShowOff> findAll(Pageable pageable);
+
+    // 멤버id로 찾기
+    Page<ShowOff> findByMemberId(Integer memberId, Pageable pageable);
 }
