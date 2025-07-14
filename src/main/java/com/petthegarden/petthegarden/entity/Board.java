@@ -25,6 +25,7 @@ public class Board {
     @Column(nullable = false)
     private String subject;
 
+
     @Column(nullable = false, length = 1000)
     private String content;
 

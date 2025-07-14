@@ -29,7 +29,7 @@
                     <span th:text="${pet.species}">시바견</span> |
                     <span th:text="${pet.member.userName}">피치집사냥냥</span>
                 </div>
-                <div class="detail-content" th:text="${pet.content}">
+                <div class="detail-content" th:utext="${pet.content}">
                     귀여운 시바사키의 장기자랑입니다!
                 </div>
                 <div class="detail-stats">

@@ -22,8 +22,8 @@
 
 
   <div class="board-controls">
-    <form action="/community/board" method="GET" class="search-form">
-      <input type="text" name="keyword" placeholder="검색어를 입력해주세요." th:value="${keyword}" />
+    <form action="/community/board" method="GET" class="search-form" onsubmit="return validateSearch()">
+      <input type="text" id="keyword" name="keyword" placeholder="제목을 입력해주세요." th:value="${keyword}" />
       <button type="submit" class="btn-search">검색</button>
     </form>
     <button class="btn-register" onclick="location.href='/community/boardreg'">글 등록</button>
@@ -67,4 +67,14 @@
 <!-- Footer 영역 -->
 <div th:replace="fragments/footer :: footerFragment"></div>
 </body>
+<script>
+  function validateSearch() {
+    const keyword = document.getElementById('keyword').value.trim();
+    if (keyword.length > 0 && keyword.length < 2) {
+      alert("검색어는 두 글자 이상 입력해주세요.");
+      return false; // 폼 제출 막기
+    }
+    return true;
+  }
+</script>
 </html>

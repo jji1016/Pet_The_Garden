@@ -203,11 +203,11 @@ public class CommunityService {
         communityRepository.delete(board);
         return true;
     }
-    //게시판 글 페이징처리관련
+    //게시판 글 검색처리관련
     public Page<Board> getAllBoards(Pageable pageable) {
         return communityRepository.findAll(pageable);
     }
-    //게시판 글 페이징처리관련
+    //게시판 글 검색처리관련
     public Page<Board> searchBoards(String keyword, Pageable pageable) {
         return communityRepository.findBySubjectContainingIgnoreCase(keyword, pageable);
     }
