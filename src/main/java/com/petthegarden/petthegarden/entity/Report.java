@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.entity;
 
+import com.petthegarden.petthegarden.constant.ReportType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -28,7 +29,8 @@ public class Report {
     private String reason;
 
     @Column(nullable = false)
-    private String type;
+    @Enumerated(EnumType.STRING)
+    private ReportType type;
 
     @Column(nullable = false)
     private Integer repID;
