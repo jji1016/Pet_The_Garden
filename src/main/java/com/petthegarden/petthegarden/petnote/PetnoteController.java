@@ -56,6 +56,7 @@ public class PetnoteController {
         InfoDto infoDto = petnoteService.findByUserID(loggedUserID, userID);
         System.out.println("PetnoteController 펫디티오 " + petDto);
 
+        model.addAttribute("userID", userID);
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
         model.addAttribute("infoDto", infoDto);

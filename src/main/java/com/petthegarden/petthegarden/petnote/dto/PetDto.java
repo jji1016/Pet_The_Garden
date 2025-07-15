@@ -25,6 +25,7 @@ public class PetDto {
     private String petLike;
     private String petDislike;
     private String userID;
+    private String userName;
 
 
     public static PetDto toPetDto(Pet pet) {
@@ -41,6 +42,7 @@ public class PetDto {
                 .petLike(pet.getPetLike())
                 .petDislike(pet.getPetDisLike())
                 .userID(pet.getMember().getUserID())
+                .userName(pet.getMember().getUserName())
                 .build();
     }
 

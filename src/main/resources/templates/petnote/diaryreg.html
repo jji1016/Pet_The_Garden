@@ -14,15 +14,15 @@
     </div>
     <nav class="sidebar">
         <ul>
-            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>
+            <li><a th:href="@{/petnote/profile/${petID}}">프로필</a></li>
             <th:block sec:authorize="isAuthenticated()">
                 <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
             </th:block>
             <th:block sec:authorize="isAnonymous()">
-                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>
+                <li class="active"><a th:href="@{/petnote/diary/{petID}(petID=${petID})}">성장일기</a></li>
             </th:block>
         </ul>
-        <th:block sec:authorize="isAuthenticated()">
+        <th:block th:if="${diaryDto.member.userID == (#authentication.principal.username)}">
             <div class="pet-info">
                 <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">
                     <option th:each="pet : ${petList}"
