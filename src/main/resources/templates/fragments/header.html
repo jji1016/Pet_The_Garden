@@ -14,6 +14,7 @@
             <li><a href="/community/board">커뮤니티</a></li>
         </ul>
     </nav>
+
     <th:block sec:authorize="isAuthenticated()">
         <th:block th:if="${petID} == null">
             <a th:href="@{/mypage/petreg}" id="profile" class="profile">
@@ -36,10 +37,12 @@
             </button>
         </form>
     </th:block>
+
     <th:block sec:authorize="isAnonymous()">
         <a th:href="@{/member/login}" class="profile">
             <span><i class="bi bi-person-circle"></i></span>
         </a>
     </th:block>
 </header>
+
 </html>

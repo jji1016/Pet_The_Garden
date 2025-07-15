@@ -67,6 +67,7 @@ public class CommunityController {
         BoardDto boardDto = new BoardDto();
         boardDto.setSubject(board.getSubject());
         boardDto.setContent(board.getContent());
+        boardDto.setImage(board.getImage());
         model.addAttribute("boardDto", boardDto);
         model.addAttribute("boardId", id);
 
@@ -80,8 +81,10 @@ public class CommunityController {
     }
     //게시글수정
     @PostMapping("/boardcorrect/{id}")
-    public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto) {
-        communityService.updateBoard(id, boardDto);
+    public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto,
+                              @RequestParam(value = "extraImage", required = false) MultipartFile extraImage,
+                              @RequestParam(value = "existingImage", required = false) String existingImage) {
+        communityService.updateBoard(id, boardDto, extraImage, existingImage);
         return "redirect:/community/boarddetail/" + id;
     }
     //게시글삭제
@@ -201,5 +204,40 @@ public class CommunityController {
         String loginUsername = userDetails != null ? userDetails.getUsername() : null;
         model.addAttribute("loginUsername", loginUsername);
         return "community/boardcomment";
+    }
+    //ajax처리 페이지 이동
+    @GetMapping("/board/ajax/list")
+    public String getBoardListAjax(Model model,
+                                   @RequestParam(required = false) String keyword,
+                                   @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Board> boardPage;
+
+        if (keyword != null && !keyword.isBlank()) {
+            boardPage = communityService.searchBoards(keyword, pageable);
+        } else {
+            boardPage = communityService.getAllBoards(pageable);
+        }
+
+        model.addAttribute("boards", boardPage.getContent());
+        model.addAttribute("boardPage", boardPage);
+        model.addAttribute("keyword", keyword);
+
+
+        return "community/boardListFragment :: boardList";
+    }
+
+    @GetMapping("/board/ajax/pagination")
+    public String getBoardPaginationFragment(Model model,
+                                             @RequestParam(required = false) String keyword,
+                                             @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Board> boardPage = (keyword != null && !keyword.isBlank())
+                ? communityService.searchBoards(keyword, pageable)
+                : communityService.getAllBoards(pageable);
+
+        model.addAttribute("boardPage", boardPage);
+        model.addAttribute("keyword", keyword);
+
+        return "community/boardListFragment :: boardPagination";
     }
 }

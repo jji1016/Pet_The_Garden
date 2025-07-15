@@ -117,7 +117,7 @@ public class ShowRegController {
                 redirectAttributes.addFlashAttribute("message", "장기자랑이 성공적으로 수정되었습니다!");
             }
 
-            return "redirect:/showoff/detail/" + savedShowOff.getId();
+            return "redirect:/showoff/showdetail/" + savedShowOff.getId();
 
         } catch (Exception e) {
             model.addAttribute("error", "장기자랑 등록/수정 중 오류가 발생했습니다: " + e.getMessage());
@@ -145,7 +145,7 @@ public class ShowRegController {
             Path filePath = uploadPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            String imageUrl = "/uploads/images/" + fileName;
+            String imageUrl = "/PTGUpload/images/" + fileName;
             response.put("success", true);
             response.put("url", imageUrl);
             response.put("fileName", fileName);

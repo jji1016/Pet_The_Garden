@@ -46,11 +46,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("file:///" + uploadPath);
         registry.addResourceHandler("/PTGUpload/diary/**")
                 .addResourceLocations("file:///" + diaryPath);
-        registry.addResourceHandler("/uploads/images/**")
+        registry.addResourceHandler("/PTGUpload/images/**")
                 .addResourceLocations("file:///" + imagesPath);
     }
 
-    // ★ 장바구니/결제 페이지 연동을 위한 CORS 설정 추가
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/cart/**")

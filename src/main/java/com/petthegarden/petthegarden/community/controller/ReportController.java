@@ -3,6 +3,7 @@ package com.petthegarden.petthegarden.community.controller;
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.community.dto.ReportDto;
 import com.petthegarden.petthegarden.community.service.ReportService;
+import com.petthegarden.petthegarden.constant.ReportType;
 import com.petthegarden.petthegarden.entity.Member;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +35,7 @@ public class ReportController {
 
         try {
             reportDto.setRepID(id);
-            reportDto.setType("BOARD");
+            reportDto.setType(ReportType.FREE_POST);
             reportService.report(reportDto, loginUser);
             return ResponseEntity.ok("게시글 신고가 접수되었습니다.");
         } catch (IllegalStateException e) {
@@ -58,7 +59,7 @@ public class ReportController {
 
         try {
             reportDto.setRepID(id);
-            reportDto.setType("BOARDCOMMENT");
+            reportDto.setType(ReportType.FREE_COMMENT);
             reportService.report(reportDto, loginUser);
             return ResponseEntity.ok("댓글 신고가 접수되었습니다.");
         } catch (IllegalStateException e) {
