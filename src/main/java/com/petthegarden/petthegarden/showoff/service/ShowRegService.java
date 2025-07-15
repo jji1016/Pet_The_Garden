@@ -74,6 +74,7 @@ public class ShowRegService {
                     .regDate(oldShowOff.getRegDate())
                     .modifyDate(LocalDateTime.now())
                     .member(oldShowOff.getMember())
+                    .pet(oldShowOff.getPet())
                     .showOffLike(oldShowOff.getShowOffLike())
                     .build();
 
@@ -138,6 +139,7 @@ public class ShowRegService {
                     .regDate(oldShowOff.getRegDate())
                     .modifyDate(oldShowOff.getModifyDate())
                     .member(oldShowOff.getMember())
+                    .pet(oldShowOff.getPet())
                     .showOffLike(oldShowOff.getShowOffLike() + 1)
                     .build();
 
