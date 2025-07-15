@@ -98,7 +98,6 @@ public class CommunityService {
         String contentTextOnly = boardDto.getContent(); //글자로만 온 컨텐츠
         StringBuilder contentWithImages = new StringBuilder(contentTextOnly);
 
-
         if (extraImage != null && !extraImage.isEmpty()) {
             // 새 이미지 업로드 처리
             Map<String, Object> uploadResult = uploadImage(extraImage);
