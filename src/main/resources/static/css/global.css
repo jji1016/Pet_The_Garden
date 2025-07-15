@@ -641,6 +641,14 @@ p.image-media-label {
     display: inline-block;
     position: relative;
 }
+a#profile {
+  padding-right: 30px;
+}
+
+button.btn.btn-logout {
+  width: 120px;
+  height: 100%;
+}
 
 .youtube-thumbnail-wrapper {
     position: relative;
