@@ -1,6 +1,7 @@
 package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
+import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import com.petthegarden.petthegarden.entity.Member;
 import org.springframework.data.domain.Page;
@@ -64,5 +65,20 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
                                                @Param("key") String key,
                                                @Param("search") String search,
                                                Pageable pageable);
+
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminPetDto(" +
+            "p.id, p.profileImg, p.petName, p.species, p.follow, p.petGender, p.regDate) " +
+            "FROM Pet p " +
+            "WHERE (:startDate IS NULL OR p.regDate >= TO_DATE(:startDate, 'YYYY-MM-DD')) " +
+            "AND (:endDate IS NULL OR p.regDate <= TO_DATE(:endDate, 'YYYY-MM-DD')) " +
+            "AND ((:key = 'petName' AND p.petName LIKE %:search%) OR " +
+            "(:key = 'species' AND p.species LIKE %:search%) OR " +
+            "(:key IS NULL OR :key = '')" +
+            ")")
+    Page<AdminPetDto> getPetList(@Param("startDate") String startDate,
+                                       @Param("endDate") String endDate,
+                                       @Param("key") String key,
+                                       @Param("search") String search,
+                                       Pageable pageable);
 
 }

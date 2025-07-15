@@ -1,6 +1,5 @@
 #admin-header .logout{
-    display: flex
-;
+    display: flex;
     width: auto;
     height: 50px;
     color: #f8a92b;
@@ -46,15 +45,18 @@
     display: flex;
     justify-content: center;
     margin-bottom: 18px;
+    flex-direction: column;
 }
 .admin-wrap .info-wrap .tableRap .emptySearch{
     text-align: center;
     font-size: larger;
     margin-bottom: 30px;
 }
-.admin-wrap .info-wrap .tableRap th, .admin-wrap .info-wrap .tableRap td {
-    padding-top: 15px;
-    padding-bottom: 15px;
+.admin-wrap .info-wrap .tableRap tr {
+    height: 55px;
+}
+.admin-wrap .info-wrap .tableRap th, .admin-wrap .info-wrap .tableRap td{
+    vertical-align: middle;
 }
 .admin-wrap .info-wrap .tableRap .center{
     text-align: center;
@@ -65,6 +67,12 @@
     color: #fff;
     padding: 11px 9px;
 }
+.admin-wrap .info-wrap .tableRap img{
+    width: 57px;
+    height: 57px;
+    object-fit: cover;
+}
+
 .admin-wrap .info-wrap .pagingBtnRap {
     display: flex;
     justify-content: center;
