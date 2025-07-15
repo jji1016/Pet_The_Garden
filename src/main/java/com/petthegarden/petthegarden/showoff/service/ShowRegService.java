@@ -74,6 +74,7 @@ public class ShowRegService {
                     .regDate(oldShowOff.getRegDate())
                     .modifyDate(LocalDateTime.now())
                     .member(oldShowOff.getMember())
+                    .pet(oldShowOff.getPet())
                     .showOffLike(oldShowOff.getShowOffLike())
                     .build();
 
@@ -138,6 +139,7 @@ public class ShowRegService {
                     .regDate(oldShowOff.getRegDate())
                     .modifyDate(oldShowOff.getModifyDate())
                     .member(oldShowOff.getMember())
+                    .pet(oldShowOff.getPet())
                     .showOffLike(oldShowOff.getShowOffLike() + 1)
                     .build();
 
@@ -165,7 +167,7 @@ public class ShowRegService {
         Path filePath = Paths.get(uploadDir, uniqueFilename);
         Files.copy(file.getInputStream(), filePath);
 
-        return "/uploads/images/" + uniqueFilename;
+        return "/PTGUpload/images/" + uniqueFilename;
     }
 
     // 업로드된 파일 삭제
