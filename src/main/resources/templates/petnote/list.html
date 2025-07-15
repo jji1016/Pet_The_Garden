@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head::head(PETLIST)}"></head>
 <link rel="stylesheet" href="/css/petnote/list.css"/>
 <link rel="stylesheet" href="/css/stray/protect.css"/>
@@ -18,68 +19,63 @@
         <input type="text" class="form-control" placeholder="search"/>
         <button class="btn" type="button">search</button>
     </div>
-<!--    <div class="list-box">-->
-        <div class="row mt-5 result-list">
-            <div th:each="pet : ${petDtoList}" class="d-flex">
-                <div class="col-3">
-                    <a th:href="@{'/petnote/profile/' + ${pet.petID}}" class="card">
-                        <div class="img-box">
-                            <img th:src="${pet.profileImg}"
-                                 onerror="this.onerror=null; this.src='/images/noImage.png'"/>
-                        </div>
-                        <div class="info">
-                            <h4 th:text="${pet.petName}"></h4>
-                            <dl>
-                                <dt>성별</dt>
-                                <dd th:text="${pet.species}"></dd>
-                            </dl>
-                            <dl>
-                                <dt>발견장소</dt>
-                                <dd th:text="${pet.birthDate}"></dd>
-                            </dl>
-                            <dl>
-                                <dt>상태</dt>
-                                <dd th:text="${pet.petGender}"></dd>
-                            </dl>
-                        </div>
-                        <div class="sticker">
-<!--                            <strong th:text="${strayList.pblancBeginDe.substring(6,8)}"></strong>-->
-<!--                            <span th:text="${strayList.pblancBeginDe.substring(0,4)+'-'+strayList.pblancBeginDe.substring(4,6)}"></span>-->
-                            강아지
-                        </div>
-                    </a>
-                </div>
-            </div>
+
+    <div class="row mt-5 result-list">
+        <div th:each="pet : ${petDtoList}" class="col-3 d-flex">
+<!--            <th:block sec:authorize="isAuthenticated()">-->
+                <a th:href="@{'/petnote/profile/' + ${pet.petID}}" class="card">
+                    <div class="img-box">
+                        <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"
+                             onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                    </div>
+                    <div class="info">
+                        <h4 th:text="${pet.petName}"></h4>
+                        <dl>
+                            <dt>주인</dt>
+                            <dd th:text="${pet.userID}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>생일</dt>
+                            <dd th:text="${pet.birthDate}"></dd>
+                        </dl>
+                        <dl>
+                            <dt>성별</dt>
+                            <dd th:text="${pet.petGender}"></dd>
+                        </dl>
+                    </div>
+                    <div class="sticker">
+                        <span th:text="${pet.species}">토끼</span>
+                    </div>
+                </a>
+<!--            </th:block>-->
+
+<!--            <th:block sec:authorize="isAnonymous()">-->
+<!--                <a th:href="@{/petnote/profile}" class="card">-->
+<!--                    <div class="img-box">-->
+<!--                        <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"-->
+<!--                             onerror="this.onerror=null; this.src='/images/noImage.png'"/>-->
+<!--                    </div>-->
+<!--                    <div class="info">-->
+<!--                        <h4 th:text="${pet.petName}"></h4>-->
+<!--                        <dl>-->
+<!--                            <dt>주인</dt>-->
+<!--                            <dd th:text="${pet.userID}"></dd>-->
+<!--                        </dl>-->
+<!--                        <dl>-->
+<!--                            <dt>생일</dt>-->
+<!--                            <dd th:text="${pet.birthDate}"></dd>-->
+<!--                        </dl>-->
+<!--                        <dl>-->
+<!--                            <dt>성별</dt>-->
+<!--                            <dd th:text="${pet.petGender}"></dd>-->
+<!--                        </dl>-->
+<!--                    </div>-->
+<!--                    <div class="sticker">-->
+<!--                        <span th:text="${pet.species}">토끼</span>-->
+<!--                    </div>-->
+<!--                </a>-->
+<!--            </th:block>-->
         </div>
-        <!--        <ul class="list">-->
-        <!--            <li th:each="pet : ${petDtoList}" class="d-flex">-->
-        <!--                <div class="col-md-2">-->
-        <!--&lt;!&ndash;                    <img src="/images/dummy.jpg" class="img-fluid thumbnail" alt="...">&ndash;&gt;-->
-        <!--                    <img th:src="@{'/PTGupload/pet/' + ${pet.profileImg}}"-->
-        <!--                         class="img-fluid thumbnail"-->
-        <!--                         alt="프로필"/>-->
-        <!--                </div>-->
-        <!--                <div class="col-md-8 p-3">-->
-        <!--                    <div class="card-body">-->
-        <!--                        <h3 class="card-title mb-3" th:text="${pet.petName}">이름</h3>-->
-        <!--                        <div class="card-text">-->
-        <!--                            <dl>-->
-        <!--                                <dt class="fw-bold">품종</dt>-->
-        <!--                                <dd th:text="${pet.species}">강아지</dd>-->
-        <!--                            </dl>-->
-        <!--                            <dl>-->
-        <!--                                <dt class="fw-bold">성별</dt>-->
-        <!--                                <dd th:text="${pet.petGender}">Male</dd>-->
-        <!--                            </dl>-->
-        <!--                            <dl>-->
-        <!--                                <dt class="fw-bold">생일</dt>-->
-        <!--                                <dd th:text="${pet.birthDate}">2021-07-09</dd>-->
-        <!--                            </dl>-->
-        <!--                        </div>-->
-        <!--                    </div>-->
-        <!--                </div>-->
-        <!--            </li>-->
-        <!--        </ul>-->
     </div>
 </div>
 <footer th:replace="~{fragments/footer}"></footer>

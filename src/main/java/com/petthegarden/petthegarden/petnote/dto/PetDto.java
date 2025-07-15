@@ -24,6 +24,8 @@ public class PetDto {
     private String character;
     private String petLike;
     private String petDislike;
+    private String userID;
+
 
     public static PetDto toPetDto(Pet pet) {
         return PetDto.builder()
@@ -38,17 +40,19 @@ public class PetDto {
                 .character(pet.getCharacter())
                 .petLike(pet.getPetLike())
                 .petDislike(pet.getPetDisLike())
+                .userID(pet.getMember().getUserID())
                 .build();
     }
 
     public PetDto(Integer petID, String species, String petName, String birthDate,
-                  String profileImg, PetGender petGender) {
+                  String profileImg, PetGender petGender, String userID) {
         this.petID = petID;
         this.species = species;
         this.petName = petName;
         this.birthDate = birthDate;
         this.profileImg = profileImg;
         this.petGender = petGender.toString();
+        this.userID = userID;
     }
 
 }

@@ -33,7 +33,7 @@ public class SecurityConfig {
 //                                            "/images/**",
 //                                            "/js/**",
 //                                            "/html/**",
-//                                            "/upload/**"
+//                                            "/upload/**".
                                 "/**" //작업 편하게 하기 위해 임시로 모든 경로 보안 허용
                 )
                         .permitAll()

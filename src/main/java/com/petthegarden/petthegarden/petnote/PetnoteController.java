@@ -30,6 +30,8 @@ public class PetnoteController {
     @GetMapping("/list")
     public String list(Model model) {
         List<PetDto> petDtoList = petnoteService.findAllPetDto();
+
+
         model.addAttribute("petDtoList", petDtoList);
         return "petnote/list";
     }
@@ -39,6 +41,11 @@ public class PetnoteController {
     public String profile(@PathVariable int petID,
                           Model model,
                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
+
+        if (customUserDetails == null) {
+            model.addAttribute("loginError", "로그인 후 이용 가능합니다.");
+            return "member/login"; // 로그인 안내 템플릿으로 이동
+        }
 
         String loggedUserID = customUserDetails.getLoggedMember().getUserID();
         Integer memberID = customUserDetails.getLoggedMember().getId();
@@ -67,6 +74,7 @@ public class PetnoteController {
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto selectedPetDto = petnoteService.getPetDtoByPetID(petID);
 
+        model.addAttribute("memberID", memberID);
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
         model.addAttribute("firstPetDto", selectedPetDto);

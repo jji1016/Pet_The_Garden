@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head::head(일기쓰기)}"></head>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
@@ -14,18 +15,24 @@
     <nav class="sidebar">
         <ul>
             <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>
-            <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
-            <!--            <li>성장일기</li>-->
+            <th:block sec:authorize="isAuthenticated()">
+                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
+            </th:block>
+            <th:block sec:authorize="isAnonymous()">
+                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>
+            </th:block>
         </ul>
-        <div class="pet-info">
-            <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">
-                <option th:each="pet : ${petList}"
-                        th:value="${pet.id}"
-                        th:text="${pet.petName}"
-                        th:selected="${pet.id == petID}">
-                </option>
-            </select>
-        </div>
+        <th:block sec:authorize="isAuthenticated()">
+            <div class="pet-info">
+                <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">
+                    <option th:each="pet : ${petList}"
+                            th:value="${pet.id}"
+                            th:text="${pet.petName}"
+                            th:selected="${pet.id == petID}">
+                    </option>
+                </select>
+            </div>
+        </th:block>
         <form th:action="@{/member/logout}" method="post">
             <button type="submit" class="btn btn-logout">
                 <i class="bi bi-box-arrow-right"></i> 로그아웃
