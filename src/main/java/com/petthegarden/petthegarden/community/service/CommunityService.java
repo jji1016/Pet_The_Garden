@@ -72,7 +72,11 @@ public class CommunityService {
 
             if ((int) uploadResult.get("uploaded") == 1) {
                 String imageUrl = (String) uploadResult.get("url");
+                // content에 이미지 추가
                 content += "<div><img src='" + imageUrl + "' style='max-width:100%; margin-top:20px;' /></div>";
+
+                // DB에도 저장
+                board.setImage(imageUrl);
             } else {
                 throw new RuntimeException("이미지 업로드 실패: " + ((Map<?, ?>) uploadResult.get("error")).get("message"));
             }
@@ -86,12 +90,40 @@ public class CommunityService {
     }
 
     //게시판 글 수정
-    public void updateBoard(Integer id, BoardDto boardDto) {
+    public void updateBoard(Integer id, BoardDto boardDto, MultipartFile extraImage, String existingImage) {
         Board board = getBoardById(id);
 
         board.setSubject(boardDto.getSubject());
-        String content = boardDto.getContent();
-        board.setContent(content);
+
+        String contentTextOnly = boardDto.getContent(); //글자로만 온 컨텐츠
+        StringBuilder contentWithImages = new StringBuilder(contentTextOnly);
+
+
+        if (extraImage != null && !extraImage.isEmpty()) {
+            // 새 이미지 업로드 처리
+            Map<String, Object> uploadResult = uploadImage(extraImage);
+
+            if ((int) uploadResult.get("uploaded") == 1) {
+                String newImageUrl = (String) uploadResult.get("url");
+
+                contentWithImages.append("<div><img src='").append(newImageUrl)
+                        .append("' style='max-width:100%; margin-top:20px;' /></div>");
+                board.setImage(newImageUrl);
+            } else {
+                throw new RuntimeException("이미지 업로드 실패: " + ((Map<?, ?>) uploadResult.get("error")).get("message"));
+            }
+        } else {
+            // 새 이미지 없으면 기존 이미지 유지(빈 문자열이면 null로 처리)
+            if (existingImage != null && !existingImage.isEmpty()) {
+                contentWithImages.append("<div><img src='").append(existingImage)
+                        .append("' style='max-width:100%; margin-top:20px;' /></div>");
+                board.setImage(existingImage);
+            } else {
+                board.setImage(null);
+            }
+        }
+
+        board.setContent(contentWithImages.toString());
         board.setModifyDate(LocalDateTime.now());
 
     }
