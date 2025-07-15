@@ -1,6 +1,7 @@
 package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
+import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import com.petthegarden.petthegarden.entity.Member;
 import lombok.RequiredArgsConstructor;
@@ -54,4 +55,7 @@ public class AdminDao {
         return adminRepository.getMemberList(startDate,endDate,key,search,pageable);
     }
 
+    public Page<AdminPetDto> getPetList(String startDate, String endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getPetList(startDate,endDate,key,search,pageable);
+    }
 }
