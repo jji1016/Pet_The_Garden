@@ -44,6 +44,11 @@ a {
     align-items: center;
 }
 
+#header h1 img {
+  width: 153px;
+  height: 77px;
+}
+
 #header .logo-img {
     width: 180px;
     height: 90px;
@@ -635,6 +640,14 @@ p.image-media-label {
 .youtube-thumbnail-link {
     display: inline-block;
     position: relative;
+}
+a#profile {
+  padding-right: 30px;
+}
+
+button.btn.btn-logout {
+  width: 120px;
+  height: 100%;
 }
 
 .youtube-thumbnail-wrapper {

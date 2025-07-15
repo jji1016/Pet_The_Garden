@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>마이페이지</title>
+  <th:block th:replace="fragments/head :: head('마이페이지')"></th:block>
+  <link rel="stylesheet" href="/css/mypage/mypage.css" />
+  <meta charset="UTF-8" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+
+<body>
+<div th:replace="~{fragments/header}"></div>
+
+<!-- ↓↓↓ 이하 기존 마이페이지 콘텐츠 유지 ↓↓↓ -->
+<div id="section">
+  <div class="my_top">
+    <div class="top_left">
+      <p>안녕하세요. <span id="userNameDisplay" th:text="${loggedMemberDto.userName}">아무개</span>님</p>
+    </div>
+  </div>
+
+  <div class="my_list">
+    <h1>마이페이지</h1>
+    <ul class="list1">
+      <li data-tab="profile">내 정보 관리</li>
+      <li data-tab="talent">내가 쓰는 장기자랑 글</li>
+      <li data-tab="freeboard">내가 쓰는 자유게시판 글</li>
+      <li data-tab="pet">반려동물 등록</li>
+      <li data-tab="follow">팔로우한 반려동물</li>
+      <li data-tab="qna">1:1 문의내역</li>
+    </ul>
+
+    <div class="content_wrap">
+      <!-- 내 정보 관리 -->
+
+
+      <!-- 장기자랑 글 내역 -->
+      <div class="content">
+        <h2>내가 쓴 장기자랑 글</h2>
+        <ul class="request_detail">
+          <li class="detail_on">장기자랑 글 내역(<span id="number1">1</span>)</li>
+        </ul>
+        <table class="order_table">
+          <thead>
+          <tr th:each="show : ${myShowOffList}">
+            <td th:text="${#temporals.format(show.modifyDate != null ? show.modifyDate : show.regDate, 'yyyy-MM-dd HH:mm')}">날짜</td>
+            <td>
+              <a th:href="@{/showoff/showdetail/{id}(id=${show.id})}" th:text="${show.subject}">제목</a>
+            </td>
+            <td>
+              <img th:if="${show.image}" th:src="@{'/PTGUpload/showoff/' + ${show.image}}" style="width: 60px; height: 60px;" />
+            </td>
+            <td th:text="${show.showOffLike}">추천수</td>
+          </tr>
+          <tr th:if="${#lists.isEmpty(myShowOffList)}">
+            <td colspan="4">작성한 글이 없습니다.</td>
+          </tr>
+          </thead>
+          <tbody id="subscribeRap2">
+          <!-- 글내역 들어가는 자리 -->
+          </tbody>
+        </table>
+
+        <table class="page_btn">
+          <tbody>
+          <tr id="talent-pagination">
+            <td th:if="${myShowOffPage.hasPrevious()}">
+              <a href="#" class="page-link" th:attr="data-page=${myShowOffPage.number - 1}">이전</a>
+            </td>
+            <td th:each="pageNum : ${#numbers.sequence(0, myShowOffPage.totalPages - 1)}"
+                th:classappend="${pageNum == myShowOffPage.number} ? 'current'">
+              <a href="#" class="page-link" th:text="${pageNum + 1}" th:attr="data-page=${pageNum}">1</a>
+            </td>
+            <td th:if="${myShowOffPage.hasNext()}">
+              <a href="#" class="page-link" th:attr="data-page=${myShowOffPage.number + 1}">다음</a>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer}"></div>
+
+<script src="/js/mypage.js"></script>
+
+</body>
+</html>
