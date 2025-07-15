@@ -13,16 +13,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class AdminReportDto {
-    /* member */
-    private String reporter;
-
-    /* board */
-    private Integer boardID;
-
-    private String subject;
-
-    private String writer;
-
     /* report */
     private Integer reportID;
 
@@ -32,6 +22,14 @@ public class AdminReportDto {
 
     private ReportType type;
 
+    private Integer repID; //Board, BoardComment, ShowOff, ShowOffComment의 PK
 
+    /* member */
+    private String reporter;
+
+    /* Board, BoardComment, ShowOff, ShowOffComment */
+    private String subject;
+
+    private String writer;
 
 }

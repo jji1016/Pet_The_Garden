@@ -2,7 +2,9 @@ package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
+import com.petthegarden.petthegarden.admin.dto.AdminReportDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.constant.ReportType;
 import com.petthegarden.petthegarden.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +12,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface AdminRepository extends JpaRepository<Member, Integer> {
@@ -80,5 +84,118 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
                                        @Param("key") String key,
                                        @Param("search") String search,
                                        Pageable pageable);
+
+
+    // ReportType 있을시
+    @Query("""
+SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(
+    r.Id, r.reportDate, r.reason, r.type, r.repID, m.userName,
+    CASE
+        WHEN r.type = 'FREE_POST' THEN b.subject
+        WHEN r.type = 'SHOWOFF_POST' THEN s.subject
+        WHEN r.type = 'FREE_COMMENT' THEN b.subject
+        WHEN r.type = 'SHOWOFF_COMMENT' THEN s.subject
+        ELSE ''
+    END,
+    CASE
+        WHEN r.type = 'FREE_POST' THEN b.member.userName
+        WHEN r.type = 'SHOWOFF_POST' THEN s.member.userName
+        WHEN r.type = 'FREE_COMMENT' THEN bc.member.userName
+        WHEN r.type = 'SHOWOFF_COMMENT' THEN sc.member.userName
+        ELSE ''
+    END
+)
+FROM Report r
+JOIN r.member m
+LEFT JOIN Board b ON r.repID = b.Id AND r.type = 'FREE_POST'
+LEFT JOIN BoardComment bc ON r.repID = bc.Id AND r.type = 'FREE_COMMENT'
+LEFT JOIN ShowOff s ON r.repID = s.Id AND r.type = 'SHOWOFF_POST'
+LEFT JOIN ShowOffComment sc ON r.repID = sc.Id AND r.type = 'SHOWOFF_COMMENT'
+WHERE r.type = :type
+AND (:startDate IS NULL OR r.reportDate >= :startDate)
+AND (:endDate IS NULL OR r.reportDate <= :endDate)
+AND (
+    :search IS NULL OR :search = '' OR
+    (
+        (:key = 'reporter' AND (
+            LOWER(r.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))
+        )) OR
+        (:key = 'writer' AND (
+            (r.type = 'FREE_POST' AND LOWER(b.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'SHOWOFF_POST' AND LOWER(s.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'FREE_COMMENT' AND LOWER(bc.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'SHOWOFF_COMMENT' AND LOWER(sc.member.userName) LIKE LOWER(CONCAT('%', :search, '%')))
+        )) OR
+        (:key = 'subject' AND (
+            (r.type = 'FREE_POST' AND LOWER(b.subject) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'SHOWOFF_POST' AND LOWER(s.subject) LIKE LOWER(CONCAT('%', :search, '%')))
+        ))
+    )
+)
+""")
+    Page<AdminReportDto> getFilteredReports(
+            @Param("type") ReportType type,
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("key") String key,
+            @Param("search") String search,
+            Pageable pageable
+    );
+
+
+    // ReportType All일 경우
+    @Query("""
+SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(
+    r.Id, r.reportDate, r.reason, r.type, r.repID, m.userName,
+    CASE
+        WHEN r.type = 'FREE_POST' THEN b.subject
+        WHEN r.type = 'SHOWOFF_POST' THEN s.subject
+        WHEN r.type = 'FREE_COMMENT' THEN b.subject
+        WHEN r.type = 'SHOWOFF_COMMENT' THEN s.subject
+        ELSE ''
+    END,
+    CASE
+        WHEN r.type = 'FREE_POST' THEN b.member.userName
+        WHEN r.type = 'SHOWOFF_POST' THEN s.member.userName
+        WHEN r.type = 'FREE_COMMENT' THEN bc.member.userName
+        WHEN r.type = 'SHOWOFF_COMMENT' THEN sc.member.userName
+        ELSE ''
+    END
+)
+FROM Report r
+JOIN r.member m
+LEFT JOIN Board b ON r.repID = b.Id AND r.type = 'FREE_POST'
+LEFT JOIN BoardComment bc ON r.repID = bc.Id AND r.type = 'FREE_COMMENT'
+LEFT JOIN ShowOff s ON r.repID = s.Id AND r.type = 'SHOWOFF_POST'
+LEFT JOIN ShowOffComment sc ON r.repID = sc.Id AND r.type = 'SHOWOFF_COMMENT'
+WHERE (:startDate IS NULL OR r.reportDate >= :startDate)
+AND (:endDate IS NULL OR r.reportDate <= :endDate)
+AND (
+    :search IS NULL OR :search = '' OR
+    (
+        (:key = 'reporter' AND (
+            LOWER(r.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))
+        )) OR
+        (:key = 'writer' AND (
+            (r.type = 'FREE_POST' AND LOWER(b.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'SHOWOFF_POST' AND LOWER(s.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'FREE_COMMENT' AND LOWER(bc.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'SHOWOFF_COMMENT' AND LOWER(sc.member.userName) LIKE LOWER(CONCAT('%', :search, '%')))
+        )) OR
+        (:key = 'subject' AND (
+            (r.type = 'FREE_POST' AND LOWER(b.subject) LIKE LOWER(CONCAT('%', :search, '%'))) OR
+            (r.type = 'SHOWOFF_POST' AND LOWER(s.subject) LIKE LOWER(CONCAT('%', :search, '%')))
+        ))
+    )
+)
+""")
+    Page<AdminReportDto> getAllReports(
+            @Param("startDate") LocalDateTime startDate,
+            @Param("endDate") LocalDateTime endDate,
+            @Param("key") String key,
+            @Param("search") String search,
+            Pageable pageable
+    );
+
 
 }

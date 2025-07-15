@@ -2,8 +2,9 @@ package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
+import com.petthegarden.petthegarden.admin.dto.AdminReportDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
-import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.constant.ReportType;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,6 +12,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -57,5 +60,13 @@ public class AdminDao {
 
     public Page<AdminPetDto> getPetList(String startDate, String endDate, String key, String search, Pageable pageable) {
         return adminRepository.getPetList(startDate,endDate,key,search,pageable);
+    }
+
+    public Page<AdminReportDto> getAllReports(LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getAllReports(startDate, endDate, key, search, pageable);
+    }
+
+    public Page<AdminReportDto> getFilteredReports(ReportType type, LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getFilteredReports(type, startDate, endDate, key, search, pageable);
     }
 }

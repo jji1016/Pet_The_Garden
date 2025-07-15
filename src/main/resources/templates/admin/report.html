@@ -40,7 +40,7 @@
         <div class="info-wrap container-fluid">
 
             <div class="searchRap">
-                <form action="/admin/memberList">
+                <form action="/admin/report">
                     <div class="row mb-2 w-50">
                         <label for="startDate" class="col-3 col-form-label label-100">가입일</label>
                         <div class="col-4">
@@ -53,16 +53,24 @@
                     </div>
                     <div class="row mb-2 w-50">
                         <select class="selectBtn col-3 col-form-label label-100" name="key">
-                            <option value="userID" th:selected="${key == 'userID'}">아이디</option>
-                            <option value="userName" th:selected="${key == 'userName'}">이름</option>
+                            <option value="reporter" th:selected="${key == 'reporter'}">신고자</option>
+                            <option value="writer" th:selected="${key == 'writer'}">게시글 작성자</option>
+                            <option value="subject" th:selected="${key == 'subject'}">게시글 제목</option>
                         </select>
                         <div class="col-9">
                             <input type="text" class="form-control w-100" name="search" th:value="${search}">
                         </div>
                     </div>
-                    <div class="btn-wrap">
-                        <button class="btn btn-primary btn-lg w-20">조회</button>
-                        <a href="/admin/memberList" class="btn btn-secondary btn-lg w-20">초기화</a>
+                    <div class="btn-wrap row w-50">
+                        <select class="selectBtn col-3" name="type">
+                            <option value="" th:selected="${type == 'All'}">모두</option>
+                            <option value="FREE_POST" th:selected="${type == 'FREE_POST'}">자유게시판 게시글</option>
+                            <option value="FREE_COMMENT" th:selected="${type == 'FREE_COMMENT'}">자유게시판 댓글</option>
+                            <option value="SHOWOFF_POST" th:selected="${type == 'SHOWOFF_POST'}">장기자랑 게시글</option>
+                            <option value="SHOWOFF_COMMENT" th:selected="${type == 'SHOWOFF_COMMENT'}">장기자랑 댓글</option>
+                        </select>
+                        <button class="btn btn-primary btn-lg col-2">조회</button>
+                        <a href="/admin/report" class="btn btn-secondary btn-lg col-2">초기화</a>
                     </div>
                 </form>
 
@@ -100,11 +108,11 @@
                 <!-- 이전 페이지 버튼 -->
                 <a class="arrow"
                    th:if="${currentPage > 1}"
-                   th:href="@{|/admin/report?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">◀</a>
+                   th:href="@{|/admin/report?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}&type=${type}|}">◀</a>
 
                 <!-- 페이지 번호 버튼 -->
                 <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
-                    <a th:href="@{|/admin/report?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}"
+                    <a th:href="@{|/admin/report?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}&type=${type}|}"
                        th:text="${i}"
                        th:classappend="${i == currentPage} ? 'active' : ''"></a>
                 </th:block>
@@ -112,7 +120,7 @@
                 <!-- 다음 페이지 버튼 -->
                 <a class="arrow"
                    th:if="${currentPage < totalPage}"
-                   th:href="@{|/admin/report?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">▶</a>
+                   th:href="@{|/admin/report?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}&type=${type}|}">▶</a>
             </div>
 
         </div>
