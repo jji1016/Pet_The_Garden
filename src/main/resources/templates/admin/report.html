@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head::head(memberList)}"></head>
+<head th:replace="~{fragments/head::head(report)}"></head>
 <link rel="stylesheet" href="/css/admin/list.css" />
 <body>
 <header id="admin-header">
@@ -15,7 +15,7 @@
                     <span class="material-symbols-outlined"> home </span>
                     <span>대쉬보드</span></a>
             </li>
-            <li class="on">
+            <li>
                 <a href="/admin/memberList">
                     <span class="material-symbols-outlined"> person </span>
                     <span>회원정보관리</span></a>
@@ -25,7 +25,7 @@
                     <span class="material-symbols-outlined"> pets </span>
                     <span>반려동물관리</span></a>
             </li>
-            <li>
+            <li class="on">
                 <a href="/admin/report">
                     <span class="material-symbols-outlined"> info </span>
                     <span>신고내역</span></a>
@@ -69,25 +69,29 @@
             </div>
 
             <div class="tableRap">
-                <div class="emptySearch" th:if="${#lists.isEmpty(memberList)}">검색 결과 없음</div>
+                <div class="emptySearch" th:if="${#lists.isEmpty(reportList)}">검색 결과 없음</div>
                 <table class="table">
-                    <tr th:unless="${#lists.isEmpty(memberList)}">
+                    <tr th:unless="${#lists.isEmpty(reportList)}">
                         <th>NO</th>
-                        <th>아이디</th>
-                        <th>이름</th>
-                        <th>애완동물 수</th>
-                        <th>게시글 수</th>
-                        <th>가입일</th>
+                        <th>카테고리</th>
+                        <th>게시글 제목</th>
+                        <th>신고사유</th>
+                        <th>게시글 작성자</th>
+                        <th>신고자</th>
+                        <th>신고일시</th>
                         <th></th>
                     </tr>
-                    <tr th:each="member, stat : ${memberList}">
+                    <tr th:each="report, stat : ${reportList}">
                         <td th:text="${(currentPage - 1) * 10 + stat.count}"></td>
-                        <td th:text="${member.userID}"></td>
-                        <td th:text="${member.userName}"></td>
-                        <td th:text="${member.petCount}"></td>
-                        <td th:text="${member.boardCount}"></td>
-                        <td th:text="${#temporals.format(member.regDate,'yyyy-MM-dd')}"></td>
-                        <td class="center"><a class="detailBtn" th:href="@{'/admin/memberDetail/' + ${member.memberID}}">상세정보</a></td>
+                        <td th:text="${report.type}"></td>
+                        <td>
+                            <a href="#" th:text="${report.subject}"></a>
+                        </td>
+                        <td th:text="${report.reason}"></td>
+                        <td th:text="${report.writer}"></td>
+                        <td th:text="${report.reporter}"></td>
+                        <td th:text="${#temporals.format(report.reportDate,'yyyy-MM-dd')}"></td>
+                        <td class="center"><a class="deleteBtn" th:href="@{}">삭제</a></td>
                     </tr>
                 </table>
             </div>
@@ -96,11 +100,11 @@
                 <!-- 이전 페이지 버튼 -->
                 <a class="arrow"
                    th:if="${currentPage > 1}"
-                   th:href="@{|/admin/memberList?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">◀</a>
+                   th:href="@{|/admin/report?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">◀</a>
 
                 <!-- 페이지 번호 버튼 -->
                 <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
-                    <a th:href="@{|/admin/memberList?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}"
+                    <a th:href="@{|/admin/report?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}"
                        th:text="${i}"
                        th:classappend="${i == currentPage} ? 'active' : ''"></a>
                 </th:block>
@@ -108,7 +112,7 @@
                 <!-- 다음 페이지 버튼 -->
                 <a class="arrow"
                    th:if="${currentPage < totalPage}"
-                   th:href="@{|/admin/memberList?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">▶</a>
+                   th:href="@{|/admin/report?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&key=${key}&search=${search}|}">▶</a>
             </div>
 
         </div>

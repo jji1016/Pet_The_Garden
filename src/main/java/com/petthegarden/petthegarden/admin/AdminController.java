@@ -2,6 +2,7 @@ package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
 import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
+import com.petthegarden.petthegarden.admin.dto.AdminReportDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -103,7 +104,6 @@ public class AdminController {
                              @RequestParam(defaultValue = "petName") String key,
                              @RequestParam(required = false) String search,
                              @RequestParam(defaultValue = "1") int currentPage) {
-        log.info("key1 == {}",key);
 
         startDate = startDate == null ? "" : startDate;
         endDate = endDate == null ? "" : endDate;
@@ -126,7 +126,6 @@ public class AdminController {
         Page<AdminPetDto> petList = adminService.getPetList(startDate,endDate,key,search,pageable);
         log.info("petList == {}",petList.getContent());
         log.info("totalPage == {}",petList.getTotalPages());
-        log.info("key2 == {}",key);
         int totalPage = petList.getTotalPages();
         totalPage = totalPage == 0 ? 1 : totalPage;
 
@@ -139,6 +138,48 @@ public class AdminController {
         model.addAttribute("search", search);
 
         return "admin/petList";
+    }
+
+    @GetMapping("/report")
+    public String report(Model model,
+                             @RequestParam(required = false) String startDate,
+                             @RequestParam(required = false) String endDate,
+                             @RequestParam(defaultValue = "userID") String key,
+                             @RequestParam(required = false) String search,
+                             @RequestParam(defaultValue = "1") int currentPage) {
+        startDate = startDate == null ? "" : startDate;
+        endDate = endDate == null ? "" : endDate;
+        search = search == null ? "" : search.replaceAll("\\s+"," ").trim();
+
+
+        //startDate가 endDate보다 클 경우 서로 교체
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
+            LocalDate start = LocalDate.parse(startDate);
+            LocalDate end = LocalDate.parse(endDate);
+            if (start.isAfter(end)) {
+                String temp = startDate;
+                startDate = endDate;
+                endDate = temp;
+            }
+        }
+
+        Pageable pageable = PageRequest.of(currentPage-1, 10, Sort.by("reportDate").descending());
+
+        Page<AdminReportDto> reportList = adminService.getReportList(startDate,endDate,key,search,pageable);
+        log.info("memberList == {}",reportList.getContent());
+        log.info("totalPage == {}",reportList.getTotalPages());
+        int totalPage = reportList.getTotalPages();
+        totalPage = totalPage == 0 ? 1 : totalPage;
+
+        model.addAttribute("reportList", reportList.getContent());
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("key", key);
+        model.addAttribute("search", search);
+
+        return "admin/report";
     }
 
     @GetMapping("/sample")
