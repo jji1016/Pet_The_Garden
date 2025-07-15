@@ -12,12 +12,14 @@ import lombok.*;
 public class BoardDto {
     private String subject;
     private String content;
+    private String image;
 
     // entity로 변환 메서드 (member 등은 service에서 별도 세팅)
     public Board toEntity() {
         Board board = new Board();
         board.setSubject(this.subject);
         board.setContent(this.content);
+        board.setImage(this.image);
         return board;
     }
 }

@@ -532,4 +532,12 @@ h1.faq-header {
   .faq-page .cell .text { font-size: 15px; }
   .faq-page .content-detail { padding: 18px 10px; font-size: 15px; }
 }
+a#profile {
+  padding-right: 30px;
+}
+
+button.btn.btn-logout {
+  width: 120px;
+  height: 100%;
+}
 

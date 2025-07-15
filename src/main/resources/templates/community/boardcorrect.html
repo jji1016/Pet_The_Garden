@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <title>게시글 수정</title>
     <th:block th:replace="fragments/head :: head('게시글 수정')"></th:block>
@@ -8,14 +7,12 @@
 </head>
 
 <body>
-
 <!-- Header -->
 <div th:replace="~{fragments/header}"></div>
 
 <div class="board-detail-wrapper">
     <div class="board-detail-title">게시글 수정</div>
 
-    <!-- form으로 감싸기 -->
     <form th:action="@{'/community/boardcorrect/' + ${boardId}}" th:object="${boardDto}" method="post" enctype="multipart/form-data">
         <div class="board-detail-meta">
             <span class="writer" th:text="${writer}">작성자</span>
@@ -27,7 +24,25 @@
             <input type="text" th:field="*{subject}" />
 
             <label>내용</label>
-            <textarea id="editor" th:field="*{content}"></textarea>
+            <textarea id="contentTextarea" th:field="*{content}" rows="10" style="width: 100%; resize: vertical;"></textarea>
+        </div>
+
+        <!-- 기존 이미지 경로를 hidden input으로 전달 -->
+        <input type="hidden" name="existingImage" th:value="${boardDto.image}" />
+
+        <!-- 이미지 첨부 -->
+        <div class="image-upload-container">
+            <input type="file" id="imageUpload" name="extraImage" accept="image/*" onchange="previewImage(this)" hidden />
+            <label for="imageUpload" class="file-label">이미지 첨부</label>
+
+            <div class="image-preview" id="imagePreview">
+                <span th:if="${boardDto.image != null}" th:text="'기존 파일: ' + ${#strings.substring(boardDto.image, boardDto.image.lastIndexOf('/') + 1)}">이미지 미리보기</span>
+            </div>
+        </div>
+
+        <!-- 컨텐츠 내 이미지 미리보기 박스 (기존 컨텐츠에 포함된 이미지 썸네일 표시) -->
+        <div id="contentImagePreview" style="margin-top: 15px; margin-bottom: 15px; border: 1px dashed #ccc; padding: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+            <!-- JS가 이미지 썸네일을 여기 넣음 -->
         </div>
 
         <div class="board-detail-buttons">
@@ -39,56 +54,76 @@
 
 <!-- Footer -->
 <div th:replace="~{fragments/footer}"></div>
-<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 <script>
-    class MyUploadAdapter {
-        constructor(loader) {
-            this.loader = loader;
-        }
+    function previewImage(input) {
+        const previewBox = document.getElementById('imagePreview');
+        const contentPreviewBox = document.getElementById('contentImagePreview');
+        const existingImageInput = document.querySelector('input[name="existingImage"]');
 
-        upload() {
-            return this.loader.file
-                .then(file => {
-                    const data = new FormData();
-                    data.append('upload', file);
+        previewBox.innerHTML = "";
 
-                    return fetch('/community/upload-image', {
-                        method: 'POST',
-                        body: data
-                    })
-                        .then(response => response.json())
-                        .then(result => {
-                            return {
-                                default: result.url // 업로드된 이미지의 URL
-                            };
-                        });
-                });
-        }
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
 
-        abort() {
-            // 업로드 중단 처리 (선택사항)
+            // 파일 이름 표시
+            const nameSpan = document.createElement("span");
+            nameSpan.textContent = "선택한 파일명: " + file.name;
+            previewBox.appendChild(nameSpan);
+
+            // 이미지 썸네일 추가 (기존 썸네일 유지)
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                contentPreviewBox.innerHTML = "";  // 기존 미리보기 초기화
+                const imgPreview = document.createElement("img");
+                imgPreview.src = e.target.result;
+                imgPreview.alt = "첨부 이미지 미리보기";
+                imgPreview.style.maxWidth = "150px";
+                imgPreview.style.maxHeight = "150px";
+                imgPreview.style.objectFit = "contain";
+                imgPreview.style.border = "1px solid #ddd";
+                imgPreview.style.marginRight = "5px";
+                contentPreviewBox.appendChild(imgPreview);
+            };
+            reader.readAsDataURL(file);
+
+            // 새 이미지가 선택되었으니 기존 이미지는 삭제 처리(서버로 빈값 전송)
+            existingImageInput.value = "";
+        } else {
+            previewBox.innerHTML = "<span>이미지 파일명을 선택하면 표시됩니다</span>";
         }
     }
-
-    function MyCustomUploadAdapterPlugin(editor) {
-        editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
-            return new MyUploadAdapter(loader);
-        };
-    }
-
-    ClassicEditor
-        .create(document.querySelector('#editor'), {
-            extraPlugins: [MyCustomUploadAdapterPlugin],
-            mediaEmbed: {
-                previewsInData: true
-            }
-        })
-        .then(editor => {
-            window.editorInstance = editor;
-        })
-        .catch(error => {
-            console.error(error);
-        });
 </script>
+
+<script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", function () {
+        const previewBox = document.getElementById('contentImagePreview');
+        const textarea = document.getElementById('contentTextarea');
+
+        const rawContent = /*[[${boardDto.content}]]*/ "";
+
+        // 이미지 태그만 추출하여 썸네일로 표시
+        const imgRegex = /<img[^>]+src=["']([^"']+)["']/g;
+        let match;
+        while ((match = imgRegex.exec(rawContent)) !== null) {
+            const img = document.createElement('img');
+            img.src = match[1];
+            img.alt = '컨텐츠 이미지';
+            img.style.maxWidth = '150px';
+            img.style.maxHeight = '150px';
+            img.style.objectFit = 'contain';
+            img.style.border = '1px solid #ddd';
+            previewBox.appendChild(img);
+        }
+
+        // 텍스트만 추출해서 textarea에 표시
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = rawContent;
+        tempDiv.querySelectorAll("img, div, span, figure, figcaption, br").forEach(el => el.remove());
+        const onlyText = tempDiv.textContent || tempDiv.innerText || "";
+        textarea.value = onlyText;
+    });
+</script>
+
 </body>
 </html>
