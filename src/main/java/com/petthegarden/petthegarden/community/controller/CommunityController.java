@@ -67,6 +67,7 @@ public class CommunityController {
         BoardDto boardDto = new BoardDto();
         boardDto.setSubject(board.getSubject());
         boardDto.setContent(board.getContent());
+        boardDto.setImage(board.getImage());
         model.addAttribute("boardDto", boardDto);
         model.addAttribute("boardId", id);
 
@@ -81,8 +82,9 @@ public class CommunityController {
     //게시글수정
     @PostMapping("/boardcorrect/{id}")
     public String updateBoard(@PathVariable Integer id, @ModelAttribute BoardDto boardDto,
-                              @RequestParam(value = "extraImage", required = false) MultipartFile extraImage) {
-        communityService.updateBoard(id, boardDto, extraImage);
+                              @RequestParam(value = "extraImage", required = false) MultipartFile extraImage,
+                              @RequestParam(value = "existingImage", required = false) String existingImage) {
+        communityService.updateBoard(id, boardDto, extraImage, existingImage);
         return "redirect:/community/boarddetail/" + id;
     }
     //게시글삭제
