@@ -1,78 +1,57 @@
-:root {
-    --primary-color: #F8A92B;
-    --primary-dark: #E89611;
-    --primary-light: #FDB94E;
-    --text-color: #333;
-    --border-color: #ddd;
-    --background-light: #FFF8F0;
-}
-
 .showdetail-container {
-    background: linear-gradient(135deg, var(--background-light) 0%, #FFF4E6 100%);
-    min-height: 100vh;
-    padding: 2rem 0;
+    padding: 180px 0 50px;
 }
 
 .showdetail-card {
-    background: white;
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
     border-radius: 20px;
-    box-shadow: 0 20px 40px rgba(248, 169, 43, 0.1);
-    overflow: hidden;
-    border: 2px solid rgba(248, 169, 43, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .08);
+    overflow: hidden
 }
 
 .showdetail-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
-    padding: 2rem;
+    background: linear-gradient(135deg, #f8a92b 0%, #e89611 100%);
+    color: #fff;
     text-align: center;
+    padding: 2rem
 }
 
-.showdetail-title, .edit-title {
+.showdetail-title {
     font-size: 2rem;
     font-weight: 700;
-    margin: 0 0 1rem 0;
+    margin: 0 0 .8rem
 }
 
 .showdetail-meta {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    font-size: 0.9rem;
-    opacity: 0.9;
+    opacity: .9;
+    font-size: .9rem
 }
 
-.showdetail-content, .edit-content {
-    padding: 2.5rem;
-}
-
-.content-body {
-    line-height: 1.8;
-    font-size: 1.1rem;
-    color: var(--text-color);
-}
-
-.content-body img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 12px;
-    margin: 1rem 0;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
-
-.content-body iframe {
-    max-width: 100%;
-    border-radius: 12px;
-    margin: 1rem 0;
-}
-
-.showdetail-actions, .edit-actions {
+.showdetail-content {
     padding: 2rem;
-    text-align: center;
-    border-top: 1px solid #f0f0f0;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333
+}
+.upload-section,
+.youtube-box {
+    margin-top: 20px;
+}
+.upload-img, .youtube-box img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1rem 0;
+    height: auto;
+}
+
+.showdetail-actions {
     display: flex;
     justify-content: center;
     gap: 1rem;
+    padding: 2rem;
+    border-top: 1px solid #eee
 }
 
 .btn-action {
@@ -80,76 +59,40 @@
     border-radius: 16px;
     font-weight: 600;
     font-size: 1rem;
-    padding: 0.8rem 2rem;
-    transition: all 0.2s;
+    padding: .8rem 2rem;
     cursor: pointer;
-}
-
-.btn-edit {
-    background: var(--primary-color);
-    color: white;
-    box-shadow: 0 4px 15px rgba(248, 169, 43, 0.3);
-}
-
-.btn-edit:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
+    transition: .2s
 }
 
 .btn-like {
     background: #dc3545;
-    color: white;
-    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);
+    color: #fff
 }
 
 .btn-like:hover {
     background: #c82333;
-    transform: translateY(-2px);
+    transform: translateY(-2px)
 }
 
-.btn-submit {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    color: white;
-    box-shadow: 0 4px 15px rgba(248, 169, 43, 0.3);
+.btn-edit {
+    background: #f8a92b;
+    color: #fff
 }
 
-.btn-submit:hover {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%);
+.btn-edit:hover {
+    background: #e89611;
+    transform: translateY(-2px)
 }
-
-.btn-cancel {
-    background: #6c757d;
-    color: white;
+.media-label {
+    font-weight: bold;
+    margin: 12px 0 6px;
+    font-size: 1rem;
+    color: #555;
 }
-
-.btn-cancel:hover {
-    background: #5a6268;
-}
-
-/* CKEditor 스타일 */
-.ck-editor__editable_inline {
-    min-height: 400px !important;
-    border-radius: 8px;
-}
-
-.ck-editor__editable:focus {
-    border-color: var(--primary-color) !important;
-    box-shadow: 0 0 0 0.2rem rgba(248, 169, 43, 0.25) !important;
-}
-
-/* 반응형 */
-@media (max-width: 768px) {
-    .showdetail-meta {
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .showdetail-actions, .edit-actions {
-        flex-direction: column;
-    }
-
-    .btn-action {
-        width: 100%;
-        margin-bottom: 0.5rem;
-    }
+.youtube-thumbnail-img {
+    width: 100%;
+    max-width: 480px; /* 원하는 최대 너비 */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
