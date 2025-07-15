@@ -90,6 +90,7 @@ html, body {
     border-collapse: collapse;
     background-color: #FFFFFF;
     text-align: center;
+    table-layout: fixed;
     font-size: 18px;
 }
 
@@ -100,13 +101,22 @@ html, body {
 }
 
 .board-table tbody td {
-    padding: 15px;
+    padding: 25px;
     border-bottom: 1px solid #ddd;
 }
 
 .board-table td.title {
     text-align: left;
     color: #007bff;
+}
+.board-table td {
+    height: 78px;
+    padding: 0 !important;
+    line-height: 78px;
+    vertical-align: middle;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .board-table td.title a {
@@ -119,7 +129,8 @@ html, body {
 }
 
 .pagination {
-    margin-top: 10px;
+    margin-top: 30px;
+    margin-bottom: 40px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -133,3 +144,7 @@ html, body {
     text-decoration: none;
     color: #333;
 }
+.pagination a.active {
+    color: #f8a92b;
+}
+

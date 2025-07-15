@@ -205,4 +205,39 @@ public class CommunityController {
         model.addAttribute("loginUsername", loginUsername);
         return "community/boardcomment";
     }
+    //ajax처리 페이지 이동
+    @GetMapping("/board/ajax/list")
+    public String getBoardListAjax(Model model,
+                                   @RequestParam(required = false) String keyword,
+                                   @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<Board> boardPage;
+
+        if (keyword != null && !keyword.isBlank()) {
+            boardPage = communityService.searchBoards(keyword, pageable);
+        } else {
+            boardPage = communityService.getAllBoards(pageable);
+        }
+
+        model.addAttribute("boards", boardPage.getContent());
+        model.addAttribute("boardPage", boardPage);
+        model.addAttribute("keyword", keyword);
+
+
+        return "community/boardListFragment :: boardList";
+    }
+
+    @GetMapping("/board/ajax/pagination")
+    public String getBoardPaginationFragment(Model model,
+                                             @RequestParam(required = false) String keyword,
+                                             @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<Board> boardPage = (keyword != null && !keyword.isBlank())
+                ? communityService.searchBoards(keyword, pageable)
+                : communityService.getAllBoards(pageable);
+
+        model.addAttribute("boardPage", boardPage);
+        model.addAttribute("keyword", keyword);
+
+        return "community/boardListFragment :: boardPagination";
+    }
 }
