@@ -15,11 +15,21 @@
         </ul>
     </nav>
     <th:block sec:authorize="isAuthenticated()">
-        <a th:href="@{/petnote/profile/{petID}(petID=${petID})}" id="profile" class="profile">
+        <th:block th:if="${petID} == null">
+            <a th:href="@{/mypage/petreg}" id="profile" class="profile">
+                           <span class="img"><img
+                                   th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                                   alt="프로필"/></span>
+                <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
+            </a>
+        </th:block>
+        <th:block th:if="${petID} != null">
+            <a th:href="@{/petnote/profile/{petID}(petID=${petID})}" id="profile" class="profile">
             <span class="img"><img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
                                    alt="프로필"/></span>
-            <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
-        </a>
+                <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
+            </a>
+        </th:block>
         <form th:action="@{/member/logout}" method="post">
             <button type="submit" class="btn btn-logout">
                 <i class="bi bi-box-arrow-right"></i> 로그아웃

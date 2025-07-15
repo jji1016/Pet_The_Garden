@@ -8,21 +8,23 @@
 <div class="diary-box">
     <div class="main-visual" id="diary-visual">
         <div class="slogan custom-slogan">
-            <p class="main" th:utext="'<strong>' + ${petName} + '의 일기장</strong>'">강아지의 일기장</p>
-            <p class="sub">강아지도 고양이도 행복한 정원</p>
+            <!--            <p class="main">강아지의 일기장</p>-->
+            <p class="main" th:text="${petName} + '의 일기장'">강아지의 일기장</p>
+            <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>
         </div>
     </div>
     <nav class="sidebar">
         <ul>
-            <li><a th:href="@{/petnote/profile/${petID}}">프로필</a></li>
+            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
+            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>
             <th:block sec:authorize="isAuthenticated()">
                 <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
             </th:block>
             <th:block sec:authorize="isAnonymous()">
-                <li class="active"><a th:href="@{/petnote/diary/{petID}(petID=${petID})}">성장일기</a></li>
+                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>
             </th:block>
         </ul>
-        <th:block th:if="${diaryDto.member.userID == (#authentication.principal.username)}">
+        <th:block th:if="${userID == (#authentication.principal.username)}">
             <div class="pet-info">
                 <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">
                     <option th:each="pet : ${petList}"
@@ -43,7 +45,7 @@
         <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="petID" th:value="${petID}">
             <div>
-                <h6>제목</h6>
+                <h6 class="title">제목</h6>
                 <input type="text" name="subject">
             </div>
             <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
@@ -56,10 +58,10 @@
                                 <textarea class="text-content" type="text" name="content" id="content"></textarea>
                             </div>
                             <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
-                            <div>
-                                <h6>사진</h6>
-                                <input class="img-content" type="file" name="diaryImg" id="diaryImg"
-                                       placeholder="사진을 올려주세요">
+                            <div class="form-group">
+                                <h6 class="photo">사진</h6>
+                                <label for="diaryImg" class="file-label">📷 사진 선택하기</label>
+                                <input class="img-content" type="file" name="diaryImg" id="diaryImg"/>
                             </div>
                         </div>
                         <div class="diary-upload">

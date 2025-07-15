@@ -1,6 +1,7 @@
 package com.petthegarden.petthegarden.index;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
+import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.petnote.PetnoteService;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +20,17 @@ public class IndexController {
     @GetMapping("/index")
     public String index(@AuthenticationPrincipal CustomUserDetails customUserDetails,
                         Model model) {
+
         if (customUserDetails != null) {
             Integer memberID = customUserDetails.getLoggedMember().getId();
-            PetDto firstPetDto = petnoteService.getPetDto(memberID);
-            Integer petID = firstPetDto.getPetID();
-            model.addAttribute("petID", petID);
+            Pet pet = petnoteService.findFirstPet(memberID);
+
+            if (pet != null) {
+                PetDto firstPetDto = petnoteService.getPetDto(memberID);
+                model.addAttribute("petID", firstPetDto.getPetID());
+            }
         }
         return "index/index";
     }
 }
-
 

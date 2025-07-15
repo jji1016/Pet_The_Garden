@@ -13,6 +13,18 @@
   flex-shrink: 0;
 }
 
+.sidebar .logo img {
+  width: 130px;
+  height: 80px;
+  margin-top: 6px;
+  margin-left: 17px;
+  margin-bottom: 10px;
+}
+
+.sidebar .logo:hover {
+  background-color: transparent !important;
+}
+
 .sidebar ul {
   list-style: none;
   padding: 0;

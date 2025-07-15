@@ -1,12 +1,67 @@
+/*.diary-box {*/
+/*    display: flex;*/
+/*    height: 938px;*/
+/*}*/
+
+/*.row.custom-row   {*/
+/*    margin-right: -385px;*/
+/*}*/
+
+
+/*.main-visual .slogan.custom-slogan {*/
+/*    font-weight: 100;*/
+/*    position: absolute;*/
+/*    left: 373px;*/
+/*    top: 4%;*/
+/*    transform: none*/
+/*}*/
+
+/*.main-visual .slogan .main {*/
+/*    font-size: 4vw;*/
+/*}*/
+
+/*.profile-wrap .diary-reg-detail {*/
+/*    height: 400px;*/
+/*    width: 1320px;*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*form div {*/
+/*    margin-bottom: 16px;*/
+/*}*/
+
+
+/*.profile-wrap .text-content {*/
+/*    height: 300px;*/
+/*    width: 940px;*/
+/*}*/
+
+/*.container .diary-upload {*/
+/*    margin-top: 30px;*/
+/*}*/
+
+
+
 .diary-box {
     display: flex;
-    height: 938px;
+    height: auto;
 }
 
 .row.custom-row   {
     margin-right: -385px;
 }
 
+.sidebar .logo img {
+    width: 130px;
+    height: 80px;
+    margin-top: 6px;
+    margin-left: 17px;
+    margin-bottom: 10px;
+}
+
+.sidebar .logo:hover {
+    background-color: transparent !important;
+}
 
 .main-visual .slogan.custom-slogan {
     font-weight: 100;
@@ -36,6 +91,643 @@ form div {
     width: 940px;
 }
 
-.container .diary-upload {
-    margin-top: 30px;
+
+.diary-box .main-visual .slogan custom-slogan>p{
+    font-weight:bold;}
+
+.diary-box {
+    background: #fffef8;
+    border: 2px dashed #e5ccb1;
+    padding: 40px;
+    margin: 40px auto;
+    box-shadow: inset 0 -6px 8px -6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    max-width: 1400px;
 }
+h6, .main {
+    margin-bottom: 10px;
+    color: #a96f43;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+
+/* 입력창: 노트 위에 글 쓰는 듯한 */
+input[type="text"], textarea {
+    background: #fffef8;
+    border: 2px solid #fdd9a0;
+    border-radius: 10px;
+    padding: 12px 16px;
+    font-size: 20px;
+    width: 60%;
+    margin-bottom: 16px;
+}
+
+/* 버튼: 크레파스로 칠한 듯한 */
+button.btn {
+    background: #ffd08a;
+    border: none;
+    font-family: 'Jua', sans-serif;
+    padding: 12px 24px;
+    font-size: 15px;
+    border-radius: 20px;
+    box-shadow: 2px 2px 0 #d8b07e;
+    transition: all 0.2s ease-in-out;
+    margin-top: 50px;
+}
+
+button.btn:hover {
+    background: #f9b85d;
+    box-shadow: none;
+}
+/* 펫 선택 드롭다운 */
+
+.container .row custom-row .col-8 .photo{padding-bottom: 50px;}
+.img-content {
+    display: none; /* 기본 input 숨기기 (label 클릭 유도) */
+}
+
+.file-label {
+    display: inline-block;
+    padding: 10px 18px;
+    background-color: #ffd08a;
+    color: #5c4033;
+    font-family: 'Jua', sans-serif;
+    font-size: 18px;
+    border-radius: 16px;
+    box-shadow: 2px 2px 0 #d8b07e;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.file-label:hover {
+    background-color: #f9b85d;
+    box-shadow: none;
+}
+.img-content {
+    position: relative;
+    z-index: 1;
+}
+
+.diary-upload {
+    margin-top: 60px; /* 기존보다 더 넓게 */
+    text-align: center;
+    position: relative;
+    margin-left: 400px;
+    z-index: 0;
+}
+
+
+
+
+
+ul,
+ol,
+dl,
+li {
+    list-style: none;
+    margin-bottom: 0;
+    padding: 0;
+}
+
+/*body {*/
+/*    font-family: "Roboto", "Noto Sans KR", sans-serif;*/
+/*    background-color: #fbf3ea;*/
+/*    background-image: linear-gradient(to bottom, transparent 95%, #f9e3c6 95%);*/
+/*    background-size: 100% 40px;*/
+/*    color: #5c4a35;*/
+/*    padding: 20px;*/
+/*}*/
+
+body {
+    font-family: "Roboto", "Noto Sans KR", sans-serif;
+    /* background-color: #fbf3ea; */
+    /* background-image: linear-gradient(to bottom, transparent 95%, #f9e3c6 95%); */
+    /* background-size: 100% 40px; */
+    color: #5c4a35;
+    /* padding: 20px; */
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0; padding: 0;
+}
+
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+#header {
+    display: flex;
+    position: fixed;
+    width: 100%;
+    z-index: 2;
+    border-color: rgba(255, 255, 255, 0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+#header h1 {
+    position: absolute;
+    left: 100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+#header h1 img {
+    width: 153px;
+    height: 77px;
+}
+
+#header .logo-img {
+    width: 180px;
+    height: 90px;
+}
+#header #gnb {
+    width: 100%;
+}
+#header #gnb ul {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+#header #gnb ul li a {
+    display: flex;
+    height: 120px;
+    align-items: center;
+    padding: 0 50px;
+    font-weight: 700;
+}
+
+.profile {
+    position: absolute;
+    right: 100px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.profile .img img {
+    width: 50px;
+    aspect-ratio: 1/1;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 100px;
+}
+
+.profile .userName {
+    margin-top: 10px;
+}
+
+.profile i {
+    font-size: 50px;
+    color: #333;
+}
+
+.btn-primary {
+    background-color: #f8a92b; /* 기본 색상 */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #cfa688; /* 호버 시 색상 */
+    border: none;
+}
+
+footer {
+    background-color: #f8a92b;
+    color: #fff;
+    font-size: 14px;
+}
+footer .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.bg-box {
+    position: relative;
+    margin-top: 150px;
+}
+.bg-box:before {
+    position: absolute;
+    content: "";
+    display: block;
+    width: 70%;
+    aspect-ratio: 1/1.25;
+    border-radius: 30px;
+    background-color: #f8a92b;
+    z-index: -1;
+}
+.bg-box img {
+    height: 400px;
+    margin-top: 100px;
+    margin-left: 100px;
+}
+.bg-box .slogan {
+    font-weight: 100;
+    margin: 50px 0 0 50px;
+    color: #fff;
+}
+.bg-box .slogan .main {
+    font-size: 48px;
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+}
+.bg-box .slogan .main span:nth-child(2) {
+    font-weight: 500;
+}
+.bg-box .slogan .sub {
+    font-size: 20px;
+    font-weight: 400;
+}
+h2.section-title {
+    text-align: center;
+}
+.main-content {
+    padding-top: 180px;
+}
+.main-visual {
+    height: 800px;
+    /*background: url("../images/hero-pic.png") no-repeat right 200px bottom 0;*/
+}
+.main-visual .slogan {
+    font-weight: 100;
+    position: absolute;
+    left: 300px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.main-visual .slogan .main {
+    font-size: 5vw;
+}
+.main-visual .slogan .main span:nth-child(3) {
+    font-weight: 500;
+}
+.main-visual .slogan .sub {
+    font-size: 2vw;
+}
+
+.search-box {
+    margin: 50px 0;
+    position: relative;
+}
+.search-box input {
+    height: 80px;
+    border-radius: 100px;
+    border-top-right-radius: 100px;
+    padding: 0 50px;
+    font-size: 20px;
+    font-weight: 500;
+}
+.search-box button {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    height: calc(100% - 10px);
+    background-color: #048daf;
+    color: #fff;
+    border-radius: 100px;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 0 50px;
+    text-transform: uppercase;
+}
+
+.search-wrap {
+    display: flex;
+    align-items: center;
+}
+.search-wrap .tag ul {
+    display: flex;
+    font-size: 24px;
+    gap: 15px;
+    font-weight: 500;
+}
+.search-wrap .tag ul li.on {
+    font-weight: 700;
+    color: #f8a92b;
+}
+.search-wrap .search-box {
+    margin-top: 0;
+    width: 50%;
+    margin-left: auto;
+}
+
+#profile-header {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 300px;
+    height: 100vh;
+    background-color: #f8a92b;
+}
+#profile-header #profile {
+    position: fixed;
+    top: 30px;
+    height: auto;
+}
+
+.tab .nav {
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    font-weight: 500;
+}
+.tab .nav li.on {
+    color: #f8a92b;
+}
+.tab .nav li a {
+    display: block;
+    padding: 15px;
+}
+.tab .content {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #666;
+}
+
+#admin-header {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+    border-radius: 20px;
+    width: 300px;
+    height: calc(100vh - 40px);
+    background-color: #f8a92b;
+}
+#admin-header h1 {
+    padding: 50px 0;
+    display: flex;
+    justify-content: center;
+}
+#admin-header h1 img{
+    width: 255px;
+}
+#admin-header #gnb {
+    color: #fff;
+}
+#admin-header #gnb ul {
+    padding: 0 20px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+#admin-header #gnb ul li {
+    text-align: left;
+}
+#admin-header #gnb ul li.on {
+    background-color: rgb(255, 255, 255);
+    border-radius: 10px;
+    color: #f8a92b;
+}
+#admin-header #gnb ul li a {
+    display: flex;
+    align-items: center;
+    padding: 20px;
+}
+#admin-header #gnb ul li a .material-symbols-outlined {
+    position: relative;
+    margin-right: 10px;
+}
+.showreg-container {
+    padding-top: 180px;
+}
+.showreg-btn-row {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+button.btn-action {
+    border: none;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 1rem 2.5rem;
+    transition: all 0.2s;
+    margin-right: 0;
+}
+button.btn-submit {
+    background: #f8a92b;
+    color: white;
+}
+button.btn-submit:hover {
+    background: #ffd591;
+}
+.form-group.text-center {
+    margin-bottom: 30px;
+}
+.showdetail-container {
+    padding-top: 180px;
+    padding-bottom: 50px;
+}
+.company-container {
+    padding-top: 180px;
+    padding-bottom: 50px;
+}
+img.company-img {
+    width: 500px;
+    height: auto;
+}
+
+
+.company-content {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 48px;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding-left: 450px;
+    padding-right: 60px;
+    box-sizing: border-box;
+}
+
+.ceo-photo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ceo-message {
+    flex: 1;
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #333;
+    padding-right: 24px;
+}
+.ceo-sign{
+    font-size: 32px;
+}
+
+/* FAQ 전용 스타일: global.css에 추가해도 다른 페이지에 영향 없음 */
+.faq-page * {
+    -webkit-font-smoothing: antialiased;
+    box-sizing: border-box;
+}
+
+.faq-page {
+    width: 100%;
+}
+
+.faq-page .faq-header {
+    width: 100%;
+    text-align: center;
+    font-family: "Inter-Bold", "Noto Sans KR", Helvetica, Arial, sans-serif;
+    font-size: 48px;
+    font-weight: 700;
+    color: #2d2d2d;
+    letter-spacing: 2px;
+}
+h1.faq-header {
+    padding-top: 180px;
+    margin-bottom: 50px;
+}
+.faq-page .table {
+    display: flex;
+    flex-direction: column;
+    width: 90vw;
+    max-width: 900px;
+    margin: 0 auto 80px auto;
+    align-items: stretch;
+    position: relative;
+}
+
+.faq-page .div {
+    background-color: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 16px 0 rgba(0,0,0,0.04);
+    margin-bottom: 32px;
+    transition: box-shadow 0.2s;
+}
+
+.faq-page .div:hover {
+    box-shadow: 0 4px 24px 0 rgba(0,0,0,0.08);
+}
+
+.faq-page .row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.faq-page .accordion-row:hover {
+    background: #fffbe8 !important;
+}
+
+.faq-page .content-wrapper {
+    width: 80px;
+    background: #f8a92b60;
+    border-right: 1px solid #f8a92b;
+    align-items: center;
+    justify-content: center;
+}
+
+.faq-page .cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+
+.faq-page .content {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 20px 20px;
+    text-align: center;
+}
+.faq-page p.text {
+    font-family: "Inter-SemiBold", "Noto Sans KR", Helvetica, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: #222;
+    margin: 0;
+    line-height: 1.5;
+}
+.faq-page .text {
+    font-family: "Inter-SemiBold", "Noto Sans KR", Helvetica, Arial, sans-serif;
+    font-weight: 600;
+    color: #554b4b;
+    font-size: 22px;
+    align-items: center;
+    text-align: center;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.faq-page .cell .text {
+    color: #222;
+    font-size: 20px;
+    text-align: center;
+    font-weight: 500;
+    padding-left: 12px;
+}
+
+.faq-page .accordion-content {
+    width: 100%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1);
+    background: #f7f9fb;
+    border-top: 1px solid #f8a92b30;
+}
+
+.faq-page .accordion-content.active {
+    max-height: 800px;
+    transition: max-height 0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+.faq-page .content-detail {
+    padding: 28px 36px;
+    font-family: "Inter-Regular", "Noto Sans KR", Helvetica, Arial, sans-serif;
+    color: #333;
+    line-height: 1.7;
+    background: #fff;
+}
+
+.faq-page .content-detail p {
+    margin: 0 0 14px 0;
+    font-size: 17px;
+}
+
+.faq-page .content-detail p:last-child {
+    margin-bottom: 0;
+}
+
+.faq-page .content-detail strong {
+    font-weight: 700;
+    color: #f8a92b;
+}
+
+@media (max-width: 900px) {
+    .faq-page .faq-header {
+        font-size: 32px;
+        margin: 40px 0 30px 0;
+    }
+    .faq-page .table {
+        width: 98vw;
+        max-width: 100vw;
+    }
+    .faq-page .content-wrapper { width: 48px; }
+    .faq-page .text { font-size: 16px; }
+    .faq-page .cell .text { font-size: 15px; }
+    .faq-page .content-detail { padding: 18px 10px; font-size: 15px; }
+}
+

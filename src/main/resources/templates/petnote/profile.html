@@ -3,24 +3,27 @@
 <head th:replace="~{fragments/head::head(PROFILE)}"></head>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <style>
-    body {display: flex;}
+    body {
+        display: flex;
+    }
 </style>
 <body>
 <nav class="sidebar">
     <ul>
+        <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
         <li class="active">프로필</li>
         <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
     </ul>
-    <th:block th:if="${pet.userID == loginUserID}">
-    <div class="pet-info">
-        <select name="petID" onchange="location.href='/petnote/profile/' + this.value">
-            <option th:each="pet : ${petList}"
-                    th:value="${pet.id}"
-                    th:text="${pet.petName}"
-                    th:selected="${pet.id == petID}">
-            </option>
-        </select>
-    </div>
+    <th:block th:if="${petDto.userID == (#authentication.principal.username)}">
+        <div class="pet-info">
+            <select name="petID" onchange="location.href='/petnote/profile/' + this.value">
+                <option th:each="pet : ${petList}"
+                        th:value="${pet.id}"
+                        th:text="${pet.petName}"
+                        th:selected="${pet.id == petID}">
+                </option>
+            </select>
+        </div>
     </th:block>
     <form th:action="@{/member/logout}" method="post">
         <button type="submit" class="btn btn-logout">
@@ -36,7 +39,7 @@
                 <div class="col-4">
                     <div class="owner">
                         <div class="img-box">
-                            <img th:src="@{'/PTGupload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                            <img th:src="@{'/PTGUpload/upload/' + ${petDto.userImage}}"
                                  alt="프로필"/>
                         </div>
                         <div class="info">
@@ -62,16 +65,15 @@
                             <span th:text="*{follow} + ' followers'">117</span>
                         </p>
                         <ul>
-                            <li><a href="" id="btn-follow" data-subscribe="yes" class="btn btn-follow w-100 btn-lg">Follow</a></li>
+                            <li><a href="" id="btn-follow" data-subscribe="yes" class="btn btn-follow w-100 btn-lg">Follow</a>
+                            </li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-8">
                     <div class="detail-box">
                         <div class="img-box">
-                            <img src="/images/dummy.jpg" alt=""/>
-                            <img th:src="@{'/PTGupload/pet/' + ${}}"
-                                 alt="프로필"/>
+                            <img th:src="@{'/PTGUpload/pet/' + *{profileImg}}" alt="프로필"/>
                         </div>
                         <div class="tab">
                             <ul class="nav">
@@ -157,7 +159,7 @@
 </script>
 <script>
     const btnFollow = document.querySelector("#btn-follow"); //있을 수도 있고 없을 수도 있고
-    console.log("btnSubscribe===",btnFollow);
+    console.log("btnSubscribe===", btnFollow);
     const followStatus = btnFollow.dataset.follow;
 
     if (followStatus === "yes") {
@@ -169,7 +171,7 @@
                 if (json.isFollow) {
                     alert("팔로우성공");
                     btnFollow.dataset.follow = "no";
-                    btnFollow.textContent="Following";
+                    btnFollow.textContent = "Following";
                 } else {
                     alert("오류");
                 }
@@ -183,7 +185,7 @@
                 if (json.isFollowDelete) {
                     alert("팔로우취소");
                     btnFollow.dataset.follow = "yes";
-                    btnFollow.textContent="Follow";
+                    btnFollow.textContent = "Follow";
                 } else {
                     alert("오류02");
                 }

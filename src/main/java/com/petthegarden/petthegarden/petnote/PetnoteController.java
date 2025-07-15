@@ -75,6 +75,10 @@ public class PetnoteController {
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto selectedPetDto = petnoteService.getPetDtoByPetID(petID);
 
+
+        System.out.println("프로필 펫디티오" + selectedPetDto);
+
+
         model.addAttribute("memberID", memberID);
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
@@ -90,6 +94,9 @@ public class PetnoteController {
         String petName = petnoteService.getPetDtoByPetID(petID).getPetName();
         List<Pet> petList = petnoteService.getPetList(customUserDetails.getMemberId());
 
+        String userID = petnoteService.getUserIDByPetID(petID);
+
+        model.addAttribute("userID", userID);
         model.addAttribute("diaryDto", new DiaryDto());
         model.addAttribute("petList", petList);
         model.addAttribute("petID", petID);
