@@ -44,6 +44,11 @@ a {
     align-items: center;
 }
 
+#header h1 img {
+  width: 153px;
+  height: 77px;
+}
+
 #header .logo-img {
     width: 180px;
     height: 90px;
@@ -668,6 +673,14 @@ p.image-media-label {
 
 .showdetail-actions {
     padding-top: 50px;
+}
+a#profile {
+  padding-right: 30px;
+}
+
+button.btn.btn-logout {
+  width: 120px;
+  height: 100%;
 }
 
 .content-body-part {

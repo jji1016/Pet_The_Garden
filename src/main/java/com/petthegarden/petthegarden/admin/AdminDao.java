@@ -1,10 +1,14 @@
 package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
+import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.entity.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -47,7 +51,11 @@ public class AdminDao {
         return adminRepository.getShowOffList(PageRequest.of(0, 5));
     }
 
-    public List<AdminMemberDto> getMemberList() {
-        return adminRepository.getMemberList();
+    public Page<AdminMemberDto> getMemberList(String startDate, String endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getMemberList(startDate,endDate,key,search,pageable);
+    }
+
+    public Page<AdminPetDto> getPetList(String startDate, String endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getPetList(startDate,endDate,key,search,pageable);
     }
 }

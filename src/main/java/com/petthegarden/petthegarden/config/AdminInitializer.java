@@ -1,8 +1,10 @@
 package com.petthegarden.petthegarden.config;
 
+import com.petthegarden.petthegarden.constant.Gender;
 import com.petthegarden.petthegarden.constant.Role;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.member.MemberDao;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,12 +20,13 @@ public class AdminInitializer implements CommandLineRunner {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) throws Exception {
-        String admidID = "admin";
-        Optional<Member> optionalMember = memberDao.findByUserID(admidID);
+        String adminID = "admin";
+        Optional<Member> optionalMember = memberDao.findByUserID(adminID);
         if(!optionalMember.isPresent()) {
             Member adminMember = Member.builder()
-                    .userID(admidID)
+                    .userID(adminID)
                     .role(Role.ROLE_ADMIN)
                     .userName("관리자")
                     .email("admin@hanmail.net")

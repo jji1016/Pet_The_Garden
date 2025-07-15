@@ -9,6 +9,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    @Value("${file.path}pet/")
+    String petPath;
+
+    @Value("${file.path}board/")
+    String boardPath;
+
     @Value("${file.path}products/")
     String productsPath;
 
@@ -23,6 +29,10 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/PTGUpload/pet/**")
+                .addResourceLocations("file:///" + petPath);
+        registry.addResourceHandler("/PTGUpload/board/**")
+                .addResourceLocations("file:///" + boardPath);
         registry.addResourceHandler("/PTGUpload/products/**")
                 .addResourceLocations("file:///" + productsPath);
         registry.addResourceHandler("/PTGUpload/reviews/**")

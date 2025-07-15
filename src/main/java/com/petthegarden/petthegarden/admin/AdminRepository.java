@@ -1,11 +1,14 @@
 package com.petthegarden.petthegarden.admin;
 
 import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
+import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
 import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
 import com.petthegarden.petthegarden.entity.Member;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
@@ -47,8 +50,35 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
     List<AdminShowOffDto> getShowOffList(Pageable pageable);
 
     @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminMemberDto(" +
-            "m.id, m.userID, m.userPW, m.userName, m.image, m.email, m.tel, " +
-            "m.regDate, m.zipcode, m.address01, m.address02) " +
-            "FROM Member m")
-    List<AdminMemberDto> getMemberList();
+            "m.id, m.userID, m.userName, m.regDate, COUNT(DISTINCT p.id), COUNT(DISTINCT b.Id)) " +
+            "FROM Member m " +
+            "LEFT JOIN Pet p ON m.id = p.member.id " +
+            "LEFT JOIN Board b ON m.id = b.member.id " +
+            "WHERE (:startDate IS NULL OR m.regDate >= TO_DATE(:startDate, 'YYYY-MM-DD')) " +
+            "AND (:endDate IS NULL OR m.regDate <= TO_DATE(:endDate, 'YYYY-MM-DD')) " +
+            "AND ((:key = 'userID' AND m.userID LIKE %:search%) OR " +
+            "(:key = 'userName' AND m.userName LIKE %:search%) OR " +
+            "(:key IS NULL OR :key = '')) " +
+            "GROUP BY m.id, m.userID, m.userName, m.regDate")
+    Page<AdminMemberDto> getMemberList(@Param("startDate") String startDate,
+                                               @Param("endDate") String endDate,
+                                               @Param("key") String key,
+                                               @Param("search") String search,
+                                               Pageable pageable);
+
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminPetDto(" +
+            "p.id, p.profileImg, p.petName, p.species, p.follow, p.petGender, p.regDate) " +
+            "FROM Pet p " +
+            "WHERE (:startDate IS NULL OR p.regDate >= TO_DATE(:startDate, 'YYYY-MM-DD')) " +
+            "AND (:endDate IS NULL OR p.regDate <= TO_DATE(:endDate, 'YYYY-MM-DD')) " +
+            "AND ((:key = 'petName' AND p.petName LIKE %:search%) OR " +
+            "(:key = 'species' AND p.species LIKE %:search%) OR " +
+            "(:key IS NULL OR :key = '')" +
+            ")")
+    Page<AdminPetDto> getPetList(@Param("startDate") String startDate,
+                                       @Param("endDate") String endDate,
+                                       @Param("key") String key,
+                                       @Param("search") String search,
+                                       Pageable pageable);
+
 }

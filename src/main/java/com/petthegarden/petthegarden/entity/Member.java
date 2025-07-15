@@ -1,6 +1,7 @@
 package com.petthegarden.petthegarden.entity;
 
 import com.petthegarden.petthegarden.constant.Role;
+import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -85,4 +86,29 @@ public class Member {
 
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
     private List<Follow> followList;
+
+    public MemberDto toMemberDto() {
+        return MemberDto.builder()
+                .id(this.getId())
+                .userID(this.getUserID())
+                .userPW(this.getUserPW())
+                .userName(this.getUserName())
+                .userEmail(this.getEmail())
+                .tel(this.getTel())
+                .address01(this.getAddress01())
+                .address02(this.getAddress02())
+                .zipcode(String.valueOf(this.getZipcode()))
+                .regDate(this.getRegDate())
+                .role(this.role)
+                .build();
+    }
+
+    public void updateInfo(String userPW, String userEmail, String tel, String zipcode, String address01, String address02) {
+        this.userPW = userPW;
+        this.email = userEmail;
+        this.tel = tel;
+        this.zipcode = Integer.parseInt(zipcode);
+        this.address01 = address01;
+        this.address02 = address02;
+    }
 }
