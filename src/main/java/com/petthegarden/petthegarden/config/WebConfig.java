@@ -30,8 +30,10 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-        registry.addResourceHandler("/PTGUpload/products/**")
-
+        registry.addResourceHandler("/PTGUpload/pet/**")
+                .addResourceLocations("file:///" + petPath);
+        registry.addResourceHandler("/PTGUpload/board/**")
+                .addResourceLocations("file:///" + boardPath);
         registry.addResourceHandler("/PTGUpload/pet/**")
                 .addResourceLocations("file:///" + petPath);
         registry.addResourceHandler("/PTGUpload/board/**")

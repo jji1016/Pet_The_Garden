@@ -682,6 +682,14 @@ button.btn.btn-logout {
 .showdetail-actions {
     padding-top: 50px;
 }
+a#profile {
+  padding-right: 30px;
+}
+
+button.btn.btn-logout {
+  width: 120px;
+  height: 100%;
+}
 
 .content-body-part {
     font-size: 22px;
