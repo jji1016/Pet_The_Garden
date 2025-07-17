@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <title>자유게시판</title>
+  <!-- 공통 head 불러오기 -->
+  <th:block th:replace="fragments/head :: head('자유게시판')"></th:block>
+
+  <!-- 자유게시판 전용 CSS 추가 -->
+  <link rel="stylesheet" href="/css/community/board.css" />
+</head>
+
+<body>
+
+<!-- Header 영역 -->
+<div th:replace="~{fragments/header}"></div>
+
+<div class="board-wrapper">
+  <div class="board-title">
+    자유게시판
+  </div>
+
+
+  <div class="board-controls">
+    <form action="/community/board" method="GET" class="search-form" onsubmit="return validateSearch()">
+      <input type="text" id="keyword" name="keyword" placeholder="제목을 입력해주세요." th:value="${keyword}" />
+      <button type="submit" class="btn-search">검색</button>
+    </form>
+    <button class="btn-register" onclick="location.href='/community/boardreg'">글 등록</button>
+  </div>
+  <table class="board-table">
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>아이디</th>
+      <th>작성일</th>
+    </tr>
+    </thead>
+    <tbody id="boardList">
+    <th:block th:replace="~{community/boardListFragment :: boardList}"></th:block>
+    </tbody>
+  </table>
+  <div id="pagination" class="pagination">
+    <th:block th:replace="~{community/boardListFragment :: boardPagination}"></th:block>
+  </div>
+</div>
+
+<!-- Footer 영역 -->
+<div th:replace="~{fragments/footer}"></div>
+</body>
+<script>
+  function validateSearch() {
+    const keyword = document.getElementById('keyword').value.trim();
+    if (keyword.length > 0 && keyword.length < 2) {
+      alert("검색어는 두 글자 이상 입력해주세요.");
+      return false; // 폼 제출 막기
+    }
+    return true;
+  }
+</script>
+<!--ajax처리 -->
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    // 페이지 로드 완료 후 실행
+    window.loadPage = function(page) {
+      const keyword = document.getElementById('keyword')?.value.trim() ?? "";
+
+      // 1) 게시글 리스트 tbody 갱신
+      fetch(`/community/board/ajax/list?page=${page}&keyword=${encodeURIComponent(keyword)}`)
+              .then(res => res.text())
+              .then(html => {
+                document.getElementById('boardList').innerHTML = html;
+              });
+
+      // 2) 페이징 영역 갱신
+      fetch(`/community/board/ajax/pagination?page=${page}&keyword=${encodeURIComponent(keyword)}`)
+              .then(res => res.text())
+              .then(html => {
+                document.getElementById('pagination').innerHTML = html;
+              });
+    };
+  });
+</script>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('반려동물 장기자랑 리스트')}">
+    <link rel="stylesheet" th:href="@{/css/showlist.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="container">
+    <div class="showlist-container">
+
+        <!-- 인기 게시글 섹션 -->
+        <div class="popular-section">
+            <h2 class="section-title-month">
+                <span class="material-symbols-outlined">favorite</span>
+                이 달의 인기 게시글
+            </h2>
+
+            <div class="popular-grid">
+                <div class="popular-card" th:each="post : ${popularPosts}">
+                    <img th:src="${post.image != null ? post.image : '/images/default-pet.jpg'}"
+                         alt="Pet Image"
+                         class="popular-card-img"
+                         th:onclick="'showPetDetail(' + ${post.id} + ')'">
+                    <div class="popular-card-title" th:text="${post.subject}"></div>
+                    <div class="popular-card-nickname" th:text="${post.member.userName}"></div>
+                    <div class="popular-card-like">
+                        <span class="material-symbols-outlined">favorite</span>
+                        <span th:text="${post.showOffLike}"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 전체 게시글 섹션 -->
+        <div class="all-posts-section">
+            <h2 class="section-title-list">전체 게시글</h2>
+
+            <div class="table-responsive">
+                <table class="table showoff-table">
+                    <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>게시글 제목</th>
+                        <th>작성자</th>
+                        <th>등록일</th>
+                        <th>좋아요</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="pet-row"
+                        th:each="post, stat : ${showOffPage.content}"
+                        th:onclick="'showPetDetail(' + ${post.id} + ')'">
+                        <td th:text="${showOffPage.totalElements - (showOffPage.number * showOffPage.size) - stat.index}"></td>
+                        <td class="showoff-title-cell">
+                            <div class="showoff-subject" th:text="${post.subject}"></div>
+                            <div class="pet-name-list" th:text="${post.pet.petName}"></div>
+                        </td>
+                        <td>
+                            <div class="member-nickname" th:text="${post.member.userName}"></div>
+                        </td>
+                        <td th:text="${#temporals.format(post.regDate, 'yyyy-MM-dd')}"></td>
+                        <td th:text="${post.showOffLike}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination-list" th:if="${showOffPage.totalPages > 1}">
+                <ul>
+                    <!-- 이전 페이지 -->
+                    <li th:if="${showOffPage.hasPrevious()}">
+                        <a th:href="@{/showoff/showlist(page=${showOffPage.number - 1}, memberId=${memberId})}">« 이전</a>
+                    </li>
+
+                    <!-- 페이지 번호 -->
+                    <li th:each="pageNum : ${#numbers.sequence(0, showOffPage.totalPages - 1)}"
+                        th:class="${pageNum == showOffPage.number} ? 'active' : ''">
+                        <a th:href="@{/showoff/showlist(page=${pageNum}, memberId=${memberId})}"
+                           th:text="${pageNum + 1}"></a>
+                    </li>
+
+                    <!-- 다음 페이지 -->
+                    <li th:if="${showOffPage.hasNext()}">
+                        <a th:href="@{/showoff/showlist(page=${showOffPage.number + 1}, memberId=${memberId})}">다음 »</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<!-- JavaScript 파일 -->
+<script src="/js/showlist.js"></script>
+
+</body>
+</html>

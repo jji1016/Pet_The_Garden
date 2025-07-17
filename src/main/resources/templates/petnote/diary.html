@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(Dairy)}"></head>
+<body>
+<header th:replace="~{fragments/header}"></header>
+<div class="main-visual" id="diary-visual">
+    <div class="slogan">
+        <p class="main"><strong>성장일기</strong></p>
+        <p class="sub">강아지도 고양이도 행복한 정원</p>
+    </div>
+</div>
+<div class="container min-vh-100">
+    <div class="search-wrap">
+        <div class="tag">
+            <ul>
+                <li class="on"><a href="">ALL</a></li>
+                <li><a href="">강아지</a></li>
+                <li><a href="">고양이</a></li>
+                <li><a href="">파충류</a></li>
+                <li><a href="">물고기</a></li>
+                <li><a href="">기타</a></li>
+            </ul>
+        </div>
+        <div class="mb-3 search-box">
+            <input type="text" class="form-control" placeholder="search"/>
+            <button class="btn" type="button">search</button>
+        </div>
+    </div>
+
+    <div class="list-box">
+        <ul class="list type02">
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+            <li class="d-flex">
+                <a href="">
+                    <div class="img-box">
+                        <img src="/images/dog.jpg" alt=""/>
+                    </div>
+                    <div class="desc">
+                        <p class="title">1KG 증량</p>
+                        <p class="name">알리</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+<script>
+    // This is an example script, please modify as needed
+    const rangeInput = document.querySelector("#range-input");
+    const rangeOutput = document.querySelector("#range-value");
+
+    // Set initial value
+    rangeOutput.textContent = rangeInput.value;
+
+    rangeInput.addEventListener("input", function () {
+        rangeOutput.textContent = this.value;
+    });
+</script>
+</html>

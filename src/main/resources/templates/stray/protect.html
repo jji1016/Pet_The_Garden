@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(protect)}"></head>
+<link rel="stylesheet" href="/css/stray/protect.css" />
+<!--</head>-->
+<body>
+<header th:replace="~{fragments/header}"></header>
+<div class="protect-wrap">
+    <div class="container-fluid">
+        <div class="protection-wrap">
+
+            <div class="search-wrap">
+                <form action="/stray/protect">
+                    <div class="row mb-2 w-50">
+                        <label for="startDate" class="col-3 col-form-label label-100">발견날짜</label>
+                        <div class="col-4">
+                            <input type="date" class="form-control" name="startDate" id="startDate" th:value="${startDate}"/>
+                        </div>
+                        <div class="col-1 d-flex align-items-center justify-content-center">~</div>
+                        <div class="col-4">
+                            <input type="date" class="form-control w-100" name="endDate" th:value="${endDate}"/>
+                        </div>
+                    </div>
+                    <div class="row mb-2 w-50">
+                        <label for="discvryPlc" class="col-3 col-form-label label-100">발견장소</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control w-100" name="discvryPlc" id="discvryPlc" th:value="${discvryPlc}"/>
+                        </div>
+                    </div>
+                    <div class="row mb-2 w-50">
+                        <label for="species" class="col-3 col-form-label label-100">품종</label>
+                        <div class="col-9">
+                            <input type="text" class="form-control w-100" name="species" id="species" th:value="${species}"/>
+                        </div>
+                    </div>
+                    <div class="btn-wrap">
+                        <button class="btn btn-primary btn-lg w-20">조회</button>
+                        <a href="/stray/protect" class="btn btn-secondary btn-lg w-20">초기화</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="row mt-5 result-list">
+                <div class="emptySearch" th:if="${#lists.isEmpty(strayList)}">검색 결과 없음</div>
+
+                <th:block th:each="strayList : ${strayList}">
+                    <div class="col-3">
+                        <a th:href="@{'/stray/detail/' + ${strayList.abdmIdNtfyNo}}" class="card">
+                            <div class="img-box">
+                                <img th:src="${strayList.imageCours}" onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                            </div>
+                            <div class="info">
+                                <h4 th:text="${strayList.speciesNm}"></h4>
+                                <dl>
+                                    <dt>성별</dt>
+                                    <dd th:text="${strayList.sexNmKor}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt>발견장소</dt>
+                                    <dd th:text="${strayList.discvryPlcInfo}"></dd>
+                                </dl>
+                                <dl>
+                                    <dt>상태</dt>
+                                    <dd th:text="${strayList.stateNm}"></dd>
+                                </dl>
+                            </div>
+                            <div class="sticker">
+                                <strong th:text="${strayList.pblancBeginDe.substring(6,8)}"></strong>
+                                <span th:text="${strayList.pblancBeginDe.substring(0,4)+'-'+strayList.pblancBeginDe.substring(4,6)}"></span>
+                            </div>
+                        </a>
+                    </div>
+                </th:block>
+
+            </div>
+
+            <div class="pagingBtnRap">
+                <!-- 이전 페이지 버튼 -->
+                <a class="arrow"
+                   th:if="${currentPage > 1}"
+                   th:href="@{|/stray/protect?currentPage=${currentPage - 1}&startDate=${startDate}&endDate=${endDate}&discvryPlc=${discvryPlc}&species=${species}|}">◀</a>
+
+                <!-- 페이지 번호 버튼 -->
+                <th:block th:each="i : ${#numbers.sequence(1, totalPage)}">
+                    <a th:href="@{|/stray/protect?currentPage=${i}&startDate=${startDate}&endDate=${endDate}&discvryPlc=${discvryPlc}&species=${species}|}"
+                       th:text="${i}"
+                       th:classappend="${i == currentPage} ? 'active' : ''"></a>
+                </th:block>
+
+                <!-- 다음 페이지 버튼 -->
+                <a class="arrow"
+                   th:if="${currentPage < totalPage}"
+                   th:href="@{|/stray/protect?currentPage=${currentPage + 1}&startDate=${startDate}&endDate=${endDate}&discvryPlc=${discvryPlc}&species=${species}|}">▶</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+<script>
+
+</script>
+</html>

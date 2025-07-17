@@ -1,0 +1,98 @@
+.showdetail-container {
+    padding: 180px 0 50px;
+}
+
+.showdetail-card {
+    max-width: 900px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .08);
+    overflow: hidden
+}
+
+.showdetail-header {
+    background: linear-gradient(135deg, #f8a92b 0%, #e89611 100%);
+    color: #fff;
+    text-align: center;
+    padding: 2rem
+}
+
+.showdetail-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 .8rem
+}
+
+.showdetail-meta {
+    opacity: .9;
+    font-size: .9rem
+}
+
+.showdetail-content {
+    padding: 2rem;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #333
+}
+.upload-section,
+.youtube-box {
+    margin-top: 20px;
+}
+.upload-img, .youtube-box img {
+    max-width: 100%;
+    border-radius: 12px;
+    margin: 1rem 0;
+    height: auto;
+}
+
+.showdetail-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2rem;
+    border-top: 1px solid #eee
+}
+
+.btn-action {
+    border: none;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: .8rem 2rem;
+    cursor: pointer;
+    transition: .2s
+}
+
+.btn-like {
+    background: #dc3545;
+    color: #fff
+}
+
+.btn-like:hover {
+    background: #c82333;
+    transform: translateY(-2px)
+}
+
+.btn-edit {
+    background: #f8a92b;
+    color: #fff
+}
+
+.btn-edit:hover {
+    background: #e89611;
+    transform: translateY(-2px)
+}
+.media-label {
+    font-weight: bold;
+    margin: 12px 0 6px;
+    font-size: 1rem;
+    color: #555;
+}
+.youtube-thumbnail-img {
+    width: 100%;
+    max-width: 480px; /* 원하는 최대 너비 */
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}

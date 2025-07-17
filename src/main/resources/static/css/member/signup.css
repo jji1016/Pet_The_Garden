@@ -1,0 +1,29 @@
+.signup-wrap {
+  padding-top: 200px;
+}
+.signup-wrap .logo-img{
+  width: 150px;
+  height: 100px;
+}
+.signup-wrap .orange-button {
+  background-color: #f8a92b;
+  border: none;
+}
+.signup-wrap .signup-box input,
+.signup-wrap .signup-box button,
+.signup-wrap .signup-box button {
+  border-radius: 100px;
+  height: 50px;
+}
+.signup-wrap .signup-box a {
+  border: 1px solid #ccc;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 100px;
+  height: 50px;
+}
+.signup-wrap .signup-box .form-label {
+  margin-left: 10px;
+}

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('반려동물 장기자랑 상세')}">
+    <link rel="stylesheet" th:href="@{/css/showoff/showdetail.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="showdetail-container">
+    <div class="showdetail-card">
+        <!-- 제목, 작성자, 날짜 -->
+        <header class="showdetail-header">
+            <h1 class="showdetail-title" th:text="${showOff.subject}">장기자랑 제목</h1>
+            <p class="showdetail-meta">
+                <span th:text="${showOff.member.userName}">작성자</span> ·
+                <span th:text="${#temporals.format(showOff.regDate,'yyyy-MM-dd HH:mm')}">작성일</span> ·
+                ❤️ <span th:text="${showOff.showOffLike}">0</span>
+            </p>
+        </header>
+
+        <!-- 본문 -->
+        <section class="showdetail-content">
+            <div class="content-body-part"
+                 th:utext="${#strings.replace(showOff.content, '[YouTube] ' + youtubeUrl, '')}"></div>
+
+            <!-- 업로드 이미지 -->
+            <div th:if="${showOff.image != null}" class="image-upload-section">
+                <p class="image-media-label">이미지 : </p>
+                <img th:src="${showOff.image}" alt="업로드 이미지" class="upload-img-content">
+            </div>
+
+            <!-- 유튜브 썸네일 -->
+            <div th:if="${youtubeId != null}" class="youtube-thumbnail-box">
+                <p class="image-media-label">유튜브 :</p>
+                <a th:href="${youtubeUrl}" target="_blank" rel="noopener" class="youtube-thumbnail-link">
+                    <div class="youtube-thumbnail-wrapper">
+                        <img class="youtube-thumbnail-img"
+                             th:src="'https://img.youtube.com/vi/' + ${youtubeId} + '/0.jpg'"
+                             alt="유튜브 썸네일">
+                        <div class="youtube-play-button">
+                            <img src="/images/play-icon.png" alt="재생" class="play-icon-img">
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 버튼 영역 -->
+        <div class="showdetail-actions">
+            <button class="btn-action btn-like"
+                    th:onclick="'increaseLike(' + ${showOff.id} + ')'">좋아요</button>
+            <!-- 작성자만 수정하기 링크 노출 -->
+            <a class="btn-action btn-edit"
+               th:if="${isAuthor}"
+               th:href="@{'/showoff/correct?id=' + ${showOff.id}}">
+                수정하기
+            </a>
+            <!-- 비로그인 시 댓글 버튼 노출 -->
+            <button class="btn-action btn-comment"
+                    th:if="${!isAuthor} and !${isLogin}">
+                댓글
+            </button>
+        </div>
+
+        <!-- 댓글 섹션 -->
+        <section class="comment-section" style="margin: 2rem 0 0;">
+            <h4>댓글</h4>
+            <div th:if="${commentList.size() == 0}">아직 댓글이 없습니다.</div>
+            <ul class="comment-list" th:if="${commentList.size() > 0}">
+                <li th:each="comment : ${commentList}">
+                    <div>
+                        <b th:text="${comment.member.userName}">작성자</b>
+                        <span th:text="${#temporals.format(comment.regDate, 'yyyy-MM-dd HH:mm')}"></span>
+                    </div>
+                    <div th:text="${comment.content}"></div>
+                </li>
+            </ul>
+
+            <!-- 로그인 시에만 댓글 작성 폼 보임 -->
+            <form th:action="@{'/showoff/showdetail/' + ${showOff.id} + '/comment'}"
+                  method="post"
+                  th:if="${isLogin}">
+                <textarea name="content" placeholder="댓글을 입력하세요" required rows="3" style="width:100%; margin-top:10px;"></textarea>
+                <button class="btn-action btn-comment" type="submit" style="margin-top: 8px;">댓글 작성</button>
+            </form>
+
+            <!-- 비로그인 유저 안내 -->
+            <div th:if="${!isLogin}" style="margin-top: 1rem; color: #888;">
+                댓글을 작성하려면 로그인이 필요합니다.
+            </div>
+        </section>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script th:src="@{/js/showdetail.js}"></script>
+</body>
+</html>

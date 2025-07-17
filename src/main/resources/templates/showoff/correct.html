@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('반려동물 장기자랑 수정')}">
+    <link rel="stylesheet" th:href="@{/css/correct.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="showreg-container">
+    <div class="container">
+        <div class="showreg-card">
+
+            <!-- 헤더 -->
+            <div class="showreg-header">
+                <h1 class="showreg-title">반려동물 장기자랑 수정</h1>
+                <p class="showreg-subtitle">우리 아이의 특별한 모습을 다시 한 번 자랑해주세요! 🐾</p>
+            </div>
+
+            <!-- 본문 -->
+            <form th:action="@{|/showoff/correct/${correctDto.id}|}"
+                  th:object="${correctDto}" method="post" enctype="multipart/form-data"
+                  class="showreg-body">
+
+                <input type="hidden" th:field="*{image}" id="image">
+
+                <!-- 제목 -->
+                <div class="form-group">
+                    <label class="form-label" for="subject">제목</label>
+                    <input type="text" th:field="*{subject}" id="subject"
+                           class="form-control" placeholder="제목" required>
+                </div>
+
+                <!-- 내용 -->
+                <div class="form-group">
+                    <label class="form-label" for="content">내용</label>
+                    <textarea th:field="*{content}" id="content"
+                              class="form-control" rows="6" placeholder="내용" required></textarea>
+                </div>
+
+                <!-- 이미지 업로드 -->
+                <div class="form-group image-upload-container">
+                    <label class="form-label" for="imageFile">이미지 첨부</label>
+                    <input type="file" class="form-control" id="imageFile" accept="image/*">
+                    <div id="imagePreview" class="image-preview" style="display:none;">
+                        <img id="previewImg" class="preview-image" alt="Preview">
+                        <button type="button" class="btn btn-danger btn-sm remove-image">삭제</button>
+                    </div>
+                </div>
+
+                <!-- 유튜브 링크 -->
+                <div class="form-group">
+                    <label class="form-label" for="youtubeLink">유튜브 링크</label>
+                    <input type="text" th:field="*{youtubeLink}" id="youtubeLink" class="form-control"
+                           placeholder="https://youtu.be/xxxxxxxxxxx">
+                    <div id="youtubePreview" class="youtube-preview" style="display:none;">
+                        <div class="youtube-embed-container">
+                            <iframe id="youtubeFrame" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 버튼 -->
+                <div class="d-flex justify-content-end gap-2">
+                    <a th:href="@{|/showoff/showdetail/${correctDto.id}|}" class="btn btn-secondary">취소</a>
+                    <button type="submit" class="btn btn-primary">수정하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="/js/correct.js"></script>
+</body>
+</html>

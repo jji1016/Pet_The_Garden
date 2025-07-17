@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head :: head ('명예의 전당')}">
+    <link rel="stylesheet" th:href="@{/css/best.css}">
+</head>
+<body>
+<div th:replace="~{fragments/header :: header}"></div>
+
+<div class="box">
+    <div class="group">
+        <div class="overlap-group">
+            <!-- 페이지 제목 -->
+            <div class="text-wrapper">명예의 전당</div>
+
+            <!-- 월 선택 드롭다운 -->
+            <div class="overlap-3">
+                <div class="rectangle-2">
+                    <div class="text-wrapper-6" th:text="${currentMonth + '월'}">7월</div>
+                </div>
+                <div class="rectangle">
+                    <div class="arrow-drop-down" onclick="toggleDropdown()">
+                        <svg width="50" height="50" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- 드롭다운 메뉴 -->
+                <div class="dropdown-menu" id="monthDropdown">
+                    <div class="dropdown-item" th:each="month : ${#numbers.sequence(1, 12)}"
+                         th:onclick="'selectMonth(' + ${month} + ')'"
+                         th:text="${month + '월'}">1월</div>
+                </div>
+            </div>
+
+            <!-- 1등 게시글 -->
+            <div class="overlap-4" th:if="${bestPosts.size() > 0}"
+                 th:attr="data-post-id=${bestPosts[0].id}"
+                 onclick="goToDetail(this)">
+                <div class="element-2">
+                    <img th:if="${bestPosts[0].hasImage()}"
+                         th:src="@{${bestPosts[0].image}}"
+                         alt="1등 게시글 이미지"
+                         style="width: 100%; height: 100%; object-fit: cover;"
+                         onerror="handleImageError(this)">
+                    <div th:unless="${bestPosts[0].hasImage()}" class="image-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                </div>
+                <div class="div">
+                    <div class="text-wrapper-7" th:text="${bestPosts[0].getTruncatedSubject(15)}">
+                        월요일이라 누운 고양이
+                    </div>
+                    <div class="text-wrapper-8" th:text="${bestPosts[0].petName}">
+                        카드값줘
+                    </div>
+                </div>
+                <div class="like-count">
+                    <i class="fas fa-heart"></i>
+                    <span th:text="${bestPosts[0].getFormattedLikes()}">123</span>
+                </div>
+                <div class="rank-indicator rank-1">1</div>
+            </div>
+
+            <!-- 2등 게시글 -->
+            <div class="overlap" th:if="${bestPosts.size() > 1}"
+                 th:attr="data-post-id=${bestPosts[1].id}"
+                 onclick="goToDetail(this)">
+                <div class="element">
+                    <img th:if="${bestPosts[1].hasImage()}"
+                         th:src="@{${bestPosts[1].image}}"
+                         alt="2등 게시글 이미지"
+                         style="width: 100%; height: 100%; object-fit: cover;"
+                         onerror="handleImageError(this)">
+                    <div th:unless="${bestPosts[1].hasImage()}" class="image-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                </div>
+                <div class="div">
+                    <div class="text-wrapper-2" th:text="${bestPosts[1].getTruncatedSubject(15)}">
+                        월요일이라 슬픈 앵무새
+                    </div>
+                    <div class="text-wrapper-3" th:text="${bestPosts[1].petName}">
+                        체리
+                    </div>
+                </div>
+                <div class="like-count">
+                    <i class="fas fa-heart"></i>
+                    <span th:text="${bestPosts[1].getFormattedLikes()}">89</span>
+                </div>
+                <div class="rank-indicator rank-2">2</div>
+            </div>
+
+            <!-- 3등 게시글 -->
+            <div class="overlap-2" th:if="${bestPosts.size() > 2}"
+                 th:attr="data-post-id=${bestPosts[2].id}"
+                 onclick="goToDetail(this)">
+                <div class="img">
+                    <img th:if="${bestPosts[2].hasImage()}"
+                         th:src="@{${bestPosts[2].image}}"
+                         alt="3등 게시글 이미지"
+                         style="width: 100%; height: 100%; object-fit: cover;"
+                         onerror="handleImageError(this)">
+                    <div th:unless="${bestPosts[2].hasImage()}" class="image-placeholder">
+                        <i class="fas fa-image"></i>
+                    </div>
+                </div>
+                <div class="div">
+                    <div class="text-wrapper-4" th:text="${bestPosts[2].getTruncatedSubject(15)}">
+                        월요일이라 피곤한 개
+                    </div>
+                    <div class="text-wrapper-5" th:text="${bestPosts[2].petName}">
+                        피자헛둘셋넷
+                    </div>
+                </div>
+                <div class="like-count">
+                    <i class="fas fa-heart"></i>
+                    <span th:text="${bestPosts[2].getFormattedLikes()}">67</span>
+                </div>
+                <div class="rank-indicator rank-3">3</div>
+            </div>
+
+            <!-- 데이터가 없는 경우 -->
+            <div class="no-data" th:if="${bestPosts.size() == 0}">
+                <div class="no-data-icon">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h3>이번 달 명예의 전당이 비어있습니다</h3>
+                <p>아직 게시글이 없거나 좋아요를 받은 게시글이 없습니다.</p>
+                <a href="/showoff/showreg" class="btn-primary">첫 게시글 작성하기</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+<script src="/js/best.js"></script>
+</body>
+</html>

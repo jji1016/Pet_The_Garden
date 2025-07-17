@@ -1,0 +1,128 @@
+.protect-wrap {
+    margin: 0 auto;
+    min-height: calc(100vh - 40px);
+    overflow-y: auto;
+    border-radius: 20px;
+    padding: 30px;
+    width: 1400px;
+}
+.container-fluid{
+    margin-top: 120px;
+}
+
+.label-100 {
+    width: 100px;
+}
+
+.w-200 {
+    width: 200px;
+}
+
+.protection-wrap .search-wrap {
+    display: block;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 50px;
+    border: 4px solid #f8a92b;
+}
+.protection-wrap .btn-wrap {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid #f8a92b;
+}
+.protection-wrap .btn-wrap .btn {
+    background-color: #f8a92b;
+    border-color: #f8a92b;
+}
+
+.result-list .emptySearch{
+    text-align: center;
+    font-size: larger;
+    margin-bottom: 30px;
+}
+.result-list .card {
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+}
+.result-list .card .img-box img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-bottom: 1px solid #cdcdcd;
+}
+.result-list .card .info {
+    padding: 20px;
+}
+.result-list .card .info h4 {
+    margin-bottom: 20px;
+}
+.result-list .card .info dl {
+    display: flex;
+    margin: 0;
+}
+.result-list .card .info dl dt {
+    width: 80px;
+    flex-shrink: 0;
+}
+.result-list .card .info dl dd {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 1줄까지만 표시 */
+    -webkit-box-orient: vertical;
+}
+.result-list .card .sticker {
+    position: absolute;
+    right: 30px;
+    top: 0;
+    border-radius: 0 0 20px 20px;
+    background-color: #f8a92b;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    font-size: 14px;
+    padding: 15px;
+}
+.result-list .card .sticker strong {
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.protection-wrap .pagingBtnRap {
+    display: flex;
+    justify-content: center;
+}
+.protection-wrap .pagingBtnRap a{
+    border: 1px solid #cbcbcb;
+    border-radius: 6px;
+    margin: 0 5px;
+    padding: 2px 17px;
+    font-size: 1.1em;
+    background-color: #fff9f1;
+    color: #2d2d2d;
+    line-height: 29px;
+    box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.05);
+    width: 45.91px;
+    display: flex;
+    justify-content: center;
+}
+.protection-wrap .pagingBtnRap a:hover{
+    background-color: #f7efe4;
+}
+.protection-wrap .pagingBtnRap .active{
+    background-color: #f8a92b;
+    color: #fff;
+}
+.protection-wrap .pagingBtnRap .active:hover{
+    background-color: #e9a83f;
+}
+.protection-wrap .pagingBtnRap .arrow{
+    font-size: 0.8em;
+    color: #373737;
+}

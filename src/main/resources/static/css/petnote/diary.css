@@ -1,0 +1,40 @@
+#diary-visual {
+  background: url("../../images/diary-visual.png") no-repeat right 200px bottom 0;
+}
+
+.list-box {
+  padding: 50px 0;
+}
+.list-box .list.type02 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+.list-box .list.type02 li {
+  width: calc(33.333% - 10px);
+  padding: 15px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-radius: 20px;
+  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+  flex-direction: column;
+}
+.list-box .list.type02 li .img-box img {
+  height: 300px;
+  width: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  border-radius: 10px;
+}
+.list-box .list.type02 li .desc {
+  padding-top: 15px;
+}
+.list-box .list.type02 li .desc .title {
+  font-size: 20px;
+  font-weight: 500;
+}
+.list-box .list.type02 li .desc .name {
+  color: #f8a92b;
+  font-size: 24px;
+  font-weight: 700;
+}

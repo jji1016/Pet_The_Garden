@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<header id="header">
+    <h1>
+        <a href="/index/index"><img src="/images/logo.png" alt="" class="logo-img"/></a>
+    </h1>
+    <nav id="gnb">
+        <ul>
+            <li><a href="/petnote/list">동물소개</a></li>
+            <li><a href="/showoff/showlist">장기자랑</a></li>
+            <li><a href="/stray/protect">동물보호</a></li>
+            <li><a href="/community/board">커뮤니티</a></li>
+        </ul>
+    </nav>
+
+    <th:block sec:authorize="isAuthenticated()">
+        <a th:href="@{/petnote/profile}" id="profile" class="profile">
+            <span class="img"><img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                                   alt="프로필"/></span>
+            <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
+        </a>
+        <form th:action="@{/member/logout}" method="post">
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i> 로그아웃
+            </button>
+        </form>
+    </th:block>
+
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="@{/member/login}" class="profile">
+            <span><i class="bi bi-person-circle"></i></span>
+        </a>
+    </th:block>
+</header>
+
+</html>

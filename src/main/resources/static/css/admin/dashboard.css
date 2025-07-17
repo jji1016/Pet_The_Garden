@@ -1,0 +1,98 @@
+#admin-header .logout{
+    display: flex;
+    width: auto;
+    height: 50px;
+    color: #f8a92b;
+    font-size: 1.3em;
+    font-weight: 600;
+    line-height: 50%;
+    align-items: center;
+    background-color: #fff;
+    justify-content: center;
+    margin-top: 146px;
+}
+
+.admin-wrap {
+    margin: 20px 20px 20px 320px;
+    border-radius: 20px;
+    padding: 0 30px;
+}
+.admin-wrap h1 {
+    margin: 20px 0 20px 20px;
+    font-weight: 300;
+    font-size: 48px;
+}
+
+.admin-wrap .info-wrap .item-box .item {
+    background-color: #fff;
+    height: 150px;
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+}
+.admin-wrap .info-wrap .item-box .item .icon {
+    width: 80px;
+    aspect-ratio: 1/1;
+    border-radius: 100px;
+    background-color: #f8a92b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    margin-right: 20px;
+}
+.admin-wrap .info-wrap .item-box .item .icon span {
+    font-size: 32px;
+}
+.admin-wrap .info-wrap .item-box .item dl dt {
+    position: relative;
+    top: 10px;
+    font-weight: 300;
+}
+.admin-wrap .info-wrap .item-box .item dl dd {
+    font-size: 48px;
+}
+.admin-wrap .info-wrap .item {
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 30px;
+}
+.admin-wrap .info-wrap .chart-wrap {
+    border-radius: 20px;
+    min-height: 300px;
+    background-color: #fff;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+}
+
+.admin-wrap .info-wrap .cont_area{
+    width: 100%;
+    height: 87%;
+    margin-top: 15px;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+.admin-wrap .info-wrap .cont_area table{
+    width: 100%;
+    height: 48%;
+    text-align: center;
+}
+.admin-wrap .info-wrap .cont_area table:first-child{
+    margin-bottom: 10px;
+}
+.admin-wrap .info-wrap .cont_area table th{
+    background-color: #CFCFCF;
+    color: white;
+    width: 50%;
+    border: solid 4px white;
+}
+.admin-wrap .info-wrap .cont_area table td{
+    background-color: #FBFBFB;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    border: solid 4px white;
+}

@@ -1,0 +1,80 @@
+.company-container {
+    background-color: #FBF3EA !important;
+    padding: 40px 0 !important;
+    min-height: 80vh !important;
+    padding-top: 180px !important; /* global.css와 동일하게 맞춰줌 */
+}
+
+.company-content {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    max-width: 1000px !important;
+    margin: 0 auto !important;
+    align-items: center !important;
+    gap: 48px !important;
+    padding-left: 450px !important;
+    padding-right: 60px !important;
+    box-sizing: border-box !important;
+}
+
+.company-container .ceo-photo {
+    flex-shrink: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin-left: 0 !important;
+}
+
+.company-container .ceo-photo img {
+    width: 220px !important;
+    height: auto !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08) !important;
+    object-fit: cover !important;
+    background: #fff !important;
+}
+
+.company-container .ceo-message {
+    flex: 1 !important;
+    font-size: 1.15rem !important;
+    line-height: 1.7 !important;
+    color: #333 !important;
+    padding-right: 24px !important;
+}
+
+.company-container .ceo-message h2 {
+    margin-bottom: 18px !important;
+    font-weight: bold !important;
+}
+
+.company-container .ceo-sign {
+    margin-top: 32px !important;
+    text-align: right !important;
+    font-size: 1.6rem !important;
+    font-weight: bold !important;
+    color: #444 !important;
+    letter-spacing: 2px !important;
+}
+
+/* 반응형(모바일) */
+@media (max-width: 700px) {
+    .company-content {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 24px !important;
+        padding-left: 16px !important;
+        padding-right: 16px !important;
+    }
+    .ceo-photo {
+        width: 100% !important;
+        justify-content: flex-start !important;
+    }
+    .ceo-photo img {
+        width: 100% !important;
+        max-width: 220px !important;
+    }
+    .ceo-message {
+        padding-right: 0 !important;
+        width: 100% !important;
+    }
+}

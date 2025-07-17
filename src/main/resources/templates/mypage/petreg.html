@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+  <title>마이페이지</title>
+  <th:block th:replace="fragments/head :: head('마이페이지')"></th:block>
+  <link rel="stylesheet" href="/css/mypage/petreg.css" />
+  <meta charset="UTF-8" />
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+</head>
+<body>
+<div th:replace="~{fragments/header}"></div>
+
+<div id="section">
+  <div class="top-title">
+    <div class="txt">
+      <p>PET REGISTER</p>
+      <h2>당신의 소중한 반려동물을 소개해주세요</h2>
+      <p>반려동물의 프로필을 등록하고 공유해보세요</p>
+    </div>
+  </div>
+
+  <div class="wrap-review-all">
+    <div class="wrap-cont">
+      <div class="review-write">
+        <h2>반려동물 정보 입력</h2>
+        <form th:action="@{/mypage/petreg}" method="post" enctype="multipart/form-data">
+          <ul>
+            <li class="asterion">
+              <h3>이름</h3>
+              <input type="text" name="petName" class="input-box" placeholder="반려동물 이름을 입력하세요.">
+            </li>
+
+            <li class="asterion">
+              <select id="speciesSelect" class="input-box">
+                <option value="">-- 종을 선택하세요 --</option>
+                <option value="개">개</option>
+                <option value="고양이">고양이</option>
+                <option value="거북이">거북이</option>
+                <option value="새">새</option>
+                <option value="토끼">토끼</option>
+                <option value="기타">기타</option>
+              </select>
+              <input type="hidden" id="speciesValue" name="species" />
+              <input type="text" id="speciesEtc" class="input-box" placeholder="종을 직접 입력하세요" style="display: none; margin-top: 10px; margin-left: 65px" />
+            </li>
+
+             <li class="asterion">
+              <h3>성별</h3>
+              <label><input type="radio" name="petGender" value="MALE"> 수컷</label>
+              <label><input type="radio" name="petGender" value="FEMALE"> 암컷</label>
+            </li>
+
+            <li class="asterion">
+              <h3>생년월일</h3>
+              <input type="text" name="birthDate" class="input-box" placeholder="YYYY-MM-DD">
+            </li>
+
+            <li class="asterion">
+              <h3>성격</h3>
+              <input type="text" name="character" class="input-box" placeholder="성격을 한 문장으로 표현해보세요.">
+            </li>
+
+            <li class="asterion">
+              <h3>좋아하는 것</h3>
+              <input type="text" name="petLike" class="input-box" placeholder="예: 공놀이, 산책 등">
+            </li>
+
+            <li class="asterion">
+              <h3>싫어하는 것</h3>
+              <input type="text" name="petDisLike" class="input-box" placeholder="예: 병원, 큰 소리 등">
+            </li>
+
+            <li class="review-txt">
+              <h3>간단한 소개</h3>
+              <textarea id="editor" name="content" class="review-box" placeholder="반려동물의 특별한 점을 소개해주세요."></textarea>
+            </li>
+          </ul>
+
+          <div class="photo">
+            <label for="profileImg" class="btn-upload">📷<br>사진 올리기</label>
+            <input type="file" id="profileImg" name="profileImg" accept="image/*" style="display: none;">
+            <img id="previewImage" src="#" alt="미리보기" style="display: none;" />
+          </div>
+
+
+          <div class="btn">
+            <button type="submit">등록</button>
+            <button type="button" onclick="history.back()">취소</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div th:replace="~{fragments/footer}"></div>
+<!--<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+<script>
+  class MyUploadAdapter {
+    constructor(loader) {
+      this.loader = loader;
+    }
+
+    upload() {
+      return this.loader.file
+              .then(file => {
+                const data = new FormData();
+                data.append('upload', file);
+
+                return fetch('/mypage/upload-image', {
+                  method: 'POST',
+                  body: data
+                })
+                        .then(response => response.json())
+                        .then(result => {
+                          return {
+                            default: result.url // 업로드된 이미지의 URL
+                          };
+                        });
+              });
+    }
+
+    abort() {
+      // 업로드 중단 처리 (선택사항)
+    }
+  }
+
+  function MyCustomUploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+      return new MyUploadAdapter(loader);
+    };
+  }
+
+  ClassicEditor
+          .create(document.querySelector('#editor'), {
+            extraPlugins: [MyCustomUploadAdapterPlugin],
+            mediaEmbed: {
+              previewsInData: true
+            }
+          })
+          .then(editor => {
+            window.editorInstance = editor;
+          })
+          .catch(error => {
+            console.error(error);
+          });
+</script> -->
+<script>
+  document.getElementById('profileImg').addEventListener('change', function (event) {
+    const file = event.target.files[0];
+    const preview = document.getElementById('previewImage');
+    const label = document.getElementById('uploadLabel');
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        label.style.display = 'none';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+</script>
+<script>
+  document.getElementById('speciesSelect').addEventListener('change', function () {
+    const selected = this.value;
+    const etcInput = document.getElementById('speciesEtc');
+    const speciesValueInput = document.getElementById('speciesValue');
+
+    if (selected === '기타') {
+      etcInput.style.display = 'block';
+      speciesValueInput.value = ""; // 초기화
+    } else {
+      etcInput.style.display = 'none';
+      speciesValueInput.value = selected; // 선택한 값 입력
+    }
+  });
+
+  document.getElementById('speciesEtc').addEventListener('input', function () {
+    const speciesValueInput = document.getElementById('speciesValue');
+    speciesValueInput.value = this.value; // 기타 입력값 반영
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(SIGNUP)}"></head>
+
+<body>
+<header th:replace="~{fragments/header}"></header>
+<form th:action="@{/member/signup}" th:method="post" th:object="${memberDto}" enctype="multipart/form-data">
+    <div
+            class="container d-flex justify-content-center align-items-center min-vh-100"
+    >
+        <div class="row signup-wrap">
+            <div class="col-6">
+                <h2 class="mb-5 text-center">
+                    <img src="/images/logo.png" alt="" class="logo-img"/>
+                </h2>
+                <div class="signup-box">
+                    <div class="mb-3">
+                        <label for="userID" class="form-label fw-bold">ID</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        th:field="*{userID}"
+                                        id="userID"
+                                        placeholder="ID"
+                                />
+                                <div class="mt-2 small text-danger" th:errors="*{userID}"></div>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="orange-button" onclick="checkIdDuplicate()">중복확인</button>
+                            </div>
+                            <div id="idCheckResult" class="mt-2 small text-danger"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="userPW" class="form-label fw-bold">PASSWORD</label>
+                        <div>
+                            <input
+                                    type="password"
+                                    class="form-control ps-4"
+                                    id="userPW"
+                                    th:field="*{userPW}"
+                                    placeholder="password"
+                                    autocomplete="new-password"
+                            />
+                            <div class="mt-2 small text-danger" th:errors="*{userPW}"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password02" class="form-label fw-bold"
+                        >PASSWORD CONFIRM</label
+                        >
+                        <div>
+                            <input
+                                    type="password"
+                                    class="form-control ps-4"
+                                    id="password02"
+                                    placeholder="password confirm"
+                            />
+                        </div>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="userName" class="form-label fw-bold">User Name</label>
+                        <div>
+                            <input
+                                    type="text"
+                                    class="form-control ps-4"
+                                    id="userName"
+                                    th:field="*{userName}"
+                                    placeholder="User Name"
+                            />
+                            <div class="mt-2 small text-danger" th:errors="*{userName}"></div>
+                        </div>
+                        <div class="col-3">
+                            <button type="button" class="orange-button" onclick="checkNameDuplicate()">중복확인</button>
+                        </div>
+                        <div id="nameCheckResult" class="mt-2 small text-danger"></div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fullTel" class="form-label fw-bold">TEL</label>
+                        <div>
+                            <input type="hidden" th:field="*{tel}" id="fullTel">
+                            <div style="display: flex; gap: 8px;">
+                                <input type="text" id="tel1" maxlength="3" oninput="moveFocus(this, 'tel2')"
+                                       style="width: 60px;">
+                                -
+                                <input type="text" id="tel2" maxlength="4" oninput="moveFocus(this, 'tel3')"
+                                       style="width: 70px;">
+                                -
+                                <input type="text" id="tel3" maxlength="4" oninput="updateFullTel()"
+                                       style="width: 70px;">
+                            </div>
+                            <div class="mt-2 small text-danger" th:errors="*{tel}"></div>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label fw-bold">EMAIL</label>
+                        <div>
+                            <input
+                                    type="email"
+                                    class="form-control ps-4"
+                                    id="email"
+                                    th:field="*{email}"
+                                    placeholder="Email"
+                            />
+                            <div class="mt-2 small text-danger" th:errors="*{email}"></div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="zipcode" class="form-label fw-bold">ZIPCODE</label>
+                        <div class="row">
+                            <div class="col-4 mb-2">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="zipcode"
+                                        th:field="*{zipcode}"
+                                        placeholder="zipcode"
+                                />
+                                <div class="mt-2 small text-danger" th:errors="*{zipcode}"></div>
+                            </div>
+                            <div class="col-3">
+                                <button class="orange-button">우편번호 검색</button>
+                            </div>
+                            <div class="col-12 mb-2">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="address01"
+                                        th:field="*{address01}"
+                                        placeholder="주소"
+                                />
+                                <div class="mt-2 small text-danger" th:errors="*{address01}"></div>
+                            </div>
+                            <div class="col-12">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="address02"
+                                        th:field="*{address02}"
+                                        placeholder="상세주소를 입력하세요"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mb-5">
+                        <label for="imageProfile" class="form-label fw-bold">프로필 이미지</label>
+                        <div class="row">
+                            <div class="col-9">
+                                <input
+                                        type="file"
+                                        class="form-control ps-4"
+                                        id="imageProfile"
+                                        th:field="*{imageProfile}"
+                                        placeholder="profile"
+                                        accept="image/*"
+                                />
+                            </div>
+                            <div class="col-3">
+                                <button class="orange-button">파일업로드</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="my-5 text-center">
+                        <button class="btn btn-primary w-100">SIGN UP</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 bg-box px-5">
+                <div class="slogan">
+                    <p class="main"><span>pet the</span> <span>garden</span></p>
+                    <p class="sub">강아지도 고양이도 행복한 정원</p>
+                </div>
+                <img src="/images/login.png" alt=""/>
+            </div>
+        </div>
+    </div>
+</form>
+<footer th:replace="~{fragments/footer}"></footer>
+<script>
+
+    function checkIdDuplicate() {
+        const userID = document.getElementById("userID").value;
+
+        if (!userID.trim()) {
+            document.getElementById("idCheckResult").textContent = "아이디를 먼저 입력하세요.";
+            return;
+        }
+
+        fetch(`/member/check-id?userID=${encodeURIComponent(userID)}`)
+            .then(res => res.json())
+            .then(isDuplicate => {
+                const resultDiv = document.getElementById("idCheckResult");
+                if (isDuplicate) {
+                    resultDiv.textContent = "이미 사용 중인 아이디입니다.";
+                    resultDiv.classList.remove("text-success");
+                    resultDiv.classList.add("text-danger");
+                } else {
+                    resultDiv.textContent = "사용 가능한 아이디입니다.";
+                    resultDiv.classList.remove("text-danger");
+                    resultDiv.classList.add("text-success");
+                }
+            });
+    }
+
+    function checkNameDuplicate() {
+        const userName = document.getElementById("userName").value;
+
+        if (!userName.trim()) {
+            document.getElementById("nameCheckResult").textContent = "유저네임을 먼저 입력하세요.";
+            return;
+        }
+
+        fetch(`/member/check-name?userName=${encodeURIComponent(userName)}`)
+            .then(res => res.json())
+            .then(isDuplicate => {
+                const resultDiv = document.getElementById("nameCheckResult");
+                if (isDuplicate) {
+                    resultDiv.textContent = "이미 사용 중인 유저네임입니다.";
+                    resultDiv.classList.remove("text-success");
+                    resultDiv.classList.add("text-danger");
+                } else {
+                    resultDiv.textContent = "사용 가능한 유저네임입니다.";
+                    resultDiv.classList.remove("text-danger");
+                    resultDiv.classList.add("text-success");
+                }
+            });
+    }
+
+    function moveFocus(current, nextId) {
+        if (current.value.length === current.maxLength) {
+            document.getElementById(nextId).focus();
+        }
+        updateFullTel();
+    }
+
+    function updateFullTel() {
+        const t1 = document.getElementById('tel1').value;
+        const t2 = document.getElementById('tel2').value;
+        const t3 = document.getElementById('tel3').value;
+        document.getElementById('fullTel').value = `${t1}-${t2}-${t3}`;
+    }
+
+
+</script>
+</body>
+</html>
