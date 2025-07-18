@@ -1,7 +1,6 @@
-// 드롭다운 메뉴 토글 함수
 function toggleDropdown() {
     const dropdown = document.getElementById('monthDropdown');
-    const arrow = document.querySelector('.arrow-drop-down');
+    const arrow = document.querySelector('.best-hof-arrow');
 
     if (dropdown.classList.contains('show')) {
         dropdown.classList.remove('show');
@@ -12,15 +11,12 @@ function toggleDropdown() {
     }
 }
 
-// 월 선택 함수
 function selectMonth(month) {
-    // 현재 페이지 URL에 month 파라미터 추가해서 리다이렉트
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.set('month', month);
     window.location.href = currentUrl.toString();
 }
 
-// 게시글 상세 페이지로 이동
 function goToDetail(element) {
     const postId = element.getAttribute('data-post-id');
     if (postId) {
@@ -28,30 +24,29 @@ function goToDetail(element) {
     }
 }
 
-// 클릭 이벤트로 드롭다운 외부를 클릭하면 닫기
-document.addEventListener('click', function(event) {
+document.addEventListener('click', function (event) {
     const dropdown = document.getElementById('monthDropdown');
-    const dropdownContainer = document.querySelector('.overlap-3');
+    const monthSelector = document.querySelector('.best-hof-month-selector');
 
-    if (!dropdownContainer.contains(event.target)) {
+    if (monthSelector && !monthSelector.contains(event.target)) {
         dropdown.classList.remove('show');
-        document.querySelector('.arrow-drop-down').style.transform = 'rotate(0deg)';
+        const arrow = document.querySelector('.best-hof-arrow');
+        if (arrow) {
+            arrow.style.transform = 'rotate(0deg)';
+        }
     }
 });
 
-// 이미지 로드 오류 처리
 function handleImageError(img) {
     img.style.display = 'none';
-    // 기본 이미지를 표시하거나 다른 처리
     const placeholder = document.createElement('div');
-    placeholder.className = 'image-placeholder';
+    placeholder.className = 'best-hof-no-image';
     placeholder.innerHTML = '<i class="fas fa-image"></i>';
-    img.parentNode.insertBefore(placeholder, img);
+    img.parentNode.appendChild(placeholder);
 }
 
-// 애니메이션 효과
 function addLoadAnimation() {
-    const cards = document.querySelectorAll('.overlap-4, .overlap, .overlap-2');
+    const cards = document.querySelectorAll('.best-hof-card');
     cards.forEach((card, index) => {
         card.style.opacity = '0';
         card.style.transform = 'translateY(50px)';
@@ -64,17 +59,55 @@ function addLoadAnimation() {
     });
 }
 
-// 페이지 로드 시 애니메이션 실행
-window.addEventListener('load', function() {
-    addLoadAnimation();
-});
+function addHoverEffects() {
+    const cards = document.querySelectorAll('.best-hof-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function () {
+            this.style.transform = 'translateY(-8px) scale(1.02)';
+        });
 
-// 페이지 로드 시 이미지 오류 처리 설정
-document.addEventListener('DOMContentLoaded', function() {
-    const images = document.querySelectorAll('.element img, .element-2 img, .img img');
+        card.addEventListener('mouseleave', function () {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+}
+
+function setupKeyboardNavigation() {
+    const cards = document.querySelectorAll('.best-hof-card');
+    cards.forEach((card, index) => {
+        card.setAttribute('tabindex', '0');
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                card.click();
+            }
+        });
+    });
+}
+
+function initBestPage() {
+    addLoadAnimation();
+    addHoverEffects();
+    setupKeyboardNavigation();
+
+    const images = document.querySelectorAll('.best-hof-card-image img');
     images.forEach(img => {
-        img.addEventListener('error', function() {
+        img.addEventListener('error', function () {
             handleImageError(this);
         });
     });
+}
+
+window.addEventListener('load', function () {
+    initBestPage();
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+    const monthSelector = document.querySelector('.best-hof-month-selector');
+    if (monthSelector) {
+        monthSelector.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+    }
+});
+
