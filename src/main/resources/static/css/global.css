@@ -165,6 +165,10 @@ footer .row {
     font-weight: 400;
 }
 
+h2.section-title {
+    text-align: center;
+}
+
 .main-content {
     padding-top: 180px;
 }
