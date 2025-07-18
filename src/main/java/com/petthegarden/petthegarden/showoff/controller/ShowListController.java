@@ -4,8 +4,9 @@ import com.petthegarden.petthegarden.entity.ShowOff;
 import com.petthegarden.petthegarden.showoff.service.ShowListService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,25 +15,34 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
-@RequestMapping("/showoff")
 @RequiredArgsConstructor
+@RequestMapping("/showoff")
 public class ShowListController {
 
     private final ShowListService showListService;
 
     @GetMapping("/showlist")
-    public String showList(@RequestParam(defaultValue = "0") int page, Model model) {
-        // 페이지 번호가 0보다 작으면 무조건 0으로 보정
-        if (page < 0) page = 0;
+    public String showList(
+            @PageableDefault(size = 5, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable,
+            @RequestParam(value = "memberId", required = false) Integer memberId,
+            Model model
+    ) {
+        // 인기 게시글 3개 가져오기 (좋아요 순으로 정렬)
+        List<ShowOff> popularPosts = showListService.getPopularPosts();
 
-        List<ShowOff> popularShowOffs = showListService.getTop3PopularShowOffs();
-        model.addAttribute("popularShowOffs", popularShowOffs);
+        // 전체 게시글 페이징 처리
+        Page<ShowOff> showOffPage;
+        if (memberId != null) {
+            showOffPage = showListService.getShowOffsByMember(memberId, pageable);
+        } else {
+            showOffPage = showListService.getAllShowOffs(pageable);
+        }
 
-        PageRequest pageRequest = PageRequest.of(page, 5, Sort.by("regDate").descending());
-        Page<ShowOff> showOffPage = showListService.getShowOffsByPage(pageRequest);
-
-        model.addAttribute("showOffList", showOffPage.getContent());
+        model.addAttribute("popularPosts", popularPosts);
         model.addAttribute("showOffPage", showOffPage);
+        model.addAttribute("currentPage", pageable.getPageNumber());
+        model.addAttribute("totalPages", showOffPage.getTotalPages());
+        model.addAttribute("memberId", memberId);
 
         return "showoff/showlist";
     }
