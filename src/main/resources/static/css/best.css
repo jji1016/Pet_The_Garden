@@ -1,635 +1,370 @@
-@import url("https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css");
-
-* {
-    -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
-}
-
-html, body {
-    margin: 0px;
-    height: 100%;
-}
-
-/* a blue color as a generic focus style */
-button:focus-visible {
-    outline: 2px solid #4a90e2 !important;
-    outline: -webkit-focus-ring-color auto 5px !important;
-}
-
-a {
-    text-decoration: none;
-}
-
-.box {
-    width: 1918px;
-    height: 1006px;
+.best-hof-container {
+    padding-top: 180px;
+    padding-bottom: 80px;
+    max-width: 1200px;
     margin: 0 auto;
+    padding-left: 20px;
+    padding-right: 20px;
 }
 
-.box .group {
+.best-hof-title-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 60px;
     position: relative;
-    width: 1918px;
-    height: 1006px;
-    margin: 0 auto;
 }
 
-.box .overlap-group {
-    position: relative;
-    width: 1918px;
-    height: 1006px;
-    background-color: #ffffff;
-}
-
-.box .text-wrapper {
-    width: 501px;
-    top: 20px;
-    left: 720px;
-    font-family: "Roboto-Bold", Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    color: #000000;
-    font-size: 96px;
+.best-hof-month-selector {
     position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
-}
-
-/* 드롭다운 컨테이너 */
-.box .overlap-3 {
-    position: absolute;
-    width: 366px;
-    height: 126px;
-    top: 26px;
-    left: 217px;
-}
-
-.box .rectangle-2 {
-    width: 265px;
     left: 0;
-    background-color: #ffd700;
-    position: absolute;
-    height: 74px;
-    top: 26px;
-    border-radius: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.best-hof-month-box {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    border: 2px solid #f8a92b;
+    border-radius: 12px;
+    padding: 12px 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+    justify-content: space-between;
+}
+
+.best-hof-month-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(248, 169, 43, 0.3);
+}
+
+.best-hof-month-text {
+    font-size: 18px;
+    font-weight: 700;
+    color: #333;
+    margin-right: 10px;
+}
+
+.best-hof-arrow {
     display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.box .rectangle-2:hover {
-    background-color: #ffed4a;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
-}
-
-.box .rectangle {
-    width: 76px;
-    left: 265px;
-    background-color: #ff0000;
-    position: absolute;
-    height: 74px;
-    top: 26px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.box .rectangle:hover {
-    background-color: #ff3333;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3);
-}
-
-.box .arrow-drop-down {
-    color: white;
-    width: 50px;
-    height: 50px;
+    width: 24px;
+    height: 24px;
+    color: #333;
     transition: transform 0.3s ease;
 }
 
-.box .arrow-drop-down:hover {
-    transform: rotate(180deg);
-}
-
-.box .text-wrapper-6 {
-    font-family: "Roboto-Bold", Helvetica, Arial, sans-serif;
-    font-weight: 700;
-    color: #000000;
-    font-size: 50px;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
-}
-
-/* 드롭다운 메뉴 스타일 */
-.dropdown-menu {
+.best-hof-dropdown {
     position: absolute;
-    top: 100px;
+    top: 100%;
     left: 0;
-    width: 265px;
-    background-color: #ffffff;
-    border: 2px solid #ffd700;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    right: 0;
+    background: white;
+    border: 2px solid #f8a92b;
+    border-radius: 12px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     z-index: 1000;
-    max-height: 300px;
-    overflow-y: auto;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.3s ease;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
-.dropdown-menu.show {
+.best-hof-dropdown.show {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
-.dropdown-item {
+.best-hof-dropdown-item {
     padding: 12px 20px;
-    font-family: "Roboto-Regular", Helvetica, Arial, sans-serif;
-    font-size: 24px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
     color: #333;
-    cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 1px solid #f0f0f0;
 }
 
-.dropdown-item:last-child {
-    border-bottom: none;
+.best-hof-dropdown-item:hover {
+    background: #f8a92b;
+    color: white;
 }
 
-.dropdown-item:hover {
-    background-color: #ffd700;
-    color: #000;
-    transform: translateX(5px);
+.best-hof-dropdown-item:first-child {
+    border-radius: 10px 10px 0 0;
 }
 
-/* 1등 게시글 (왼쪽, 금색) */
-.box .overlap-4 {
-    position: absolute;
-    width: 525px;
-    height: 473px;
-    top: 300px;
-    left: 58px;
-    background: linear-gradient(135deg, #edda05b2, #ffd700);
-    border-radius: 63px;
-    border: 2px solid #ffffff7d;
-    box-shadow: 0 8px 24px rgba(237, 218, 5, 0.3);
-    transition: all 0.3s ease;
-    cursor: pointer;
+.best-hof-dropdown-item:last-child {
+    border-radius: 0 0 10px 10px;
 }
 
-.box .overlap-4:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 36px rgba(237, 218, 5, 0.4);
-}
-
-.box .text-wrapper-7 {
-    width: 274px;
-    top: 332px;
-    left: 120px;
-    font-family: "Roboto-Regular", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    color: #000000;
-    font-size: 28px;
-    position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
-}
-
-.box .text-wrapper-8 {
-    width: 178px;
-    top: 397px;
-    left: 169px;
-    font-family: "Roboto-ExtraBold", Helvetica, Arial, sans-serif;
+.best-hof-title {
+    font-size: 48px;
     font-weight: 800;
-    color: #ff0004b0;
-    font-size: 28px;
-    position: absolute;
+    color: #333;
+    margin: 0;
     text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
+    letter-spacing: -1px;
 }
 
-.box .element-2 {
-    position: absolute;
-    width: 432px;
-    height: 284px;
-    top: 22px;
-    left: 43px;
+.best-hof-cards-container {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.best-hof-card {
+    width: 320px;
     border-radius: 20px;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* 2등 게시글 (중간, 은색) */
-.box .overlap {
-    position: absolute;
-    width: 525px;
-    height: 473px;
-    top: 300px;
-    left: 696px;
-    background: linear-gradient(135deg, #b9b9b980, #d3d3d3);
-    border-radius: 63px;
-    border: 2px solid #ffffff7d;
-    box-shadow: 0 8px 24px rgba(185, 185, 185, 0.3);
-    transition: all 0.3s ease;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
     cursor: pointer;
-}
-
-.box .overlap:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 36px rgba(185, 185, 185, 0.4);
-}
-
-.box .div {
-    position: absolute;
-    width: 290px;
-    height: 97px;
-    top: 336px;
-    left: 116px;
-}
-
-.box .text-wrapper-2 {
-    width: 290px;
-    top: 0;
-    left: 0;
-    font-family: "Roboto-Regular", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    color: #000000;
-    font-size: 28px;
-    position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
-}
-
-.box .text-wrapper-3 {
-    width: 230px;
-    top: 63px;
-    left: 29px;
-    font-family: "Roboto-ExtraBold", Helvetica, Arial, sans-serif;
-    font-weight: 800;
-    color: #ff0000b0;
-    font-size: 28px;
-    position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
-}
-
-.box .element {
-    position: absolute;
-    width: 220px;
-    height: 295px;
-    top: 22px;
-    left: 151px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-/* 3등 게시글 (오른쪽, 동색) */
-.box .overlap-2 {
-    position: absolute;
-    width: 525px;
-    height: 473px;
-    top: 300px;
-    left: 1334px;
-    background: linear-gradient(135deg, #8b6a0e4c, #cd7f32);
-    border-radius: 63px;
-    border: 2px solid #ffffff7d;
-    box-shadow: 0 8px 24px rgba(139, 106, 14, 0.3);
     transition: all 0.3s ease;
-    cursor: pointer;
+    position: relative;
+    background: white;
 }
 
-.box .overlap-2:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 36px rgba(139, 106, 14, 0.4);
+.best-hof-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
 }
 
-.box .text-wrapper-4 {
-    width: 324px;
-    top: 332px;
-    left: 109px;
-    font-family: "Roboto-Regular", Helvetica, Arial, sans-serif;
-    font-weight: 400;
-    color: #000000;
-    font-size: 28px;
-    position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
+.best-hof-card-gold {
+    border: 4px solid #ffd700;
 }
 
-.box .text-wrapper-5 {
-    width: 223px;
-    top: 389px;
-    left: 160px;
-    font-family: "Roboto-ExtraBold", Helvetica, Arial, sans-serif;
-    font-weight: 800;
-    color: #ff0000b0;
-    font-size: 28px;
-    position: absolute;
-    text-align: center;
-    letter-spacing: 0;
-    line-height: normal;
+.best-hof-card-gold .best-hof-card-content {
+    background: linear-gradient(135deg, #fff9e6, #fffbf0);
 }
 
-.box .img {
-    position: absolute;
-    width: 263px;
-    height: 307px;
-    top: 11px;
-    left: 142px;
-    border-radius: 20px;
+.best-hof-card-silver {
+    border: 4px solid #c0c0c0;
+}
+
+.best-hof-card-silver .best-hof-card-content {
+    background: linear-gradient(135deg, #f8f8f8, #ffffff);
+}
+
+.best-hof-card-bronze {
+    border: 4px solid #cd7f32;
+}
+
+.best-hof-card-bronze .best-hof-card-content {
+    background: linear-gradient(135deg, #fff5e6, #fffaf5);
+}
+
+.best-hof-card-image {
+    width: 100%;
+    height: 240px;
+    position: relative;
     overflow: hidden;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-/* 좋아요 수 표시 스타일 */
-.like-count {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: rgba(255, 255, 255, 0.9);
-    border-radius: 20px;
-    padding: 8px 12px;
+.best-hof-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.best-hof-card:hover .best-hof-card-image img {
+    transform: scale(1.05);
+}
+
+.best-hof-no-image {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
-    gap: 5px;
-    font-family: "Roboto-Bold", Helvetica, Arial, sans-serif;
-    font-size: 16px;
+    justify-content: center;
+    background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+    color: #999;
+    font-size: 48px;
+}
+
+.best-hof-card-content {
+    padding: 20px;
+    text-align: center;
+}
+
+.best-hof-card-title {
+    font-size: 18px;
+    font-weight: 700;
     color: #333;
-    backdrop-filter: blur(5px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 8px;
+    line-height: 1.3;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.like-count i {
-    color: #ff6b6b;
-    font-size: 14px;
+.best-hof-card-username {
+    font-size: 16px;
+    font-weight: 600;
+    color: #f8a92b;
+    margin-bottom: 12px;
+    margin-top: 0;
 }
 
-/* 순위 표시 스타일 */
-.rank-indicator {
+.best-hof-card-likes {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #e74c3c;
+}
+
+.best-hof-rank-badge {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    top: -10px;
+    right: -10px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: "Roboto-ExtraBold", Helvetica, Arial, sans-serif;
-    font-size: 36px;
+    font-size: 24px;
     font-weight: 800;
     color: white;
-    z-index: 10;
-    border: 4px solid white;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-.rank-1 {
-    background: linear-gradient(135deg, #ffd700, #ffed4a);
-    top: 280px;
-    left: 38px;
-    animation: bounceIn 1s ease-out 0.5s both;
+.best-hof-card-gold .best-hof-rank-badge {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    border: 3px solid #f8a92b;
 }
 
-.rank-2 {
+.best-hof-card-silver .best-hof-rank-badge {
     background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
-    top: 280px;
-    left: 676px;
-    animation: bounceIn 1s ease-out 0.7s both;
+    border: 3px solid #999;
 }
 
-.rank-3 {
-    background: linear-gradient(135deg, #cd7f32, #daa520);
-    top: 280px;
-    left: 1314px;
-    animation: bounceIn 1s ease-out 0.9s both;
+.best-hof-card-bronze .best-hof-rank-badge {
+    background: linear-gradient(135deg, #cd7f32, #deb887);
+    border: 3px solid #b8860b;
 }
 
-@keyframes bounceIn {
-    0% {
-        opacity: 0;
-        transform: scale(0.3);
-    }
-    50% {
-        opacity: 1;
-        transform: scale(1.05);
-    }
-    70% {
-        transform: scale(0.9);
-    }
-    100% {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-/* 이미지 플레이스홀더 스타일 */
-.image-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, #f5f5f5, #e0e0e0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #999;
-    font-size: 48px;
-    border-radius: 20px;
-}
-
-.image-placeholder i {
-    opacity: 0.5;
-}
-
-/* 데이터가 없는 경우 스타일 */
-.no-data {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.best-hof-empty-state {
     text-align: center;
-    font-family: "Roboto-Regular", Helvetica, Arial, sans-serif;
+    padding: 80px 20px;
     color: #666;
-    background: linear-gradient(135deg, #f9f9f9, #ffffff);
-    padding: 60px 40px;
-    border-radius: 30px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 90%;
 }
 
-.no-data-icon {
-    font-size: 72px;
+.best-hof-empty-icon {
+    font-size: 80px;
     color: #ddd;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
-.no-data h3 {
+.best-hof-empty-title {
     font-size: 28px;
+    font-weight: 700;
     margin-bottom: 15px;
     color: #333;
-    font-weight: 600;
 }
 
-.no-data p {
-    font-size: 18px;
+.best-hof-empty-message {
+    font-size: 16px;
     margin-bottom: 30px;
     line-height: 1.6;
-    color: #666;
 }
 
-.btn-primary {
+.best-hof-empty-button {
     display: inline-block;
-    background: linear-gradient(135deg, #007bff, #0056b3);
+    background: #f8a92b;
     color: white;
-    padding: 12px 24px;
+    padding: 15px 30px;
+    border-radius: 12px;
     text-decoration: none;
-    border-radius: 25px;
     font-weight: 600;
-    transition: all 0.3s ease;
     font-size: 16px;
+    transition: all 0.3s ease;
 }
 
-.btn-primary:hover {
-    background: linear-gradient(135deg, #0056b3, #003d82);
+.best-hof-empty-button:hover {
+    background: #e69a26;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    box-shadow: 0 5px 15px rgba(248, 169, 43, 0.3);
+    color: white;
+    text-decoration: none;
 }
 
-/* 호버 효과 개선 */
-.overlap-4:hover .like-count,
-.overlap:hover .like-count,
-.overlap-2:hover .like-count {
-    background: rgba(255, 255, 255, 1);
-    transform: scale(1.1);
-}
-
-.overlap-4:hover .rank-indicator,
-.overlap:hover .rank-indicator,
-.overlap-2:hover .rank-indicator {
-    transform: scale(1.1);
-}
-
-/* 반응형 디자인 */
-@media (max-width: 1920px) {
-    .box {
-        width: 100%;
-        max-width: 1918px;
+@media (max-width: 768px) {
+    .best-hof-container {
+        padding-top: 140px;
+        padding-left: 15px;
+        padding-right: 15px;
     }
 
-    .box .group {
-        width: 100%;
-        max-width: 1918px;
+    .best-hof-title-section {
+        flex-direction: column;
+        gap: 20px;
+        margin-bottom: 40px;
     }
 
-    .box .overlap-group {
-        width: 100%;
-        max-width: 1918px;
-    }
-}
-
-@media (max-width: 1400px) {
-    .box .text-wrapper {
-        font-size: 72px;
-        width: 400px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .box .overlap-4,
-    .box .overlap,
-    .box .overlap-2 {
-        width: 400px;
-        height: 380px;
-    }
-
-    .box .overlap-4 {
-        left: 50px;
-    }
-
-    .box .overlap {
-        left: 500px;
-    }
-
-    .box .overlap-2 {
-        left: 950px;
-    }
-}
-
-/* 터치 디바이스 최적화 */
-@media (hover: none) {
-    .overlap-4:hover,
-    .overlap:hover,
-    .overlap-2:hover {
+    .best-hof-month-selector {
+        position: static;
         transform: none;
     }
 
-    .overlap-4:active,
-    .overlap:active,
-    .overlap-2:active {
-        transform: scale(0.98);
+    .best-hof-title {
+        font-size: 36px;
+    }
+
+    .best-hof-cards-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .best-hof-card {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .best-hof-empty-state {
+        padding: 60px 20px;
+    }
+
+    .best-hof-empty-icon {
+        font-size: 60px;
+    }
+
+    .best-hof-empty-title {
+        font-size: 24px;
     }
 }
 
-/* 접근성 개선 */
-.overlap-4:focus,
-.overlap:focus,
-.overlap-2:focus {
-    outline: 3px solid #007bff;
-    outline-offset: 2px;
-}
-
-/* 스크린 리더를 위한 숨김 텍스트 */
-.sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-/* 애니메이션 */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
+@media (max-width: 480px) {
+    .best-hof-title {
+        font-size: 28px;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+
+    .best-hof-card {
+        width: 100%;
+        max-width: 280px;
     }
-}
 
-.box .overlap-4,
-.box .overlap,
-.box .overlap-2 {
-    animation: fadeIn 0.6s ease-out;
-}
+    .best-hof-card-image {
+        height: 200px;
+    }
 
-.box .overlap-4 {
-    animation-delay: 0.1s;
-}
-
-.box .overlap {
-    animation-delay: 0.2s;
-}
-
-.box .overlap-2 {
-    animation-delay: 0.3s;
+    .best-hof-rank-badge {
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        top: -8px;
+        right: -8px;
+    }
 }
