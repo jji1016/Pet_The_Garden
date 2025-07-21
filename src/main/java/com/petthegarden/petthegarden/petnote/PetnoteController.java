@@ -28,10 +28,14 @@ public class PetnoteController {
     private final PetnoteService petnoteService;
 
     @GetMapping("/list")
-    public String list(Model model) {
+    public String list(@AuthenticationPrincipal CustomUserDetails customUserDetails,
+                       Model model) {
+        if (customUserDetails.getLoggedMember().getPetList().isEmpty()) {
+            model.addAttribute("petError", "펫을 등록해주세요.");
+            return "mypage/petreg";
+        }
+
         List<PetDto> petDtoList = petnoteService.findAllPetDto();
-
-
         model.addAttribute("petDtoList", petDtoList);
         return "petnote/list";
     }
@@ -44,7 +48,7 @@ public class PetnoteController {
 
         if (customUserDetails == null) {
             model.addAttribute("loginError", "로그인 후 이용 가능합니다.");
-            return "member/login"; // 로그인 안내 템플릿으로 이동
+            return "member/login";
         }
 
         String loggedUserID = customUserDetails.getLoggedMember().getUserID();
@@ -74,10 +78,7 @@ public class PetnoteController {
         Integer memberID = customUserDetails.getLoggedMember().getId();
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto selectedPetDto = petnoteService.getPetDtoByPetID(petID);
-
-
         System.out.println("프로필 펫디티오" + selectedPetDto);
-
 
         model.addAttribute("memberID", memberID);
         model.addAttribute("petID", petID);
