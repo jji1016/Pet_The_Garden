@@ -12,6 +12,7 @@ import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,9 +27,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+import static com.petthegarden.petthegarden.petnote.dto.DiaryDto.toDiaryDto;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class PetnoteService {
     @Value("${file.path}diary/")
     private String upload;
@@ -58,9 +62,7 @@ public class PetnoteService {
     public void diarySave(DiaryDto diaryDto) {
 
         System.out.println("다이어리세이브 들어옴");
-        LocalDateTime now = LocalDateTime.now();
-        String dateFolder = now.format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        Path uploadFolder = Paths.get(upload, dateFolder);
+        Path uploadFolder = Paths.get(upload);
 
         try {
             Files.createDirectories(uploadFolder);
@@ -136,5 +138,30 @@ public class PetnoteService {
 
     public List<PetDto> findAllPetDto() {
         return petDao.findAllPetDto();
+    }
+
+    public List<DiaryDto> findAllDiaryDto(Integer petID) {
+        log.info("petID: " + petID);
+        List<Diary> diaryList = diaryDao.findAllDiaryDto(petID);
+        log.info("diaryList=={}", diaryList);
+        return DiaryDto.toDiaryDtoList(diaryList);
+    }
+
+    public DiaryDto getDiaryDto(Integer petID) {
+         Diary diary = diaryDao.findDiaryDto(petID);
+        return DiaryDto.toDiaryDto(diary);
+    }
+
+    public Integer findMemberIDByPetID(Integer petID) {
+        return petDao.findMemberIDByPetID(petID);
+    }
+
+    public Pet findById(Integer petID) {
+        Optional<Pet> pet = petDao.findById(petID);
+        if (pet.isPresent()) {
+            log.info("안녕하세요 ");
+            return pet.get();
+        }
+        return null;
     }
 }

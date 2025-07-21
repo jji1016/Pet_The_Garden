@@ -1,116 +1,73 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head::head(Dairy)}"></head>
-<link rel="stylesheet" href="/css/petnote/diary.css" />
+<head th:replace="~{fragments/head::head(Diary)}"></head>
+<link rel="stylesheet" href="/css/petnote/diary.css"/>
+<link rel="stylesheet" href="/css/petnote/profile.css"/>
 <body>
-<header th:replace="~{fragments/header}"></header>
-<div class="main-visual" id="diary-visual">
-    <div class="slogan">
-        <p class="main"><strong>성장일기</strong></p>
-        <p class="sub">강아지도 고양이도 행복한 정원</p>
+<nav class="sidebar">
+    <ul>
+        <a href="/index/index"><li class="logo"><img src="/images/logo.png" alt="로고"></li></a>
+        <a th:href="@{/petnote/profile/{petID}(petID=${petID})}"><li>프로필</li></a>
+        <a th:href="@{/petnote/diary/{petID}(petID=${petID})}"><li class="active">성장일기</li></a>
+    </ul>
+    <div class="pet-info">
+        <select name="petID" onchange="location.href='/petnote/diary/' + this.value">
+            <option th:each="pet : ${petList}"
+                    th:value="${pet.id}"
+                    th:text="${pet.petName}"
+                    th:selected="${pet.id == petID}">
+            </option>
+        </select>
     </div>
-</div>
+    <form th:action="@{/member/logout}" method="post">
+        <button type="submit" class="btn btn-logout">
+            <i class="bi bi-box-arrow-right"></i> 로그아웃
+        </button>
+    </form>
+</nav>
 <div class="container min-vh-100">
-    <div class="search-wrap">
-        <div class="tag">
-            <ul>
-                <li class="on"><a href="">ALL</a></li>
-                <li><a href="">강아지</a></li>
-                <li><a href="">고양이</a></li>
-                <li><a href="">파충류</a></li>
-                <li><a href="">물고기</a></li>
-                <li><a href="">기타</a></li>
-            </ul>
-        </div>
-        <div class="mb-3 search-box">
-            <input type="text" class="form-control" placeholder="search"/>
-            <button class="btn" type="button">search</button>
-        </div>
-    </div>
 
     <div class="list-box">
-        <ul class="list type02">
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-            <li class="d-flex">
-                <a href="">
-                    <div class="img-box">
-                        <img src="/images/dog.jpg" alt=""/>
-                    </div>
-                    <div class="desc">
-                        <p class="title">1KG 증량</p>
-                        <p class="name">알리</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
+        <th:block th:if="${diaryDtoList != null and !diaryDtoList.isEmpty()}">
+            <div class="search-wrap">
+                <div class="mb-3 search-box diary-btn">
+                    <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                        <button class="btn" type="button">일기쓰러 가기</button>
+                    </a>
+                </div>
+            </div>
+            <ul class="list type02">
+                <li class="d-flex" th:each="item : ${diaryDtoList}">
+                    <a th:href="@{/petnote/diaryview/{id}(id=${item.id})}">
+                        <div th:if="${item.image != null}" class="img-box">
+                            <img th:src="@{'/PTGUpload/diary/' + ${item.image}}" onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                        </div>
+                        <div th:if="${item.image == null}"   class="img-box">
+                            <img src="/images/noImage.png"
+                                 alt="사진"/>
+                        </div>
+                        <div class="desc">
+                            <p class="title" th:text="${item.subject}">1KG 증량</p>
+                            <p class="name" th:text="${item.pet.petName}">알리</p>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </th:block>
+        <th:block th:if="${diaryDtoList == null or diaryDtoList.isEmpty()}">
+            <div class="no-diary">
+               아직 일기가 없어요😺
+            </div>
+            <div class="search-wrap">
+                <div class="mb-3 search-box diary-btn">
+                    <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                        <button class="btn" type="button">일기쓰러 가기</button>
+                    </a>
+                </div>
+            </div>
+        </th:block>
     </div>
 </div>
-<footer th:replace="~{fragments/footer}"></footer>
 </body>
 <script>
     // This is an example script, please modify as needed

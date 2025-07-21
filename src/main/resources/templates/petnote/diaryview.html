@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/head::head(일기쓰기)}"></head>
+<link rel="stylesheet" href="/css/petnote/profile.css"/>
+<link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
+<body>
+<div class="diary-box">
+    <div class="main-visual" id="diary-visual">
+        <div class="slogan custom-slogan">
+            <!--            <p class="main">강아지의 일기장</p>-->
+            <p class="main" th:text="${diaryDto.pet.petName} + '의 일기'">강아지의 일기</p>
+        </div>
+    </div>
+    <nav class="sidebar">
+        <ul>
+            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
+            <li><a th:href="@{/petnote/profile/{petID}(petID=${diaryDto.pet.id})}">프로필</a></li>
+            <th:block sec:authorize="isAuthenticated()">
+                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${diaryDto.pet.id})}">성장일기</a></li>
+            </th:block>
+            <th:block sec:authorize="isAnonymous()">
+                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>
+            </th:block>
+        </ul>
+        <form th:action="@{/member/logout}" method="post">
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i> 로그아웃
+            </button>
+        </form>
+    </nav>
+    <div class="profile-wrap">
+        <div>
+            <h6 class="title">제목</h6>
+            <p th:text="${diaryDto.subject}">제목</p>
+        </div>
+        <div class="container">
+            <div class="row custom-row">
+                <div class="col-8">
+                    <div class="diary-reg-detail">
+                        <div>
+                            <h6>오늘의 일기</h6>
+                            <div class="text-content" th:text="${diaryDto.content}">내용</div>
+                        </div>
+                        <div class="form-group">
+                            <h6 class="photo">사진</h6>
+                            <div class="img-preview">
+                                <img th:if="${diaryDto.image != null}" th:src="@{'/PTGUpload/diary/' + ${diaryDto.image}}" alt="일기 이미지" style="max-width: 300px;"/>
+                                <p th:if="${diaryDto.image == null}">등록된 이미지가 없습니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="diary-upload">
+                        <a th:href="@{/petnote/diary/{petID}(petID=${diaryDto.pet.id})}">
+                            <button class="btn" type="button">목록으로</button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

@@ -8,6 +8,8 @@ import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @Setter
@@ -47,6 +49,25 @@ public class DiaryDto {
                 .member(diaryDto.getMember())
                 .pet(diaryDto.getPet())
                 .build();
+    }
+
+    public static DiaryDto toDiaryDto(Diary diary) {
+        return DiaryDto.builder()
+                .Id(diary.getId())
+                .subject(diary.getSubject())
+                .content(diary.getContent())
+                .image(diary.getImage())
+                .regDate(diary.getRegDate())
+                .modifyDate(diary.getModifyDate())
+                .member(diary.getMember())
+                .pet(diary.getPet())
+                .build();
+    }
+
+    public static List<DiaryDto> toDiaryDtoList(List<Diary> diaryList) {
+        return diaryList.stream()
+                .map(DiaryDto::toDiaryDto)
+                .collect(Collectors.toList());
     }
 }
 

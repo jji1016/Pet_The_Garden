@@ -13,34 +13,34 @@
             <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>
         </div>
     </div>
-    <nav class="sidebar">
-        <ul>
-            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
-            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>
-            <th:block sec:authorize="isAuthenticated()">
-                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
-            </th:block>
-            <th:block sec:authorize="isAnonymous()">
-                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>
-            </th:block>
-        </ul>
-        <th:block th:if="${userID == (#authentication.principal.username)}">
-            <div class="pet-info">
-                <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">
-                    <option th:each="pet : ${petList}"
-                            th:value="${pet.id}"
-                            th:text="${pet.petName}"
-                            th:selected="${pet.id == petID}">
-                    </option>
-                </select>
-            </div>
-        </th:block>
-        <form th:action="@{/member/logout}" method="post">
-            <button type="submit" class="btn btn-logout">
-                <i class="bi bi-box-arrow-right"></i> 로그아웃
-            </button>
-        </form>
-    </nav>
+<!--    <nav class="sidebar">-->
+<!--        <ul>-->
+<!--            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>-->
+<!--            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>-->
+<!--            <th:block sec:authorize="isAuthenticated()">-->
+<!--                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>-->
+<!--            </th:block>-->
+<!--            <th:block sec:authorize="isAnonymous()">-->
+<!--                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>-->
+<!--            </th:block>-->
+<!--        </ul>-->
+<!--        <th:block th:if="${userID == (#authentication.principal.username)}">-->
+<!--            <div class="pet-info">-->
+<!--                <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">-->
+<!--                    <option th:each="pet : ${petList}"-->
+<!--                            th:value="${pet.id}"-->
+<!--                            th:text="${pet.petName}"-->
+<!--                            th:selected="${pet.id == petID}">-->
+<!--                    </option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </th:block>-->
+<!--        <form th:action="@{/member/logout}" method="post">-->
+<!--            <button type="submit" class="btn btn-logout">-->
+<!--                <i class="bi bi-box-arrow-right"></i> 로그아웃-->
+<!--            </button>-->
+<!--        </form>-->
+<!--    </nav>-->
     <div class="profile-wrap">
         <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
             <input type="hidden" name="petID" th:value="${petID}">
@@ -66,6 +66,9 @@
                         </div>
                         <div class="diary-upload">
                             <button class="btn" type="submit">UPLOAD</button>
+                            <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+                                <button class="btn" type="button">목록으로</button>
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -12,6 +12,9 @@
   font-weight: bold;
   flex-shrink: 0;
 }
+.h100vh{
+  height: 100vh;
+}
 
 .sidebar .logo img {
   width: 130px;
@@ -72,7 +75,7 @@
 }
 
 .profile-wrap {
-  padding: 233px 0 50px 50px;
+  padding: 150px 0 50px 50px;
 }
 .profile-wrap .container {
   margin: 0;
@@ -116,7 +119,7 @@
 }
 .detail-box .img-box img {
   border-radius: 20px;
-  width: 100%;
+  width: 816px;
   aspect-ratio: 1/0.5;
   -o-object-fit: cover;
      object-fit: cover;

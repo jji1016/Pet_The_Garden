@@ -36,4 +36,12 @@ public class PetDao {
     public List<PetDto> findAllPetDto() {
         return petRepository.findAllPetDto();
     }
+
+    public Integer findMemberIDByPetID(Integer petID) {
+        return petRepository.findMemberIDByPetID(petID);
+    }
+
+    public Optional<Pet> findById(Integer petID) {
+        return petRepository.findById(petID);
+    }
 }

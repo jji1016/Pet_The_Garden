@@ -8,11 +8,11 @@
     }
 </style>
 <body>
-<nav class="sidebar">
+<nav class="sidebar h100vh">
     <ul>
         <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
         <li class="active">프로필</li>
-        <li><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>
+        <li><a th:href="@{/petnote/diary/{petID}(petID=${petID})}">성장일기</a></li>
     </ul>
     <th:block th:if="${petDto.userID == (#authentication.principal.username)}">
         <div class="pet-info">
