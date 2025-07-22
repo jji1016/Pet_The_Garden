@@ -1,0 +1,207 @@
+#admin-header .logout{
+    display: flex;
+    width: auto;
+    height: 50px;
+    color: #f8a92b;
+    font-size: 1.3em;
+    font-weight: 600;
+    line-height: 50%;
+    align-items: center;
+    background-color: #fff;
+    justify-content: center;
+    margin-top: 146px;
+}
+
+.admin-wrap {
+    margin: 20px 20px 20px 320px;
+    border-radius: 20px;
+    padding: 0 30px;
+}
+.admin-wrap h1 {
+    margin: 20px 0 20px 20px;
+    font-weight: 300;
+    font-size: 48px;
+}
+
+.admin-wrap .info-wrap {
+    height: calc(100vh - 40px);
+    background: #fff;
+    border-radius: 20px;
+    padding: 0px 74px;
+}
+
+.admin-wrap .info-wrap .infoRap{
+    display: flex;
+    padding-top: 70px;
+    height: 43%;
+}
+.admin-wrap .info-wrap .infoRap .imgBox{
+    width: 220px;
+}
+.admin-wrap .info-wrap .infoRap .imgBox img{
+    width: 80%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.admin-wrap .info-wrap .infoRap .infoBox{
+    width: 900px;
+    display: flex;
+}
+.admin-wrap .info-wrap .infoRap .infoBox ul{
+    width: 50%;
+}
+.admin-wrap .info-wrap .infoRap .infoBox ul li{
+    height: 25%;
+    display: flex;
+    flex-direction: column;
+}
+.admin-wrap .info-wrap .infoRap .infoBox ul .adrLi{
+    height: 50%;
+}
+.admin-wrap .info-wrap .infoRap .infoBox ul li span{
+    border: 1px solid #ababab;
+    border-radius: 9px;
+    flex-grow: 1;
+    width: 90%;
+    margin: 6px 0;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+}
+.admin-wrap .info-wrap .infoRap .btnBox{
+    width: 100px;
+    position: relative;
+}
+.admin-wrap .info-wrap .infoRap .btnBox button{
+    position: absolute;
+    bottom: 6px;
+    background-color: #fff;
+    border: 1px solid #b3b3b3;
+    border-radius: 16px;
+    width: 100px;
+    height: 43px;
+}
+
+.admin-wrap .info-wrap .listRap{
+    height: 57%;
+    padding-top: 25px;
+}
+.admin-wrap .info-wrap .listRap .tabBtn{
+    display: flex;
+    border-bottom: 1px solid gray;
+    width: 100%;
+    height: 50px;
+    margin-bottom: 25px;
+}
+.admin-wrap .info-wrap .listRap .tabBtn span{
+    width: 100px;
+    height: 50px;
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-wrap .info-wrap .listRap .tabBtn span:hover{
+    cursor: pointer;
+    color: #a57222
+}
+.admin-wrap .info-wrap .listRap .tabBtn .on{
+    border-bottom: 2px solid #f8a92b;
+    color: #f8a92b;
+    font-weight: 600;
+}
+.admin-wrap .info-wrap .listRap .tabBtn .on:hover{
+    cursor: pointer;
+    color: #c78f35;
+}
+
+.admin-wrap .info-wrap .listRap #pet tr td img{
+    width: 50px;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 9px;
+}
+.admin-wrap .info-wrap .listRap #pet{
+     display: flex ;
+     justify-content: center;
+}
+
+.admin-wrap .info-wrap .listRap #showOff,
+.admin-wrap .info-wrap .listRap #free{
+    display: none;
+}
+.admin-wrap .info-wrap .listRap .tab .board,
+.admin-wrap .info-wrap .listRap .tab .comment{
+    width: 50%;
+    display: flex ;
+    flex-direction: column;
+    align-items: center;
+}
+.admin-wrap .info-wrap .listRap .tab .h3Rab{
+    width: 100%;
+}
+.admin-wrap .info-wrap .listRap .tab .h3Rab h3{
+    padding-left: 15px;
+}
+
+
+
+
+
+
+
+/* 전체 테이블 박스 */
+.table-wrap {
+    width: 95%;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 14px;
+}
+.header-table-rap{
+    background-color: #f7f7f7;
+}
+/* 고정 헤더 */
+.header-table {
+    width: calc(100% - 15px);
+    border-collapse: collapse;
+    table-layout: fixed;
+
+}
+.header-table th {
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+}
+
+/* 스크롤 영역 */
+.body-scroll {
+    max-height: 357px;
+    overflow-y: auto;
+}
+.board .body-scroll,
+.comment .body-scroll{
+    max-height: 297px;
+    overflow-y: auto;
+}
+
+/* 스크롤 영역의 테이블 */
+.body-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.body-table td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+}
+
+/* 이미지 크기 조정 */
+.body-table img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 8px;
+}

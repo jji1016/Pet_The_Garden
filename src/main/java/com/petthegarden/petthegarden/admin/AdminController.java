@@ -1,9 +1,6 @@
 package com.petthegarden.petthegarden.admin;
 
-import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
-import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
-import com.petthegarden.petthegarden.admin.dto.AdminReportDto;
-import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.admin.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -14,6 +11,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -97,6 +95,40 @@ public class AdminController {
         model.addAttribute("search", search);
 
         return "admin/memberList";
+    }
+
+    @GetMapping("/memberDetail/{memberID}")
+    public String sample(Model model,
+                         @PathVariable String memberID) {
+        Integer ID = Integer.parseInt(memberID);
+
+        /* 해당 회원 정보 */
+        AdminMemberDetailDto memberDetail = adminService.findById(ID);
+        /* 회원의 반려동물 */
+        List<AdminPetDto> petList = adminService.findByMember_Id(ID);
+        /* 회원의 장기자랑 게시글, 댓글 */
+        List<AdminShowOffBoardDto> showOffBoardList = adminService.getShowOffBoardList(ID);
+        List<AdminShowOffCommentDto> showOffCommentList = adminService.getShowOffCommentList(ID);
+        /* 회원의 자유게시판 게시글, 댓글 */
+        List<AdminFreeBoardDto> freeBoardList = adminService.getFreeBoardList(ID);
+        List<AdminFreeCommentDto> freeCommentList = adminService.getFreeCommentList(ID);
+
+
+        log.info("memberDetail == {}",memberDetail);
+        log.info("petList == {}",petList);
+        log.info("showOffBoardList == {}",showOffBoardList);
+        log.info("showOffCommentList == {}",showOffCommentList);
+        log.info("freeBoardList == {}",freeBoardList);
+        log.info("freeCommentList == {}",freeCommentList);
+
+        model.addAttribute("memberDetail", memberDetail);
+        model.addAttribute("petList", petList);
+        model.addAttribute("showOffBoardList", showOffBoardList);
+        model.addAttribute("showOffCommentList", showOffCommentList);
+        model.addAttribute("freeBoardList", freeBoardList);
+        model.addAttribute("freeCommentList", freeCommentList);
+
+        return "admin/memberDetail";
     }
 
     @GetMapping("/petList")
@@ -184,8 +216,5 @@ public class AdminController {
         return "admin/report";
     }
 
-    @GetMapping("/sample")
-    public String sample(Model model) {
-        return "admin/sample";
-    }
+
 }

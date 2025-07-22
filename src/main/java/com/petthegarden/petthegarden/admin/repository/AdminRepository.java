@@ -1,9 +1,6 @@
-package com.petthegarden.petthegarden.admin;
+package com.petthegarden.petthegarden.admin.repository;
 
-import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
-import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
-import com.petthegarden.petthegarden.admin.dto.AdminReportDto;
-import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.admin.dto.*;
 import com.petthegarden.petthegarden.constant.ReportType;
 import com.petthegarden.petthegarden.entity.Member;
 import org.springframework.data.domain.Page;
@@ -12,7 +9,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -63,6 +59,7 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
             "AND ((:key = 'userID' AND m.userID LIKE %:search%) OR " +
             "(:key = 'userName' AND m.userName LIKE %:search%) OR " +
             "(:key IS NULL OR :key = '')) " +
+            "AND m.deleteStatus is false " +
             "GROUP BY m.id, m.userID, m.userName, m.regDate")
     Page<AdminMemberDto> getMemberList(@Param("startDate") String startDate,
                                                @Param("endDate") String endDate,
@@ -197,5 +194,33 @@ AND (
             Pageable pageable
     );
 
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminShowOffBoardDto( " +
+            "s.subject, s.regDate, count(sc.Id)) " +
+            "FROM ShowOff s " +
+            "LEFT JOIN ShowOffComment sc ON s.Id = sc.showOff.Id " +
+            "WHERE s.member.id = :memberID " +
+            "GROUP BY s.subject, s.regDate ")
+    List<AdminShowOffBoardDto> getShowOffBoardList(@Param("memberID") Integer memberID);
 
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminShowOffCommentDto( " +
+            "sc.content, sc.regDate, s.subject) " +
+            "FROM ShowOffComment sc " +
+            "LEFT JOIN ShowOff s ON sc.showOff.Id = s.Id " +
+            "WHERE sc.member.id = :memberID ")
+    List<AdminShowOffCommentDto> getShowOffCommentList(@Param("memberID") Integer memberID);
+
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminFreeBoardDto( " +
+            "b.subject, b.regDate, count(bc.Id)) " +
+            "FROM Board b " +
+            "LEFT JOIN BoardComment bc ON b.Id = bc.board.Id " +
+            "WHERE b.member.id = :memberID " +
+            "GROUP BY b.subject, b.regDate ")
+    List<AdminFreeBoardDto> getFreeBoardList(@Param("memberID") Integer memberID);
+
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminFreeCommentDto( " +
+            "bc.content, bc.regDate, b.subject) " +
+            "FROM BoardComment bc " +
+            "LEFT JOIN Board b ON bc.board.Id = b.Id " +
+            "WHERE bc.member.id = :memberID ")
+    List<AdminFreeCommentDto> getFreeCommentList(@Param("memberID") Integer memberID);
 }
