@@ -14,22 +14,24 @@ public class ShowListService {
 
     private final ShowListRepository showListRepository;
 
-    public List<ShowOff> getTop3PopularShowOffs() {
-        List<ShowOff> allShowOffs = showListRepository.findTop3ByOrderByPetLikeDesc();
-        return allShowOffs.stream().limit(3).toList();
+    /**
+     * 인기 게시글 3개 가져오기 (showOffLike 좋아요 순으로 정렬)
+     */
+    public List<ShowOff> getPopularPosts() {
+        return showListRepository.findTop3ByOrderByShowOffLikeDesc();
     }
 
-    public Page<ShowOff> getShowOffsByPage(Pageable pageable) {
+    /**
+     * 전체 게시글 페이징 처리
+     */
+    public Page<ShowOff> getAllShowOffs(Pageable pageable) {
         return showListRepository.findAll(pageable);
     }
 
-    public ShowOff getShowOffById(Integer id) {
-        return showListRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글입니다."));
-    }
-
+    /**
+     * 특정 회원의 게시글 페이징 처리
+     */
     public Page<ShowOff> getShowOffsByMember(Integer memberId, Pageable pageable) {
-        return showListRepository.findByMemberId(memberId, pageable);
+        return showListRepository.findByMember_IdOrderByRegDateDesc(memberId, pageable);
     }
-
 }

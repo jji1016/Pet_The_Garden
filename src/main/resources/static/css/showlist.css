@@ -1,3 +1,32 @@
+.showlist-container {
+    padding: 180px 0 50px;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 2rem;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.section-title .material-symbols-outlined {
+    font-size: 2rem;
+    color: #f8a92b;
+}
+
+.popular-section {
+    margin-bottom: 4rem;
+}
+
+.all-posts-section {
+    margin-bottom: 2rem;
+}
+
 .popular-grid {
     display: flex;
     justify-content: center;
@@ -16,12 +45,19 @@
     width: 220px;
     padding: 1.5rem 1rem 1.3rem 1rem;
     text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.popular-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 .popular-card-img {
     width: 120px;
     height: 120px;
-    object-fit: contain;
+    object-fit: cover;
     border-radius: 16px;
     margin-bottom: 1.1rem;
     background: #f7f7f7;
@@ -36,6 +72,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    width: 100%;
 }
 
 .popular-card-nickname {
@@ -93,6 +130,8 @@
 .pagination li.active a {
     font-weight: bold;
     color: #f8a92b;
+    background: rgba(248, 169, 43, 0.1);
+    border-radius: 5px;
 }
 
 .pagination a {
@@ -107,6 +146,13 @@
     background: #f8a92b22;
 }
 
+.table-responsive {
+    overflow-x: auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
 .showoff-table {
     width: 100%;
     border-collapse: separate;
@@ -114,11 +160,20 @@
     font-size: 1rem;
 }
 
-.showoff-table th, .showoff-table td {
+.showoff-table th {
+    background: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    border-bottom: 2px solid #f8a92b;
+}
+
+.showoff-table td {
     vertical-align: middle;
     text-align: center;
     padding: 0.9rem 0.5rem;
-    white-space: nowrap;
+    border-bottom: 1px solid #eee;
 }
 
 .showoff-title-cell {
@@ -157,5 +212,9 @@
 }
 
 .showoff-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.pet-row:hover {
     background-color: #f8f9fa;
 }
