@@ -24,27 +24,28 @@ public class WebConfig implements WebMvcConfigurer {
     @Value("${file.path}upload/")
     private String uploadPath;
 
+    @Value("${file.path}diary/")
+    private String diaryPath;
+
+
+    // 기존 파일 업로드 리소스 매핑
     @Value("${file.path}f1/")
     private String imagesPath;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-
-        registry.addResourceHandler("/PTGUpload/pet/**")
-                .addResourceLocations("file:///" + petPath);
-        registry.addResourceHandler("/PTGUpload/board/**")
-                .addResourceLocations("file:///" + boardPath);
         registry.addResourceHandler("/PTGUpload/pet/**")
                 .addResourceLocations("file:///" + petPath);
         registry.addResourceHandler("/PTGUpload/board/**")
                 .addResourceLocations("file:///" + boardPath);
         registry.addResourceHandler("/PTGUpload/products/**")
-
                 .addResourceLocations("file:///" + productsPath);
         registry.addResourceHandler("/PTGUpload/reviews/**")
                 .addResourceLocations("file:///" + reviewsPath);
         registry.addResourceHandler("/PTGUpload/upload/**")
                 .addResourceLocations("file:///" + uploadPath);
+        registry.addResourceHandler("/PTGUpload/diary/**")
+                .addResourceLocations("file:///" + diaryPath);
         registry.addResourceHandler("/PTGUpload/images/**")
                 .addResourceLocations("file:///" + imagesPath);
     }

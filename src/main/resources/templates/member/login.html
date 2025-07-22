@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(LOGIN)}"></head>
-
+<link rel="stylesheet" href="/css/member/login.css"/>
 <body>
 <header th:replace="~{fragments/header}"></header>
 <div
@@ -14,7 +14,7 @@
             </h2>
             <div class="login-box">
                 <form th:action="@{/member/login}" th:method="post">
-                    <a href="" class="btn btn-kakao-login" >카카오로그인</a>
+                    <a href="" class="btn btn-kakao-login">카카오로그인</a>
                     <p><span>or ID login</span></p>
                     <div class="input-group mb-3">
                         <input
@@ -39,13 +39,13 @@
                         <button class="btn btn-primary btn-lg w-100">LOGIN</button>
                     </div>
                 </form>
-                <div class="input-group mb-3">
-                    <a th:href="@{/member/signup}"><button class="btn btn-primary btn-lg w-100" >SIGNUP</button></a>
-                </div>
+                <form th:action="@{/member/signup}" method="get">
+                    <div class="input-group mb-3">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">SIGNUP</button>
+                    </div>
+                </form>
             </div>
         </div>
-
-
         <div class="col-6 px-5 bg-box">
             <div class="slogan">
                 <p class="main"><span>pet the</span> <span>garden</span></p>
@@ -55,6 +55,33 @@
         </div>
     </div>
 </div>
+
+<div class="modal fade" id="loginErrorModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">알림</h5>
+            </div>
+            <div class="modal-body">
+                <p th:text="${loginError}">로그인이 필요합니다.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" data-bs-dismiss="modal">확인</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    let errorMessage = /*[[${loginError}]]*/ "";
+    if (errorMessage) {
+        document.querySelector("#loginErrorModal .modal-body p").textContent = errorMessage;
+        const modal = new bootstrap.Modal(document.getElementById('loginErrorModal'));
+        modal.show();
+    }
+    /*]]>*/
+</script>
 
 <footer th:replace="~{fragments/footer}"></footer>
 </body>

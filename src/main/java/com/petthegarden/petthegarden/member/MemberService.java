@@ -84,8 +84,4 @@ public class MemberService {
         return memberDao.existsByUserName(userName);
     }
 
-
-    public Member findMemberByUserID(String userID) {
-        return memberDao.findMemberByUserID(userID);
-    }
 }

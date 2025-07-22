@@ -1,303 +1,80 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head::head(일기쓰기)}"></head>
+<link rel="stylesheet" href="/css/petnote/profile.css"/>
+<link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
 <body>
-<header th:replace="~{fragments/header}"></header>
-<div class="main-visual" id="diary-visual">
-    <div class="slogan">
-        <p class="main"><strong>성장일기</strong></p>
-        <p class="sub">강아지도 고양이도 행복한 정원</p>
-    </div>
-</div>
-<div class="container min-vh-100">
-    <div class="search-wrap">
-        <div class="tag">
-            <ul>
-                <li class="on"><a href="">ALL</a></li>
-                <li><a href="">강아지</a></li>
-                <li><a href="">고양이</a></li>
-                <li><a href="">파충류</a></li>
-                <li><a href="">물고기</a></li>
-                <li><a href="">기타</a></li>
-            </ul>
-        </div>
-        <div class="mb-3 search-box">
-            <input type="text" class="form-control" placeholder="search"/>
-            <button class="btn" type="button">search</button>
+<div class="diary-box">
+    <div class="main-visual" id="diary-visual">
+        <div class="slogan custom-slogan">
+            <!--            <p class="main">강아지의 일기장</p>-->
+            <p class="main" th:text="${petName} + '의 일기장'">강아지의 일기장</p>
+            <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>
         </div>
     </div>
-
-    <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
-        <div>
-            <input type="text" name="subject">
-        </div>
-        <div>
-            <textarea type="text" name="content" id="content"></textarea>
-        </div>
-        <div>
-            <button class="btn" type="submit">UPLOAD</button>
-        </div>
-    </form>
+<!--    <nav class="sidebar">-->
+<!--        <ul>-->
+<!--            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>-->
+<!--            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>-->
+<!--            <th:block sec:authorize="isAuthenticated()">-->
+<!--                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>-->
+<!--            </th:block>-->
+<!--            <th:block sec:authorize="isAnonymous()">-->
+<!--                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>-->
+<!--            </th:block>-->
+<!--        </ul>-->
+<!--        <th:block th:if="${userID == (#authentication.principal.username)}">-->
+<!--            <div class="pet-info">-->
+<!--                <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">-->
+<!--                    <option th:each="pet : ${petList}"-->
+<!--                            th:value="${pet.id}"-->
+<!--                            th:text="${pet.petName}"-->
+<!--                            th:selected="${pet.id == petID}">-->
+<!--                    </option>-->
+<!--                </select>-->
+<!--            </div>-->
+<!--        </th:block>-->
+<!--        <form th:action="@{/member/logout}" method="post">-->
+<!--            <button type="submit" class="btn btn-logout">-->
+<!--                <i class="bi bi-box-arrow-right"></i> 로그아웃-->
+<!--            </button>-->
+<!--        </form>-->
+<!--    </nav>-->
+    <div class="profile-wrap">
+        <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="petID" th:value="${petID}">
+            <div>
+                <h6 class="title">제목</h6>
+                <input type="text" name="subject">
+            </div>
+            <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
+            <div class="container">
+                <div class="row custom-row">
+                    <div class="col-8">
+                        <div class="diary-reg-detail">
+                            <div>
+                                <h6>오늘의 일기</h6>
+                                <textarea class="text-content" type="text" name="content" id="content"></textarea>
+                            </div>
+                            <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
+                            <div class="form-group">
+                                <h6 class="photo">사진</h6>
+                                <label for="diaryImg" class="file-label">📷 사진 선택하기</label>
+                                <input class="img-content" type="file" name="diaryImg" id="diaryImg"/>
+                            </div>
+                        </div>
+                        <div class="diary-upload">
+                            <button class="btn" type="submit">UPLOAD</button>
+                            <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+                                <button class="btn" type="button">목록으로</button>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
-<footer th:replace="~{fragments/footer}"></footer>
-
-<script src="https://cdn.ckeditor.com/ckeditor5/45.1.0/ckeditor5.umd.js" crossorigin></script>
-<script>
-    /**
-     * This configuration was generated using the CKEditor 5 Builder. You can modify it anytime using this link:
-     * https://ckeditor.com/ckeditor-5/builder/?redirect=portal#installation/NoNgNARATAdCMAYKQCwGY0IBxQKxZQE4Q1cEQE0QUBGLQtQnXfQ3NGkAdgShWQgBTAHbIEYYDTDjxU2QF1IAExQBjQVACGNCPKA=
-     */
-
-    const {
-        ClassicEditor,
-        Autoformat,
-        AutoImage,
-        Autosave,
-        BlockQuote,
-        Bold,
-        CloudServices,
-        Emoji,
-        Essentials,
-        Heading,
-        ImageBlock,
-        ImageCaption,
-        ImageInline,
-        ImageInsert,
-        ImageInsertViaUrl,
-        ImageResize,
-        ImageStyle,
-        ImageTextAlternative,
-        ImageToolbar,
-        ImageUpload,
-        Indent,
-        IndentBlock,
-        Italic,
-        Link,
-        LinkImage,
-        List,
-        ListProperties,
-        MediaEmbed,
-        Mention,
-        Paragraph,
-        PasteFromOffice,
-        SimpleUploadAdapter,
-        Table,
-        TableCaption,
-        TableCellProperties,
-        TableColumnResize,
-        TableProperties,
-        TableToolbar,
-        TextTransformation,
-        TodoList,
-        Underline
-    } = window.CKEDITOR;
-
-    const LICENSE_KEY =
-        'eyJhbGciOiJFUzI1NiJ9.eyJleHAiOjE3NjQ5NzkxOTksImp0aSI6IjdhMmI0NzdkLWM1NDctNDk0NS05YWU2LTcxMzRmNDgxMWQyYyIsImxpY2Vuc2VkSG9zdHMiOlsiMTI3LjAuMC4xIiwibG9jYWxob3N0IiwiMTkyLjE2OC4qLioiLCIxMC4qLiouKiIsIjE3Mi4qLiouKiIsIioudGVzdCIsIioubG9jYWxob3N0IiwiKi5sb2NhbCJdLCJ1c2FnZUVuZHBvaW50IjoiaHR0cHM6Ly9wcm94eS1ldmVudC5ja2VkaXRvci5jb20iLCJkaXN0cmlidXRpb25DaGFubmVsIjpbImNsb3VkIiwiZHJ1cGFsIl0sImxpY2Vuc2VUeXBlIjoiZGV2ZWxvcG1lbnQiLCJmZWF0dXJlcyI6WyJEUlVQIl0sInZjIjoiNmFmNjQwNDkifQ.XBAdVuG5_PlTieE_MpJHOjL7KADHO2gnRtina8CCzZxEwmpuynXiK6ZP33Rq9TcHeHFsyjLtlG9fXjTlfHx_VA';
-
-    const editorConfig = {
-        toolbar: {
-            items: [
-                'undo',
-                'redo',
-                '|',
-                'heading',
-                '|',
-                'bold',
-                'italic',
-                'underline',
-                '|',
-                'emoji',
-                'link',
-                'insertImage',
-                'mediaEmbed',
-                'insertTable',
-                'blockQuote',
-                '|',
-                'bulletedList',
-                'numberedList',
-                'todoList',
-                'outdent',
-                'indent'
-            ],
-            shouldNotGroupWhenFull: false
-        },
-        plugins: [
-            Autoformat,
-            AutoImage,
-            Autosave,
-            BlockQuote,
-            Bold,
-            CloudServices,
-            Emoji,
-            Essentials,
-            Heading,
-            ImageBlock,
-            ImageCaption,
-            ImageInline,
-            ImageInsert,
-            ImageInsertViaUrl,
-            ImageResize,
-            ImageStyle,
-            ImageTextAlternative,
-            ImageToolbar,
-            ImageUpload,
-            Indent,
-            IndentBlock,
-            Italic,
-            Link,
-            LinkImage,
-            List,
-            ListProperties,
-            MediaEmbed,
-            Mention,
-            Paragraph,
-            PasteFromOffice,
-            SimpleUploadAdapter,
-            Table,
-            TableCaption,
-            TableCellProperties,
-            TableColumnResize,
-            TableProperties,
-            TableToolbar,
-            TextTransformation,
-            TodoList,
-            Underline
-        ],
-        heading: {
-            options: [
-                {
-                    model: 'paragraph',
-                    title: 'Paragraph',
-                    class: 'ck-heading_paragraph'
-                },
-                {
-                    model: 'heading1',
-                    view: 'h1',
-                    title: 'Heading 1',
-                    class: 'ck-heading_heading1'
-                },
-                {
-                    model: 'heading2',
-                    view: 'h2',
-                    title: 'Heading 2',
-                    class: 'ck-heading_heading2'
-                },
-                {
-                    model: 'heading3',
-                    view: 'h3',
-                    title: 'Heading 3',
-                    class: 'ck-heading_heading3'
-                },
-                {
-                    model: 'heading4',
-                    view: 'h4',
-                    title: 'Heading 4',
-                    class: 'ck-heading_heading4'
-                },
-                {
-                    model: 'heading5',
-                    view: 'h5',
-                    title: 'Heading 5',
-                    class: 'ck-heading_heading5'
-                },
-                {
-                    model: 'heading6',
-                    view: 'h6',
-                    title: 'Heading 6',
-                    class: 'ck-heading_heading6'
-                }
-            ]
-        },
-        image: {
-            toolbar: [
-                'toggleImageCaption',
-                'imageTextAlternative',
-                '|',
-                'imageStyle:inline',
-                'imageStyle:wrapText',
-                'imageStyle:breakText',
-                '|',
-                'resizeImage'
-            ]
-        },
-        initialData: '',
-        licenseKey: LICENSE_KEY,
-        link: {
-            addTargetToExternalLinks: true,
-            defaultProtocol: 'https://',
-            decorators: {
-                toggleDownloadable: {
-                    mode: 'manual',
-                    label: 'Downloadable',
-                    attributes: {
-                        download: 'file'
-                    }
-                }
-            }
-        },
-        list: {
-            properties: {
-                styles: true,
-                startIndex: true,
-                reversed: true
-            }
-        },
-        mention: {
-            feeds: [
-                {
-                    marker: '@',
-                    feed: [
-                        /* See: https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html */
-                    ]
-                }
-            ]
-        },
-        placeholder: 'Type or paste your content here!',
-        table: {
-            contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells', 'tableProperties', 'tableCellProperties']
-        },
-        mediaEmbed: {
-            previewsInData: true
-        },
-        simpleUpload: {
-            uploadUrl: "/story/ck-upload"
-            //여기다가 json을 떨어트려야 한다.
-        }
-    };
-
-    ClassicEditor
-        .create(document.querySelector('#content'), editorConfig)
-        .then(editor => {
-            const editable = editor.ui.view.editable;
-
-            editable.element.style.height = '500px';
-
-            editable.element.addEventListener('focus', () => {
-                editable.element.style.height = '500px';
-            });
-
-            editable.element.addEventListener('blur', () => {
-                editable.element.style.height = '500px';
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        });
-</script>
-
-<!--<script>-->
-<!--    const file = document.querySelector("#file");-->
-<!--    const preview = document.querySelector("#preview");-->
-<!--    file.addEventListener("change", (e) => {-->
-<!--        const selectedFile = e.target.files[0];-->
-<!--        const fileReader = new FileReader();-->
-<!--        fileReader.onload = (e) => {-->
-<!--            preview.setAttribute("src", e.target.result);-->
-<!--        }-->
-<!--        fileReader.readAsDataURL(selectedFile);-->
-<!--    })-->
-<!--</script>-->
-
 </body>
 </html>

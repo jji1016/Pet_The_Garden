@@ -25,3 +25,7 @@
 .list-box .list li dl dt {
   margin-right: 20px;
 }
+
+.list-img {
+  width: 306px !important;
+}

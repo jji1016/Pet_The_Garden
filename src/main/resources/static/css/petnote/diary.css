@@ -1,40 +1,104 @@
+body {
+    display: flex;
+}
+
 #diary-visual {
-  background: url("../../images/diary-visual.png") no-repeat right 200px bottom 0;
+    background: url("../../images/diary-visual.png") no-repeat right 200px bottom 0;
 }
 
 .list-box {
-  padding: 50px 0;
+    padding: 50px 0;
 }
+
 .list-box .list.type02 {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
 }
+
 .list-box .list.type02 li {
-  width: calc(33.333% - 10px);
-  padding: 15px;
-  background-color: #fff;
-  margin-bottom: 10px;
-  border-radius: 20px;
-  box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
-  flex-direction: column;
+    width: calc(24% - 10px);
+    padding: 15px;
+    background-color: #fff;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
+    flex-direction: column;
+    height: 420px;
 }
+
 .list-box .list.type02 li .img-box img {
-  height: 300px;
-  width: 100%;
-  -o-object-fit: cover;
-     object-fit: cover;
-  border-radius: 10px;
+    height: 300px;
+    width: 100%;
+    -o-object-fit: cover;
+    object-fit: cover;
+    border-radius: 10px;
 }
+
 .list-box .list.type02 li .desc {
-  padding-top: 15px;
+    padding-top: 15px;
 }
+
 .list-box .list.type02 li .desc .title {
-  font-size: 20px;
-  font-weight: 500;
+    font-size: 20px;
+    font-weight: 500;
 }
+
 .list-box .list.type02 li .desc .name {
-  color: #f8a92b;
-  font-size: 24px;
-  font-weight: 700;
+    color: #f8a92b;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.no-diary {
+    margin-top: 240px;
+    margin-left: 355px;
+    font-size: 50px;
+    font-weight: bolder;
+}
+
+.diary-btn {
+    height: 60px;
+    margin-right: 65px;
+}
+
+.nodiary-btn {
+    height: 60px;
+    margin-right: 590px;
+}
+
+.nbt {
+    height: 300px;
+}
+
+.pet-info select {
+    width: 150px;
+    padding: 8px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    background-color: #ffffff;
+    border: 2px solid #f3b13c;
+    border-radius: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+}
+
+.pet-info {
+    margin-top: 40px;
+}
+
+.btn-logout {
+    font-size: 20px;
+    width: 160px !important;
+    margin-top: 525px;
+    font-weight: 500;
 }
