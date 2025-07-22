@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(petList)}"></head>
-<link rel="stylesheet" href="/css/admin/memberlist.css" />
+<link rel="stylesheet" href="/css/admin/list.css" />
 <body>
 <header id="admin-header">
     <h1>
@@ -83,7 +83,9 @@
                         <td>
                             <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}">
                         </td>
-                        <td th:text="${pet.petName}"></td>
+                        <td>
+                            <a href="#" th:text="${pet.petName}"></a>
+                        </td>
                         <td th:text="${pet.species}"></td>
                         <td th:text="${pet.follow} ?: 0"></td>
                         <td th:text="${pet.petGender.label}"></td>

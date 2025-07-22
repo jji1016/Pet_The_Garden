@@ -1,9 +1,11 @@
 package com.petthegarden.petthegarden.admin;
 
-import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
-import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
-import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.admin.dto.*;
+import com.petthegarden.petthegarden.admin.repository.AdminPetRepository;
+import com.petthegarden.petthegarden.admin.repository.AdminRepository;
+import com.petthegarden.petthegarden.constant.ReportType;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.entity.Pet;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -11,13 +13,16 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 @Slf4j
 public class AdminDao {
     private final AdminRepository adminRepository;
+    private final AdminPetRepository adminPetRepository;
 
     public int totalMember() {
         return adminRepository.totalMember();
@@ -57,5 +62,38 @@ public class AdminDao {
 
     public Page<AdminPetDto> getPetList(String startDate, String endDate, String key, String search, Pageable pageable) {
         return adminRepository.getPetList(startDate,endDate,key,search,pageable);
+    }
+
+    public Page<AdminReportDto> getAllReports(LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getAllReports(startDate, endDate, key, search, pageable);
+    }
+
+    public Page<AdminReportDto> getFilteredReports(ReportType type, LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getFilteredReports(type, startDate, endDate, key, search, pageable);
+    }
+
+    public Optional<Member> findById(Integer memberID) {
+        return adminRepository.findById(memberID);
+    }
+
+    public List<Pet> findByMember_Id(Integer memberID) {
+        List<Pet> petList = adminPetRepository.findByMember_Id(memberID);
+        return petList;
+    }
+
+    public List<AdminShowOffBoardDto> getShowOffBoardList(Integer memberID) {
+        return adminRepository.getShowOffBoardList(memberID);
+    }
+
+    public List<AdminShowOffCommentDto> getShowOffCommentList(Integer memberID) {
+        return adminRepository.getShowOffCommentList(memberID);
+    }
+
+    public List<AdminFreeBoardDto> getFreeBoardList(Integer memberID) {
+        return adminRepository.getFreeBoardList(memberID);
+    }
+
+    public List<AdminFreeCommentDto> getFreeCommentList(Integer memberID) {
+        return adminRepository.getFreeCommentList(memberID);
     }
 }

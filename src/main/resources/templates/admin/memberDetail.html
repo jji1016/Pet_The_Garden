@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head::head(memberDetail)}"></head>
+<link rel="stylesheet" href="/css/admin/memberDetail.css" />
+<body>
+<header id="admin-header">
+    <h1>
+        <a href="/index/index"><img src="/images/logo.png" alt=""/></a>
+    </h1>
+
+    <nav id="gnb">
+        <ul>
+            <li>
+                <a href="/admin/dashboard">
+                    <span class="material-symbols-outlined"> home </span>
+                    <span>대쉬보드</span></a>
+            </li>
+            <li class="on">
+                <a href="/admin/memberList">
+                    <span class="material-symbols-outlined"> person </span>
+                    <span>회원정보관리</span></a>
+            </li>
+            <li>
+                <a href="/admin/petList">
+                    <span class="material-symbols-outlined"> pets </span>
+                    <span>반려동물관리</span></a>
+            </li>
+            <li>
+                <a href="/admin/report">
+                    <span class="material-symbols-outlined"> info </span>
+                    <span>신고내역</span></a>
+            </li>
+        </ul>
+    </nav>
+    <a href="/member/logout" class="logout"> logout </a>
+</header>
+
+<div class="admin-wrap">
+    <div class="container-fluid">
+        <div class="info-wrap container-fluid">
+
+            <div class="infoRap">
+                <div class="imgBox">
+                    <img th:src="@{'/PTGUpload/upload/' + ${memberDetail.image}}" onerror="this.onerror=null; this.src='/images/default-image.jpg'">
+                </div>
+                <div class="infoBox">
+                    <ul>
+                        <li>
+                            이름
+                            <span th:text="${memberDetail.userName}"></span>
+                        </li>
+                        <li>
+                            이메일
+                            <span th:text="${memberDetail.email}"></span>
+                        </li>
+                        <li>
+                            우편번호
+                            <span th:text="${memberDetail.zipcode}"></span>
+                        </li>
+                        <li>
+                            가입일
+                            <span th:text="${#temporals.format(memberDetail.regDate,'yyyy-MM-dd')}"></span>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            아이디
+                            <span th:text="${memberDetail.userID}"></span>
+                        </li>
+                        <li>
+                            휴대전화
+                            <span th:text="${memberDetail.tel}"></span>
+                        </li>
+                        <li class="adrLi">
+                            주소
+                            <span th:if="${memberDetail.address02 != null}"
+                                  th:utext="${memberDetail.address01 + '<br>' + memberDetail.address02}"></span>
+                            <span th:if="${memberDetail.address02 == null}"
+                                  th:utext="${memberDetail.address01}"></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btnBox">
+                    <button>회원탈퇴</button>
+                </div>
+            </div>
+
+            <div class="listRap">
+                <div class="tabBtn">
+                    <span class="on">반려동물</span>
+                    <span>장기자랑</span>
+                    <span>자유게시판</span>
+                </div>
+
+                <div class="tab" id="pet">
+                    <div class="table-wrap">
+                        <div class="header-table-rap">
+                            <table class="header-table">
+                                <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>이름</th>
+                                    <th>품종</th>
+                                    <th>팔로우</th>
+                                    <th>가입일</th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="body-scroll">
+                            <table class="body-table">
+                                <tbody>
+                                    <tr th:each="pet : ${petList}">
+                                        <td><img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" onerror="this.onerror=null; this.src='/images/noImage.png'"></td>
+                                        <td>
+                                            <a href="#" th:text="${pet.petName}"></a>
+                                        </td>
+                                        <td th:text="${pet.species}"></td>
+                                        <td th:text="${pet.follow}"></td>
+                                        <td th:text="${#temporals.format(pet.regDate,'yyyy-MM-dd')}"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab" id="showOff">
+                    <div class="board">
+                        <div class="h3Rab">
+                            <h3>게시글</h3>
+                        </div>
+                        <div class="table-wrap">
+                            <div class="header-table-rap">
+                                <table class="header-table">
+                                    <thead>
+                                    <tr>
+                                        <th>게시글 제목</th>
+                                        <th>작성일</th>
+                                        <th>댓글 수</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                            <div class="body-scroll">
+                                <table class="body-table">
+                                    <tbody>
+                                    <tr th:each="showOffBoard : ${showOffBoardList}">
+                                        <td>
+                                            <a href="#" th:text="${showOffBoard.subject}"></a>
+                                        </td>
+                                        <td th:text="${#temporals.format(showOffBoard.regDate,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${showOffBoard.commentCount}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment">
+                        <div class="h3Rab">
+                            <h3>댓글</h3>
+                        </div>
+                        <div class="table-wrap">
+                            <div class="header-table-rap">
+                                <table class="header-table">
+                                    <thead>
+                                    <tr>
+                                        <th>댓글 내용</th>
+                                        <th>작성일</th>
+                                        <th>게시글 제목</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                            <div class="body-scroll">
+                                <table class="body-table">
+                                    <tbody>
+                                    <tr th:each="showOffComment : ${showOffCommentList}">
+                                        <td>
+                                            <a href="#" th:text="${showOffComment.content}"></a>
+                                        </td>
+                                        <td th:text="${#temporals.format(showOffComment.regDate,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${showOffComment.boardSubject}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab" id="free">
+                    <div class="board">
+                        <div class="h3Rab">
+                            <h3>게시글</h3>
+                        </div>
+                        <div class="table-wrap">
+                            <div class="header-table-rap">
+                                <table class="header-table">
+                                    <thead>
+                                    <tr>
+                                        <th>게시글 제목</th>
+                                        <th>작성일</th>
+                                        <th>댓글 수</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                            <div class="body-scroll">
+                                <table class="body-table">
+                                    <tbody>
+                                    <tr th:each="freeBoard : ${freeBoardList}">
+                                        <td>
+                                            <a href="#" th:text="${freeBoard.subject}"></a>
+                                        </td>
+                                        <td th:text="${#temporals.format(freeBoard.regDate,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${freeBoard.commentCount}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="comment">
+                        <div class="h3Rab">
+                            <h3>댓글</h3>
+                        </div>
+                        <div class="table-wrap">
+                            <div class="header-table-rap">
+                                <table class="header-table">
+                                    <thead>
+                                    <tr>
+                                        <th>댓글 내용</th>
+                                        <th>작성일</th>
+                                        <th>게시글 제목</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+
+                            <div class="body-scroll">
+                                <table class="body-table">
+                                    <tbody>
+                                    <tr th:each="freeComment : ${freeCommentList}">
+                                        <td>
+                                            <a href="#" th:text="${freeComment.content}"></a>
+                                        </td>
+                                        <td th:text="${#temporals.format(freeComment.regDate,'yyyy-MM-dd')}"></td>
+                                        <td th:text="${freeComment.boardSubject}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    const tabBtn = document.querySelector(".tabBtn");
+
+    tabBtn.addEventListener("click", (e) => {
+        if (e.target.tagName !== 'SPAN') return;
+
+        // 모든 탭에서 'on' 클래스 제거
+        const tabs = tabBtn.querySelectorAll("span");
+        tabs.forEach(tab => tab.classList.remove("on"));
+
+        // 클릭한 탭에 'on' 클래스 추가
+        e.target.classList.add("on");
+
+        // 관련 탭 내용 보여주기 (선택 사항)
+        const tabIdList = ["pet", "showOff", "free"];
+        tabIdList.forEach(id => {
+            document.getElementById(id).style.display = "none";
+        });
+
+        // 탭 인덱스 기반으로 해당 div 보여주기
+        const index = Array.from(tabs).indexOf(e.target);
+        document.getElementById(tabIdList[index]).style.display = "flex";
+    });
+</script>
+</html>
