@@ -74,12 +74,13 @@ a {
 
 .profile {
     position: absolute;
-    right: 100px;
+    right: 120px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .profile .img img {
@@ -1333,4 +1334,6 @@ h2.section-title-month {
         top: -8px;
         right: -8px;
     }
+
 }
+

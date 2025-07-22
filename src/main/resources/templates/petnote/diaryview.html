@@ -15,12 +15,12 @@
     <nav class="sidebar">
         <ul>
             <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
-            <li><a th:href="@{/petnote/profile/{petID}(petID=${diaryDto.pet.id})}">프로필</a></li>
+            <a th:href="@{/petnote/profile/{petID}(petID=${diaryDto.pet.id})}"><li>프로필</li></a>
             <th:block sec:authorize="isAuthenticated()">
-                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${diaryDto.pet.id})}">성장일기</a></li>
+                <a th:href="@{/petnote/diaryreg/{petID}(petID=${diaryDto.pet.id})}"><li class="active">성장일기</li></a>
             </th:block>
             <th:block sec:authorize="isAnonymous()">
-                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>
+                <a th:href="@{/petnote/diary}"><li class="active">성장일기</li></a>
             </th:block>
         </ul>
         <form th:action="@{/member/logout}" method="post">

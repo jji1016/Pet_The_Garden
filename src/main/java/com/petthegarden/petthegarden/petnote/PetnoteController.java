@@ -30,16 +30,9 @@ public class PetnoteController {
 
     @Transactional
     @GetMapping("/list")
-    public String list(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                       Model model) {
-        if (customUserDetails.getLoggedMember().getPetList().isEmpty()) {
-            model.addAttribute("petError", "펫을 등록해주세요.");
-            return "petnote/list";
-        }
-
+    public String list(Model model) {
         List<PetDto> petDtoList = petnoteService.findAllPetDto();
         model.addAttribute("petDtoList", petDtoList);
-//        model.addAttribute("petError", "");
         return "petnote/list";
     }
 
@@ -54,19 +47,17 @@ public class PetnoteController {
             return "member/login";
         }
 
-        String loggedUserID = customUserDetails.getLoggedMember().getUserID();
-        Integer memberID = customUserDetails.getLoggedMember().getId();
-
+        Integer memberID = petnoteService.findMemberIDByPetID(petID);
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto petDto = petnoteService.getPetDtoByPetID(petID);
         String userID = petnoteService.getUserIDByPetID(petID);
-        InfoDto infoDto = petnoteService.findByUserID(loggedUserID, userID);
+//        InfoDto infoDto = petnoteService.findByUserID(userID);
         System.out.println("PetnoteController 펫디티오 " + petDto);
 
-        model.addAttribute("userID", userID);
+//        model.addAttribute("userID", userID);
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
-        model.addAttribute("infoDto", infoDto);
+//        model.addAttribute("infoDto", infoDto);
         model.addAttribute("petDto", petDto);
 
         return "petnote/profile";

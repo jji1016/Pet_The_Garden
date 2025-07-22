@@ -10,15 +10,15 @@
         <a th:href="@{/petnote/profile/{petID}(petID=${petID})}"><li>프로필</li></a>
         <a th:href="@{/petnote/diary/{petID}(petID=${petID})}"><li class="active">성장일기</li></a>
     </ul>
-    <div class="pet-info">
-        <select name="petID" onchange="location.href='/petnote/diary/' + this.value">
-            <option th:each="pet : ${petList}"
-                    th:value="${pet.id}"
-                    th:text="${pet.petName}"
-                    th:selected="${pet.id == petID}">
-            </option>
-        </select>
-    </div>
+<!--    <div class="pet-info">-->
+<!--        <select name="petID" onchange="location.href='/petnote/diary/' + this.value">-->
+<!--            <option th:each="pet : ${petList}"-->
+<!--                    th:value="${pet.id}"-->
+<!--                    th:text="${pet.petName}"-->
+<!--                    th:selected="${pet.id == petID}">-->
+<!--            </option>-->
+<!--        </select>-->
+<!--    </div>-->
     <form th:action="@{/member/logout}" method="post">
         <button type="submit" class="btn btn-logout">
             <i class="bi bi-box-arrow-right"></i> 로그아웃
@@ -58,8 +58,8 @@
             <div class="no-diary">
                아직 일기가 없어요😺
             </div>
-            <div class="search-wrap">
-                <div class="mb-3 search-box diary-btn">
+            <div class="search-wrap nbt">
+                <div class="mb-3 search-box nodiary-btn">
                     <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
                         <button class="btn" type="button">일기쓰러 가기</button>
                     </a>

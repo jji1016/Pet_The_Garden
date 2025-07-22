@@ -17,13 +17,14 @@ body {
 }
 
 .list-box .list.type02 li {
-    width: calc(33.333% - 10px);
+    width: calc(24% - 10px);
     padding: 15px;
     background-color: #fff;
     margin-bottom: 10px;
     border-radius: 20px;
     box-shadow: 0 3px 3px rgba(0, 0, 0, 0.05);
     flex-direction: column;
+    height: 420px;
 }
 
 .list-box .list.type02 li .img-box img {
@@ -50,17 +51,54 @@ body {
 }
 
 .no-diary {
-    margin-top: 100px;
+    margin-top: 240px;
     margin-left: 355px;
     font-size: 50px;
     font-weight: bolder;
 }
 
-/*.search-wrap {*/
-/*    margin-top: 181px;*/
-/*    margin-right: 607px;*/
-/*}*/
-
 .diary-btn {
     height: 60px;
+    margin-right: 65px;
+}
+
+.nodiary-btn {
+    height: 60px;
+    margin-right: 590px;
+}
+
+.nbt {
+    height: 300px;
+}
+
+.pet-info select {
+    width: 150px;
+    padding: 8px 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #333;
+    background-color: #ffffff;
+    border: 2px solid #f3b13c;
+    border-radius: 20px;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+
+}
+
+.pet-info {
+    margin-top: 40px;
+}
+
+.btn-logout {
+    font-size: 20px;
+    width: 160px !important;
+    margin-top: 525px;
+    font-weight: 500;
 }

@@ -1,3 +1,6 @@
+body {
+  display: flex;
+}
 
 .profile-container {
   display: flex;
@@ -136,5 +139,35 @@
 ul.content li {
   margin-bottom: 10px;
 }
+.pet-info select {
+  width: 150px;
+  padding: 8px 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  background-color: #ffffff;
+  border: 2px solid #f3b13c;
+  border-radius: 20px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;utf8,<svg fill='%23333' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+  cursor: pointer;
+  transition: all 0.3s;
 
+}
+
+.pet-info {
+  margin-top: 10px;
+}
+
+.btn-logout {
+  font-size: 20px;
+  width: 160px !important;
+  margin-top: 525px;
+  font-weight: 500;
+}
 

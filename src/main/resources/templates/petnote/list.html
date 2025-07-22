@@ -15,17 +15,13 @@
     </div>
 </div>
 <div class="container min-vh-100">
-    <div class="mb-3 search-box">
-        <input type="text" class="form-control" placeholder="search"/>
-        <button class="btn" type="button">search</button>
-    </div>
 
     <div class="row mt-5 result-list">
         <div th:each="pet : ${petDtoList}" class="col-3 d-flex">
 <!--            <th:block sec:authorize="isAuthenticated()">-->
                 <a th:href="@{'/petnote/profile/' + ${pet.petID}}" class="card">
                     <div class="img-box">
-                        <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"
+                        <img class="list-img" th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"
                              onerror="this.onerror=null; this.src='/images/noImage.png'"/>
                     </div>
                     <div class="info">
@@ -47,65 +43,10 @@
                         <span th:text="${pet.species}">토끼</span>
                     </div>
                 </a>
-<!--            </th:block>-->
-
-<!--            <th:block sec:authorize="isAnonymous()">-->
-<!--                <a th:href="@{/petnote/profile}" class="card">-->
-<!--                    <div class="img-box">-->
-<!--                        <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"-->
-<!--                             onerror="this.onerror=null; this.src='/images/noImage.png'"/>-->
-<!--                    </div>-->
-<!--                    <div class="info">-->
-<!--                        <h4 th:text="${pet.petName}"></h4>-->
-<!--                        <dl>-->
-<!--                            <dt>주인</dt>-->
-<!--                            <dd th:text="${pet.userID}"></dd>-->
-<!--                        </dl>-->
-<!--                        <dl>-->
-<!--                            <dt>생일</dt>-->
-<!--                            <dd th:text="${pet.birthDate}"></dd>-->
-<!--                        </dl>-->
-<!--                        <dl>-->
-<!--                            <dt>성별</dt>-->
-<!--                            <dd th:text="${pet.petGender}"></dd>-->
-<!--                        </dl>-->
-<!--                    </div>-->
-<!--                    <div class="sticker">-->
-<!--                        <span th:text="${pet.species}">토끼</span>-->
-<!--                    </div>-->
-<!--                </a>-->
-<!--            </th:block>-->
         </div>
     </div>
 </div>
-<div class="modal fade" id="petErrorModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">알림</h5>
-            </div>
-            <div class="modal-body">
-                <p th:text="${petError}">에러메시지.</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" data-bs-dismiss="modal">확인</button>
-            </div>
-        </div>
-    </div>
-</div>
-<footer th:replace="~{fragments/footer}"></footer>
-</body>
 
-<script th:inline="javascript">
-    /*<![CDATA[*/
-    let errorMessage = /*[[${petError}]]*/ "";
-    if (errorMessage && errorMessage.trim() !== "") {
-        document.querySelector("#petErrorModal .modal-body p").textContent = errorMessage;
-        const modal = new bootstrap.Modal(document.getElementById('petErrorModal'));
-        modal.show();  // 오류 메시지가 있을 경우 모달을 띄움
-    }
-    /*]]>*/
-</script>
 <script>
     // This is an example script, please modify as needed
     const rangeInput = document.querySelector("#range-input");
