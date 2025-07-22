@@ -114,7 +114,7 @@
                                     <tr th:each="pet : ${petList}">
                                         <td><img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" onerror="this.onerror=null; this.src='/images/noImage.png'"></td>
                                         <td>
-                                            <a href="#" th:text="${pet.petName}"></a>
+                                            <a th:href="@{'/petnote/profile/' + ${pet.petID}}"><strong th:text="${pet.petName}"></strong></a>
                                         </td>
                                         <td th:text="${pet.species}"></td>
                                         <td th:text="${pet.follow}"></td>
@@ -149,7 +149,7 @@
                                     <tbody>
                                     <tr th:each="showOffBoard : ${showOffBoardList}">
                                         <td>
-                                            <a href="#" th:text="${showOffBoard.subject}"></a>
+                                            <a th:href="@{'/showoff/showdetail/' + ${showOffBoard.showOffID}}"><strong th:text="${showOffBoard.subject}"></strong></a>
                                         </td>
                                         <td th:text="${#temporals.format(showOffBoard.regDate,'yyyy-MM-dd')}"></td>
                                         <td th:text="${showOffBoard.commentCount}"></td>
@@ -181,11 +181,11 @@
                                 <table class="body-table">
                                     <tbody>
                                     <tr th:each="showOffComment : ${showOffCommentList}">
-                                        <td>
-                                            <a href="#" th:text="${showOffComment.content}"></a>
-                                        </td>
+                                        <td th:text="${showOffComment.content}"></td>
                                         <td th:text="${#temporals.format(showOffComment.regDate,'yyyy-MM-dd')}"></td>
-                                        <td th:text="${showOffComment.boardSubject}"></td>
+                                        <td>
+                                            <a th:href="@{'/showoff/showdetail/' + ${showOffComment.showOffID}}"><strong th:text="${showOffComment.boardSubject}"></strong></a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -217,7 +217,7 @@
                                     <tbody>
                                     <tr th:each="freeBoard : ${freeBoardList}">
                                         <td>
-                                            <a href="#" th:text="${freeBoard.subject}"></a>
+                                            <a th:href="@{'/community/boarddetail/' + ${freeBoard.freeBoardID}}"><strong th:text="${freeBoard.subject}"></strong></a>
                                         </td>
                                         <td th:text="${#temporals.format(freeBoard.regDate,'yyyy-MM-dd')}"></td>
                                         <td th:text="${freeBoard.commentCount}"></td>
@@ -249,11 +249,11 @@
                                 <table class="body-table">
                                     <tbody>
                                     <tr th:each="freeComment : ${freeCommentList}">
-                                        <td>
-                                            <a href="#" th:text="${freeComment.content}"></a>
-                                        </td>
+                                        <td th:text="${freeComment.content}"></td>
                                         <td th:text="${#temporals.format(freeComment.regDate,'yyyy-MM-dd')}"></td>
-                                        <td th:text="${freeComment.boardSubject}"></td>
+                                        <td>
+                                            <a th:href="@{'/community/boarddetail/' + ${freeComment.freeBoardID}}"><strong th:text="${freeComment.boardSubject}"></strong></a>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
