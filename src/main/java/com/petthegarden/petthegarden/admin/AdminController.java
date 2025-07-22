@@ -1,21 +1,22 @@
 package com.petthegarden.petthegarden.admin;
 
-import com.petthegarden.petthegarden.admin.dto.AdminMemberDto;
-import com.petthegarden.petthegarden.admin.dto.AdminPetDto;
-import com.petthegarden.petthegarden.admin.dto.AdminShowOffDto;
+import com.petthegarden.petthegarden.admin.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -96,6 +97,40 @@ public class AdminController {
         return "admin/memberList";
     }
 
+    @GetMapping("/memberDetail/{memberID}")
+    public String sample(Model model,
+                         @PathVariable String memberID) {
+        Integer ID = Integer.parseInt(memberID);
+
+        /* 해당 회원 정보 */
+        AdminMemberDetailDto memberDetail = adminService.findById(ID);
+        /* 회원의 반려동물 */
+        List<AdminPetDto> petList = adminService.findByMember_Id(ID);
+        /* 회원의 장기자랑 게시글, 댓글 */
+        List<AdminShowOffBoardDto> showOffBoardList = adminService.getShowOffBoardList(ID);
+        List<AdminShowOffCommentDto> showOffCommentList = adminService.getShowOffCommentList(ID);
+        /* 회원의 자유게시판 게시글, 댓글 */
+        List<AdminFreeBoardDto> freeBoardList = adminService.getFreeBoardList(ID);
+        List<AdminFreeCommentDto> freeCommentList = adminService.getFreeCommentList(ID);
+
+
+        log.info("memberDetail == {}",memberDetail);
+        log.info("petList == {}",petList);
+        log.info("showOffBoardList == {}",showOffBoardList);
+        log.info("showOffCommentList == {}",showOffCommentList);
+        log.info("freeBoardList == {}",freeBoardList);
+        log.info("freeCommentList == {}",freeCommentList);
+
+        model.addAttribute("memberDetail", memberDetail);
+        model.addAttribute("petList", petList);
+        model.addAttribute("showOffBoardList", showOffBoardList);
+        model.addAttribute("showOffCommentList", showOffCommentList);
+        model.addAttribute("freeBoardList", freeBoardList);
+        model.addAttribute("freeCommentList", freeCommentList);
+
+        return "admin/memberDetail";
+    }
+
     @GetMapping("/petList")
     public String petList(Model model,
                              @RequestParam(required = false) String startDate,
@@ -103,7 +138,6 @@ public class AdminController {
                              @RequestParam(defaultValue = "petName") String key,
                              @RequestParam(required = false) String search,
                              @RequestParam(defaultValue = "1") int currentPage) {
-        log.info("key1 == {}",key);
 
         startDate = startDate == null ? "" : startDate;
         endDate = endDate == null ? "" : endDate;
@@ -126,7 +160,6 @@ public class AdminController {
         Page<AdminPetDto> petList = adminService.getPetList(startDate,endDate,key,search,pageable);
         log.info("petList == {}",petList.getContent());
         log.info("totalPage == {}",petList.getTotalPages());
-        log.info("key2 == {}",key);
         int totalPage = petList.getTotalPages();
         totalPage = totalPage == 0 ? 1 : totalPage;
 
@@ -141,8 +174,47 @@ public class AdminController {
         return "admin/petList";
     }
 
-    @GetMapping("/sample")
-    public String sample(Model model) {
-        return "admin/sample";
+    @GetMapping("/report")
+    public String report(Model model,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                         @RequestParam(defaultValue = "reporter") String key,
+                         @RequestParam(defaultValue = "All") String type,
+                         @RequestParam(required = false) String search,
+                         @RequestParam(defaultValue = "1") int currentPage) {
+        search = search == null ? "" : search.replaceAll("\\s+"," ").trim();
+        if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
+            LocalDateTime temp = startDate;
+            startDate = endDate;
+            endDate = temp;
+        }
+
+        Pageable pageable = PageRequest.of(currentPage-1, 10, Sort.by("reportDate").descending());
+
+        log.info("startDate == {}",startDate);
+        log.info("endDate == {}",endDate);
+        log.info("type == {}",type);
+        log.info("key == {}",key);
+        log.info("search == {}",search);
+
+        Page<AdminReportDto> reportList = adminService.getReportList(type,startDate,endDate,key,search,pageable);
+        log.info("reportList == {}",reportList.getContent());
+        log.info("totalPage == {}",reportList.getTotalPages());
+
+        int totalPage = reportList.getTotalPages();
+        totalPage = totalPage == 0 ? 1 : totalPage;
+
+        model.addAttribute("reportList", reportList.getContent());
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("key", key);
+        model.addAttribute("search", search);
+        model.addAttribute("type", type);
+
+        return "admin/report";
     }
+
+
 }
