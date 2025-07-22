@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminShowOffBoardDto {
+    private Integer showOffID;
+
     private String subject;
 
     private LocalDateTime regDate;
