@@ -50,7 +50,7 @@ public class PetnoteController {
         Integer memberID = petnoteService.findMemberIDByPetID(petID);
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto petDto = petnoteService.getPetDtoByPetID(petID);
-        String userID = petnoteService.getUserIDByPetID(petID);
+//        String userID = petnoteService.getUserIDByPetID(petID);
 //        InfoDto infoDto = petnoteService.findByUserID(userID);
         System.out.println("PetnoteController 펫디티오 " + petDto);
 
@@ -138,8 +138,10 @@ public class PetnoteController {
         List<DiaryDto> diaryDtoList = petnoteService.findAllDiaryDto(petID);
 
         Integer memberID = petnoteService.findMemberIDByPetID(petID);
+        System.out.println("멤멤멤버아이디디디 == " + memberID);
         List<Pet> petList = petnoteService.getPetList(memberID);
 
+        model.addAttribute("memberID", memberID);
         model.addAttribute("petList", petList);
         model.addAttribute("diaryDtoList", diaryDtoList);
         model.addAttribute("petID", petID);

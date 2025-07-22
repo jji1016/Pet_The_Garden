@@ -6,43 +6,43 @@
 <body>
 <nav class="sidebar">
     <ul>
-        <a href="/index/index"><li class="logo"><img src="/images/logo.png" alt="로고"></li></a>
-        <a th:href="@{/petnote/profile/{petID}(petID=${petID})}"><li>프로필</li></a>
-        <a th:href="@{/petnote/diary/{petID}(petID=${petID})}"><li class="active">성장일기</li></a>
+        <a href="/index/index">
+            <li class="logo"><img src="/images/logo.png" alt="로고"></li>
+        </a>
+        <a th:href="@{/petnote/profile/{petID}(petID=${petID})}">
+            <li>프로필</li>
+        </a>
+        <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+            <li class="active">성장일기</li>
+        </a>
     </ul>
-<!--    <div class="pet-info">-->
-<!--        <select name="petID" onchange="location.href='/petnote/diary/' + this.value">-->
-<!--            <option th:each="pet : ${petList}"-->
-<!--                    th:value="${pet.id}"-->
-<!--                    th:text="${pet.petName}"-->
-<!--                    th:selected="${pet.id == petID}">-->
-<!--            </option>-->
-<!--        </select>-->
-<!--    </div>-->
     <form th:action="@{/member/logout}" method="post">
         <button type="submit" class="btn btn-logout">
             <i class="bi bi-box-arrow-right"></i> 로그아웃
         </button>
     </form>
 </nav>
-<div class="container min-vh-100">
 
+<div class="container min-vh-100">
     <div class="list-box">
         <th:block th:if="${diaryDtoList != null and !diaryDtoList.isEmpty()}">
-            <div class="search-wrap">
-                <div class="mb-3 search-box diary-btn">
-                    <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
-                        <button class="btn" type="button">일기쓰러 가기</button>
-                    </a>
+            <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
+                <div class="search-wrap">
+                    <div class="mb-3 search-box diary-btn">
+                        <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                            <button class="btn" type="button">일기쓰러 가기</button>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </th:block>
             <ul class="list type02">
                 <li class="d-flex" th:each="item : ${diaryDtoList}">
                     <a th:href="@{/petnote/diaryview/{id}(id=${item.id})}">
                         <div th:if="${item.image != null}" class="img-box">
-                            <img th:src="@{'/PTGUpload/diary/' + ${item.image}}" onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                            <img th:src="@{'/PTGUpload/diary/' + ${item.image}}"
+                                 onerror="this.onerror=null; this.src='/images/noImage.png'"/>
                         </div>
-                        <div th:if="${item.image == null}"   class="img-box">
+                        <div th:if="${item.image == null}" class="img-box">
                             <img src="/images/noImage.png"
                                  alt="사진"/>
                         </div>
@@ -56,15 +56,17 @@
         </th:block>
         <th:block th:if="${diaryDtoList == null or diaryDtoList.isEmpty()}">
             <div class="no-diary">
-               아직 일기가 없어요😺
+                아직 일기가 없어요😺
             </div>
-            <div class="search-wrap nbt">
-                <div class="mb-3 search-box nodiary-btn">
-                    <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
-                        <button class="btn" type="button">일기쓰러 가기</button>
-                    </a>
+            <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
+                <div class="search-wrap nbt">
+                    <div class="mb-3 search-box nodiary-btn">
+                        <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                            <button class="btn" type="button">일기쓰러 가기</button>
+                        </a>
+                    </div>
                 </div>
-            </div>
+            </th:block>
         </th:block>
     </div>
 </div>

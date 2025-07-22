@@ -18,9 +18,8 @@
         <th:block th:if="${petID} == null">
             <div id="profile" class="profile" onclick="openModal()">
                 <span class="img">
-                    <img th:src="${#strings.isEmpty(#authentication.principal.loggedMember.image)
-             ? '/images/default-image.jpg'
-             : '/PTGUpload/upload/' + #authentication.principal.loggedMember.image}"
+                    <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                         onerror="this.onerror=null; this.src='/images/default-image.jpg';"
                          alt="프로필 이미지"/>
                 </span>
                 <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
@@ -28,8 +27,11 @@
         </th:block>
         <th:block th:if="${petID} != null">
             <a th:href="@{/petnote/profile/{petID}(petID=${petID})}" id="profile" class="profile">
-            <span class="img"><img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
-                                   alt="프로필"/></span>
+            <span class="img">
+                <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                     onerror="this.onerror=null; this.src='/images/default-image.jpg';"
+                     alt="프로필 이미지"/>
+            </span>
                 <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
             </a>
         </th:block>

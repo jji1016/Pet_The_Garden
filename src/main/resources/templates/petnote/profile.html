@@ -28,9 +28,8 @@
                 <div class="col-4">
                     <div class="owner">
                         <div class="img-box">
-                            <img th:src="${#strings.isEmpty(petDto.userImage)
-             ? '/images/default-image.jpg'
-             : '/PTGUpload/upload/' + petDto.userImage}"
+                            <img th:src="@{'/PTGUpload/upload/' + ${petDto.userImage}}"
+                                 onerror="this.onerror=null; this.src='/images/default-image.jpg';"
                                  alt="프로필 이미지"/>
                         </div>
                         <div class="info">
