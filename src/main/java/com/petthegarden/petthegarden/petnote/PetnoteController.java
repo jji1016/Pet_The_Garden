@@ -42,16 +42,17 @@ public class PetnoteController {
                           Model model,
                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        if (customUserDetails == null) {
-            model.addAttribute("loginError", "로그인 후 이용 가능합니다.");
-            return "member/login";
-        }
+//        if (customUserDetails == null) {
+//            model.addAttribute("loginError", "로그인 후 이용 가능합니다.");
+//            return "member/login";
+//        }
 
         Integer memberID = petnoteService.findMemberIDByPetID(petID);
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto petDto = petnoteService.getPetDtoByPetID(petID);
 //        String userID = petnoteService.getUserIDByPetID(petID);
 //        InfoDto infoDto = petnoteService.findByUserID(userID);
+
         System.out.println("PetnoteController 펫디티오 " + petDto);
 
 //        model.addAttribute("userID", userID);
@@ -87,7 +88,8 @@ public class PetnoteController {
                            Model model,
                            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String petName = petnoteService.getPetDtoByPetID(petID).getPetName();
-        List<Pet> petList = petnoteService.getPetList(customUserDetails.getMemberId());
+        Integer memberID = petnoteService.findMemberIDByPetID(petID);
+        List<Pet> petList = petnoteService.getPetList(memberID);
 
         String userID = petnoteService.getUserIDByPetID(petID);
 

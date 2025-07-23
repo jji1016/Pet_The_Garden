@@ -5,63 +5,66 @@
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
 <body>
-<div class="diary-box">
-    <div class="main-visual" id="diary-visual">
-        <div class="slogan custom-slogan">
-            <!--            <p class="main">강아지의 일기장</p>-->
-            <p class="main" th:text="${petName} + '의 일기장'">강아지의 일기장</p>
-            <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>
-        </div>
+<!--<div class="diary-box">-->
+<div class="main-visual" id="diary-visual">
+    <div class="slogan custom-slogan">
+        <!--            <p class="main">강아지의 일기장</p>-->
+        <p class="main" th:text="${petName} + '의 일기장'">강아지의 일기장</p>
+        <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>
     </div>
-<!--    <nav class="sidebar">-->
-<!--        <ul>-->
-<!--            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>-->
-<!--            <li><a th:href="@{/petnote/profile/{petID}(petID=${petID})}">프로필</a></li>-->
-<!--            <th:block sec:authorize="isAuthenticated()">-->
-<!--                <li class="active"><a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">성장일기</a></li>-->
-<!--            </th:block>-->
-<!--            <th:block sec:authorize="isAnonymous()">-->
-<!--                <li class="active"><a th:href="@{/petnote/diary}">성장일기</a></li>-->
-<!--            </th:block>-->
-<!--        </ul>-->
-<!--        <th:block th:if="${userID == (#authentication.principal.username)}">-->
-<!--            <div class="pet-info">-->
-<!--                <select name="petID" onchange="location.href='/petnote/diaryreg/' + this.value">-->
-<!--                    <option th:each="pet : ${petList}"-->
-<!--                            th:value="${pet.id}"-->
-<!--                            th:text="${pet.petName}"-->
-<!--                            th:selected="${pet.id == petID}">-->
-<!--                    </option>-->
-<!--                </select>-->
-<!--            </div>-->
-<!--        </th:block>-->
-<!--        <form th:action="@{/member/logout}" method="post">-->
-<!--            <button type="submit" class="btn btn-logout">-->
-<!--                <i class="bi bi-box-arrow-right"></i> 로그아웃-->
-<!--            </button>-->
-<!--        </form>-->
-<!--    </nav>-->
-    <div class="profile-wrap">
-        <form th:action="@{/petnote/diaryreg}" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="petID" th:value="${petID}">
-            <div>
-                <h6 class="title">제목</h6>
-                <input type="text" name="subject">
-            </div>
-            <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
-            <div class="container">
-                <div class="row custom-row">
-                    <div class="col-8">
-                        <div class="diary-reg-detail">
-                            <div>
-                                <h6>오늘의 일기</h6>
-                                <textarea class="text-content" type="text" name="content" id="content"></textarea>
-                            </div>
-                            <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
+</div>
+
+<nav class="sidebar">
+    <ul>
+        <a href="/index/index">
+            <li class="logo"><img src="/images/logo.png" alt="로고"></li>
+        </a>
+        <a th:href="@{/petnote/profile/{petID}(petID=${petID})}">
+            <li>프로필</li>
+        </a>
+        <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+            <li class="active">성장일기</li>
+        </a>
+    </ul>
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/member/logout}" method="post" class="btn btn-logout">
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i> 로그아웃
+            </button>
+        </form>
+    </th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="@{/member/login}" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right"></i> 로그인
+        </a>
+    </th:block>
+</nav>
+<div class="profile-wrap">
+    <form th:action="@{/petnote/diaryreg}" class="diary-reg-wrap" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="petID" th:value="${petID}">
+        <div>
+            <h6 class="title">제목</h6>
+            <input type="text" name="subject">
+        </div>
+        <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
+        <div class="container">
+            <div class="row custom-row">
+                <div class="col-8">
+                    <div class="diary-reg-detail">
+                        <div>
+                            <h6>오늘의 일기</h6>
+                            <textarea class="text-content" type="text" name="content" id="content"></textarea>
+                        </div>
+                        <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
+                        <div class="diary-upload">
                             <div class="form-group">
                                 <h6 class="photo">사진</h6>
                                 <label for="diaryImg" class="file-label">📷 사진 선택하기</label>
                                 <input class="img-content" type="file" name="diaryImg" id="diaryImg"/>
+                                <div class="preview-box">
+                                    <span class="preview-placeholder">미리보기 이미지가 여기에 표시됩니다</span>
+                                    <img id="preview" src="" alt="미리보기 이미지" style="display: none;"/>
+                                </div>
                             </div>
                         </div>
                         <div class="diary-upload">
@@ -73,8 +76,41 @@
                     </div>
                 </div>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
+<!--</div>-->
+<script>
+    const file = document.querySelector("#diaryImg");
+    const preview = document.querySelector("#preview");
+    file.addEventListener("change", (e) => {
+        const selectedFile = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            preview.setAttribute("src", e.target.result);
+        }
+        fileReader.readAsDataURL(selectedFile);
+    })
+
+    document.getElementById("diaryImg").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        const previewImage = document.getElementById("preview");
+        const placeholder = document.querySelector(".preview-placeholder");
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImage.src = event.target.result;
+                previewImage.style.display = "block";
+                placeholder.style.display = "none";
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewImage.src = "";
+            previewImage.style.display = "none";
+            placeholder.style.display = "block";
+        }
+    });
+</script>
 </body>
 </html>

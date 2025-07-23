@@ -165,9 +165,16 @@ ul.content li {
 }
 
 .btn-logout {
-  font-size: 20px;
+  font-size: 17px;
   width: 160px !important;
-  margin-top: 525px;
+  margin-top: 10px;
+  font-weight: 500;
+}
+
+.btn-login {
+  font-size: 17px;
+  width: 160px !important;
+  margin-top: 10px;
   font-weight: 500;
 }
 

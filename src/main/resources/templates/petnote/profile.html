@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head::head(PROFILE)}"></head>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <body>
@@ -13,12 +14,18 @@
             <li>성장일기</li>
         </a>
     </ul>
-
-    <form th:action="@{/member/logout}" method="post">
-        <button type="submit" class="btn btn-logout">
-            <i class="bi bi-box-arrow-right"></i> 로그아웃
-        </button>
-    </form>
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/member/logout}" method="post">
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i> 로그아웃
+            </button>
+        </form>
+    </th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="@{/member/login}" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right"></i> 로그인
+        </a>
+    </th:block>
 </nav>
 <div class="profile-wrap">
     <form th:action="@{/petnote/profile/${petID}}"

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head::head(Diary)}"></head>
 <link rel="stylesheet" href="/css/petnote/diary.css"/>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
@@ -16,25 +17,38 @@
             <li class="active">성장일기</li>
         </a>
     </ul>
-    <form th:action="@{/member/logout}" method="post">
-        <button type="submit" class="btn btn-logout">
-            <i class="bi bi-box-arrow-right"></i> 로그아웃
-        </button>
-    </form>
+    <th:block sec:authorize="isAuthenticated()">
+        <form th:action="@{/member/logout}" method="post">
+            <button type="submit" class="btn btn-logout">
+                <i class="bi bi-box-arrow-right"></i> 로그아웃
+            </button>
+        </form>
+    </th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="@{/member/login}" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right"></i> 로그인
+        </a>
+    </th:block>
 </nav>
 
 <div class="container min-vh-100">
     <div class="list-box">
+        <!--       1. 일기가 있을 때-->
         <th:block th:if="${diaryDtoList != null and !diaryDtoList.isEmpty()}">
-            <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
-                <div class="search-wrap">
-                    <div class="mb-3 search-box diary-btn">
-                        <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
-                            <button class="btn" type="button">일기쓰러 가기</button>
-                        </a>
+
+            <!-- 1-1 일기 주일일 때 버튼보여주기 -->
+            <th:block sec:authorize="isAuthenticated()">
+                <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
+                    <div class="search-wrap">
+                        <div class="mb-3 search-box diary-btn">
+                            <a class="btn" th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                                <button class="btn" type="button">일기쓰러 가기</button>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                </th:block>
             </th:block>
+
             <ul class="list type02">
                 <li class="d-flex" th:each="item : ${diaryDtoList}">
                     <a th:href="@{/petnote/diaryview/{id}(id=${item.id})}">
@@ -54,18 +68,23 @@
                 </li>
             </ul>
         </th:block>
+
+        <!--        일기가 없을 때-->
         <th:block th:if="${diaryDtoList == null or diaryDtoList.isEmpty()}">
             <div class="no-diary">
                 아직 일기가 없어요😺
             </div>
-            <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
-                <div class="search-wrap nbt">
-                    <div class="mb-3 search-box nodiary-btn">
-                        <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
-                            <button class="btn" type="button">일기쓰러 가기</button>
-                        </a>
+            <!--            일기 주일일 때-->
+            <th:block sec:authorize="isAuthenticated()">
+                <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
+                    <div class="search-wrap nbt">
+                        <div class="mb-3 search-box nodiary-btn">
+                            <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                                <button class="btn" type="button">일기쓰러 가기</button>
+                            </a>
+                        </div>
                     </div>
-                </div>
+                </th:block>
             </th:block>
         </th:block>
     </div>
