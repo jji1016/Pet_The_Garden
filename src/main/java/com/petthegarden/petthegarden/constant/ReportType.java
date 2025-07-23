@@ -7,9 +7,7 @@ import lombok.RequiredArgsConstructor;
 @Getter
 public enum ReportType {
     FREE_POST("자유게시판 게시글"),
-    FREE_COMMENT("자유게시판 댓글"),
-    SHOWOFF_POST("장기자랑 게시글"),
-    SHOWOFF_COMMENT("장기자랑 댓글");
+    FREE_COMMENT("자유게시판 댓글");
     private final String label;
 
 }
