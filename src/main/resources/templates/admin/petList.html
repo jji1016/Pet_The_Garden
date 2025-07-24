@@ -84,7 +84,7 @@
                             <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}">
                         </td>
                         <td>
-                            <a href="#" th:text="${pet.petName}"></a>
+                            <a th:href="@{'/petnote/profile/' + ${pet.petID}}"><strong th:text="${pet.petName}"></strong></a>
                         </td>
                         <td th:text="${pet.species}"></td>
                         <td th:text="${pet.follow} ?: 0"></td>

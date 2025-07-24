@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminFreeBoardDto {
+    private Integer freeBoardID;
+
     private String subject;
 
     private LocalDateTime regDate;

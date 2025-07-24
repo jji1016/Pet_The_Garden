@@ -12,6 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AdminShowOffCommentDto {
+    private Integer showOffID;
+
     private String content;
 
     private LocalDateTime regDate;
