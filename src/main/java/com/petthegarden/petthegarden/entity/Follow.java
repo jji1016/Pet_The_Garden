@@ -16,10 +16,10 @@ public class Follow {
     private Integer Id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberID", nullable = false)
+    @JoinColumn(name = "fromMemberID", referencedColumnName = "memberid", nullable = false)
     private Member member; //사람이
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "petID", nullable = false)
+    @JoinColumn(name = "toPetID", referencedColumnName = "petid", nullable = false)
     private Pet pet; //펫을 팔로우
 }

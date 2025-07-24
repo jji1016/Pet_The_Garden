@@ -29,6 +29,7 @@ public class PetDto {
     private String userImage;
 
 
+
     public static PetDto toPetDto(Pet pet) {
         return PetDto.builder()
                 .petID(pet.getId())

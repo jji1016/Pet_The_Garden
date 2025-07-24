@@ -4,15 +4,21 @@
 <head th:replace="~{fragments/head::head(PROFILE)}"></head>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <body>
-<nav class="sidebar h100vh">
+<nav class="sidebar h100vh" id="profile-header">
     <ul>
-        <a href="/index/index">
-            <li class="logo"><img src="/images/logo.png" alt="로고"></li>
-        </a>
+
+        <li class="logo">
+            <a href="/index/index">
+                <img src="/images/logo.png" alt="로고">
+            </a>
+        </li>
+
         <li class="active">프로필</li>
-        <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
-            <li>성장일기</li>
-        </a>
+        <li>
+            <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+                성장일기
+            </a>
+        </li>
     </ul>
     <th:block sec:authorize="isAuthenticated()">
         <form th:action="@{/member/logout}" method="post">
@@ -51,9 +57,11 @@
                                     </option>
                                 </select>
                             </div>
+
                         </div>
                     </div>
                     <div class="info-box">
+
                         <p>
                             <i class="bi bi-emoji-smile"></i>
                             <span th:text="*{petName}">밍키</span>
@@ -71,7 +79,9 @@
                             <span th:text="*{follow} + ' followers'">117</span>
                         </p>
                         <ul>
-                            <li><a href="" id="btn-follow" data-subscribe="yes" class="btn btn-follow w-100 btn-lg">Follow</a>
+                            <li>
+                                <a href="" id="btn-follow" data-follow="yes"
+                                   class="btn btn-follow w-100 btn-lg">Follow</a>
                             </li>
                         </ul>
                     </div>
@@ -132,7 +142,6 @@
         </div>
     </form>
 </div>
-
 </body>
 <script>
     // This is an example script, please modify as needed
@@ -163,39 +172,47 @@
         }
     }
 </script>
-<script>
-    const btnFollow = document.querySelector("#btn-follow"); //있을 수도 있고 없을 수도 있고
-    console.log("btnSubscribe===", btnFollow);
-    const followStatus = btnFollow.dataset.follow;
+<script th:inline="javascript">
+    const btnFollow = document.querySelector("#btn-follow");
+    //const followStatus = btnFollow.dataset.follow;
+    const toPetID = /*[[${petDto.petID}]]*/ "5";
+    console.log("toPetID ====== ", toPetID);
 
-    if (followStatus === "yes") {
-        fetch(`/api/subscribe/${toMemberID}`, {
-            method: "post"
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.isFollow) {
-                    alert("팔로우성공");
-                    btnFollow.dataset.follow = "no";
-                    btnFollow.textContent = "Following";
-                } else {
-                    alert("오류");
-                }
-            })
-    } else {
-        fetch(`/api/subscribe/${toMemberID}`, {
-            method: "delete"
-        })
-            .then(response => response.json())
-            .then(json => {
-                if (json.isFollowDelete) {
-                    alert("팔로우취소");
-                    btnFollow.dataset.follow = "yes";
-                    btnFollow.textContent = "Follow";
-                } else {
-                    alert("오류02");
-                }
-            })
-    }
+        btnFollow.addEventListener("click", function (e) {
+            e.preventDefault();
+
+            const followStatus = btnFollow.dataset.follow;
+
+            if (followStatus === "yes") {
+                fetch(`/api/follow/${toPetID}`, {
+                    method: "post"
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        if (json.isFollow) {
+                            alert("팔로우성공");
+                            btnFollow.dataset.follow = "no";
+                            btnFollow.textContent = "Following";
+                        } else {
+                            alert("오류");
+                        }
+                    });
+            } else {
+                fetch(`/api/follow/${toPetID}`, {
+                    method: "delete"
+                })
+                    .then(response => response.json())
+                    .then(json => {
+                        if (json.isFollowDelete) {
+                            alert("팔로우취소");
+                            btnFollow.dataset.follow = "yes";
+                            btnFollow.textContent = "Follow";
+                        } else {
+                            alert("오류02");
+                        }
+                    });
+            }
+        });
+
 </script>
 </html>

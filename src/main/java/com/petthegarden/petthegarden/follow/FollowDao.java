@@ -12,13 +12,14 @@ import java.util.stream.Collectors;
 public class FollowDao {
     private final FollowRepository followRepository;
 
-    public int follow(String fromMemberID, String toMemberID) {
-        return followRepository.follow(fromMemberID, toMemberID);
+    public int follow(String fromMemberID, String toPetID) {
+        return followRepository.follow(fromMemberID, toPetID);
     }
 
-//    public int unfollow(String fromMemberID, String toMemberID) {
-//        return followRepository.unfollow(fromMemberID, toMemberID);
-//    }
+
+    public int unfollow(String fromMemberID, String toPetID) {
+        return followRepository.unfollow(fromMemberID, toPetID);
+    }
 //
 //    public List<FollowDto> getSubscribeList(String currentUserID, String targetUserID) {
 //        List<Member> subscribedMembers = followRepository.findfollowedUsers(targetUserID);

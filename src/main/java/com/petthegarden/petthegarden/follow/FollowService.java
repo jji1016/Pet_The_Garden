@@ -12,18 +12,18 @@ public class FollowService {
         private final FollowDao followDao;
 
         @Transactional
-        public int follow(String fromMemberID, String toMemberID) {
-            return followDao.follow(fromMemberID, toMemberID);
+        public int follow(String fromMemberID, String toPetID) {
+            return followDao.follow(fromMemberID, toPetID);
         }
 
 
 //        public List<FollowDto> getFollowList(String currentUserID, String targetUserID) {
 //            return followDao.getFollowList(currentUserID, targetUserID);
 //        }
-//
-//        @Transactional
-//        public int unfollow(String fromMemberID, String toMemberID) {
-//            return followDao.unfollow(fromMemberID, toMemberID);
-//        }
+
+        @Transactional
+        public int unfollow(String fromMemberID, String toPetID) {
+            return followDao.unfollow(fromMemberID, toPetID);
+        }
     }
 
