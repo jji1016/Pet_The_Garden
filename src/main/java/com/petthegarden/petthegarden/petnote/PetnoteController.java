@@ -3,9 +3,10 @@ package com.petthegarden.petthegarden.petnote;
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.follow.FollowService;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
-import com.petthegarden.petthegarden.petnote.dto.InfoDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
+import com.petthegarden.petthegarden.petnote.dto.PetInfo;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,7 @@ import java.util.Map;
 public class PetnoteController {
 
     private final PetnoteService petnoteService;
+    private final FollowService followService;
 
     @Transactional
     @GetMapping("/list")
@@ -46,19 +48,27 @@ public class PetnoteController {
 //            model.addAttribute("loginError", "로그인 후 이용 가능합니다.");
 //            return "member/login";
 //        }
-
+        Integer myMemberId = customUserDetails.getMemberId();
         Integer memberID = petnoteService.findMemberIDByPetID(petID);
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto petDto = petnoteService.getPetDtoByPetID(petID);
-//        String userID = petnoteService.getUserIDByPetID(petID);
-//        InfoDto infoDto = petnoteService.findByUserID(userID);
+        String userID = petnoteService.getUserIDByPetID(petID);
+        PetInfo petInfo = petnoteService.findByUserID(petID);
+        int followers = followService.getFollowers(petID);
+        petInfo.setFollowers(followers);
+        boolean isFollow = followService.isFollowing(myMemberId, petID);
+        System.out.println("isFollow === " + isFollow);
+        model.addAttribute("isFollow", isFollow);
 
+
+        System.out.println("펫인포입니다 ===== " + petInfo);
         System.out.println("PetnoteController 펫디티오 " + petDto);
 
 //        model.addAttribute("userID", userID);
+        model.addAttribute("memberID", memberID);
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
-//        model.addAttribute("infoDto", infoDto);
+        model.addAttribute("petInfo", petInfo);
         model.addAttribute("petDto", petDto);
 
         return "petnote/profile";

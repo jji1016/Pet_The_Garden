@@ -21,8 +21,8 @@ public class FollowController {
 
     @PostMapping("/follow/{toPetID}")
     public Map<String,Object> follow(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                     @PathVariable String toPetID) {
-        String fromMemberID = customUserDetails.getLoggedMember().getUserID();
+                                     @PathVariable Integer toPetID) {
+        Integer fromMemberID = customUserDetails.getLoggedMember().getId();
         int result =  followService.follow(fromMemberID, toPetID);
         System.out.println("result === " + result);
         Map<String,Object> resultMap = new HashMap<>();
@@ -36,8 +36,9 @@ public class FollowController {
 
     @DeleteMapping("/follow/{toPetID}")
     public Map<String,Object> unFollow(@AuthenticationPrincipal CustomUserDetails customUserDetails,
-                                          @PathVariable String toPetID) {
-        String fromMemberID = customUserDetails.getLoggedMember().getUserID();
+                                          @PathVariable Integer toPetID) {
+        int fromMemberID = customUserDetails.getLoggedMember().getId();
+
         int result =  followService.unfollow(fromMemberID, toPetID);
         System.out.println("언팔result!!!!!!! === " + result);
         Map<String,Object> resultMap = new HashMap<>();

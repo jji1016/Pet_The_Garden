@@ -6,7 +6,6 @@
 <body>
 <nav class="sidebar h100vh" id="profile-header">
     <ul>
-
         <li class="logo">
             <a href="/index/index">
                 <img src="/images/logo.png" alt="로고">
@@ -78,12 +77,28 @@
                             <i class="bi  bi-box2-heart"></i>
                             <span th:text="*{follow} + ' followers'">117</span>
                         </p>
-                        <ul>
-                            <li>
-                                <a href="" id="btn-follow" data-follow="yes"
-                                   class="btn btn-follow w-100 btn-lg">Follow</a>
-                            </li>
-                        </ul>
+
+                        <th:block sec:authorize="isAuthenticated()">
+                            <th:block th:if="${#authentication.principal.loggedMember.id != memberID}">
+                                <ul>
+                                    <li>
+<!--                                        <a href="" id="btn-follow" data-follow="yes"-->
+<!--                                           class="btn btn-follow w-100 btn-lg">Follow</a>-->
+                                        <a href="#"
+                                           id="btn-follow"
+                                           th:data-follow="${isFollow} ? 'no' : 'yes'"
+                                           th:classappend="${isFollow} ? 'btn-following' : 'btn-follow'"
+                                           class="btn w-100 btn-lg">
+                                            <span th:text="${isFollow} ? 'Following' : 'Follow'">Follow</span>
+                                        </a>
+
+                                    </li>
+                                </ul>
+                            </th:block>
+                        </th:block>
+
+
+
                     </div>
                 </div>
                 <div class="col-8">
@@ -105,25 +120,29 @@
                                     <ul class="content">
                                         <li>
                                             <div>
-                                                <i class="bi bi-sun"></i>
+                                                <i class="bi bi-sun spacing"></i>
+                                                소개 :
                                                 <span th:text="*{content}"></span>
                                             </div>
                                         </li>
                                         <li>
                                             <div>
-                                                <i class="bi bi-stars"></i>
+                                                <i class="bi bi-stars spacing"></i>
+                                                성격 :
                                                 <span th:text="*{character}"></span>
                                             </div>
                                         </li>
                                         <li>
                                             <div>
-                                                <i class="bi bi-hand-thumbs-up"></i>
+                                                <i class="bi bi-hand-thumbs-up spacing"></i>
+                                                좋아하는 것 :
                                                 <span th:text="*{petLike}"></span>
                                             </div>
                                         </li>
                                         <li>
                                             <div>
-                                                <i class="bi bi-hand-thumbs-down"></i>
+                                                <i class="bi bi-hand-thumbs-down spacing"></i>
+                                                싫어하는 것 :
                                                 <span th:text="*{petDislike}"></span>
                                             </div>
                                         </li>
@@ -131,7 +150,34 @@
                                 </div>
                                 <div id="activity" class="tab-pane" style="display:none;">
                                     <ul class="content">
-                                        화려한 활동 수상경력
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-heart spacing"></i>
+                                                팔로워 :
+                                                <span th:text="|${petInfo.getFollowers()} 명|"> 팔로워 수 </span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-emoji-kiss spacing"></i>
+                                                팔로잉 :
+                                                <span th:text="|${petInfo.getFollowings()} 명|"> 팔로잉 수 </span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-book spacing"></i>
+                                                일기장 :
+                                                <span th:text="|${petInfo.getDiaryCount()} 장|"> 일기 수</span>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div>
+                                                <i class="bi bi-megaphone spacing"></i>
+                                                장기자랑 :
+                                                <span th:text="|${petInfo.getShowOffCount()} 자랑|"> 장기자랑 수</span>
+                                            </div>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -175,44 +221,56 @@
 <script th:inline="javascript">
     const btnFollow = document.querySelector("#btn-follow");
     //const followStatus = btnFollow.dataset.follow;
-    const toPetID = /*[[${petDto.petID}]]*/ "5";
+    const toPetID = /*[[${petDto.petID}]]*/ 5;
     console.log("toPetID ====== ", toPetID);
 
-        btnFollow.addEventListener("click", function (e) {
-            e.preventDefault();
+    btnFollow.addEventListener("click", function (e) {
+        e.preventDefault();
 
-            const followStatus = btnFollow.dataset.follow;
+        const followStatus = btnFollow.dataset.follow;
 
-            if (followStatus === "yes") {
-                fetch(`/api/follow/${toPetID}`, {
-                    method: "post"
-                })
-                    .then(response => response.json())
-                    .then(json => {
-                        if (json.isFollow) {
-                            alert("팔로우성공");
-                            btnFollow.dataset.follow = "no";
-                            btnFollow.textContent = "Following";
-                        } else {
-                            alert("오류");
-                        }
-                    });
-            } else {
-                fetch(`/api/follow/${toPetID}`, {
-                    method: "delete"
-                })
-                    .then(response => response.json())
-                    .then(json => {
-                        if (json.isFollowDelete) {
-                            alert("팔로우취소");
-                            btnFollow.dataset.follow = "yes";
-                            btnFollow.textContent = "Follow";
-                        } else {
-                            alert("오류02");
-                        }
-                    });
-            }
-        });
+        if (followStatus === "yes") {
+            console.log("yes")
+            fetch(`/api/follow/${toPetID}`, {
+                method: "post"
+            })
+                .then(response => response.json())
+                .then(json => {
+                    if (json.isFollow) {
+                        alert("팔로우성공");
+                        btnFollow.dataset.follow = "no";
+                        btnFollow.textContent = "Following";
+                        console.log("팔로우성공")
+
+                        btnFollow.classList.remove("btn-follow");
+                        btnFollow.classList.add("btn-following");
+
+                    } else {
+                        alert("오류");
+                    }
+                });
+        } else {
+            console.log("no")
+            fetch(`/api/follow/${toPetID}`, {
+                method: "delete"
+            })
+                .then(response => response.json())
+                .then(json => {
+                    if (json.isFollowDelete) {
+                        alert("팔로우취소");
+                        btnFollow.dataset.follow = "yes";
+                        btnFollow.textContent = "Follow";
+                        console.log("팔로우취소 성공")
+
+                        btnFollow.classList.remove("btn-following");
+                        btnFollow.classList.add("btn-follow");
+
+                    } else {
+                        alert("오류02");
+                    }
+                });
+        }
+    });
 
 </script>
 </html>

@@ -177,3 +177,18 @@ ul.content li {
   font-weight: 500;
 }
 
+.spacing {
+  margin-right: 15px;
+}
+
+.btn-following{
+  border: 4px solid #f8a92b;
+  border-radius: 30px;
+
+}
+
+.btn-following:hover {
+  background-color: rgba(248, 169, 43, 0.71);
+  border: 4px solid #f8a92b;
+  border-radius: 30px;
+}

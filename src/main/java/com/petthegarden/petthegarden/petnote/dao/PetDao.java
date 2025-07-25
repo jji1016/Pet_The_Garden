@@ -1,5 +1,6 @@
 package com.petthegarden.petthegarden.petnote.dao;
 
+import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import com.petthegarden.petthegarden.petnote.repository.PetRepository;
@@ -42,4 +43,9 @@ public class PetDao {
     public Optional<Pet> findById(Integer petID) {
         return petRepository.findById(petID);
     }
+
+//    public Optional<Member> findMemberByPetID(Integer petID) {
+//        return petRepository.findMemberByPetID(petID);
+//    }
+
 }

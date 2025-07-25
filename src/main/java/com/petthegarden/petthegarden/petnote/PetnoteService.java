@@ -7,8 +7,8 @@ import com.petthegarden.petthegarden.member.MemberDao;
 import com.petthegarden.petthegarden.petnote.dao.PetDao;
 import com.petthegarden.petthegarden.petnote.dao.DiaryDao;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
-import com.petthegarden.petthegarden.petnote.dto.InfoDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
+import com.petthegarden.petthegarden.petnote.dto.PetInfo;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -119,13 +119,13 @@ public class PetnoteService {
     }
 
 
-    public InfoDto findByUserID(String loggedUserID, String userID) {
-        Optional<Member> optionalMember = memberDao.findByUserID(userID);
-        if(optionalMember.isPresent()){
-            Member member = optionalMember.get();
-            return InfoDto.builder()
-                    .pageOwner(loggedUserID.equals(userID))
-                    .member(member)
+    public PetInfo findByUserID(Integer petID) {
+        Optional<Pet> optionalPet = petDao.findById(petID);
+        if(optionalPet.isPresent()){
+            Pet pet = optionalPet.get();
+            return PetInfo.builder()
+                    .diaryCount(pet.getDiaryList().size())
+                    .showOffCount(pet.getShowOffList().size())
                     .build();
         }
         return null;
