@@ -8,120 +8,121 @@
 
 <main class="best-hof-container">
     <div class="best-hof-title-section">
-        <div class="best-hof-month-selector">
-            <div class="best-hof-month-box"  onclick="toggleDropdown()">
-                <span class="best-hof-month-text" th:text="${currentMonth + '월'}">7월</span>
-                <div class="best-hof-arrow" >
-                    <svg class="best-hof-arrow-icon" width="50" height="50" viewBox="0 0 24 24" fill="none"
-                         xmlns="http://www.w3.org/2000/svg">
-                        <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
-                    </svg>
+            <div class="best-hof-month-selector">
+                <div class="best-hof-month-box" onclick="toggleDropdown()">
+                    <span class="best-hof-year-text" style="font-weight: bold; color: #333; font-size: 18px">2025년</span>
+                    <span class="best-hof-month-text" th:text="${currentMonth + '월'}">7월</span>
+                    <div class="best-hof-arrow">
+                        <svg class="best-hof-arrow-icon" width="50" height="50" viewBox="0 0 24 24" fill="none"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 10L12 15L17 10H7Z" fill="currentColor"/>
+                        </svg>
+                    </div>
+                </div>
+                <div class="best-hof-dropdown" id="monthDropdown">
+                    <div class="best-hof-dropdown-item" th:each="month : ${#numbers.sequence(1, 12)}"
+                         th:onclick="'selectMonth(' + ${month} + ')'"
+                         th:text="${month + '월'}">1월
+                    </div>
                 </div>
             </div>
-            <div class="best-hof-dropdown" id="monthDropdown">
-                <div class="best-hof-dropdown-item" th:each="month : ${#numbers.sequence(1, 12)}"
-                     th:onclick="'selectMonth(' + ${month} + ')'"
-                     th:text="${month + '월'}">1월</div>
-            </div>
-        </div>
-        <h1 class="best-hof-title">명예의 전당</h1>
-    </div>
-
-    <div class="best-hof-cards-container" th:if="${bestPosts.size() > 0}">
-        <!-- 1등 카드 -->
-        <div class="best-hof-card best-hof-card-gold" th:if="${bestPosts.size() > 0}"
-             th:attr="data-post-id=${bestPosts[0].id}"
-             onclick="goToDetail(this)">
-            <div class="best-hof-card-image">
-                <img th:if="${bestPosts[0].hasImage()}"
-                     th:src="@{${bestPosts[0].image}}"
-                     th:alt="${bestPosts[0].subject + ' 이미지'}"
-                     onerror="this.style.display='none'">
-                <div th:unless="${bestPosts[0].hasImage()}" class="best-hof-no-image">
-                    <i class="fas fa-image"></i>
-                </div>
-            </div>
-            <div class="best-hof-card-content">
-                <h3 class="best-hof-card-title" th:text="${bestPosts[0].getTruncatedSubject(20)}">
-                    월요일이라 피곤한 개
-                </h3>
-                <p class="best-hof-card-username" th:text="${bestPosts[0].petName}">
-                    피자헛둘셋넷
-                </p>
-                <div class="best-hof-card-likes">
-                    <i class="fas fa-heart"></i>
-                    <span th:text="${bestPosts[0].getFormattedLikes()}">67</span>
-                </div>
-            </div>
-            <div class="best-hof-rank-badge">1</div>
+            <h1 class="best-hof-title">명예의 전당</h1>
         </div>
 
-        <!-- 2등 카드 -->
-        <div class="best-hof-card best-hof-card-silver" th:if="${bestPosts.size() > 1}"
-             th:attr="data-post-id=${bestPosts[1].id}"
-             onclick="goToDetail(this)">
-            <div class="best-hof-card-image">
-                <img th:if="${bestPosts[1].hasImage()}"
-                     th:src="@{${bestPosts[1].image}}"
-                     th:alt="${bestPosts[1].subject + ' 이미지'}"
-                     onerror="this.style.display='none'">
-                <div th:unless="${bestPosts[1].hasImage()}" class="best-hof-no-image">
-                    <i class="fas fa-image"></i>
+        <div class="best-hof-cards-container" th:if="${bestPosts.size() > 0}">
+            <!-- 1등 카드 -->
+            <div class="best-hof-card best-hof-card-gold" th:if="${bestPosts.size() > 0}"
+                 th:attr="data-post-id=${bestPosts[0].id}"
+                 onclick="goToDetail(this)">
+                <div class="best-hof-card-image">
+                    <img th:if="${bestPosts[0].hasImage()}"
+                         th:src="@{${bestPosts[0].image}}"
+                         th:alt="${bestPosts[0].subject + ' 이미지'}"
+                         onerror="this.style.display='none'">
+                    <div th:unless="${bestPosts[0].hasImage()}" class="best-hof-no-image">
+                        <i class="fas fa-image"></i>
+                    </div>
                 </div>
-            </div>
-            <div class="best-hof-card-content">
-                <h3 class="best-hof-card-title" th:text="${bestPosts[1].getTruncatedSubject(20)}">
-                    월요일이라 누운 고양이
-                </h3>
-                <p class="best-hof-card-username" th:text="${bestPosts[1].petName}">
-                    카드값줘체리
-                </p>
-                <div class="best-hof-card-likes">
-                    <i class="fas fa-heart"></i>
-                    <span th:text="${bestPosts[1].getFormattedLikes()}">89</span>
+                <div class="best-hof-card-content">
+                    <h3 class="best-hof-card-title" th:text="${bestPosts[0].getTruncatedSubject(20)}">
+                        월요일이라 피곤한 개
+                    </h3>
+                    <p class="best-hof-card-username" th:text="${bestPosts[0].petName}">
+                        피자헛둘셋넷
+                    </p>
+                    <div class="best-hof-card-likes">
+                        <i class="fas fa-heart"></i>
+                        <span th:text="${bestPosts[0].getFormattedLikes()}">67</span>
+                    </div>
                 </div>
+                <div class="best-hof-rank-badge">1</div>
             </div>
-            <div class="best-hof-rank-badge">2</div>
+
+            <!-- 2등 카드 -->
+            <div class="best-hof-card best-hof-card-silver" th:if="${bestPosts.size() > 1}"
+                 th:attr="data-post-id=${bestPosts[1].id}"
+                 onclick="goToDetail(this)">
+                <div class="best-hof-card-image">
+                    <img th:if="${bestPosts[1].hasImage()}"
+                         th:src="@{${bestPosts[1].image}}"
+                         th:alt="${bestPosts[1].subject + ' 이미지'}"
+                         onerror="this.style.display='none'">
+                    <div th:unless="${bestPosts[1].hasImage()}" class="best-hof-no-image">
+                        <i class="fas fa-image"></i>
+                    </div>
+                </div>
+                <div class="best-hof-card-content">
+                    <h3 class="best-hof-card-title" th:text="${bestPosts[1].getTruncatedSubject(20)}">
+                        월요일이라 누운 고양이
+                    </h3>
+                    <p class="best-hof-card-username" th:text="${bestPosts[1].petName}">
+                        카드값줘체리
+                    </p>
+                    <div class="best-hof-card-likes">
+                        <i class="fas fa-heart"></i>
+                        <span th:text="${bestPosts[1].getFormattedLikes()}">89</span>
+                    </div>
+                </div>
+                <div class="best-hof-rank-badge">2</div>
+            </div>
+
+            <!-- 3등 카드 -->
+            <div class="best-hof-card best-hof-card-bronze" th:if="${bestPosts.size() > 2}"
+                 th:attr="data-post-id=${bestPosts[2].id}"
+                 onclick="goToDetail(this)">
+                <div class="best-hof-card-image">
+                    <img th:if="${bestPosts[2].hasImage()}"
+                         th:src="@{${bestPosts[2].image}}"
+                         th:alt="${bestPosts[2].subject + ' 이미지'}"
+                         onerror="this.style.display='none'">
+                    <div th:unless="${bestPosts[2].hasImage()}" class="best-hof-no-image">
+                        <i class="fas fa-image"></i>
+                    </div>
+                </div>
+                <div class="best-hof-card-content">
+                    <h3 class="best-hof-card-title" th:text="${bestPosts[2].getTruncatedSubject(20)}">
+                        월요일이라 슬픈 앵무새
+                    </h3>
+                    <p class="best-hof-card-username" th:text="${bestPosts[2].petName}">
+                        니이모를찾아서
+                    </p>
+                    <div class="best-hof-card-likes">
+                        <i class="fas fa-heart"></i>
+                        <span th:text="${bestPosts[2].getFormattedLikes()}">123</span>
+                    </div>
+                </div>
+                <div class="best-hof-rank-badge">3</div>
+            </div>
         </div>
 
-        <!-- 3등 카드 -->
-        <div class="best-hof-card best-hof-card-bronze" th:if="${bestPosts.size() > 2}"
-             th:attr="data-post-id=${bestPosts[2].id}"
-             onclick="goToDetail(this)">
-            <div class="best-hof-card-image">
-                <img th:if="${bestPosts[2].hasImage()}"
-                     th:src="@{${bestPosts[2].image}}"
-                     th:alt="${bestPosts[2].subject + ' 이미지'}"
-                     onerror="this.style.display='none'">
-                <div th:unless="${bestPosts[2].hasImage()}" class="best-hof-no-image">
-                    <i class="fas fa-image"></i>
-                </div>
+        <!-- 데이터가 없는 경우 -->
+        <div class="best-hof-empty-state" th:if="${bestPosts.size() == 0}">
+            <div class="best-hof-empty-icon">
+                <i class="fas fa-trophy"></i>
             </div>
-            <div class="best-hof-card-content">
-                <h3 class="best-hof-card-title" th:text="${bestPosts[2].getTruncatedSubject(20)}">
-                    월요일이라 슬픈 앵무새
-                </h3>
-                <p class="best-hof-card-username" th:text="${bestPosts[2].petName}">
-                    니이모를찾아서
-                </p>
-                <div class="best-hof-card-likes">
-                    <i class="fas fa-heart"></i>
-                    <span th:text="${bestPosts[2].getFormattedLikes()}">123</span>
-                </div>
-            </div>
-            <div class="best-hof-rank-badge">3</div>
+            <h3 class="best-hof-empty-title">이번 달 명예의 전당이 비어있습니다</h3>
+            <p class="best-hof-empty-message">아직 게시글이 없거나 좋아요를 받은 게시글이 없습니다.</p>
         </div>
-    </div>
-
-    <!-- 데이터가 없는 경우 -->
-    <div class="best-hof-empty-state" th:if="${bestPosts.size() == 0}">
-        <div class="best-hof-empty-icon">
-            <i class="fas fa-trophy"></i>
-        </div>
-        <h3 class="best-hof-empty-title">이번 달 명예의 전당이 비어있습니다</h3>
-        <p class="best-hof-empty-message">아직 게시글이 없거나 좋아요를 받은 게시글이 없습니다.</p>
-        <a href="/showoff/showreg" class="best-hof-empty-button">첫 게시글 작성하기</a>
-    </div>
 </main>
 
 <div th:replace="~{fragments/footer :: footer}"></div>
