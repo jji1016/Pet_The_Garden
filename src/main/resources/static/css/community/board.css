@@ -1,3 +1,10 @@
+/* 전체 요소 박스 사이징 보더박스 적용 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -15,7 +22,6 @@ html, body {
     padding-top: 120px;
     flex: 1;
 }
-
 
 /* 자유게시판 제목 */
 .board-title {
@@ -43,20 +49,59 @@ html, body {
     align-items: center;
 }
 
+/* select 스타일 */
+#searchType {
+    padding: 8px 15px;
+    font-size: 16px;
+    border: 1px solid #F8A92B;
+    border-radius: 20px 0 0 20px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    width: 110px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%23F8A92B'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    background-size: 10px 6px;
+
+    /* input과 테두리 겹치도록 마진 조정 */
+    margin-right: -1px;
+}
+
+/* select 포커스 시 */
+#searchType:focus {
+    border-color: #d98617;
+}
+
+/* select 옵션 */
+#searchType option {
+    padding: 8px 15px;
+    font-size: 16px;
+    color: #333;
+}
+
 /* 검색 input */
 .search-form input[type="text"] {
     width: 300px;
     padding: 8px 15px;
     font-size: 16px;
     border: 1px solid #F8A92B;
-    border-radius: 20px 0 0 20px;
+    border-radius: 0 0 0 0;
     outline: none;
+
+    /* select와 테두리 겹치도록 마진 조정 */
+    margin-left: -1px;
+    margin-right: -1px;
 }
 
 /* 검색 버튼 (노란색, 둥근 모서리) */
 .btn-search {
     background-color: #F8A92B;
-    border: none;
+    border: 1px solid #f8a92b;
     color: white;
     padding: 8px 20px;
     font-size: 16px;
@@ -147,36 +192,3 @@ html, body {
 .pagination a.active {
     color: #f8a92b;
 }
-
-#searchType {
-    padding: 8px 15px;
-    font-size: 16px;
-    border: 1px solid #F8A92B;
-    border-radius: 20px 0 0 20px;
-    background-color: white;
-    color: #333;
-    cursor: pointer;
-    outline: none;
-    /* select 박스 너비 적당히 */
-    width: 110px;
-    -webkit-appearance: none; /* 크롬, 사파리 기본 화살표 제거 */
-    -moz-appearance: none; /* 파이어폭스 기본 화살표 제거 */
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D'10'%20height%3D'6'%20viewBox%3D'0%200%2010%206'%20xmlns%3D'http%3A//www.w3.org/2000/svg'%3E%3Cpath%20d%3D'M0%200l5%206%205-6z'%20fill%3D'%23F8A92B'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    background-size: 10px 6px;
-}
-
-/* select가 focus 되었을 때 */
-#searchType:focus {
-    border-color: #d98617;
-}
-
-/* option 스타일 */
-#searchType option {
-    padding: 8px 15px;
-    font-size: 16px;
-    color: #333;
-}
-
