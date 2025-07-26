@@ -263,11 +263,20 @@
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: new URLSearchParams({ content })
         })
-            .then(res => res.text())
+            .then(res => {
+                if (res.status === 401) {
+                    alert("로그인 후 이용해주세요.");
+                    window.location.href = "/member/login";
+                    return;
+                }
+
+                return res.text();
+            })
             .then(msg => {
-                //alert(msg);
-                textarea.value = '';
-                refreshComments();
+                if (msg !== undefined) {
+                    textarea.value = '';
+                    refreshComments();
+                }
             })
             .catch(() => alert('댓글 등록 중 오류가 발생했습니다.'));
     });

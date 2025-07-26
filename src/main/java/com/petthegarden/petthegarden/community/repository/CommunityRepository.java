@@ -19,4 +19,6 @@ public interface CommunityRepository extends JpaRepository<Board, Integer> {
     Page<Board> findBySubjectContainingIgnoreCase(String keyword, Pageable pageable);
 
     Page<Board> findByMemberId(Integer memberId, Pageable pageable);
+
+    Page<Board> findByMemberUserNameContainingIgnoreCase(String keyword, Pageable pageable);
 }
