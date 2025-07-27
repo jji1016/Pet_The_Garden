@@ -61,16 +61,15 @@
                             <input type="text" class="form-control w-100" name="search" th:value="${search}">
                         </div>
                     </div>
-                    <div class="btn-wrap row w-50">
+                    <div class="row w-50 modifyFlex">
                         <select class="selectBtn col-3" name="type">
-                            <option value="" th:selected="${type == 'All'}">모두</option>
                             <option value="FREE_POST" th:selected="${type == 'FREE_POST'}">자유게시판 게시글</option>
                             <option value="FREE_COMMENT" th:selected="${type == 'FREE_COMMENT'}">자유게시판 댓글</option>
-                            <option value="SHOWOFF_POST" th:selected="${type == 'SHOWOFF_POST'}">장기자랑 게시글</option>
-                            <option value="SHOWOFF_COMMENT" th:selected="${type == 'SHOWOFF_COMMENT'}">장기자랑 댓글</option>
                         </select>
-                        <button class="btn btn-primary btn-lg col-2">조회</button>
-                        <a href="/admin/report" class="btn btn-secondary btn-lg col-2">초기화</a>
+                        <div class="btn-wrap2">
+                            <button class="btn btn-primary btn-lg w-20">조회</button>
+                            <a href="/admin/report" class="btn btn-secondary btn-lg w-20">초기화</a>
+                        </div>
                     </div>
                 </form>
 
@@ -91,15 +90,18 @@
                     </tr>
                     <tr th:each="report, stat : ${reportList}">
                         <td th:text="${(currentPage - 1) * 10 + stat.count}"></td>
-                        <td th:text="${report.type}"></td>
+                        <td th:text="${report.type.label}"></td>
                         <td>
-                            <a href="#" th:text="${report.subject}"></a>
+                            <a th:href="@{'/community/boarddetail/' + ${report.repID}}" th:text="${report.subject}"></a>
                         </td>
                         <td th:text="${report.reason}"></td>
                         <td th:text="${report.writer}"></td>
                         <td th:text="${report.reporter}"></td>
                         <td th:text="${#temporals.format(report.reportDate,'yyyy-MM-dd')}"></td>
-                        <td class="center"><a class="deleteBtn" th:href="@{}">삭제</a></td>
+                        <td class="center">
+                            <a href="javascript:void(0);" class="btnStyle deleteBtn" th:data-reportid="${report.reportID}">삭제</a>
+                        </td>
+
                     </tr>
                 </table>
             </div>
@@ -127,4 +129,41 @@
     </div>
 </div>
 </body>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // 모든 삭제 버튼 선택
+        const deleteButtons = document.querySelectorAll('.deleteBtn');
+
+        deleteButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                if (!confirm('정말 삭제하시겠습니까?')) {
+                    return;
+                }
+
+                const reportId = this.dataset.reportid;
+
+                fetch(`/admin/report/delete/${reportId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('삭제 실패');
+                        }
+                        return response.text();
+                    })
+                    .then(() => {
+                        const tr = this.closest('tr');
+                        tr.remove();
+                    })
+                    .catch(error => {
+                        alert('삭제 중 오류가 발생했습니다: ' + error.message);
+                    });
+            });
+        });
+    });
+</script>
+
 </html>

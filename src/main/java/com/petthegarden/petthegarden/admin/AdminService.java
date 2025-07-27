@@ -63,15 +63,17 @@ public class AdminService {
         return adminDao.getPetList(startDate,endDate,key,search,pageable);
     }
 
-    public Page<AdminReportDto> getReportList(String typeStr, LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
-        if ("All".equalsIgnoreCase(typeStr)) {
-            log.info("All로 들어감");
-            return adminDao.getAllReports(startDate, endDate, key, search, pageable);
+    public Page<AdminReportDto> getReportList(String type, LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        Page<AdminReportDto> result = null;
+        if (type.equals("FREE_POST")) {
+            log.info("FREE_POST----------");
+            result = adminDao.getReportBoardList(startDate,endDate,key,search,pageable);
+        } else if (type.equals("FREE_COMMENT")) {
+            log.info("FREE_COMMENT-----------");
+            result = adminDao.getReportCommentList(startDate,endDate,key,search,pageable);
         }
 
-        ReportType type = ReportType.valueOf(typeStr);
-        log.info("타입 필터로 들어감");
-        return adminDao.getFilteredReports(type, startDate, endDate, key, search, pageable);
+        return result;
     }
 
     public AdminMemberDetailDto findById(Integer memberID) {
@@ -143,5 +145,10 @@ public class AdminService {
         }
 
         return new AdminSpeciesChart(species, counts);
+    }
+
+
+    public void deleteById(Integer reportId) {
+        adminDao.deleteById(reportId);
     }
 }

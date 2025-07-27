@@ -83,116 +83,44 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
                                        Pageable pageable);
 
 
-    // ReportType 있을시
-    @Query("""
-SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(
-    r.Id, r.reportDate, r.reason, r.type, r.repID, m.userName,
-    CASE
-        WHEN r.type = 'FREE_POST' THEN b.subject
-        WHEN r.type = 'SHOWOFF_POST' THEN s.subject
-        WHEN r.type = 'FREE_COMMENT' THEN b.subject
-        WHEN r.type = 'SHOWOFF_COMMENT' THEN s.subject
-        ELSE ''
-    END,
-    CASE
-        WHEN r.type = 'FREE_POST' THEN b.member.userName
-        WHEN r.type = 'SHOWOFF_POST' THEN s.member.userName
-        WHEN r.type = 'FREE_COMMENT' THEN bc.member.userName
-        WHEN r.type = 'SHOWOFF_COMMENT' THEN sc.member.userName
-        ELSE ''
-    END
-)
-FROM Report r
-JOIN r.member m
-LEFT JOIN Board b ON r.repID = b.Id AND r.type = 'FREE_POST'
-LEFT JOIN BoardComment bc ON r.repID = bc.Id AND r.type = 'FREE_COMMENT'
-LEFT JOIN ShowOff s ON r.repID = s.Id AND r.type = 'SHOWOFF_POST'
-LEFT JOIN ShowOffComment sc ON r.repID = sc.Id AND r.type = 'SHOWOFF_COMMENT'
-WHERE r.type = :type
-AND (:startDate IS NULL OR r.reportDate >= :startDate)
-AND (:endDate IS NULL OR r.reportDate <= :endDate)
-AND (
-    :search IS NULL OR :search = '' OR
-    (
-        (:key = 'reporter' AND (
-            LOWER(r.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))
-        )) OR
-        (:key = 'writer' AND (
-            (r.type = 'FREE_POST' AND LOWER(b.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'SHOWOFF_POST' AND LOWER(s.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'FREE_COMMENT' AND LOWER(bc.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'SHOWOFF_COMMENT' AND LOWER(sc.member.userName) LIKE LOWER(CONCAT('%', :search, '%')))
-        )) OR
-        (:key = 'subject' AND (
-            (r.type = 'FREE_POST' AND LOWER(b.subject) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'SHOWOFF_POST' AND LOWER(s.subject) LIKE LOWER(CONCAT('%', :search, '%')))
-        ))
-    )
-)
-""")
-    Page<AdminReportDto> getFilteredReports(
-            @Param("type") ReportType type,
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate,
-            @Param("key") String key,
-            @Param("search") String search,
-            Pageable pageable
-    );
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(" +
+            "r.Id, r.reportDate, r.reason, r.type, b.Id, r.member.userName,b.subject, b.member.userName) " +
+            "FROM Report r " +
+            "LEFT JOIN Member m ON r.member.id = m.id " +
+            "LEFT JOIN Board b ON (r.repID = b.Id AND r.type = 'FREE_POST' ) " +
+            "WHERE (:startDate IS NULL OR r.reportDate >= :startDate) " +
+            "AND (:endDate IS NULL OR r.reportDate <= :endDate) " +
+            "AND ((:key = 'reporter' AND m.userName LIKE %:search%) OR " +
+            "(:key = 'subject' AND b.subject LIKE %:search%) OR " +
+            "(:key = 'writer' AND b.member.userName LIKE %:search%) OR " +
+            "(:key IS NULL OR :key = '')" +
+            ") " +
+            "ORDER BY r.reportDate DESC ")
+    Page<AdminReportDto> getReportBoardList(@Param("startDate") LocalDateTime startDate,
+                                       @Param("endDate")LocalDateTime endDate,
+                                       @Param("key")String key,
+                                       @Param("search")String search,
+                                       Pageable pageable);
 
+    @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(" +
+            "r.Id, r.reportDate, r.reason, r.type, bc.Id, r.member.userName,bc.board.subject, bc.member.userName) " +
+            "FROM Report r " +
+            "LEFT JOIN Member m ON r.member.id = m.id " +
+            "LEFT JOIN BoardComment bc ON (r.repID = bc.Id AND r.type = 'FREE_COMMENT' ) " +
+            "WHERE (:startDate IS NULL OR r.reportDate >= :startDate) " +
+            "AND (:endDate IS NULL OR r.reportDate <= :endDate) " +
+            "AND ((:key = 'reporter' AND m.userName LIKE %:search%) OR " +
+            "(:key = 'subject' AND bc.board.subject LIKE %:search%) OR " +
+            "(:key = 'writer' AND bc.member.userName LIKE %:search%) OR " +
+            "(:key IS NULL OR :key = '')" +
+            ") " +
+            "ORDER BY r.reportDate DESC ")
+    Page<AdminReportDto> getReportCommentList(@Param("startDate") LocalDateTime startDate,
+                                       @Param("endDate")LocalDateTime endDate,
+                                       @Param("key")String key,
+                                       @Param("search")String search,
+                                       Pageable pageable);
 
-    // ReportType All일 경우
-    @Query("""
-SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(
-    r.Id, r.reportDate, r.reason, r.type, r.repID, m.userName,
-    CASE
-        WHEN r.type = 'FREE_POST' THEN b.subject
-        WHEN r.type = 'SHOWOFF_POST' THEN s.subject
-        WHEN r.type = 'FREE_COMMENT' THEN b.subject
-        WHEN r.type = 'SHOWOFF_COMMENT' THEN s.subject
-        ELSE ''
-    END,
-    CASE
-        WHEN r.type = 'FREE_POST' THEN b.member.userName
-        WHEN r.type = 'SHOWOFF_POST' THEN s.member.userName
-        WHEN r.type = 'FREE_COMMENT' THEN bc.member.userName
-        WHEN r.type = 'SHOWOFF_COMMENT' THEN sc.member.userName
-        ELSE ''
-    END
-)
-FROM Report r
-JOIN r.member m
-LEFT JOIN Board b ON r.repID = b.Id AND r.type = 'FREE_POST'
-LEFT JOIN BoardComment bc ON r.repID = bc.Id AND r.type = 'FREE_COMMENT'
-LEFT JOIN ShowOff s ON r.repID = s.Id AND r.type = 'SHOWOFF_POST'
-LEFT JOIN ShowOffComment sc ON r.repID = sc.Id AND r.type = 'SHOWOFF_COMMENT'
-WHERE (:startDate IS NULL OR r.reportDate >= :startDate)
-AND (:endDate IS NULL OR r.reportDate <= :endDate)
-AND (
-    :search IS NULL OR :search = '' OR
-    (
-        (:key = 'reporter' AND (
-            LOWER(r.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))
-        )) OR
-        (:key = 'writer' AND (
-            (r.type = 'FREE_POST' AND LOWER(b.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'SHOWOFF_POST' AND LOWER(s.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'FREE_COMMENT' AND LOWER(bc.member.userName) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'SHOWOFF_COMMENT' AND LOWER(sc.member.userName) LIKE LOWER(CONCAT('%', :search, '%')))
-        )) OR
-        (:key = 'subject' AND (
-            (r.type = 'FREE_POST' AND LOWER(b.subject) LIKE LOWER(CONCAT('%', :search, '%'))) OR
-            (r.type = 'SHOWOFF_POST' AND LOWER(s.subject) LIKE LOWER(CONCAT('%', :search, '%')))
-        ))
-    )
-)
-""")
-    Page<AdminReportDto> getAllReports(
-            @Param("startDate") LocalDateTime startDate,
-            @Param("endDate") LocalDateTime endDate,
-            @Param("key") String key,
-            @Param("search") String search,
-            Pageable pageable
-    );
 
     @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminShowOffBoardDto( " +
             "s.Id, s.subject, s.regDate, count(sc.Id)) " +
@@ -230,4 +158,5 @@ AND (
             "ORDER BY COUNT(*) DESC ",
             nativeQuery = true)
     List<Object[]> getSpeciesChart();
+
 }
