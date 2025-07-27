@@ -26,7 +26,7 @@
                          th:src="${showOff.youtubeThumbnailUrl}" alt="유튜브 썸네일"/>
                 </div>
                 <div class="card-content">
-                    <h3 th:text="${showOff.title}">제목</h3>
+                    <p class="title" th:text="${showOff.title}">제목</p>
                     <p th:text="${showOff.petName}">펫이름</p>
                     <p th:text="${#temporals.format(showOff.regDate, 'yyyy-MM-dd')}">날짜</p>
                     <p>좋아요 ♥ <span th:text="${showOff.likes}">0</span></p>
