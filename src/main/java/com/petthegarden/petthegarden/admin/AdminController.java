@@ -8,15 +8,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 
 @Controller
@@ -33,6 +33,9 @@ public class AdminController {
         int totalMember = adminService.totalMember();
         int totalPet = adminService.totalPet();
 
+        /* 중단 */
+        AdminSpeciesChart speciesChart = adminService.getSpeciesChart();
+
         /* 하단 */
         int recentPet = adminService.recentPet();
         int recentStray = adminService.recentStray();
@@ -45,6 +48,9 @@ public class AdminController {
         model.addAttribute("newMember", newMember);
         model.addAttribute("totalMember", totalMember);
         model.addAttribute("totalPet", totalPet);
+
+        model.addAttribute("species", speciesChart.getSpecies());
+        model.addAttribute("counts", speciesChart.getCounts());
 
         model.addAttribute("recentPet", recentPet);
         model.addAttribute("recentStray", recentStray);
@@ -176,15 +182,15 @@ public class AdminController {
 
     @GetMapping("/report")
     public String report(Model model,
-                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
-                         @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
+                         @RequestParam(required = false) LocalDate startDate,
+                         @RequestParam(required = false) LocalDate endDate,
                          @RequestParam(defaultValue = "reporter") String key,
-                         @RequestParam(defaultValue = "All") String type,
+                         @RequestParam(defaultValue = "FREE_POST") String type,
                          @RequestParam(required = false) String search,
                          @RequestParam(defaultValue = "1") int currentPage) {
         search = search == null ? "" : search.replaceAll("\\s+"," ").trim();
         if (startDate != null && endDate != null && startDate.isAfter(endDate)) {
-            LocalDateTime temp = startDate;
+            LocalDate temp = startDate;  // LocalDate끼리 교환
             startDate = endDate;
             endDate = temp;
         }
@@ -197,7 +203,10 @@ public class AdminController {
         log.info("key == {}",key);
         log.info("search == {}",search);
 
-        Page<AdminReportDto> reportList = adminService.getReportList(type,startDate,endDate,key,search,pageable);
+        LocalDateTime startDateTime = startDate != null ? startDate.atStartOfDay() : null;
+        LocalDateTime endDateTime = endDate != null ? endDate.atTime(LocalTime.MAX) : null;
+
+        Page<AdminReportDto> reportList = adminService.getReportList(type, startDateTime, endDateTime, key, search, pageable);
         log.info("reportList == {}",reportList.getContent());
         log.info("totalPage == {}",reportList.getTotalPages());
 
@@ -215,6 +224,21 @@ public class AdminController {
 
         return "admin/report";
     }
+
+    @DeleteMapping("report/delete/{reportId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteReport(@PathVariable Integer reportId) {
+        try {
+            // 예: 서비스 호출해서 삭제 처리
+            adminService.deleteById(reportId);
+
+            return ResponseEntity.ok("삭제 성공");
+        } catch (Exception e) {
+            // 오류 발생 시 상태 코드 500과 메시지 반환
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("삭제 실패");
+        }
+    }
+
 
 
 }
