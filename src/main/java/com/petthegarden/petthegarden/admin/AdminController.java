@@ -33,6 +33,9 @@ public class AdminController {
         int totalMember = adminService.totalMember();
         int totalPet = adminService.totalPet();
 
+        /* 중단 */
+        AdminSpeciesChart speciesChart = adminService.getSpeciesChart();
+
         /* 하단 */
         int recentPet = adminService.recentPet();
         int recentStray = adminService.recentStray();
@@ -45,6 +48,9 @@ public class AdminController {
         model.addAttribute("newMember", newMember);
         model.addAttribute("totalMember", totalMember);
         model.addAttribute("totalPet", totalPet);
+
+        model.addAttribute("species", speciesChart.getSpecies());
+        model.addAttribute("counts", speciesChart.getCounts());
 
         model.addAttribute("recentPet", recentPet);
         model.addAttribute("recentStray", recentStray);

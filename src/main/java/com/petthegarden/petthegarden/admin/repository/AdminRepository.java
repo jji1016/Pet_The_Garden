@@ -223,4 +223,11 @@ AND (
             "LEFT JOIN Board b ON bc.board.Id = b.Id " +
             "WHERE bc.member.id = :memberID ")
     List<AdminFreeCommentDto> getFreeCommentList(@Param("memberID") Integer memberID);
+
+    @Query(value = "SELECT SPECIES, COUNT(*) " +
+            "FROM PET " +
+            "GROUP BY SPECIES " +
+            "ORDER BY COUNT(*) DESC ",
+            nativeQuery = true)
+    List<Object[]> getSpeciesChart();
 }

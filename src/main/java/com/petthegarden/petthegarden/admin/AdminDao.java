@@ -96,4 +96,8 @@ public class AdminDao {
     public List<AdminFreeCommentDto> getFreeCommentList(Integer memberID) {
         return adminRepository.getFreeCommentList(memberID);
     }
+
+    public List<Object[]> getSpeciesChart() {
+        return adminRepository.getSpeciesChart();
+    }
 }

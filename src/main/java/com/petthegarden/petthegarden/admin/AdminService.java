@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -127,5 +129,19 @@ public class AdminService {
 
     public List<AdminFreeCommentDto> getFreeCommentList(Integer memberID) {
         return adminDao.getFreeCommentList(memberID);
+    }
+
+    public AdminSpeciesChart getSpeciesChart() {
+        List<Object[]> result = adminDao.getSpeciesChart();
+
+        List<String> species = new ArrayList<>();
+        List<Integer> counts = new ArrayList<>();
+
+        for (Object[] row : result) {
+            species.add((String) row[0]);
+            counts.add(((Number) row[1]).intValue()); // Long → int 안전 변환
+        }
+
+        return new AdminSpeciesChart(species, counts);
     }
 }
