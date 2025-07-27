@@ -177,8 +177,10 @@ public class PetnoteController {
     @GetMapping("/diaryview/{diaryID}")
     public String diaryview(@PathVariable Integer diaryID, Model model) {
         DiaryDto diaryDto = petnoteService.getDiaryDto(diaryID);
+        Integer petID = petnoteService.getPetIDByDiaryID(diaryID);
         model.addAttribute("diaryDto", diaryDto);
         model.addAttribute("diaryID", diaryID);
+        model.addAttribute("petID", petID);
         return "petnote/diaryview";
     }
 }

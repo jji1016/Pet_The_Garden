@@ -5,30 +5,33 @@
 <link rel="stylesheet" href="/css/petnote/diary.css"/>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <body>
-<nav class="sidebar" id="profile-header">
+<nav class="sidebar h100vh" id="profile-header">
     <ul>
-        <a href="/index/index">
-            <li class="logo"><img src="/images/logo.png" alt="로고"></li>
-        </a>
+        <li class="logo">
+            <a href="/index/index">
+                <img src="/images/logo.png" alt="로고">
+            </a>
+        </li>
         <a th:href="@{/petnote/profile/{petID}(petID=${petID})}">
             <li>프로필</li>
+
         </a>
         <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
             <li class="active">성장일기</li>
         </a>
+        <th:block sec:authorize="isAuthenticated()">
+            <form th:action="@{/member/logout}" method="post">
+                <button type="submit" class="btn btn-logout">
+                    <i class="bi bi-box-arrow-right"></i> 로그아웃
+                </button>
+            </form>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <a th:href="@{/member/login}" class="btn btn-login">
+                <i class="bi bi-box-arrow-in-right"></i> 로그인
+            </a>
+        </th:block>
     </ul>
-    <th:block sec:authorize="isAuthenticated()">
-        <form th:action="@{/member/logout}" method="post">
-            <button type="submit" class="btn btn-logout">
-                <i class="bi bi-box-arrow-right"></i> 로그아웃
-            </button>
-        </form>
-    </th:block>
-    <th:block sec:authorize="isAnonymous()">
-        <a th:href="@{/member/login}" class="btn btn-login">
-            <i class="bi bi-box-arrow-in-right"></i> 로그인
-        </a>
-    </th:block>
 </nav>
 
 

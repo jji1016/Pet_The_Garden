@@ -14,10 +14,10 @@
 }
 
 .sidebar .logo img {
-    width: 130px;
-    height: 80px;
+    width: 167px;
+    height: 95px;
     margin-top: 6px;
-    margin-left: 17px;
+    margin-left: 45px;
     margin-bottom: 10px;
 }
 
@@ -107,7 +107,7 @@ button.btn {
     padding: 12px 24px;
     font-size: 15px;
     border-radius: 20px;
-    box-shadow: 2px 2px 0 #d8b07e;
+    /*box-shadow: 2px 2px 0 #d8b07e;*/
     transition: all 0.2s ease-in-out;
 
 }

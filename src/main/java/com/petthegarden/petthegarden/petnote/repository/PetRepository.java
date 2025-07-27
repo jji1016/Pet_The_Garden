@@ -42,4 +42,10 @@ public interface PetRepository extends JpaRepository<Pet, Integer> {
     Integer findMemberIDByPetID(@Param("petID") Integer petID);
 
 
+//    @Query("SELECT d.pet.id FROM Diary d WHERE d.diaryID = :diaryID")
+//    Integer getPetIDByDiaryID(@Param("diaryID") Integer diaryID);
+
+    @Query("SELECT d.pet.id FROM Diary d WHERE d.Id = :diaryID")
+    Integer getPetIDByDiaryID(@Param("diaryID") Integer diaryID);
+
 }

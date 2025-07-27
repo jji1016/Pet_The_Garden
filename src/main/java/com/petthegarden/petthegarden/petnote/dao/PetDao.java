@@ -51,4 +51,7 @@ public class PetDao {
     }
 
 
+    public Integer getPetIDByDiaryID(Integer diaryID) {
+        return petRepository.getPetIDByDiaryID(diaryID);
+    }
 }

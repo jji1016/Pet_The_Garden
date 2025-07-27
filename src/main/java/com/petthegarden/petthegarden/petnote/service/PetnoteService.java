@@ -165,4 +165,8 @@ public class PetnoteService {
     public Page<PetDto> getAllPetDtoPaged(Pageable pageable) {
         return petDao.findAllPetDtoPaged(pageable);
     }
+
+    public Integer getPetIDByDiaryID(Integer diaryID) {
+        return petDao.getPetIDByDiaryID(diaryID);
+    }
 }

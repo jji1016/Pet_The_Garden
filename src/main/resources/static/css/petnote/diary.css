@@ -11,6 +11,25 @@ body {
 
 }
 
+.sidebar .logo img {
+    width: 167px;
+    height: 95px;
+    margin-top: 6px;
+    margin-left: 45px;
+    margin-bottom: 10px;
+
+}
+
+/*.sidebar li:hover {*/
+/*    cursor: pointer;*/
+/*    transition: background-color 0.3s ease;*/
+/*    color: black;*/
+/*    background-color: white;*/
+
+/*    border-radius: 8px;*/
+/*}*/
+
+
 .list-box {
     /*padding: 50px 0;*/
     width: 1200px;
