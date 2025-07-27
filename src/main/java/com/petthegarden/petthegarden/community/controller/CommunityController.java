@@ -56,7 +56,12 @@ public class CommunityController {
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         Board board = communityService.getBoardById(id);
         model.addAttribute("board", board);
-        String loginUsername = userDetails.getUsername();
+
+        String loginUsername = null;
+        if (userDetails != null) {
+            loginUsername = userDetails.getUsername();
+        }
+//        String loginUsername = userDetails.getUsername();
         model.addAttribute("loginUsername", loginUsername);
         return "/community/boarddetail";
     }

@@ -5,30 +5,40 @@
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <link rel="stylesheet" href="/css/petnote/diaryreg.css"/>
 <body>
-<div class="diary-box">
+<!--&lt;!&ndash;<div class="diary-box">&ndash;&gt;-->
     <div class="main-visual" id="diary-visual">
         <div class="slogan custom-slogan">
-            <!--            <p class="main">강아지의 일기장</p>-->
             <p class="main" th:text="${diaryDto.pet.petName} + '의 일기'">강아지의 일기</p>
         </div>
     </div>
-    <nav class="sidebar">
-        <ul>
-            <li class="logo"><a href="/index/index"><img src="/images/logo.png" alt="로고"></a></li>
-            <a th:href="@{/petnote/profile/{petID}(petID=${diaryDto.pet.id})}"><li>프로필</li></a>
-            <th:block sec:authorize="isAuthenticated()">
-                <a th:href="@{/petnote/diaryreg/{petID}(petID=${diaryDto.pet.id})}"><li class="active">성장일기</li></a>
-            </th:block>
-            <th:block sec:authorize="isAnonymous()">
-                <a th:href="@{/petnote/diary}"><li class="active">성장일기</li></a>
-            </th:block>
-        </ul>
+<nav class="sidebar h100vh" id="profile-header">
+    <ul>
+        <li class="logo">
+            <a href="/index/index">
+                <img src="/images/logo.png" alt="로고">
+            </a>
+        </li>
+
+        <li class="active">프로필</li>
+        <li>
+            <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+                성장일기
+            </a>
+        </li>
+    </ul>
+    <th:block sec:authorize="isAuthenticated()">
         <form th:action="@{/member/logout}" method="post">
             <button type="submit" class="btn btn-logout">
                 <i class="bi bi-box-arrow-right"></i> 로그아웃
             </button>
         </form>
-    </nav>
+    </th:block>
+    <th:block sec:authorize="isAnonymous()">
+        <a th:href="@{/member/login}" class="btn btn-login">
+            <i class="bi bi-box-arrow-in-right"></i> 로그인
+        </a>
+    </th:block>
+</nav>
     <div class="profile-wrap">
         <div>
             <h6 class="title">제목</h6>
@@ -60,6 +70,6 @@
         </div>
     </div>
 
-</div>
+<!--</div>-->
 </body>
 </html>

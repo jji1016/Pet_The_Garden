@@ -5,6 +5,8 @@ import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
 import com.petthegarden.petthegarden.petnote.repository.PetRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,6 +38,10 @@ public class PetDao {
         return petRepository.findAllPetDto();
     }
 
+    public Page<PetDto> findAllPetDtoPaged(Pageable pageable) {
+        return petRepository.findAllPetDtoPaged(pageable);
+    }
+
     public Integer findMemberIDByPetID(Integer petID) {
         return petRepository.findMemberIDByPetID(petID);
     }
@@ -44,8 +50,5 @@ public class PetDao {
         return petRepository.findById(petID);
     }
 
-//    public Optional<Member> findMemberByPetID(Integer petID) {
-//        return petRepository.findMemberByPetID(petID);
-//    }
 
 }

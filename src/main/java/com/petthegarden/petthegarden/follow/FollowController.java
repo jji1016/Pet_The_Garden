@@ -1,11 +1,9 @@
 package com.petthegarden.petthegarden.follow;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
-import com.petthegarden.petthegarden.communal.service.CustomUserDetailsService;
-import com.petthegarden.petthegarden.petnote.PetnoteService;
+import com.petthegarden.petthegarden.petnote.service.PetnoteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;

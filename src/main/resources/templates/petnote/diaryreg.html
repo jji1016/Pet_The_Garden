@@ -8,13 +8,12 @@
 <!--<div class="diary-box">-->
 <div class="main-visual" id="diary-visual">
     <div class="slogan custom-slogan">
-        <!--            <p class="main">강아지의 일기장</p>-->
         <p class="main" th:text="${petName} + '의 일기장'">강아지의 일기장</p>
-        <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>
+<!--        <p class="sub">🐶강아지도 고양이😺도 행복한 정원</p>-->
     </div>
 </div>
 
-<nav class="sidebar">
+<nav class="sidebar" id="profile-header">
     <ul>
         <a href="/index/index">
             <li class="logo"><img src="/images/logo.png" alt="로고"></li>
@@ -27,7 +26,7 @@
         </a>
     </ul>
     <th:block sec:authorize="isAuthenticated()">
-        <form th:action="@{/member/logout}" method="post" class="btn btn-logout">
+        <form th:action="@{/member/logout}" method="post">
             <button type="submit" class="btn btn-logout">
                 <i class="bi bi-box-arrow-right"></i> 로그아웃
             </button>
@@ -39,45 +38,49 @@
         </a>
     </th:block>
 </nav>
-<div class="profile-wrap">
+<div class="profile-wrap" id="diary-wrap">
     <form th:action="@{/petnote/diaryreg}" class="diary-reg-wrap" method="post" enctype="multipart/form-data">
         <input type="hidden" name="petID" th:value="${petID}">
-        <div>
+        <div class="div-title">
             <h6 class="title">제목</h6>
             <input type="text" name="subject">
         </div>
         <div class="mt-2 small text-danger" th:errors="${diaryDto.subject}"></div>
-        <div class="container">
-            <div class="row custom-row">
-                <div class="col-8">
-                    <div class="diary-reg-detail">
-                        <div>
-                            <h6>오늘의 일기</h6>
-                            <textarea class="text-content" type="text" name="content" id="content"></textarea>
-                        </div>
-                        <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
-                        <div class="diary-upload">
-                            <div class="form-group">
-                                <h6 class="photo">사진</h6>
-                                <label for="diaryImg" class="file-label">📷 사진 선택하기</label>
-                                <input class="img-content" type="file" name="diaryImg" id="diaryImg"/>
-                                <div class="preview-box">
-                                    <span class="preview-placeholder">미리보기 이미지가 여기에 표시됩니다</span>
-                                    <img id="preview" src="" alt="미리보기 이미지" style="display: none;"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="diary-upload">
-                            <button class="btn" type="submit">UPLOAD</button>
-                            <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
-                                <button class="btn" type="button">목록으로</button>
-                            </a>
-                        </div>
+        <div class="container" id="padding-zero">
+            <!--            <div class="row custom-row">-->
+            <!--                <div class="col-8" id="padding-zero">-->
+            <div class="diary-reg-detail">
+                <div>
+                    <h6>오늘의 일기</h6>
+                    <textarea class="text-content" type="text" name="content" id="content"></textarea>
+                </div>
+                <div class="mt-2 small text-danger" th:errors="${diaryDto.content}"></div>
+                <div class="diary-upload">
+                    <!--                    <div class="form-group">-->
+                    <h6 class="photo">사진</h6>
+                    <label for="diaryImg" class="file-label">📷 사진 선택하기</label>
+                    <input class="img-content" type="file" name="diaryImg" id="diaryImg"/>
+                    <div class="preview-box">
+                        <span class="preview-placeholder">미리보기 이미지가 여기에 표시됩니다</span>
+                        <img id="preview" src="" alt="미리보기 이미지" style="display: none;"/>
                     </div>
+                    <!--                    </div>-->
+                </div>
+                <div class="buttons">
+                    <button class="btn" type="submit">UPLOAD</button>
+                    <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
+                        <button class="btn" type="button">목록으로</button>
+                    </a>
                 </div>
             </div>
+            <!--                <div class="diary-upload">-->
+
+            <!--                </div>-->
         </div>
-    </form>
+</div>
+<!--            </div>-->
+<!--        </div>-->
+</form>
 </div>
 <!--</div>-->
 <script>
