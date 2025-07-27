@@ -23,6 +23,10 @@
 
   <div class="board-controls">
     <form action="/community/board" method="GET" class="search-form" onsubmit="return validateSearch()">
+      <select name="type" id="searchType" onchange="updatePlaceholder()">
+        <option value="subject" th:selected="${type == 'subject'}">제목</option>
+        <option value="writer" th:selected="${type == 'writer'}">작성자</option>
+      </select>
       <input type="text" id="keyword" name="keyword" placeholder="제목을 입력해주세요." th:value="${keyword}" />
       <button type="submit" class="btn-search">검색</button>
     </form>
@@ -66,21 +70,43 @@
     // 페이지 로드 완료 후 실행
     window.loadPage = function(page) {
       const keyword = document.getElementById('keyword')?.value.trim() ?? "";
+      const type = document.getElementById('searchType')?.value ?? "subject";
 
       // 1) 게시글 리스트 tbody 갱신
-      fetch(`/community/board/ajax/list?page=${page}&keyword=${encodeURIComponent(keyword)}`)
+      fetch(`/community/board/ajax/list?page=${page}&keyword=${encodeURIComponent(keyword)}&type=${type}`)
               .then(res => res.text())
               .then(html => {
                 document.getElementById('boardList').innerHTML = html;
               });
 
       // 2) 페이징 영역 갱신
-      fetch(`/community/board/ajax/pagination?page=${page}&keyword=${encodeURIComponent(keyword)}`)
+      fetch(`/community/board/ajax/pagination?page=${page}&keyword=${encodeURIComponent(keyword)}&type=${type}`)
               .then(res => res.text())
               .then(html => {
                 document.getElementById('pagination').innerHTML = html;
               });
     };
   });
+</script>
+<script>
+  function updatePlaceholder() {
+    const type = document.getElementById("searchType").value;
+    const keywordInput = document.getElementById("keyword");
+
+    if (type === "writer") {
+      keywordInput.placeholder = "작성자 이름을 입력해주세요.";
+    } else {
+      keywordInput.placeholder = "제목을 입력해주세요.";
+    }
+  }
+
+  window.addEventListener("DOMContentLoaded", updatePlaceholder);
+</script>
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  /* th:if 는 서버에서 판단하는 조건 */
+  /* alertMessage가 있으면 알림 띄우기 */
+  [[${alertMessage != null}]] ? alert('[[${alertMessage}]]') : null;
+  /*]]>*/
 </script>
 </html>

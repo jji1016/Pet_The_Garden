@@ -231,9 +231,18 @@ public class CommunityService {
         return communityRepository.findAll(pageable);
     }
     //게시판 글 검색처리관련
-    public Page<Board> searchBoards(String keyword, Pageable pageable) {
-        return communityRepository.findBySubjectContainingIgnoreCase(keyword, pageable);
+    public Page<Board> searchBoards(String keyword, String type, Pageable pageable) {
+        switch (type.toLowerCase()) {
+            case "subject":
+                return communityRepository.findBySubjectContainingIgnoreCase(keyword, pageable);
+            case "writer":
+                return communityRepository.findByMemberUserNameContainingIgnoreCase(keyword, pageable);
+            default:
+                // 기본은 subject 검색
+                return communityRepository.findBySubjectContainingIgnoreCase(keyword, pageable);
+        }
     }
+
     //마이페이지 글 페이징처리관련
     public Page<Board> getBoardsByMember(Integer memberId, Pageable pageable) {
         return communityRepository.findByMemberId(memberId, pageable);
