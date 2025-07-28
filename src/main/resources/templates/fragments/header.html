@@ -19,7 +19,6 @@
                 <ul class="submenu">
                     <li><a href="/showoff/best">이번 달 명에의 전당</a></li>
                     <li><a href="/showoff/showlist">장기자랑 구경하기</a></li>
-                    <li><a href="/showoff/showreg">장기자랑 하러가기</a></li>
                 </ul>
             </li>
             <li class="menu-item">
@@ -39,7 +38,7 @@
         </ul>
     </nav>
     <th:block sec:authorize="isAuthenticated()">
-        <th:block th:if="${petID} == null">
+        <th:block th:if="${#authentication.principal.loggedMember == null}">
             <div class="profile" onclick="openModal()">
                 <span class="img">
                     <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
@@ -49,8 +48,8 @@
                 <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
             </div>
         </th:block>
-        <th:block th:if="${petID} != null">
-            <a th:href="@{/petnote/profile/{petID}(petID=${petID})}" id="profile" class="profile">
+        <th:block th:if="${#authentication.principal.loggedMember != null}">
+            <a th:href="@{/mypage/mypage}" id="profile" class="profile">
             <span class="img">
                 <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
                      onerror="this.onerror=null; this.src='/images/default-image.jpg';"

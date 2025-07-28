@@ -75,7 +75,7 @@
                         </p>
                         <p>
                             <i class="bi  bi-box2-heart"></i>
-                            <span th:text="*{follow} + ' followers'">117</span>
+                            <span th:text="${follow != null ? follow : 0} + ' followers'">117</span>
                         </p>
 
                         <th:block sec:authorize="isAuthenticated()">
