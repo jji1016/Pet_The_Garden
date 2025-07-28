@@ -28,7 +28,7 @@
                 </ul>
             </li>
             <li class="menu-item">
-                <a href="">커뮤니티</a>
+                <a href="/community/board">커뮤니티</a>
                 <ul class="submenu">
                     <li><a href="/community/board">자유게시판</a></li>
                     <li><a href="/community/company">회사 소개</a></li>
@@ -49,14 +49,22 @@
             </div>
         </th:block>
         <th:block th:if="${#authentication.principal.loggedMember != null}">
-            <a th:href="@{/mypage/mypage}" id="profile" class="profile">
-            <span class="img">
-                <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
-                     onerror="this.onerror=null; this.src='/images/default-image.jpg';"
-                     alt="프로필 이미지"/>
-            </span>
-                <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
-            </a>
+            <div class="menu-item arrayProfile" >
+                <a th:href="@{/mypage/mypage}" class="profile arraySubmenu" id="profile">
+                    <span class="img">
+                        <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
+                             onerror="this.onerror=null; this.src='/images/default-image.jpg';"
+                             alt="프로필 이미지"/>
+                    </span>
+                    <span class="userName" th:text="${#authentication.principal.loggedMember.userName}">유저명</span>
+                </a>
+
+                <ul class="submenu">
+                    <li><a th:href="@{/mypage/mypage}">마이페이지</a></li>
+                    <li><a th:href="@{'/petnote/profile/' + ${petID}}">내 반려동물</a></li>
+                </ul>
+            </div>
+
         </th:block>
         <form th:action="@{/member/logout}" method="post">
             <button type="submit" class="btn btn-logout">
