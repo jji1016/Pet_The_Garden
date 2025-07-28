@@ -22,12 +22,12 @@ public class AdminReportDto {
 
     private ReportType type;
 
-    private Integer repID; //Board, BoardComment, ShowOff, ShowOffComment의 PK
+    private Integer repID; //Board, BoardComment의 PK
 
     /* member */
     private String reporter;
 
-    /* Board, BoardComment, ShowOff, ShowOffComment */
+    /* Board, BoardComment */
     private String subject;
 
     private String writer;

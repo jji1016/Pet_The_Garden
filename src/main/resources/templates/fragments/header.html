@@ -6,17 +6,6 @@
     <h1>
         <a href="/index/index"><img src="/images/logo.png" alt="" class="logo-img"/></a>
     </h1>
-<!--    <nav id="gnb">-->
-<!--        <ul>-->
-<!--            <li><a href="/petnote/list">동물소개</a></li>-->
-<!--            <li><a href="/showoff/showlist">장기자랑</a></li>-->
-<!--            <li><a href="/stray/protect">동물보호</a></li>-->
-<!--            <li><a href="/community/board">커뮤니티</a></li>-->
-<!--        </ul>-->
-
-<!--    </nav>-->
-
-
     <nav id="gnb">
         <ul>
             <li class="menu-item">
@@ -49,26 +38,9 @@
             </li>
         </ul>
     </nav>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <th:block sec:authorize="isAuthenticated()">
         <th:block th:if="${petID} == null">
-            <div id="profile" class="profile" onclick="openModal()">
+            <div class="profile" onclick="openModal()">
                 <span class="img">
                     <img th:src="@{'/PTGUpload/upload/' + ${#authentication.principal.loggedMember.image}}"
                          onerror="this.onerror=null; this.src='/images/default-image.jpg';"

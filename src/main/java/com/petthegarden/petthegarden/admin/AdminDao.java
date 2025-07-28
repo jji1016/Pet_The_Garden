@@ -3,7 +3,7 @@ package com.petthegarden.petthegarden.admin;
 import com.petthegarden.petthegarden.admin.dto.*;
 import com.petthegarden.petthegarden.admin.repository.AdminPetRepository;
 import com.petthegarden.petthegarden.admin.repository.AdminRepository;
-import com.petthegarden.petthegarden.constant.ReportType;
+import com.petthegarden.petthegarden.admin.repository.AdminRportRepository;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +23,7 @@ import java.util.Optional;
 public class AdminDao {
     private final AdminRepository adminRepository;
     private final AdminPetRepository adminPetRepository;
+    private final AdminRportRepository adminRportRepository;
 
     public int totalMember() {
         return adminRepository.totalMember();
@@ -64,12 +65,11 @@ public class AdminDao {
         return adminRepository.getPetList(startDate,endDate,key,search,pageable);
     }
 
-    public Page<AdminReportDto> getAllReports(LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
-        return adminRepository.getAllReports(startDate, endDate, key, search, pageable);
+    public Page<AdminReportDto> getReportBoardList(LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getReportBoardList(startDate,endDate,key,search,pageable);
     }
-
-    public Page<AdminReportDto> getFilteredReports(ReportType type, LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
-        return adminRepository.getFilteredReports(type, startDate, endDate, key, search, pageable);
+    public Page<AdminReportDto> getReportCommentList(LocalDateTime startDate, LocalDateTime endDate, String key, String search, Pageable pageable) {
+        return adminRepository.getReportCommentList(startDate,endDate,key,search,pageable);
     }
 
     public Optional<Member> findById(Integer memberID) {
@@ -95,5 +95,14 @@ public class AdminDao {
 
     public List<AdminFreeCommentDto> getFreeCommentList(Integer memberID) {
         return adminRepository.getFreeCommentList(memberID);
+    }
+
+    public List<Object[]> getSpeciesChart() {
+        return adminRepository.getSpeciesChart();
+    }
+
+
+    public void deleteById(Integer reportId) {
+        adminRportRepository.deleteById(reportId);
     }
 }

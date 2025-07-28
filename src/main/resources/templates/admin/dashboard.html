@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head::head(dashboard)}"></head>
 <link rel="stylesheet" href="/css/admin/dashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <body>
 <header id="admin-header">
     <h1>
@@ -89,7 +90,9 @@
 
             <div class="row mt-4">
                 <h3>품종별 수</h3>
-                <div class="chart-wrap"></div>
+                <canvas id="chart-wrap">
+
+                </canvas>
             </div>
 
             <div class="row mt-4">
@@ -158,4 +161,66 @@
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+    const species = /*[[${species}]]*/ [];
+    const counts = /*[[${counts}]]*/ [];
+
+    console.log("species === ", species)
+    console.log("counts === ", counts)
+
+    function renderSalesChart(labels, data) {
+        const ctx = document.getElementById('chart-wrap').getContext('2d');
+
+        if (window.salesChartInstance) {
+            window.salesChartInstance.destroy(); // 기존 차트가 있으면 삭제
+        }
+
+        window.salesChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '월별 매출',
+                    data: data,
+                    backgroundColor: '#fbbf60',
+                    borderRadius: 4,
+                    barThickness: 30
+                }]
+            },
+            options: {
+                responsive: true,
+                animations: false,
+                plugins: {
+                    legend: {display: false},
+                    tooltip: {
+                        callbacks: {
+                            label: context => `${context.parsed.y} 품종`
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            maxRotation: 0,
+                            minRotation: 0
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 페이지가 다 로드된 후 실행
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof species !== 'undefined' && typeof counts !== 'undefined') {
+            renderSalesChart(species, counts);
+        }
+    });
+</script>
 </html>

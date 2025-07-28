@@ -14,11 +14,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -34,12 +37,13 @@ public class CommunityController {
 
     @GetMapping("/board")
     public String community(Model model, @RequestParam(required = false) String keyword,
+                            @RequestParam(required = false, defaultValue = "subject") String type,
                             @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Board> boardPage;
 
         if (keyword != null && !keyword.isBlank()) {
-            boardPage = communityService.searchBoards(keyword, pageable);
+            boardPage = communityService.searchBoards(keyword, type, pageable);
         } else {
             boardPage = communityService.getAllBoards(pageable);
         }
@@ -48,6 +52,7 @@ public class CommunityController {
         model.addAttribute("boards", boardPage.getContent());
         model.addAttribute("boardPage", boardPage);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("type", type);
         return "/community/board";
     }
 
@@ -56,13 +61,12 @@ public class CommunityController {
                               @AuthenticationPrincipal CustomUserDetails userDetails) {
         Board board = communityService.getBoardById(id);
         model.addAttribute("board", board);
-
-        String loginUsername = null;
         if (userDetails != null) {
-            loginUsername = userDetails.getUsername();
+            String loginUsername = userDetails.getUsername();
+            model.addAttribute("loginUsername", loginUsername);
+        } else {
+            model.addAttribute("loginUsername", null);
         }
-//        String loginUsername = userDetails.getUsername();
-        model.addAttribute("loginUsername", loginUsername);
         return "/community/boarddetail";
     }
     //게시글수정페이지 이동
@@ -120,14 +124,16 @@ public class CommunityController {
     }
     //게시글등록페이지 이동
     @GetMapping("/boardreg")
-    public String showBoardForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public String showBoardForm(Model model, @AuthenticationPrincipal CustomUserDetails userDetails,
+                                RedirectAttributes redirectAttributes) {
         BoardDto boardDto = new BoardDto();
         model.addAttribute("boardDto", boardDto);
         String adminName = "관리자";
         if (userDetails != null) {
             model.addAttribute("writer", userDetails.getUserrealname());
         } else {
-            model.addAttribute("writer", adminName);
+            redirectAttributes.addFlashAttribute("alertMessage", "로그인 후 이용해주세요.");
+            return "redirect:/member/login";
         }
         return "community/boardreg";
     }
@@ -151,20 +157,21 @@ public class CommunityController {
     //댓글작성
     @PostMapping("/board/{boardId}/comment")
     @ResponseBody
-    public String addComment(@PathVariable Integer boardId,
-                             @RequestParam("content") String content,
-                             @AuthenticationPrincipal CustomUserDetails userDetails) {
+    public ResponseEntity<String> addComment(@PathVariable Integer boardId,
+                                             @RequestParam("content") String content,
+                                             @AuthenticationPrincipal CustomUserDetails userDetails) {
         Member member;
         if (userDetails != null) {
             member = userDetails.getLoggedMember();
         } else {
-            member = mypageMemberRepository.findById(1)
-                    .orElseThrow(() -> new IllegalArgumentException("관리자 계정을 찾을 수 없습니다."));
+            return ResponseEntity
+                    .status(HttpStatus.UNAUTHORIZED)
+                    .body("로그인 후 이용해주세요.");
         }
 
         communityService.saveComment(boardId, content, member);
 
-        return "";
+        return ResponseEntity.ok("댓글이 등록되었습니다.");
     }
     //댓글삭제
     @PostMapping("/comment/{commentId}/delete")
@@ -214,12 +221,13 @@ public class CommunityController {
     @GetMapping("/board/ajax/list")
     public String getBoardListAjax(Model model,
                                    @RequestParam(required = false) String keyword,
+                                   @RequestParam(required = false, defaultValue = "subject") String type,
                                    @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<Board> boardPage;
 
         if (keyword != null && !keyword.isBlank()) {
-            boardPage = communityService.searchBoards(keyword, pageable);
+            boardPage = communityService.searchBoards(keyword, type, pageable);
         } else {
             boardPage = communityService.getAllBoards(pageable);
         }
@@ -227,6 +235,7 @@ public class CommunityController {
         model.addAttribute("boards", boardPage.getContent());
         model.addAttribute("boardPage", boardPage);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("type", type);
 
 
         return "community/boardListFragment :: boardList";
@@ -235,13 +244,15 @@ public class CommunityController {
     @GetMapping("/board/ajax/pagination")
     public String getBoardPaginationFragment(Model model,
                                              @RequestParam(required = false) String keyword,
+                                             @RequestParam(required = false, defaultValue = "subject") String type,
                                              @PageableDefault(size = 7, sort = "regDate", direction = Sort.Direction.DESC) Pageable pageable) {
         Page<Board> boardPage = (keyword != null && !keyword.isBlank())
-                ? communityService.searchBoards(keyword, pageable)
+                ? communityService.searchBoards(keyword, type, pageable)
                 : communityService.getAllBoards(pageable);
 
         model.addAttribute("boardPage", boardPage);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("type", type);
 
         return "community/boardListFragment :: boardPagination";
     }
