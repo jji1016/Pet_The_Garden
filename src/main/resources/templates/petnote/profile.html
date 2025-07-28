@@ -74,16 +74,18 @@
                             <span th:text="*{birthDate}">20.06.27</span>
                         </p>
                         <p>
-                            <i class="bi  bi-box2-heart"></i>
-                            <span th:text="${follow != null ? follow : 0} + ' followers'">117</span>
+<!--                            <i class="bi  bi-box2-heart"></i>-->
+<!--                            <span class="follower-count" th:text="|${petInfo.getFollowers()} |">0명</span>-->
+
+                            <i class="bi bi-box2-heart"></i>
+                            <span class="follower-count" th:text="|팔로워 : ${petInfo.getFollowers()}명|">팔로워 : 0명</span>
+
                         </p>
 
                         <th:block sec:authorize="isAuthenticated()">
                             <th:block th:if="${#authentication.principal.loggedMember.id != memberID}">
                                 <ul>
                                     <li>
-                                        <!--                                        <a href="" id="btn-follow" data-follow="yes"-->
-                                        <!--                                           class="btn btn-follow w-100 btn-lg">Follow</a>-->
                                         <a href="#"
                                            id="btn-follow"
                                            th:data-follow="${isFollow} ? 'no' : 'yes'"
@@ -91,7 +93,6 @@
                                            class="btn w-100 btn-lg">
                                             <span th:text="${isFollow} ? 'Following' : 'Follow'">Follow</span>
                                         </a>
-
                                     </li>
                                 </ul>
                             </th:block>
@@ -151,9 +152,13 @@
                                     <ul class="content">
                                         <li>
                                             <div>
-                                                <i class="bi bi-heart spacing"></i>
-                                                팔로워 :
-                                                <span th:text="|${petInfo.getFollowers()} 명|"> 팔로워 수 </span>
+<!--                                                <i class="bi bi-heart spacing"></i>-->
+<!--                                                팔로워 :-->
+<!--                                                <span class="follower-count" th:text="|${petInfo.getFollowers()} |">0명</span>-->
+
+                                                <i class="bi bi-emoji-kiss spacing"></i>
+                                                <span class="follower-count" th:text="|팔로워 : ${petInfo.getFollowers()}명|">팔로워 : 0명</span>
+
                                             </div>
                                         </li>
                                         <li>
@@ -219,9 +224,20 @@
 </script>
 <script th:inline="javascript">
     const btnFollow = document.querySelector("#btn-follow");
+    const  followerCountSpans = document.querySelectorAll(".follower-count");
     //const followStatus = btnFollow.dataset.follow;
     const toPetID = /*[[${petDto.petID}]]*/ 5;
     console.log("toPetID ====== ", toPetID);
+
+    function updateFollowerCount(change) {
+        followerCountSpans.forEach(span => {
+            const numberMatch = span.textContent.match(/\d+/);
+            const current = numberMatch ? parseInt(numberMatch[0]) : 0;
+            const updated = current + change;
+            span.textContent = `팔로워 : ${updated} 명`;
+        });
+    }
+
 
     btnFollow.addEventListener("click", function (e) {
         e.preventDefault();
@@ -244,6 +260,8 @@
                         btnFollow.classList.remove("btn-follow");
                         btnFollow.classList.add("btn-following");
 
+                        updateFollowerCount(1);
+
                     } else {
                         alert("오류");
                     }
@@ -263,6 +281,8 @@
 
                         btnFollow.classList.remove("btn-following");
                         btnFollow.classList.add("btn-follow");
+
+                        updateFollowerCount(-1);
 
                     } else {
                         alert("오류02");
