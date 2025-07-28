@@ -1,6 +1,8 @@
 package com.petthegarden.petthegarden.follow;
 
+import com.petthegarden.petthegarden.entity.Follow;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.entity.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,10 @@ public class FollowDao {
     public boolean isFollowing (Integer myMemberId, Integer targetPetId) {
         return followRepository.existsByMember_IdAndPet_Id(myMemberId, targetPetId);
     }
+    public List<Pet> getFollowedPets(Integer myMemberId) {
+        return followRepository.findFollowByFollowMemberId(myMemberId);
+    }
+
 //
 //    public List<FollowDto> getSubscribeList(String currentUserID, String targetUserID) {
 //        List<Member> subscribedMembers = followRepository.findfollowedUsers(targetUserID);

@@ -4,9 +4,9 @@ import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.community.dto.BoardDto;
 import com.petthegarden.petthegarden.community.service.CommunityService;
 import com.petthegarden.petthegarden.constant.PetGender;
-import com.petthegarden.petthegarden.entity.Board;
-import com.petthegarden.petthegarden.entity.Member;
-import com.petthegarden.petthegarden.entity.ShowOff;
+import com.petthegarden.petthegarden.entity.*;
+import com.petthegarden.petthegarden.follow.FollowDto;
+import com.petthegarden.petthegarden.follow.FollowService;
 import com.petthegarden.petthegarden.mypage.dto.MemberDto;
 import com.petthegarden.petthegarden.mypage.dto.PetDto;
 import com.petthegarden.petthegarden.mypage.service.MypageService;
@@ -40,6 +40,7 @@ public class MyPageController {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final CommunityService communityService;
     private final ShowListService showListService;
+    private final FollowService followService;
 
     @GetMapping("/mypage")
     public String mypage(@AuthenticationPrincipal CustomUserDetails customUserDetails, Model model,
@@ -57,6 +58,7 @@ public class MyPageController {
         List<PetDto> pets = mypageService.findPetsByMemberId(loggedMemberDto.getId()); //로그인한 유저의 펫정보
         Page<Board> myBoardsPage = communityService.getBoardsByMember(loggedMemberID, pageable);
         Page<ShowOff> myShowOffPage = showListService.getShowOffsByMember(loggedMemberID, PageRequest.of(0, 5, Sort.by("regDate").descending()));
+        List<Pet> followedPets = followService.getFollowedPets(loggedMemberID);
 
         //MemberDto loggedMemberDto = mypageService.findByUserID("admin"); // admin 계정 강제 지정
         //List<Board> myBoards = communityService.getBoardList2(1); //admin 계정 게시판 정보 불러옴
@@ -68,6 +70,7 @@ public class MyPageController {
         model.addAttribute("myBoardsPage", myBoardsPage); // 페이지 정보
         model.addAttribute("myShowOffList", myShowOffPage.getContent());
         model.addAttribute("myShowOffPage", myShowOffPage);
+        model.addAttribute("followedPets", followedPets);
 
         return "mypage/mypage";
     }
@@ -241,5 +244,10 @@ public class MyPageController {
 
         return "mypage/myshowoffs"; // tbody와 pagination이 포함된 프래그먼트 뷰
     }
-
+    @GetMapping("/mypage/followlist")
+    public String getFollowedPets(Model model, @AuthenticationPrincipal CustomUserDetails userDetails) {
+        List<Pet> followedPets = followService.getFollowedPets(userDetails.getMemberId());
+        model.addAttribute("followedPets", followedPets);
+        return "mypage/mypage"; // 기존 마이페이지 뷰
+    }
 }
