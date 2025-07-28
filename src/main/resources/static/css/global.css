@@ -54,23 +54,101 @@ a {
     height: 90px;
 }
 
+
+
+
+
+
+
+
+/*서브메뉴바*/
+/* GNB 전체 영역 */
 #header #gnb {
     width: 100%;
 }
 
-#header #gnb ul {
+/* GNB 메뉴 전체 */
+#gnb ul {
     display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
     justify-content: center;
     width: 100%;
 }
 
-#header #gnb ul li a {
-    display: flex;
+/* 메뉴 아이템(li)에 높이와 정렬 지정 */
+#gnb .menu-item {
+    position: relative;
+    margin: 0 20px;
     height: 120px;
+    display: flex;
     align-items: center;
+}
+
+/* 상단 메뉴 a 태그 */
+#gnb .menu-item > a {
     padding: 0 50px;
     font-weight: 700;
+    color: #333;
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    line-height: 120px; /* 수직 정렬 보정용 */
 }
+
+/* 서브메뉴 기본 숨김 */
+/* 초기화 */
+.submenu {
+    display: none !important; /* 강제 숨김 */
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    min-width: 180px;
+    z-index: 999;
+    padding: 10px 0;
+}
+
+/* 서브메뉴 호버 시에만 표시 */
+.menu-item:hover .submenu {
+    display: block !important;
+}
+
+
+/* 서브 메뉴 항목 스타일 */
+.submenu li {
+    width: 100%;
+}
+
+.submenu li a {
+    padding: 10px 20px;
+    display: block;
+    color: #333;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.submenu li a:hover {
+    background-color: #facc7b;
+    border-radius: 10px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 .profile {
     position: absolute;
@@ -257,6 +335,10 @@ h2.section-title {
     width: 300px;
     height: 100vh;
     background-color: #f8a92b;
+    padding: 2rem 1rem;
+    color: white;
+    font-weight: bold;
+    flex-shrink: 0;
 }
 
 #profile-header #profile {

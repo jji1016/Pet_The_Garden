@@ -1,23 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head::head(LOGIN)}"></head>
-<body>
+<head th:replace="~{fragments/head::head(PetTheGarden)}"></head>
+<link rel="stylesheet" href="/css/main.css">
+<body id="index">
 <header th:replace="~{fragments/header}"></header>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<h1>임시 index 페이지</h1>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
-<br>
+
+<div class="main-visual">
+    <div class="slogan">
+        <p class="main">
+            <span>pet</span> <span>the</span> <span class="bold">garden</span>
+        </p>
+        <p class="sub">강아지도 고양이도 행복한 정원</p>
+    </div>
+</div>
+
+<section class="section talent-show" style="margin-top:60px;">
+    <h2>이번 주 장기자랑 TOP3</h2>
+    <div class="card-container">
+        <div class="card" th:each="showOff, iterStat : ${bestShowOffList}">
+            <a th:href="@{/showoff/showdetail/{id}(id=${showOff.id})}" class="card-link">
+                <div class="card-rank">TOP [[${iterStat.index + 1}]]</div>
+                <div class="card-image">
+                    <img th:if="${showOff.image != null}" th:src="@{${showOff.image}}" alt="이미지 없음"/>
+                    <img th:if="${showOff.image == null and showOff.youtubeThumbnailUrl != null}"
+                         th:src="${showOff.youtubeThumbnailUrl}" alt="유튜브 썸네일"/>
+                </div>
+                <div class="card-content">
+                    <p class="title" th:text="${showOff.title}">제목</p>
+                    <p th:text="${showOff.petName}">펫이름</p>
+                    <p th:text="${#temporals.format(showOff.regDate, 'yyyy-MM-dd')}">날짜</p>
+                    <p>좋아요 ♥ <span th:text="${showOff.likes}">0</span></p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<section class="section popular-friends">
+    <h2>인기 친구 TOP3</h2>
+    <div class="card-container">
+        <div class="card" th:each="pet, iterStat : ${top3Pets}">
+            <a th:href="@{/petnote/profile/{id}(id=${pet.id})}" class="card-link">
+                <div class="card-rank">TOP [[${iterStat.index + 1}]]</div>
+                <div class="card-content">
+                    <img class="popular-img" th:src="@{'/PTGUpload/pet/' + ${pet.image}}"/>
+                    <div class="popular-info">
+                        <p class="title" th:text="${pet.petName}"></p>
+                        <p><i class="bi bi-gem"></i> <span th:text="'주인 : ' + ${pet.userName}">주인</span></p>
+                        <p><i class="bi bi-emoji-kiss"></i> <span th:text="'팔로워 : ' + ${pet.followers}">팔로워</span></p>
+
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="section board-latest">
+    <h2>자유게시판 최신 글</h2>
+    <div class="table-wrapper">
+        <table class="latest-table">
+            <thead>
+            <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="board : ${recentBoardDto}">
+                <td th:text="${board.id}">6001</td>
+                <td>
+                    <a th:href="@{'/community/boarddetail/' + ${board.id}}"
+                       th:text="${board.title}">제목</a>
+                </td>
+                <td th:text="${board.writer}">작성자</td>
+                <td th:text="${#temporals.format(board.regDate, 'yyyy-MM-dd')}">2025-07-25</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
 <footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

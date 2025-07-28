@@ -1,5 +1,10 @@
 #list-visual {
-  background: url("../../images/hero-pic.png") no-repeat right 200px bottom 0;
+  height: 680px;
+  background: url("../../images/diary-visual.png") no-repeat right 200px bottom 0;
+}
+
+.result-list{
+  margin-top: -50px !important;
 }
 
 .list-box {
@@ -29,3 +34,38 @@
 .list-img {
   width: 306px !important;
 }
+
+
+
+
+.pagination-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  gap: 8px;
+}
+
+.pagination-wrap a {
+  padding: 6px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-wrap a:hover {
+  background-color: #f0f0f0;
+}
+
+.pagination-wrap a.active {
+  background-color: rgb(248, 169, 43);
+  color: #fff;
+  font-weight: bold;
+  pointer-events: none;
+}
+
+.pagination-wrap .page-arrow {
+  font-size: 18px;
+}
+

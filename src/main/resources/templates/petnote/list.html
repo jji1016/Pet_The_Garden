@@ -6,44 +6,65 @@
 <link rel="stylesheet" href="/css/stray/protect.css"/>
 <body>
 <header th:replace="~{fragments/header}"></header>
-<div class="main-visual">
+<div class="main-visual" id="list-visual">
     <div class="slogan">
         <p class="main">
             <span>pet</span> <span>the</span> <span>garden</span>
         </p>
-        <p class="sub">강아지도 고양이도 행복한 정원</p>
+        <p class="sub">가족을 소개합니다</p>
     </div>
 </div>
-<div class="container min-vh-100">
 
+<div class="container min-vh-100">
     <div class="row mt-5 result-list">
         <div th:each="pet : ${petDtoList}" class="col-3 d-flex">
-<!--            <th:block sec:authorize="isAuthenticated()">-->
-                <a th:href="@{'/petnote/profile/' + ${pet.petID}}" class="card">
-                    <div class="img-box">
-                        <img class="list-img" th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"
-                             onerror="this.onerror=null; this.src='/images/noImage.png'"/>
-                    </div>
-                    <div class="info">
-                        <h4 th:text="${pet.petName}"></h4>
-                        <dl>
-                            <dt>주인</dt>
-                            <dd th:text="${pet.userID}"></dd>
-                        </dl>
-                        <dl>
-                            <dt>생일</dt>
-                            <dd th:text="${pet.birthDate}"></dd>
-                        </dl>
-                        <dl>
-                            <dt>성별</dt>
-                            <dd th:text="${pet.petGender}"></dd>
-                        </dl>
-                    </div>
-                    <div class="sticker">
-                        <span th:text="${pet.species}">토끼</span>
-                    </div>
-                </a>
+            <a th:href="@{'/petnote/profile/' + ${pet.petID}}" class="card">
+                <div class="img-box">
+                    <img class="list-img" th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}"
+                         onerror="this.onerror=null; this.src='/images/noImage.png'"/>
+                </div>
+                <div class="info">
+                    <h4 th:text="${pet.petName}"></h4>
+                    <dl>
+                        <dt>주인</dt>
+                        <dd th:text="${pet.userID}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>생일</dt>
+                        <dd th:text="${pet.birthDate}"></dd>
+                    </dl>
+                    <dl>
+                        <dt>성별</dt>
+                        <dd th:text="${pet.petGender}"></dd>
+                    </dl>
+                </div>
+                <div class="sticker">
+                    <span th:text="${pet.species}">토끼</span>
+                </div>
+            </a>
         </div>
+    </div>
+    <div class="pagination-wrap">
+        <th:block th:with="
+    groupSize=5,
+    currentGroup=${currentPage / groupSize},
+    start=${currentGroup * groupSize},
+    end=${(start + groupSize - 1) < (totalPages - 1) ? (start + groupSize - 1) : (totalPages - 1)}">
+
+            <a th:if="${start > 0}"
+               th:href="@{/petnote/list(page=${start - groupSize})}"
+               class="page-arrow">&lt;</a>
+
+            <th:block th:each="i : ${#numbers.sequence(start, end)}">
+                <a th:href="@{/petnote/list(page=${i})}"
+                   th:classappend="${i} == ${currentPage} ? 'active' : ''"
+                   th:text="${i + 1}"></a>
+            </th:block>
+
+            <a th:if="${end < totalPages - 1}"
+               th:href="@{/petnote/list(page=${start + groupSize})}"
+               class="page-arrow">&gt;</a>
+        </th:block>
     </div>
 </div>
 
