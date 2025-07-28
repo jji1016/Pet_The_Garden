@@ -1,10 +1,13 @@
 package com.petthegarden.petthegarden.follow;
 
 import com.petthegarden.petthegarden.entity.Follow;
+import com.petthegarden.petthegarden.entity.Pet;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+
+import java.util.List;
 
 public interface FollowRepository extends JpaRepository<Follow, Integer> {
     @Modifying
@@ -24,6 +27,9 @@ public interface FollowRepository extends JpaRepository<Follow, Integer> {
 
 
     boolean existsByMember_IdAndPet_Id(Integer memberId, Integer petId);
+
+    @Query("SELECT f.pet FROM Follow f WHERE f.member.id = :memberId")
+    List<Pet> findFollowByFollowMemberId(@Param("memberId") Integer memberId);
 
 }
 
