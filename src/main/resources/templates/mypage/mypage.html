@@ -35,7 +35,7 @@
 
     <div class="content_wrap">
       <!-- 내 정보 관리 -->
-      <div class="content" id="profile" >
+      <div class="content" id="myProfile" >
         <h2>내 정보 수정</h2>
         <table class="personal_info">
           <tr><td>이름</td><td><input type="text" id="inputName" data-field="userName"></td></tr>
@@ -523,7 +523,7 @@
         document.querySelectorAll('.content')[5].style.display = 'block';
         break;
       default:
-        document.getElementById('profile').style.display = 'block';
+        document.getElementById('myProfile').style.display = 'block';
     }
   });
 </script>
@@ -591,8 +591,8 @@
         if (tab === "freeboard") {
           document.querySelector("#freeboard").style.display = "block";
           loadFreeboardPage(); // 페이지 전환 시 데이터 로딩
-        } else if (tab === "profile") {
-          document.querySelector("#profile").style.display = "block";
+        } else if (tab === "myProfile") {
+          document.querySelector("#myProfile").style.display = "block";
         } else if (tab === "talent") {
           contentDivs[1].style.display = "block";
         } else if (tab === "pet") {
