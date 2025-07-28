@@ -28,10 +28,16 @@ public interface ShowRegRepository extends JpaRepository<ShowOff, Integer> {
 
     @Query("SELECT new com.petthegarden.petthegarden.showoff.dto.ShowPetDto(" +
             "p.id, p.regDate, p.modifyDate, p.species, p.petName, p.birthDate, " +
-            "p.profileImg, p.content, p.follow, p.character, p.petLike, p.petDisLike, " +
+            "p.profileImg, p.content, COUNT(f), p.character, p.petLike, p.petDisLike, " +
             "p.petGender, p.member.userID) " +
-            "FROM Pet p WHERE p.member.id = :memberId")
+            "FROM Pet p " +
+            "LEFT JOIN Follow f ON p.id = f.pet.id " +
+            "WHERE p.member.id = :memberId " +
+            "GROUP BY p.id, p.regDate, p.modifyDate, p.species, p.petName, p.birthDate, " +
+            "p.profileImg, p.content, p.character, p.petLike, p.petDisLike, " +
+            "p.petGender, p.member.userID")
     List<ShowPetDto> getPetList(@Param("memberId") Integer memberId);
+
 
     @Query(value = "SELECT * FROM PET WHERE PETID = :petID",
             nativeQuery = true)

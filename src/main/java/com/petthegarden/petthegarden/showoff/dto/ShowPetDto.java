@@ -31,7 +31,7 @@ public class ShowPetDto {
 
     private String content;
 
-    private String follow;
+    private Long follow;
 
     private String character;
 
