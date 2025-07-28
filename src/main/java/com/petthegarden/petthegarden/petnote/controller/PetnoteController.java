@@ -1,14 +1,20 @@
-package com.petthegarden.petthegarden.petnote;
+package com.petthegarden.petthegarden.petnote.controller;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.follow.FollowService;
+import com.petthegarden.petthegarden.petnote.service.PetnoteService;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
-import com.petthegarden.petthegarden.petnote.dto.InfoDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
+import com.petthegarden.petthegarden.petnote.dto.PetInfo;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,14 +33,25 @@ import java.util.Map;
 public class PetnoteController {
 
     private final PetnoteService petnoteService;
+    private final FollowService followService;
 
-    @Transactional
+
     @GetMapping("/list")
-    public String list(Model model) {
-        List<PetDto> petDtoList = petnoteService.findAllPetDto();
-        model.addAttribute("petDtoList", petDtoList);
+    @Transactional
+    public String getPets(Model model,
+                          @RequestParam(defaultValue = "0") int page,
+                          @RequestParam(defaultValue = "16") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "regDate"));
+        Page<PetDto> petPage = petnoteService.getAllPetDtoPaged(pageable);
+
+        model.addAttribute("petDtoList", petPage.getContent());
+        model.addAttribute("totalPages", petPage.getTotalPages());
+        model.addAttribute("currentPage", petPage.getNumber());
+
         return "petnote/list";
     }
+
 
 
     @GetMapping("/profile/{petID}")
@@ -42,22 +59,28 @@ public class PetnoteController {
                           Model model,
                           @AuthenticationPrincipal CustomUserDetails customUserDetails) {
 
-        if (customUserDetails == null) {
-            model.addAttribute("loginError", "로그인 후 이용 가능합니다.");
-            return "member/login";
+        Integer myMemberId = null;
+        if (customUserDetails != null) {
+            myMemberId = customUserDetails.getMemberId();
         }
 
         Integer memberID = petnoteService.findMemberIDByPetID(petID);
         List<Pet> petList = petnoteService.getPetList(memberID);
         PetDto petDto = petnoteService.getPetDtoByPetID(petID);
-//        String userID = petnoteService.getUserIDByPetID(petID);
-//        InfoDto infoDto = petnoteService.findByUserID(userID);
+        PetInfo petInfo = petnoteService.findByUserID(petID);
+        int followers = followService.getFollowers(petID);
+        petInfo.setFollowers(followers);
+        boolean isFollow = followService.isFollowing(myMemberId, petID);
+        System.out.println("isFollow === " + isFollow);
+        model.addAttribute("isFollow", isFollow);
+
+        System.out.println("펫인포입니다 ===== " + petInfo);
         System.out.println("PetnoteController 펫디티오 " + petDto);
 
-//        model.addAttribute("userID", userID);
+        model.addAttribute("memberID", memberID);
         model.addAttribute("petID", petID);
         model.addAttribute("petList", petList);
-//        model.addAttribute("infoDto", infoDto);
+        model.addAttribute("petInfo", petInfo);
         model.addAttribute("petDto", petDto);
 
         return "petnote/profile";
@@ -87,7 +110,8 @@ public class PetnoteController {
                            Model model,
                            @AuthenticationPrincipal CustomUserDetails customUserDetails) {
         String petName = petnoteService.getPetDtoByPetID(petID).getPetName();
-        List<Pet> petList = petnoteService.getPetList(customUserDetails.getMemberId());
+        Integer memberID = petnoteService.findMemberIDByPetID(petID);
+        List<Pet> petList = petnoteService.getPetList(memberID);
 
         String userID = petnoteService.getUserIDByPetID(petID);
 
@@ -135,24 +159,28 @@ public class PetnoteController {
 
     @GetMapping("/diary/{petID}")
     public String diary(@PathVariable Integer petID, Model model) {
-        List<DiaryDto> diaryDtoList = petnoteService.findAllDiaryDto(petID);
 
+        List<DiaryDto> diaryDtoList = petnoteService.findAllDiaryDto(petID);
         Integer memberID = petnoteService.findMemberIDByPetID(petID);
-        System.out.println("멤멤멤버아이디디디 == " + memberID);
+
         List<Pet> petList = petnoteService.getPetList(memberID);
+        String petName = petnoteService.getPetDtoByPetID(petID).getPetName();
 
         model.addAttribute("memberID", memberID);
         model.addAttribute("petList", petList);
         model.addAttribute("diaryDtoList", diaryDtoList);
         model.addAttribute("petID", petID);
+        model.addAttribute("petName", petName);
         return "petnote/diary";
     }
 
     @GetMapping("/diaryview/{diaryID}")
     public String diaryview(@PathVariable Integer diaryID, Model model) {
         DiaryDto diaryDto = petnoteService.getDiaryDto(diaryID);
+        Integer petID = petnoteService.getPetIDByDiaryID(diaryID);
         model.addAttribute("diaryDto", diaryDto);
         model.addAttribute("diaryID", diaryID);
+        model.addAttribute("petID", petID);
         return "petnote/diaryview";
     }
 }

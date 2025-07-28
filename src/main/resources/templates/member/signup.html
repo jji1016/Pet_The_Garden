@@ -10,7 +10,8 @@
             <h2 class="mb-5 text-center">
                 <img src="/images/logo.png" alt="" class="logo-img"/>
             </h2>
-            <form th:action="@{/member/signup}" th:method="post" th:object="${memberDto}" enctype="multipart/form-data">
+            <form th:action="@{/member/signup}" th:method="post" th:object="${memberDto}" enctype="multipart/form-data"
+                  onsubmit="return validateSignupForm()">
                 <div class="signup-box">
                     <div class="mb-3">
                         <label for="userID" class="form-label fw-bold">ID</label>
@@ -26,9 +27,12 @@
                                 <div class="mt-2 small text-danger" th:errors="*{userID}"></div>
                             </div>
                             <div class="col-3">
-                                <button type="button" class="orange-button" onclick="checkIdDuplicate()">중복확인</button>
+                                <button type="button" class="orange-button w-100" onclick="checkIdDuplicate()">중복확인
+                                </button>
                             </div>
-                            <div id="idCheckResult" class="mt-2 small text-danger"></div>
+                            <div class="col-12">
+                                <div id="idCheckResult" class="mt-2 small text-danger"></div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3">
@@ -60,33 +64,38 @@
                     </div>
                     <div class="mb-3">
                         <label for="userName" class="form-label fw-bold">User Name</label>
-                        <div>
-                            <input
-                                    type="text"
-                                    class="form-control ps-4"
-                                    id="userName"
-                                    th:field="*{userName}"
-                                    placeholder="User Name"
-                            />
-                            <div class="mt-2 small text-danger" th:errors="*{userName}"></div>
+                        <div class="row">
+                            <div class="col-9">
+                                <input
+                                        type="text"
+                                        class="form-control ps-4"
+                                        id="userName"
+                                        th:field="*{userName}"
+                                        placeholder="User Name"
+                                />
+                                <div class="mt-2 small text-danger" th:errors="*{userName}"></div>
+                            </div>
+                            <div class="col-3">
+                                <button type="button" class="orange-button w-100" onclick="checkNameDuplicate()">중복확인
+                                </button>
+                            </div>
+                            <div class="col-12">
+                                <div id="nameCheckResult" class="mt-2 small text-danger"></div>
+                            </div>
                         </div>
-                        <div class="col-3">
-                            <button type="button" class="orange-button" onclick="checkNameDuplicate()">중복확인</button>
-                        </div>
-                        <div id="nameCheckResult" class="mt-2 small text-danger"></div>
                     </div>
                     <div class="mb-3">
                         <label for="fullTel" class="form-label fw-bold">TEL</label>
                         <div>
                             <input type="hidden" th:field="*{tel}" id="fullTel">
                             <div style="display: flex; gap: 8px;">
-                                <input type="text" id="tel1" maxlength="3" oninput="moveFocus(this, 'tel2')"
+                                <input class="none-border" type="text" id="tel1" maxlength="3" oninput="moveFocus(this, 'tel2')"
                                        style="width: 60px;">
                                 -
-                                <input type="text" id="tel2" maxlength="4" oninput="moveFocus(this, 'tel3')"
+                                <input class="none-border" type="text" id="tel2" maxlength="4" oninput="moveFocus(this, 'tel3')"
                                        style="width: 70px;">
                                 -
-                                <input type="text" id="tel3" maxlength="4" oninput="updateFullTel()"
+                                <input class="none-border" type="text" id="tel3" maxlength="4" oninput="updateFullTel()"
                                        style="width: 70px;">
                             </div>
                             <div class="mt-2 small text-danger" th:errors="*{tel}"></div>
@@ -146,17 +155,22 @@
                         <label for="imageProfile" class="form-label fw-bold">프로필 이미지</label>
                         <div class="row">
                             <div class="col-9">
-                                <input
-                                        type="file"
-                                        class="form-control ps-4"
-                                        id="imageProfile"
-                                        th:field="*{imageProfile}"
-                                        placeholder="profile"
-                                        accept="image/*"
-                                />
-                            </div>
-                            <div class="col-3">
-                                <button class="orange-button">파일업로드</button>
+                                <div class="custom-file-upload">
+                                    <label for="imageProfile">파일 선택</label>
+                                    <span id="file-name">선택된 파일 없음</span>
+                                    <input
+                                            type="file"
+                                            class="form-control ps-4"
+                                            id="imageProfile"
+                                            th:field="*{imageProfile}"
+                                            placeholder="profile"
+                                            accept="image/*"
+                                    />
+                                </div>
+                                <div class="preview-box">
+                                    <span class="preview-placeholder">미리보기 이미지가 여기에 표시됩니다</span>
+                                    <img id="preview" src="" alt="미리보기 이미지" style="display: none;"/>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -178,6 +192,9 @@
 <footer th:replace="~{fragments/footer}"></footer>
 <script>
 
+    let isIdChecked = false;
+    let isNameChecked = false;
+
     function checkIdDuplicate() {
         const userID = document.getElementById("userID").value;
 
@@ -198,6 +215,7 @@
                     resultDiv.textContent = "사용 가능한 아이디입니다.";
                     resultDiv.classList.remove("text-danger");
                     resultDiv.classList.add("text-success");
+                    isIdChecked = true;
                 }
             });
     }
@@ -222,10 +240,59 @@
                     resultDiv.textContent = "사용 가능한 유저네임입니다.";
                     resultDiv.classList.remove("text-danger");
                     resultDiv.classList.add("text-success");
+                    isNameChecked = true;
                 }
             });
     }
 
+    function validateSignupForm() {
+        if (!isIdChecked) {
+            alert("아이디 중복 확인을 해주세요.");
+            return false;
+        }
+        if (!isNameChecked) {
+            alert("유저네임 중복 확인을 해주세요.");
+            return false;
+        }
+
+        const pw1 = document.getElementById("userPW").value;
+        const pw2 = document.getElementById("password02").value;
+        if (pw1 !== pw2) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return false;
+        }
+
+        return true;
+    }
+
+    document.getElementById("password02").addEventListener("input", function () {
+        const pw1 = document.getElementById("userPW").value;
+        const pw2 = this.value;
+        let resultDiv = document.getElementById("pwCheckResult");
+
+        if (!resultDiv) {
+            resultDiv = document.createElement("div");
+            resultDiv.id = "pwCheckResult";
+            resultDiv.className = "mt-2 small";
+            this.parentNode.appendChild(resultDiv);
+        }
+
+        if (pw1 && pw2) {
+            if (pw1 === pw2) {
+                resultDiv.textContent = "비밀번호가 일치합니다.";
+                resultDiv.classList.remove("text-danger");
+                resultDiv.classList.add("text-success");
+            } else {
+                resultDiv.textContent = "비밀번호가 일치하지 않습니다.";
+                resultDiv.classList.remove("text-success");
+                resultDiv.classList.add("text-danger");
+            }
+        } else {
+            resultDiv.textContent = "";
+        }
+    });
+</script>
+<script>
     function moveFocus(current, nextId) {
         if (current.value.length === current.maxLength) {
             document.getElementById(nextId).focus();
@@ -252,5 +319,46 @@
         }).open();
     }
 </script>
+<script>
+    const file = document.querySelector("#imageProfile");
+    const preview = document.querySelector("#preview");
+    file.addEventListener("change", (e) => {
+        const selectedFile = e.target.files[0];
+        const fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            preview.setAttribute("src", e.target.result);
+        }
+        fileReader.readAsDataURL(selectedFile);
+    })
+
+    document.getElementById("imageProfile").addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        const previewImage = document.getElementById("preview");
+        const placeholder = document.querySelector(".preview-placeholder");
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                previewImage.src = event.target.result;
+                previewImage.style.display = "block";
+                placeholder.style.display = "none";
+            };
+            reader.readAsDataURL(file);
+        } else {
+            previewImage.src = "";
+            previewImage.style.display = "none";
+            placeholder.style.display = "block";
+        }
+    });
+
+</script>
+<script>
+    document.getElementById("imageProfile").addEventListener("change", function (e) {
+        const fileName = e.target.files.length > 0 ? e.target.files[0].name : "선택된 파일 없음";
+        document.getElementById("file-name").textContent = fileName;
+    });
+</script>
+
+
 </body>
 </html>

@@ -2,6 +2,7 @@ package com.petthegarden.petthegarden.petnote;
 
 import com.petthegarden.petthegarden.communal.dto.CustomUserDetails;
 import com.petthegarden.petthegarden.entity.Pet;
+import com.petthegarden.petthegarden.petnote.service.PetnoteService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

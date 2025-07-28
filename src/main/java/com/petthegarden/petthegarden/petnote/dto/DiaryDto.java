@@ -26,17 +26,11 @@ public class DiaryDto {
 
     @NotBlank(message="내용을 입력하세요.")
     private String content;
-
     private MultipartFile diaryImg;
-
     private String image;
-
     private LocalDateTime regDate;
-
     private LocalDateTime modifyDate;
-
     private Member member;
-
     private Pet pet;
 
 
@@ -68,6 +62,16 @@ public class DiaryDto {
         return diaryList.stream()
                 .map(DiaryDto::toDiaryDto)
                 .collect(Collectors.toList());
+    }
+
+
+    public static DiaryDto fromEntity(Diary diary) {
+        return DiaryDto.builder()
+                .Id(diary.getId())
+                .subject(diary.getSubject())
+                .image(diary.getImage())
+                .regDate(diary.getRegDate()) // LocalDateTime → LocalDate
+                .build();
     }
 }
 

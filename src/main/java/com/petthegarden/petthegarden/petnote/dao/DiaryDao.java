@@ -20,7 +20,7 @@ public class DiaryDao {
     }
 
     public List<Diary> findAllDiaryDto(Integer petID) {
-        return diaryRepository.findByPet_Id(petID);
+        return diaryRepository.findByPet_IdOrderByRegDateDesc(petID);
     }
 
     public Diary findDiaryDto(Integer petID) {
