@@ -1,73 +1,112 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{fragments/head::head(Diary)}"></head>
 <link rel="stylesheet" href="/css/petnote/diary.css"/>
 <link rel="stylesheet" href="/css/petnote/profile.css"/>
 <body>
-<nav class="sidebar">
+<nav class="sidebar h100vh" id="profile-header">
     <ul>
-        <a href="/index/index">
-            <li class="logo"><img src="/images/logo.png" alt="로고"></li>
-        </a>
+        <li class="logo">
+            <a href="/index/index">
+                <img src="/images/logo.png" alt="로고">
+            </a>
+        </li>
         <a th:href="@{/petnote/profile/{petID}(petID=${petID})}">
             <li>프로필</li>
+
         </a>
         <a th:href="@{/petnote/diary/{petID}(petID=${petID})}">
             <li class="active">성장일기</li>
         </a>
+        <th:block sec:authorize="isAuthenticated()">
+            <form th:action="@{/member/logout}" method="post">
+                <button type="submit" class="btn btn-logout">
+                    <i class="bi bi-box-arrow-right"></i> 로그아웃
+                </button>
+            </form>
+        </th:block>
+        <th:block sec:authorize="isAnonymous()">
+            <a th:href="@{/member/login}" class="btn btn-login">
+                <i class="bi bi-box-arrow-in-right"></i> 로그인
+            </a>
+        </th:block>
     </ul>
-    <form th:action="@{/member/logout}" method="post">
-        <button type="submit" class="btn btn-logout">
-            <i class="bi bi-box-arrow-right"></i> 로그아웃
-        </button>
-    </form>
 </nav>
 
-<div class="container min-vh-100">
-    <div class="list-box">
-        <th:block th:if="${diaryDtoList != null and !diaryDtoList.isEmpty()}">
+
+<div class="diary-container">
+    <div class="diary-title">
+        <p th:text="${petName} + '의 일기'"></p>
+        <th:block sec:authorize="isAuthenticated()">
             <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
                 <div class="search-wrap">
                     <div class="mb-3 search-box diary-btn">
-                        <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
-                            <button class="btn" type="button">일기쓰러 가기</button>
-                        </a>
-                    </div>
-                </div>
-            </th:block>
-            <ul class="list type02">
-                <li class="d-flex" th:each="item : ${diaryDtoList}">
-                    <a th:href="@{/petnote/diaryview/{id}(id=${item.id})}">
-                        <div th:if="${item.image != null}" class="img-box">
-                            <img th:src="@{'/PTGUpload/diary/' + ${item.image}}"
-                                 onerror="this.onerror=null; this.src='/images/noImage.png'"/>
-                        </div>
-                        <div th:if="${item.image == null}" class="img-box">
-                            <img src="/images/noImage.png"
-                                 alt="사진"/>
-                        </div>
-                        <div class="desc">
-                            <p class="title" th:text="${item.subject}">1KG 증량</p>
-                            <p class="name" th:text="${item.pet.petName}">알리</p>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </th:block>
-        <th:block th:if="${diaryDtoList == null or diaryDtoList.isEmpty()}">
-            <div class="no-diary">
-                아직 일기가 없어요😺
-            </div>
-            <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">
-                <div class="search-wrap nbt">
-                    <div class="mb-3 search-box nodiary-btn">
-                        <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
+                        <a class="btn" th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">
                             <button class="btn" type="button">일기쓰러 가기</button>
                         </a>
                     </div>
                 </div>
             </th:block>
         </th:block>
+    </div>
+    <!--    <div class="list-box">-->
+    <!--        &lt;!&ndash;       1. 일기가 있을 때&ndash;&gt;-->
+    <!--        <th:block th:if="${diaryDtoList != null and !diaryDtoList.isEmpty()}">-->
+
+    <!--            <ul class="list type02">-->
+    <!--                <li class="d-flex" th:each="item : ${diaryDtoList}">-->
+    <!--                    <a th:href="@{/petnote/diaryview/{id}(id=${item.id})}">-->
+    <!--                        <div th:if="${item.image != null}" class="img-box">-->
+    <!--                            <img th:src="@{'/PTGUpload/diary/' + ${item.image}}"-->
+    <!--                                 onerror="this.onerror=null; this.src='/images/noImage.png'"/>-->
+    <!--                        </div>-->
+    <!--                        <div th:if="${item.image == null}" class="img-box">-->
+    <!--                            <img src="/images/noImage.png"-->
+    <!--                                 alt="사진"/>-->
+    <!--                        </div>-->
+    <!--                        <div class="desc">-->
+    <!--                            <p class="title" th:text="${#temporals.format(item.regDate, 'yyyy-MM-dd')}"></p>-->
+    <!--                            <p class="name" th:text="${item.subject}">1KG 증량</p>-->
+    <!--                        </div>-->
+    <!--                    </a>-->
+    <!--                </li>-->
+    <!--            </ul>-->
+    <!--            <div class="pagination-wrap" id="pagination" style="text-align: center; margin-top: 20px;"></div>-->
+
+    <!--        </th:block>-->
+
+    <!--        &lt;!&ndash;        일기가 없을 때&ndash;&gt;-->
+    <!--        <th:block th:if="${diaryDtoList == null or diaryDtoList.isEmpty()}">-->
+    <!--            <div class="no-diary">-->
+    <!--                아직 일기가 없어요😺-->
+    <!--            </div>-->
+    <!--            &lt;!&ndash;            일기 주일일 때&ndash;&gt;-->
+    <!--            <th:block sec:authorize="isAuthenticated()">-->
+    <!--                <th:block th:if="${memberID == #authentication.principal.loggedMember.id}">-->
+    <!--                    <div class="search-wrap nbt">-->
+    <!--                        <div class="mb-3 search-box nodiary-btn">-->
+    <!--                            <a th:href="@{/petnote/diaryreg/{petID}(petID=${petID})}">-->
+    <!--                                <button class="btn" type="button">일기쓰러 가기</button>-->
+    <!--                            </a>-->
+    <!--                        </div>-->
+    <!--                    </div>-->
+    <!--                </th:block>-->
+    <!--            </th:block>-->
+    <!--        </th:block>-->
+    <!--    </div>-->
+
+
+    <div class="list-box">
+        <ul class="list type02" id="diary-list">
+
+        </ul>
+
+        <div class="no-diary" id="no-diary" style="display: none;">
+            아직 일기가 없어요😺
+        </div>
+
+        <div class="pagination-wrap" id="pagination" style="text-align: center; margin-top: 20px;"></div>
     </div>
 </div>
 </body>
@@ -81,6 +120,96 @@
 
     rangeInput.addEventListener("input", function () {
         rangeOutput.textContent = this.value;
+    });
+</script>
+<script th:inline="javascript">
+    const petID = /*[[${petID}]]*/ 0;
+    let paginationGroupStart = 0;
+
+    function fetchDiaryList(page = 0) {
+        fetch(`/api/diary/${petID}?page=${page}`)
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById('diary-list');
+                const noDiary = document.getElementById('no-diary');
+                list.innerHTML = '';
+
+                if (data.diaries.length === 0) {
+                    noDiary.style.display = 'block';
+                } else {
+                    noDiary.style.display = 'none';
+                    data.diaries.forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'd-flex';
+
+                        const imagePath = item.image
+                            ? `/PTGUpload/diary/${item.image}`
+                            : `/images/noImage.png`;
+
+                        li.innerHTML = `
+                            <a href="/petnote/diaryview/${item.id}">
+                                <div class="img-box">
+                                    <img src="${imagePath}" onerror="this.onerror=null; this.src='/images/noImage.png'" />
+                                </div>
+                                <div class="desc">
+                                    <p class="title">${item.regDate.split('T')[0]}</p>
+                                    <p class="name">${item.subject}</p>
+                                </div>
+                            </a>
+                        `;
+                        list.appendChild(li);
+                    });
+                }
+
+                renderPagination(data.currentPage, data.totalPages);
+            });
+    }
+
+    function renderPagination(currentPage, totalPages) {
+        const container = document.getElementById("pagination");
+        container.innerHTML = '';
+
+        const maxButtons = 5;
+        const totalGroups = Math.ceil(totalPages / maxButtons);
+
+
+        const currentGroup = Math.floor(currentPage / maxButtons);
+        paginationGroupStart = currentGroup * maxButtons;
+        let start = paginationGroupStart;
+        let end = Math.min(start + maxButtons - 1, totalPages - 1);
+
+
+        if (currentGroup > 0) {
+            const prevGroupBtn = document.createElement("button");
+            prevGroupBtn.textContent = "‹";
+            prevGroupBtn.onclick = () => {
+                paginationGroupStart -= maxButtons;
+                fetchDiaryList(paginationGroupStart);
+            };
+            container.appendChild(prevGroupBtn);
+        }
+
+        for (let i = start; i <= end; i++) {
+            const btn = document.createElement("button");
+            btn.textContent = i + 1;
+            btn.className = (i === currentPage) ? "active" : "";
+            btn.onclick = () => fetchDiaryList(i);
+            container.appendChild(btn);
+        }
+
+        if (currentGroup < totalGroups - 1) {
+            const nextGroupBtn = document.createElement("button");
+            nextGroupBtn.textContent = "›";
+            nextGroupBtn.onclick = () => {
+                paginationGroupStart += maxButtons;
+                fetchDiaryList(paginationGroupStart);
+            };
+            container.appendChild(nextGroupBtn);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        fetchDiaryList();
     });
 </script>
 </html>

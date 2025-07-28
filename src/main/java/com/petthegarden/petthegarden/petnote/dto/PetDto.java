@@ -27,6 +27,8 @@ public class PetDto {
     private String userID;
     private String userName;
     private String userImage;
+    private Integer memberID;
+
 
 
     public static PetDto toPetDto(Pet pet) {
@@ -37,7 +39,6 @@ public class PetDto {
                 .birthDate(pet.getBirthDate())
                 .profileImg(pet.getProfileImg())
                 .petGender(pet.getPetGender().toString())
-                .follow(pet.getFollow())
                 .content(pet.getContent())
                 .character(pet.getCharacter())
                 .petLike(pet.getPetLike())
@@ -45,6 +46,7 @@ public class PetDto {
                 .userID(pet.getMember().getUserID())
                 .userName(pet.getMember().getUserName())
                 .userImage(pet.getMember().getImage())
+                .memberID(pet.getMember().getId())
                 .build();
     }
 

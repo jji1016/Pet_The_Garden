@@ -1,6 +1,8 @@
 package com.petthegarden.petthegarden.follow;
 
+import com.petthegarden.petthegarden.entity.Follow;
 import com.petthegarden.petthegarden.entity.Member;
+import com.petthegarden.petthegarden.entity.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -12,13 +14,26 @@ import java.util.stream.Collectors;
 public class FollowDao {
     private final FollowRepository followRepository;
 
-    public int follow(String fromMemberID, String toMemberID) {
-        return followRepository.follow(fromMemberID, toMemberID);
+    public int follow(Integer fromMemberID, Integer toPetID) {
+        return followRepository.follow(fromMemberID, toPetID);
     }
 
-//    public int unfollow(String fromMemberID, String toMemberID) {
-//        return followRepository.unfollow(fromMemberID, toMemberID);
-//    }
+
+    public int unfollow(Integer fromMemberID, Integer toPetID) {
+        return followRepository.unfollow(fromMemberID, toPetID);
+    }
+
+    public int getFollowers(Integer toPetID) {
+        return followRepository.getFollowers(toPetID);
+    }
+
+    public boolean isFollowing (Integer myMemberId, Integer targetPetId) {
+        return followRepository.existsByMember_IdAndPet_Id(myMemberId, targetPetId);
+    }
+    public List<Pet> getFollowedPets(Integer myMemberId) {
+        return followRepository.findFollowByFollowMemberId(myMemberId);
+    }
+
 //
 //    public List<FollowDto> getSubscribeList(String currentUserID, String targetUserID) {
 //        List<Member> subscribedMembers = followRepository.findfollowedUsers(targetUserID);

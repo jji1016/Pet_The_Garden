@@ -19,7 +19,7 @@ public class AdminPetDto {
 
     private String species;
 
-    private String follow;
+    private Long follow;
 
     private PetGender petGender;
 

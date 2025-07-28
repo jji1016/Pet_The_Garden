@@ -3,6 +3,7 @@ package com.petthegarden.petthegarden.admin;
 import com.petthegarden.petthegarden.admin.dto.*;
 import com.petthegarden.petthegarden.admin.repository.AdminPetRepository;
 import com.petthegarden.petthegarden.admin.repository.AdminRepository;
+import com.petthegarden.petthegarden.admin.repository.AdminRportRepository;
 import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import lombok.RequiredArgsConstructor;

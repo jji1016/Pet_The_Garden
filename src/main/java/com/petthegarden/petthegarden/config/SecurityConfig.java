@@ -19,22 +19,26 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, CustomLoginSuccessHandler customLoginSuccessHandler) throws Exception {
         httpSecurity.authorizeHttpRequests(
-                        (auth) ->auth.requestMatchers(
-//                                            "/",
-//                                            "/index/index",
-//                                            "/member/**",
-//                                            "/subscribe/**",
-//                                            "/product/**",
-//                                            "/flowers",
-//                                            "/corporate",
-//                                            "/onsilfaq",
-////                                            "/api/**",
-//                                            "/css/**",
-//                                            "/images/**",
-//                                            "/js/**",
-//                                            "/html/**",
-//                                            "/upload/**".
-                                "/**" //작업 편하게 하기 위해 임시로 모든 경로 보안 허용
+                        (auth) ->auth
+                                .requestMatchers(
+                                        "/petnote/diaryreg",
+                                        "/showoff/showreg",
+                                        "/showoff/correct",
+                                        "/community/boardreg",
+                                        "/community/correct").authenticated() //금지
+                                .requestMatchers(
+                                            "/",
+                                            "/index/index",
+                                            "/petnote/**",
+                                            "/showoff/**",
+                                            "/stray/**",
+                                            "/community/**",
+                                            "/api/**",
+                                            "/css/**",
+                                            "/images/**",
+                                            "/js/**",
+                                            "/html/**",
+                                            "/PTGUpload/**"
                 )
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")

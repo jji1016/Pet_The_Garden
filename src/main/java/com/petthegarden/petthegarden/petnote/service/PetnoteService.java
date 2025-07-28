@@ -1,19 +1,20 @@
-package com.petthegarden.petthegarden.petnote;
+package com.petthegarden.petthegarden.petnote.service;
 
 import com.petthegarden.petthegarden.entity.Diary;
-import com.petthegarden.petthegarden.entity.Member;
 import com.petthegarden.petthegarden.entity.Pet;
 import com.petthegarden.petthegarden.member.MemberDao;
 import com.petthegarden.petthegarden.petnote.dao.PetDao;
 import com.petthegarden.petthegarden.petnote.dao.DiaryDao;
 import com.petthegarden.petthegarden.petnote.dto.DiaryDto;
-import com.petthegarden.petthegarden.petnote.dto.InfoDto;
 import com.petthegarden.petthegarden.petnote.dto.PetDto;
+import com.petthegarden.petthegarden.petnote.dto.PetInfo;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,12 +23,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-
-import static com.petthegarden.petthegarden.petnote.dto.DiaryDto.toDiaryDto;
 
 @Service
 @RequiredArgsConstructor
@@ -119,13 +116,13 @@ public class PetnoteService {
     }
 
 
-    public InfoDto findByUserID(String loggedUserID, String userID) {
-        Optional<Member> optionalMember = memberDao.findByUserID(userID);
-        if(optionalMember.isPresent()){
-            Member member = optionalMember.get();
-            return InfoDto.builder()
-                    .pageOwner(loggedUserID.equals(userID))
-                    .member(member)
+    public PetInfo findByUserID(Integer petID) {
+        Optional<Pet> optionalPet = petDao.findById(petID);
+        if(optionalPet.isPresent()){
+            Pet pet = optionalPet.get();
+            return PetInfo.builder()
+                    .diaryCount(pet.getDiaryList().size())
+                    .showOffCount(pet.getShowOffList().size())
                     .build();
         }
         return null;
@@ -163,5 +160,13 @@ public class PetnoteService {
             return pet.get();
         }
         return null;
+    }
+
+    public Page<PetDto> getAllPetDtoPaged(Pageable pageable) {
+        return petDao.findAllPetDtoPaged(pageable);
+    }
+
+    public Integer getPetIDByDiaryID(Integer diaryID) {
+        return petDao.getPetIDByDiaryID(diaryID);
     }
 }

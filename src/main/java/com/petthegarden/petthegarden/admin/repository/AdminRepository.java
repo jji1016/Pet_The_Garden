@@ -68,19 +68,21 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
                                                Pageable pageable);
 
     @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminPetDto(" +
-            "p.id, p.profileImg, p.petName, p.species, p.follow, p.petGender, p.regDate) " +
+            "p.id, p.profileImg, p.petName, p.species, COUNT(f.Id), p.petGender, p.regDate) " +
             "FROM Pet p " +
+            "LEFT JOIN Follow f ON p.id = f.pet.id " +
             "WHERE (:startDate IS NULL OR p.regDate >= TO_DATE(:startDate, 'YYYY-MM-DD')) " +
             "AND (:endDate IS NULL OR p.regDate <= TO_DATE(:endDate, 'YYYY-MM-DD')) " +
             "AND ((:key = 'petName' AND p.petName LIKE %:search%) OR " +
             "(:key = 'species' AND p.species LIKE %:search%) OR " +
-            "(:key IS NULL OR :key = '')" +
-            ")")
+            "(:key IS NULL OR :key = '')) " +
+            "GROUP BY p.id, p.profileImg, p.petName, p.species, p.petGender, p.regDate")
     Page<AdminPetDto> getPetList(@Param("startDate") String startDate,
-                                       @Param("endDate") String endDate,
-                                       @Param("key") String key,
-                                       @Param("search") String search,
-                                       Pageable pageable);
+                                 @Param("endDate") String endDate,
+                                 @Param("key") String key,
+                                 @Param("search") String search,
+                                 Pageable pageable);
+
 
 
     @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminReportDto(" +
