@@ -137,6 +137,15 @@ public class AdminController {
         return "admin/memberDetail";
     }
 
+    @DeleteMapping("/deleteMember/{memberId}")
+    public ResponseEntity<String> deleteMember(@PathVariable Integer memberId) {
+        // 삭제 로직
+        adminService.deleteByMemberId(memberId);
+
+        return ResponseEntity.ok("삭제 완료");
+    }
+
+
     @GetMapping("/petList")
     public String petList(Model model,
                              @RequestParam(required = false) String startDate,

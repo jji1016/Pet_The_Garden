@@ -6,8 +6,10 @@ import com.petthegarden.petthegarden.entity.Member;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -66,6 +68,12 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
                                                @Param("key") String key,
                                                @Param("search") String search,
                                                Pageable pageable);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE MEMBER SET deleteStatus = 1 WHERE memberID = :memberId",
+            nativeQuery = true)
+    void deleteByMemberId(@Param("memberId") Integer memberId);
 
     @Query("SELECT new com.petthegarden.petthegarden.admin.dto.AdminPetDto(" +
             "p.id, p.profileImg, p.petName, p.species, COUNT(f.Id), p.petGender, p.regDate) " +
@@ -160,5 +168,6 @@ public interface AdminRepository extends JpaRepository<Member, Integer> {
             "ORDER BY COUNT(*) DESC ",
             nativeQuery = true)
     List<Object[]> getSpeciesChart();
+
 
 }

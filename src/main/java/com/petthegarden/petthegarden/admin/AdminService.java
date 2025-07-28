@@ -150,4 +150,8 @@ public class AdminService {
     public void deleteById(Integer reportId) {
         adminDao.deleteById(reportId);
     }
+
+    public void deleteByMemberId(Integer memberId) {
+        adminDao.deleteByMemberId(memberId);
+    }
 }
