@@ -28,14 +28,14 @@
       <li data-tab="profile">내 정보 관리</li>
       <li data-tab="talent">내가 쓰는 장기자랑 글</li>
       <li data-tab="freeboard">내가 쓰는 자유게시판 글</li>
-      <li data-tab="pet">반려동물 등록</li>
+      <li data-tab="pet">내 반려동물</li>
       <li data-tab="follow">팔로우한 반려동물</li>
       <li data-tab="qna">1:1 문의내역</li>
     </ul>
 
     <div class="content_wrap">
       <!-- 내 정보 관리 -->
-      <div class="content" id="profile" >
+      <div class="content" id="myProfile" >
         <h2>내 정보 수정</h2>
         <table class="personal_info">
           <tr><td>이름</td><td><input type="text" id="inputName" data-field="userName"></td></tr>
@@ -252,22 +252,22 @@
       <!-- 팔로우한 반려동물 내역 -->
       <div class="content">
         <h2>팔로우한 반려동물 내역</h2>
-        <ul id="petFollowList">
-          <li class="pet-card">
-            <a href="/petnote/profile/1">
-              <img src="/images/sample_dog.jpg" alt="반려동물사진">
-              <p class="pet-name">멍멍이</p>
-            </a>
-            <button class="unfollow-btn" data-pet-id="1">팔로우 취소</button>
-          </li>
-          <li class="pet-card">
-            <a href="/petnote/profile/2">
-              <img src="/images/sample_cat.jpg" alt="반려동물사진">
-              <p class="pet-name">야옹이</p>
-            </a>
-            <button class="unfollow-btn" data-pet-id="1">팔로우 취소</button>
-          </li>
-          <!-- 더미 데이터 반복 -->
+
+        <!-- 팔로우한 반려동물이 없는 경우 -->
+        <p th:if="${#lists.isEmpty(followedPets)}">팔로우한 반려동물이 없습니다.</p>
+
+        <!-- 팔로우한 반려동물이 있는 경우 -->
+        <ul id="petFollowList" th:if="${!#lists.isEmpty(followedPets)}">
+          <th:block th:each="pet : ${followedPets}">
+            <li class="pet-card">
+              <a th:href="@{/petnote/profile/{id}(id=${pet.id})}">
+                <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" alt="반려동물사진">
+                <p class="pet-name" th:text="${pet.petName}">반려동물이름</p>
+              </a>
+              <button class="unfollow-btn" th:attr="data-pet-id=${pet.id}"
+                      onclick="unfollow(this)">팔로우 취소</button>
+            </li>
+          </th:block>
         </ul>
       </div>
       <div class="content">
@@ -523,7 +523,7 @@
         document.querySelectorAll('.content')[5].style.display = 'block';
         break;
       default:
-        document.getElementById('profile').style.display = 'block';
+        document.getElementById('myProfile').style.display = 'block';
     }
   });
 </script>
@@ -591,8 +591,8 @@
         if (tab === "freeboard") {
           document.querySelector("#freeboard").style.display = "block";
           loadFreeboardPage(); // 페이지 전환 시 데이터 로딩
-        } else if (tab === "profile") {
-          document.querySelector("#profile").style.display = "block";
+        } else if (tab === "myProfile") {
+          document.querySelector("#myProfile").style.display = "block";
         } else if (tab === "talent") {
           contentDivs[1].style.display = "block";
         } else if (tab === "pet") {
@@ -609,6 +609,26 @@
       });
     });
   });
+</script>
+<script>
+  function unfollow(btn) {
+    const petId = btn.getAttribute('data-pet-id');
+    fetch(`/api/follow/${petId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+    })
+            .then(res => res.json())
+            .then(data => {
+              if (data.isFollowDelete) {
+                alert('팔로우가 취소되었습니다.');
+                location.reload(); // 혹은 해당 카드만 제거
+              } else {
+                alert('팔로우 취소 실패');
+              }
+            });
+  }
 </script>
 </body>
 </html>

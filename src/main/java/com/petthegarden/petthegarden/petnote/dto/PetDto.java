@@ -39,7 +39,6 @@ public class PetDto {
                 .birthDate(pet.getBirthDate())
                 .profileImg(pet.getProfileImg())
                 .petGender(pet.getPetGender().toString())
-                .follow(pet.getFollow())
                 .content(pet.getContent())
                 .character(pet.getCharacter())
                 .petLike(pet.getPetLike())

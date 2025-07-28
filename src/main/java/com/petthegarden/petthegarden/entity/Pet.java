@@ -44,8 +44,6 @@ public class Pet {
     @Column(nullable = false)
     private String content;
 
-    private String follow;
-
     private String character;
 
     private String petLike;

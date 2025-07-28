@@ -107,7 +107,6 @@ public class AdminService {
                         .profileImg(pet.getProfileImg())
                         .petName(pet.getPetName())
                         .species(pet.getSpecies())
-                        .follow(pet.getFollow())
                         .petGender(pet.getPetGender())
                         .regDate(pet.getRegDate())
                         .build()

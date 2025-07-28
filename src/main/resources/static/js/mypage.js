@@ -1,6 +1,6 @@
 $(function() {
     const tabMap = {
-        profile: 0,
+        myProfile: 0,
         talent: 1,
         freeboard: 2,
         pet: 3,
@@ -35,7 +35,7 @@ $(function() {
 
     // 초기 탭 세팅 (URL 쿼리 기반)
     const urlParams = new URLSearchParams(window.location.search);
-    const activeTab = urlParams.get("tab") || "profile";
+    const activeTab = urlParams.get("tab") || "myProfile";
     showTab(activeTab);
 
     // 탭 클릭 이벤트

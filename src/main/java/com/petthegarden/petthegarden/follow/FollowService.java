@@ -1,5 +1,7 @@
 package com.petthegarden.petthegarden.follow;
 
+import com.petthegarden.petthegarden.entity.Follow;
+import com.petthegarden.petthegarden.entity.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +34,9 @@ public class FollowService {
 
     public boolean isFollowing(Integer myMemberId, Integer targetPetId) {
         return followDao.isFollowing(myMemberId, targetPetId);
+    }
+    public List<Pet> getFollowedPets(Integer memberId) {
+        return followDao.getFollowedPets(memberId);
     }
 
 }

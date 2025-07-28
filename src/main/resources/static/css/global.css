@@ -118,6 +118,17 @@ a {
     display: block !important;
 }
 
+.arrayProfile{
+    position: relative;
+    right: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+.arraySubmenu{
+    right: -40px !important;
+}
 
 /* 서브 메뉴 항목 스타일 */
 .submenu li {
@@ -397,6 +408,7 @@ h2.section-title {
     padding: 0 20px;
     font-weight: 700;
     text-transform: capitalize;
+    flex-direction: column;
 }
 
 #admin-header #gnb ul li {
