@@ -53,7 +53,7 @@
             <td><input type="password" data-field="password2"></td>
           </tr>
           <tr>
-            <td>배송지</td>
+            <td>주소</td>
             <td>
               <input type="text" class="ad_num" id="zipcode" data-field="zipcode" readonly>
               <button type="button" class="ad_search" onclick="execDaumPostcode()">주소검색</button><br>
@@ -200,9 +200,7 @@
             <td th:text="${#temporals.format(pet.modifyDate != null ? pet.modifyDate : pet.regDate, 'yyyy-MM-dd HH:mm')}">2025-07-07</td>
             <td th:text="${pet.petName}">반려동물 이름</td>
             <td>
-              <a th:href="@{/mypage/petdetail/{id}(id=${pet.id})}">
                 <img th:src="@{'/PTGUpload/pet/' + ${pet.profileImg}}" alt="프로필 이미지" style="width: 50px; height: 50px; object-fit: cover;" />
-              </a>
             </td>
             <td th:text="${pet.species}">반려동물 종</td>
             <td>
