@@ -41,7 +41,7 @@ function handleImageError(img) {
     img.style.display = 'none';
     const placeholder = document.createElement('div');
     placeholder.className = 'best-hof-no-image';
-    placeholder.innerHTML = '<i class="fas fa-image"></i>';
+    placeholder.innerHTML = '<img th:src="/images/default-pet.jpg" alt="">';
     img.parentNode.appendChild(placeholder);
 }
 

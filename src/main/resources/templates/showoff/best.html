@@ -38,9 +38,13 @@
                     <img th:if="${bestPosts[0].hasImage()}"
                          th:src="@{${bestPosts[0].image}}"
                          th:alt="${bestPosts[0].subject + ' 이미지'}"
-                         onerror="this.style.display='none'">
+                         onerror="this.src='/images/default-pet.jpg'">
+<!--                    <img th:src="@{${#strings.isEmpty(bestPosts[0].image) ? '/images/default-pet.jpg' : bestPosts[0].image}}"-->
+<!--                         th:alt="${bestPosts[0].subject + ' 이미지'}"-->
+<!--                         onerror="this.src='/images/default-pet.jpg'">-->
                     <div th:unless="${bestPosts[0].hasImage()}" class="best-hof-no-image">
                         <i class="fas fa-image"></i>
+                        <img src="/images/default-pet.jpg" alt="">
                     </div>
                 </div>
                 <div class="best-hof-card-content">
