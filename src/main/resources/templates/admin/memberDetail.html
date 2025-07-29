@@ -81,7 +81,7 @@
                     </ul>
                 </div>
                 <div class="btnBox">
-                    <button>회원탈퇴</button>
+                    <button th:data-id="${memberDetail.id}" class="deleteBtn">회원탈퇴</button>
                 </div>
             </div>
 
@@ -290,5 +290,37 @@
         const index = Array.from(tabs).indexOf(e.target);
         document.getElementById(tabIdList[index]).style.display = "flex";
     });
+
+    const deleteBtn = document.querySelector(".deleteBtn");
+
+    deleteBtn.addEventListener("click", () => {
+        const memberId = deleteBtn.dataset.id;
+        const isConfirmed = confirm("정말 해당 회원의 계정을 탈퇴시키겠습니까?");
+        if (isConfirmed) {
+            deleteMember(memberId);
+        } else {
+            console.log("회원 탈퇴 취소");
+        }
+    });
+
+    function deleteMember(memberId) {
+
+        fetch('/admin/deleteMember/' + memberId, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('회원이 성공적으로 탈퇴 처리되었습니다.');
+                    location.href = "/admin/memberList";
+                } else {
+                    alert('회원 탈퇴 처리에 실패했습니다.');
+                }
+            })
+            .catch(error => {
+                console.error('삭제 중 오류 발생:', error);
+                alert('서버 오류가 발생했습니다.');
+            });
+    }
+
 </script>
 </html>
