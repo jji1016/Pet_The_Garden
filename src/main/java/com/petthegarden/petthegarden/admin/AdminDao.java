@@ -105,4 +105,8 @@ public class AdminDao {
     public void deleteById(Integer reportId) {
         adminRportRepository.deleteById(reportId);
     }
+
+    public void deleteByMemberId(Integer memberId) {
+        adminRepository.deleteByMemberId(memberId);
+    }
 }
