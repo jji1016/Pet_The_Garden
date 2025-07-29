@@ -29,6 +29,7 @@ public class SecurityConfig {
                                 .requestMatchers(
                                             "/",
                                             "/index/index",
+                                            "/member/**",
                                             "/petnote/**",
                                             "/showoff/**",
                                             "/stray/**",

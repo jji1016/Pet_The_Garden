@@ -34,7 +34,7 @@
 
                             <!-- 펫 릿스트 선택 -->
                             <div class="form-group mb-4">
-                                <label for="listOfPet" class="form-label">제목</label>
+                                <label for="listOfPet" class="form-label">펫 이름</label>
                                 <select id="listOfPet" name="petId" class="form-control" required>
                                     <th:block th:each="pet : ${listOfPet}">
                                         <option th:value="${pet.id}" th:text="${pet.petName}"></option>
