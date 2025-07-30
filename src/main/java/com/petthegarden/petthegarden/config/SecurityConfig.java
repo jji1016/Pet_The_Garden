@@ -25,7 +25,7 @@ public class SecurityConfig {
                                         "/showoff/showreg",
                                         "/showoff/correct",
                                         "/community/boardreg",
-                                        "/community/correct").authenticated() //금지
+                                        "/community/boardcorrect").authenticated() //금지
                                 .requestMatchers(
                                             "/",
                                             "/index/index",

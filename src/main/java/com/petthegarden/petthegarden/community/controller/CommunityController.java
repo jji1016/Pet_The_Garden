@@ -53,7 +53,7 @@ public class CommunityController {
         model.addAttribute("boardPage", boardPage);
         model.addAttribute("keyword", keyword);
         model.addAttribute("type", type);
-        return "/community/board";
+        return "community/board";
     }
 
     @GetMapping("/boarddetail/{id}")
@@ -67,7 +67,7 @@ public class CommunityController {
         } else {
             model.addAttribute("loginUsername", null);
         }
-        return "/community/boarddetail";
+        return "community/boarddetail";
     }
     //게시글수정페이지 이동
     @GetMapping("/boardcorrect/{id}")
@@ -86,7 +86,7 @@ public class CommunityController {
         model.addAttribute("regDate", board.getRegDate());
         model.addAttribute("modifyDate", board.getModifyDate());
 
-        return "/community/boardcorrect";
+        return "community/boardcorrect";
     }
     //게시글수정
     @PostMapping("/boardcorrect/{id}")
